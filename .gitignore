@@ -1,0 +1,16 @@
+# Xojo
+
+Builds*
+*.debug
+*.debug.app
+Debug*.exe
+Debug*/Debug*.exe
+Debug*/Debug*\ Libs
+*.rbuistate
+*.xojo_uistate
+*.obsolete*
+
+# General
+.DS_Store
+Thumbs.db
+Desktop.ini
