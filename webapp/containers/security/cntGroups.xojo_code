@@ -201,7 +201,7 @@ End
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("CREATE GROUP " + "'" + Name + "'")
+		    Session.DB.ExecuteSQL("CREATE GROUP '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -251,7 +251,7 @@ End
 		  If (sDropGroupname = "") Then Return
 		  
 		  Try
-		    Session.DB.ExecuteSQL("DROP GROUP '" + sDropGroupname)
+		    Session.DB.ExecuteSQL("DROP GROUP '" + sDropGroupname.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -295,7 +295,7 @@ End
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("RENAME GROUP '" + esActionGroupname + "' TO " + "'" + Name + "'")
+		    Session.DB.ExecuteSQL("RENAME GROUP '" + esActionGroupname.EscapeSqlQuotes + "' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -468,7 +468,7 @@ End
 		      groupname = dictRow.Lookup("groupname", "").StringValue
 		      if (groupname = "") then continue
 		      
-		      Var rs As RowSet = Session.DB.SelectSQL("SHOW USERS IN GROUP '" + groupname + "'")
+		      Var rs As RowSet = Session.DB.SelectSQL("SHOW USERS IN GROUP '" + groupname.EscapeSqlQuotes + "'")
 		      
 		      Var iCount As Integer = 0
 		      Var sUsers() As String

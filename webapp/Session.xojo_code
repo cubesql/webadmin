@@ -18,7 +18,7 @@ Inherits WebSession
 		  DB = loginDB
 		  
 		  Try
-		    DB.ExecuteSQL("SET CLIENT TYPE TO 'cubeSQL Web Admin " + App.Version + "'")
+		    DB.ExecuteSQL("SET CLIENT TYPE TO 'cubeSQL Web Admin " + App.Version.EscapeSqlQuotes + "'")
 		    
 		    Var rs As RowSet = db.SelectSQL("SHOW MY INFO")
 		    
@@ -287,6 +287,14 @@ Inherits WebSession
 			Group="Behavior"
 			InitialValue=""
 			Type="Boolean"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ClientId"
+			Visible=false
+			Group="Behavior"
+			InitialValue="-1"
+			Type="Integer"
 			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior

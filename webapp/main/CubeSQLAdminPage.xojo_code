@@ -189,11 +189,14 @@ End
 		  Case ContainerKey.Registration
 		    showContainer = New cntRegistration
 		    
+		  Case ContainerKey.Groups
+		    showContainer = New cntGroups
+		    
 		  Case ContainerKey.Databases
 		    showContainer = New cntDatabases
 		    
-		  Case ContainerKey.Groups
-		    showContainer = New cntGroups
+		  Case ContainerKey.Backups
+		    showContainer = New cntBackups
 		    
 		  Case ContainerKey.Users
 		    showContainer = New cntUsers
@@ -262,8 +265,14 @@ End
 		  btn.Style = WebToolbarButton.ButtonStyles.Menu
 		  btn.Caption = "Server"
 		  btn.Menu.AddMenuItem(New WebMenuItem("Registration", ContainerKey.Registration))
-		  btn.Menu.AddMenuItem(New WebMenuItem("Databases", ContainerKey.Databases))
 		  btn.Menu.AddMenuItem(New WebMenuItem("Console", ContainerKey.Console))
+		  Me.AddItem(btn)
+		  
+		  btn = New WebToolbarButton
+		  btn.Style = WebToolbarButton.ButtonStyles.Menu
+		  btn.Caption = "Data"
+		  btn.Menu.AddMenuItem(New WebMenuItem("Databases", ContainerKey.Databases))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Backups", ContainerKey.Backups))
 		  Me.AddItem(btn)
 		  
 		  btn = New WebToolbarButton

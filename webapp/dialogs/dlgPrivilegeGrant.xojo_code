@@ -543,7 +543,7 @@ End
 		  lstTable.AddRow("-", "*")
 		  
 		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW TABLES FOR DATABASE '" + databaseName + "'")
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW TABLES FOR DATABASE '" + databaseName.EscapeSqlQuotes + "'")
 		    If (rs = Nil) Then Return
 		    
 		    If (rs.RowCount > 0) Then
@@ -903,13 +903,5 @@ End
 			"2 - TopToBottom"
 			"3 - BottomToTop"
 		#tag EndEnumValues
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="esPreSelectGroup"
-		Visible=false
-		Group="Behavior"
-		InitialValue=""
-		Type="String"
-		EditorType="MultiLineEditor"
 	#tag EndViewProperty
 #tag EndViewBehavior

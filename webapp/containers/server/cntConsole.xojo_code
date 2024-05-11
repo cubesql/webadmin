@@ -379,7 +379,7 @@ End
 		    If (Me.SelectedRowIndex < 1) Then
 		      Session.DB.ExecuteSQL("CLEAR CURRENT DATABASE")
 		    Else
-		      Session.DB.ExecuteSQL("USE DATABASE '" + Me.SelectedRowText + "'")
+		      Session.DB.ExecuteSQL("USE DATABASE '" + Me.SelectedRowText.EscapeSqlQuotes + "'")
 		    End If
 		    
 		    
