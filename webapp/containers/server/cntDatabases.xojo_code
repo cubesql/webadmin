@@ -475,6 +475,7 @@ End
 		  Super.Constructor
 		  
 		  Me.Title = "Databases"
+		  Me.SearchAvailable = True
 		  
 		  
 		  Redim Me.Columns(-1)
@@ -486,6 +487,7 @@ End
 		  col.DatabaseColumnName = "status"
 		  col.Heading = "Status"
 		  col.IsVirtual = True
+		  col.IsSearchable = False
 		  col.FieldType = DatasourceColumn.FieldTypes.Integer
 		  col.Sortable = False
 		  col.SortDirection = WebListBox.SortDirections.None
@@ -496,6 +498,7 @@ End
 		  col.DatabaseColumnName = "stopped"
 		  col.Heading = "Stopped"
 		  col.IsHidden = True
+		  col.IsSearchable = False
 		  col.FieldType = DatasourceColumn.FieldTypes.Boolean
 		  col.Sortable = False
 		  col.SortDirection = WebListBox.SortDirections.None
@@ -506,6 +509,7 @@ End
 		  col.DatabaseColumnName = "available"
 		  col.Heading = "Available"
 		  col.IsHidden = True
+		  col.IsSearchable = False
 		  col.FieldType = DatasourceColumn.FieldTypes.Boolean
 		  col.Sortable = False
 		  col.SortDirection = WebListBox.SortDirections.None
@@ -524,6 +528,7 @@ End
 		  col.Width = "10%"
 		  col.DatabaseColumnName = "encrypted"
 		  col.Heading = "Encrypted"
+		  col.IsSearchable = False
 		  col.FieldType = DatasourceColumn.FieldTypes.Boolean
 		  col.Sortable = False
 		  col.SortDirection = WebListBox.SortDirections.None
@@ -533,6 +538,7 @@ End
 		  col.Width = "10%"
 		  col.DatabaseColumnName = "locked"
 		  col.Heading = "Locked"
+		  col.IsSearchable = False
 		  col.FieldType = DatasourceColumn.FieldTypes.Integer
 		  col.Sortable = False
 		  col.SortDirection = WebListBox.SortDirections.None
@@ -631,6 +637,15 @@ End
 		  Me.ShowInfos()
 		  
 		  'Select Row async via WebTimer_RowDataLoaded
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Search(SearchValue As String)
+		  Super.Search(SearchValue)
+		  
+		  Me.ShowInfos()
 		  
 		End Sub
 	#tag EndMethod
@@ -768,6 +783,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="SearchAvailable"
+		Visible=false
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="_mPanelIndex"
 		Visible=false
