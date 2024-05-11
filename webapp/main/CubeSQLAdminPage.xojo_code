@@ -1,0 +1,536 @@
+#tag WebPage
+Begin WebPage CubeSQLAdminPage
+   AllowTabOrderWrap=   True
+   Compatibility   =   ""
+   ControlCount    =   0
+   ControlID       =   ""
+   Enabled         =   False
+   Height          =   400
+   ImplicitInstance=   False
+   Index           =   -2147483648
+   Indicator       =   0
+   IsImplicitInstance=   False
+   LayoutDirection =   0
+   LayoutType      =   0
+   Left            =   0
+   LockBottom      =   False
+   LockHorizontal  =   False
+   LockLeft        =   True
+   LockRight       =   False
+   LockTop         =   True
+   LockVertical    =   False
+   MinimumHeight   =   400
+   MinimumWidth    =   600
+   TabIndex        =   0
+   Title           =   "cubeSQL Admin"
+   Top             =   0
+   Visible         =   True
+   Width           =   600
+   _ImplicitInstance=   False
+   _mDesignHeight  =   0
+   _mDesignWidth   =   0
+   _mName          =   ""
+   _mPanelIndex    =   -1
+   Begin WebToolbar tbrCubeSQLAdmin
+      ControlID       =   ""
+      Enabled         =   True
+      FullWidth       =   False
+      Height          =   56
+      Index           =   -2147483648
+      Indicator       =   8
+      Left            =   0
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   True
+      LockVertical    =   False
+      Position        =   0
+      Scope           =   2
+      TabIndex        =   0
+      TabStop         =   True
+      Title           =   ""
+      Tooltip         =   ""
+      Top             =   0
+      Visible         =   True
+      Width           =   600
+      _mPanelIndex    =   -1
+   End
+   Begin WebLabel labContainerTitle
+      Bold            =   True
+      ControlID       =   ""
+      Enabled         =   True
+      FontName        =   ""
+      FontSize        =   18.0
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   0
+      InitialParent   =   "rctContainer"
+      Italic          =   False
+      Left            =   0
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   True
+      LockVertical    =   False
+      Multiline       =   False
+      Parent          =   "nil"
+      Scope           =   2
+      TabIndex        =   1
+      TabStop         =   True
+      Text            =   "Container Title"
+      TextAlignment   =   2
+      TextColor       =   &c000000FF
+      Tooltip         =   ""
+      Top             =   64
+      Underline       =   False
+      Visible         =   True
+      Width           =   600
+      _mPanelIndex    =   -1
+   End
+End
+#tag EndWebPage
+
+#tag WindowCode
+	#tag Event
+		Sub Opening()
+		  Me.Title = "cubeSQL Admin - " + Session.DB.Host + ":" + Session.DB.Port.ToString
+		  
+		  me.ShowContainer(ContainerKey.Status)
+		End Sub
+	#tag EndEvent
+
+
+	#tag Method, Flags = &h21
+		Private Sub CloseContainer()
+		  If (Me.CurrentContainer <> Nil) Then
+		    Me.CurrentContainer.Close
+		    Me.CurrentContainer = Nil
+		    me.CurrentContainerKey = ContainerKey.None
+		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ShowContainer(containerItem As ContainerKey)
+		  If (Me.CurrentContainer <> Nil) And (Me.CurrentContainerKey = containerItem) Then Return
+		  
+		  Var showContainer As cntBase
+		  
+		  Select Case containerItem
+		  Case ContainerKey.Status
+		    showContainer = New cntStatus
+		    
+		  Case ContainerKey.Registration
+		    showContainer = New cntRegistration
+		    
+		  Case ContainerKey.Databases
+		    showContainer = New cntDatabases
+		    
+		  Case ContainerKey.Groups
+		    showContainer = New cntGroups
+		    
+		  Case ContainerKey.Users
+		    showContainer = New cntUsers
+		    
+		  Case ContainerKey.Privileges
+		    showContainer = new cntPrivileges
+		    
+		  Case ContainerKey.Console
+		    showContainer = new cntConsole
+		    
+		  Case ContainerKey.Commands
+		    showContainer = New cntCommands
+		    
+		  Case ContainerKey.Clients
+		    showContainer = New cntClients
+		    
+		  Case ContainerKey.Log
+		    showContainer = New cntLog
+		    
+		  End Select
+		  
+		  If (showContainer = Nil) Then Return
+		  
+		  Me.CloseContainer()
+		  
+		  labContainerTitle.Text = showContainer.Title
+		  
+		  Var top As Integer = labContainerTitle.Top + labContainerTitle.Height
+		  showContainer.EmbedWithin(Self, 0, top, Self.Width, Self.Height - top)
+		  
+		  Me.CurrentContainer = showContainer
+		  Me.CurrentContainerKey = containerItem
+		  
+		End Sub
+	#tag EndMethod
+
+
+	#tag Property, Flags = &h21
+		Private CurrentContainer As cntBase
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private CurrentContainerKey As ContainerKey
+	#tag EndProperty
+
+
+#tag EndWindowCode
+
+#tag Events tbrCubeSQLAdmin
+	#tag Event
+		Sub Opening()
+		  Me.Indicator = WebUIControl.Indicators.Dark
+		  Me.Style.BackgroundColor = Color.RGB(0,51,102)
+		  Me.Style.ForegroundColor = Color.White
+		  
+		  Me.Title = "cubeSQL Admin"
+		  Me.Icon = icon_128
+		  
+		  Var btn As WebToolbarButton
+		  
+		  btn = New WebToolbarButton
+		  btn.Style = WebToolbarButton.ButtonStyles.Menu
+		  btn.Caption = "Server"
+		  btn.Menu.AddMenuItem(New WebMenuItem("Registration", ContainerKey.Registration))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Databases", ContainerKey.Databases))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Console", ContainerKey.Console))
+		  Me.AddItem(btn)
+		  
+		  btn = New WebToolbarButton
+		  btn.Style = WebToolbarButton.ButtonStyles.Menu
+		  btn.Caption = "Security"
+		  btn.Menu.AddMenuItem(New WebMenuItem("Groups", ContainerKey.Groups))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Users", ContainerKey.Users))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Privileges", ContainerKey.Privileges))
+		  Me.AddItem(btn)
+		  
+		  btn = New WebToolbarButton
+		  btn.Style = WebToolbarButton.ButtonStyles.Menu
+		  btn.Caption = "Information"
+		  btn.Menu.AddMenuItem(New WebMenuItem("Commands", ContainerKey.Commands))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Clients", ContainerKey.Clients))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Log", ContainerKey.Log))
+		  Me.AddItem(btn)
+		  
+		  btn = New WebToolbarButton
+		  btn.Style = WebToolbarButton.ButtonStyles.FlexibleSpace
+		  Me.AddItem(btn)
+		  
+		  
+		  btn = New WebToolbarButton
+		  btn.Tag = "Logout"
+		  'btn.Icon = WebPicture.BootstrapIcon("escape", Color.White)
+		  btn.Style = WebToolbarButton.ButtonStyles.PushButton
+		  btn.Caption = "Logout"
+		  Me.AddItem(btn)
+		  
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub TitlePressed()
+		  self.ShowContainer(ContainerKey.Status)
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Pressed(item As WebToolbarButton)
+		  Select Case item.Tag
+		    
+		  Case "Logout"
+		    Self.CloseContainer()
+		    Session.Logout
+		    Self.Close()
+		    Return
+		    
+		  End Select
+		  
+		  
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub MenuSelected(item As WebToolbarButton, hitItem As WebMenuItem)
+		  #Pragma unused item
+		  
+		  Self.ShowContainer(hitItem.Tag)
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag ViewBehavior
+	#tag ViewProperty
+		Name="ControlCount"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="_mPanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue="-1"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Index"
+		Visible=true
+		Group="ID"
+		InitialValue="-2147483648"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Name"
+		Visible=true
+		Group="ID"
+		InitialValue=""
+		Type="String"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Super"
+		Visible=true
+		Group="ID"
+		InitialValue=""
+		Type="String"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Left"
+		Visible=true
+		Group="Position"
+		InitialValue="0"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Top"
+		Visible=true
+		Group="Position"
+		InitialValue="0"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="ControlID"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Enabled"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Height"
+		Visible=true
+		Group="Behavior"
+		InitialValue="400"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LayoutType"
+		Visible=true
+		Group="Behavior"
+		InitialValue="LayoutTypes.Fixed"
+		Type="LayoutTypes"
+		EditorType="Enum"
+		#tag EnumValues
+			"0 - Fixed"
+			"1 - Flex"
+		#tag EndEnumValues
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LockBottom"
+		Visible=true
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LockHorizontal"
+		Visible=true
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LockLeft"
+		Visible=true
+		Group="Behavior"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LockRight"
+		Visible=true
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LockTop"
+		Visible=true
+		Group="Behavior"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LockVertical"
+		Visible=true
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MinimumHeight"
+		Visible=true
+		Group="Behavior"
+		InitialValue="400"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MinimumWidth"
+		Visible=true
+		Group="Behavior"
+		InitialValue="600"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Title"
+		Visible=true
+		Group="Behavior"
+		InitialValue="Untitled"
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Visible"
+		Visible=false
+		Group="Behavior"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Width"
+		Visible=true
+		Group="Behavior"
+		InitialValue="600"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="_ImplicitInstance"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="_mDesignHeight"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="_mDesignWidth"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="_mName"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="IsImplicitInstance"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="AllowTabOrderWrap"
+		Visible=false
+		Group="Behavior"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="TabIndex"
+		Visible=true
+		Group="Visual Controls"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Indicator"
+		Visible=false
+		Group="Visual Controls"
+		InitialValue=""
+		Type="WebUIControl.Indicators"
+		EditorType="Enum"
+		#tag EnumValues
+			"0 - Default"
+			"1 - Primary"
+			"2 - Secondary"
+			"3 - Success"
+			"4 - Danger"
+			"5 - Warning"
+			"6 - Info"
+			"7 - Light"
+			"8 - Dark"
+			"9 - Link"
+		#tag EndEnumValues
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LayoutDirection"
+		Visible=true
+		Group="WebView"
+		InitialValue="LayoutDirections.LeftToRight"
+		Type="LayoutDirections"
+		EditorType="Enum"
+		#tag EnumValues
+			"0 - LeftToRight"
+			"1 - RightToLeft"
+			"2 - TopToBottom"
+			"3 - BottomToTop"
+		#tag EndEnumValues
+	#tag EndViewProperty
+#tag EndViewBehavior

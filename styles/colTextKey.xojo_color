@@ -1,0 +1,9 @@
+#tag ColorGroup
+	CodeName=colTextKey
+	#tag Color
+		Type=1
+		Platform=3
+		Light=5E5E5E00
+		Dark=C0C0C000
+	#tag EndColor
+#tag EndColorGroup
