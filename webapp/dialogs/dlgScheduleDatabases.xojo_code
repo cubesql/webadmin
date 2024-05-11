@@ -1,5 +1,5 @@
 #tag WebPage
-Begin dlgBase dlgUserGroups
+Begin dlgBase dlgScheduleDatabases
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -22,6 +22,7 @@ Begin dlgBase dlgUserGroups
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -45,7 +46,7 @@ Begin dlgBase dlgUserGroups
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
-      Text            =   "Groups for User"
+      Text            =   "Databases for Schedule"
       TextAlignment   =   2
       TextColor       =   &c000000FF
       Tooltip         =   ""
@@ -55,10 +56,10 @@ Begin dlgBase dlgUserGroups
       Width           =   710
       _mPanelIndex    =   -1
    End
-   Begin WebButton btnAdd
+   Begin WebButton btnAttach
       AllowAutoDisable=   False
       Cancel          =   False
-      Caption         =   "Add"
+      Caption         =   "Attach"
       ControlID       =   ""
       Default         =   True
       Enabled         =   False
@@ -109,7 +110,7 @@ Begin dlgBase dlgUserGroups
       Width           =   100
       _mPanelIndex    =   -1
    End
-   Begin WebListBox lstUserGroups
+   Begin WebListBox lstScheduleDatabases
       ColumnCount     =   1
       ColumnWidths    =   ""
       ControlID       =   ""
@@ -131,7 +132,7 @@ Begin dlgBase dlgUserGroups
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
-      NoRowsMessage   =   "No Groups"
+      NoRowsMessage   =   "No Databases"
       ProcessingMessage=   ""
       RowCount        =   0
       RowSelectionType=   1
@@ -147,7 +148,7 @@ Begin dlgBase dlgUserGroups
       Width           =   750
       _mPanelIndex    =   -1
    End
-   Begin WebPopupMenu lstAddGroups
+   Begin WebPopupMenu lstAddDatabases
       ControlID       =   ""
       Enabled         =   True
       Height          =   38
@@ -176,10 +177,10 @@ Begin dlgBase dlgUserGroups
       Width           =   386
       _mPanelIndex    =   -1
    End
-   Begin WebButton btnRemove
+   Begin WebButton btnDetach
       AllowAutoDisable=   False
       Cancel          =   False
-      Caption         =   "Remove"
+      Caption         =   "Detach"
       ControlID       =   ""
       Default         =   False
       Enabled         =   False
@@ -209,54 +210,55 @@ End
 
 #tag WindowCode
 	#tag Method, Flags = &h21
-		Private Function GetSelectedAddGroup() As String
-		  If (lstAddGroups.SelectedRowIndex < 0) Then Return ""
-		  return lstAddGroups.SelectedRowText
+		Private Function GetSelectedAddDatabase() As String
+		  If (lstAddDatabases.SelectedRowIndex < 0) Then Return ""
+		  return lstAddDatabases.SelectedRowText
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function GetSelectedUserGroup() As String
-		  If (lstUserGroups.SelectedRowIndex < 0) Then Return ""
-		  Return lstUserGroups.CellTextAt(lstUserGroups.SelectedRowIndex, 0)
+		Private Function GetSelectedScheduleDatabase() As String
+		  If (lstScheduleDatabases.SelectedRowIndex < 0) Then Return ""
+		  Return lstScheduleDatabases.CellTextAt(lstScheduleDatabases.SelectedRowIndex, 0)
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub Load()
-		  Me.LoadUserGroups()
-		  Me.LoadAddGroups()
+		  Me.LoadScheduleDatabases()
+		  Me.LoadAddDatabases()
 		  
-		  labTitle.Text = lstUserGroups.RowCount.ToString + " " + _
-		  If(lstUserGroups.RowCount = 1, "Group", "Groups") + " for User " + esUsername
+		  labTitle.Text = lstScheduleDatabases.RowCount.ToString + " " + _
+		  If(lstScheduleDatabases.RowCount = 1, "Database", "Databases") + _
+		  " for Schedule " + esSchedule
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub LoadAddGroups()
-		  lstAddGroups.RemoveAllRows
+		Private Sub LoadAddDatabases()
+		  lstAddDatabases.RemoveAllRows
 		  
-		  Var sUserGroups() As String
-		  For i As Integer = lstUserGroups.LastRowIndex DownTo 0
-		    sUserGroups.Add(lstUserGroups.CellTextAt(i, 0))
+		  Var sDatabaseSchedules() As String
+		  For i As Integer = lstScheduleDatabases.LastRowIndex DownTo 0
+		    sDatabaseSchedules.Add(lstScheduleDatabases.CellTextAt(i, 0))
 		  Next
 		  
 		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS")
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
 		    If (rs = Nil) Then Return
 		    
 		    If (rs.RowCount > 0) Then
 		      rs.MoveToFirstRow
 		      While (Not rs.AfterLastRow)
-		        If (sUserGroups.IndexOf(rs.Column("groupname").StringValue) >= 0) Then
-		          'user already added to this group
+		        If (sDatabaseSchedules.IndexOf(rs.Column("databasename").StringValue) >= 0) Then
+		          'schedule already added to this database
 		          rs.MoveToNextRow
 		          Continue
 		        End If
 		        
-		        lstAddGroups.AddRow(rs.Column("groupname").StringValue)
+		        lstAddDatabases.AddRow(rs.Column("databasename").StringValue)
 		        
 		        rs.MoveToNextRow
 		      Wend
@@ -264,7 +266,7 @@ End
 		    
 		    rs.Close
 		    
-		    If (lstAddGroups.LastRowIndex >= 0) Then lstAddGroups.SelectedRowIndex = 0
+		    If (lstAddDatabases.LastRowIndex >= 0) Then lstAddDatabases.SelectedRowIndex = 0
 		    
 		  Catch DatabaseException
 		    
@@ -274,17 +276,17 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub LoadUserGroups()
-		  lstUserGroups.RemoveAllRows
+		Private Sub LoadScheduleDatabases()
+		  lstScheduleDatabases.RemoveAllRows
 		  
 		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS FOR USER '" + esUsername.EscapeSqlQuotes + "'")
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES FOR SCHEDULE '" + esSchedule.EscapeSqlQuotes + "'")
 		    If (rs = Nil) Then Return
 		    
 		    If (rs.RowCount > 0) Then
 		      rs.MoveToFirstRow
 		      While (Not rs.AfterLastRow)
-		        lstUserGroups.AddRow(rs.Column("groupname").StringValue)
+		        lstScheduleDatabases.AddRow(rs.Column("databasename").StringValue)
 		        
 		        rs.MoveToNextRow
 		      Wend
@@ -292,7 +294,7 @@ End
 		    
 		    rs.Close
 		    
-		    lstUserGroups.SelectedRowIndex = -1
+		    lstScheduleDatabases.SelectedRowIndex = -1
 		    
 		  Catch DatabaseException
 		    
@@ -303,33 +305,31 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub RefreshButtons()
-		  Var sAddGroup As String = Me.GetSelectedAddGroup
-		  Var bAddGroupSelected As Boolean = (sAddGroup <> "")
+		  Var sAddDatabase As String = Me.GetSelectedAddDatabase
+		  Var bAddDatabaseSelected As Boolean = (sAddDatabase <> "")
 		  
-		  Var bAddGroupAlreadyAssigned As Boolean = False
+		  Var bAddDatabaseAlreadyAssigned As Boolean = False
 		  
-		  If (sAddGroup <> "") Then
-		    For i As Integer = lstUserGroups.LastRowIndex DownTo 0
-		      If (lstUserGroups.CellTextAt(i, 0) = sAddGroup) Then
-		        bAddGroupAlreadyAssigned = True
+		  If (sAddDatabase <> "") Then
+		    For i As Integer = lstScheduleDatabases.LastRowIndex DownTo 0
+		      If (lstScheduleDatabases.CellTextAt(i, 0) = sAddDatabase) Then
+		        bAddDatabaseAlreadyAssigned = True
 		        Exit 'Loop
 		      End If
 		    Next
 		  End If
 		  
-		  btnAdd.Enabled = bAddGroupSelected And (Not bAddGroupAlreadyAssigned)
+		  btnAttach.Enabled = bAddDatabaseSelected And (Not bAddDatabaseAlreadyAssigned)
 		  
-		  Var sRemoveGroup As String = Me.GetSelectedUserGroup()
-		  Var bLoggedInUserRemovingAdminGroup As Boolean = (Session.DB.UserName = esUsername) And (sRemoveGroup = "admin")
-		  btnRemove.Enabled = (sRemoveGroup <> "") And (Not bLoggedInUserRemovingAdminGroup)
-		  
+		  Var sRemoveDatabase As String = Me.GetSelectedScheduleDatabase()
+		  btnDetach.Enabled = (sRemoveDatabase <> "")
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Show(Username As String)
-		  esUsername = Username
+		  esSchedule = Username
 		  
 		  Me.Load()
 		  
@@ -350,24 +350,24 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private esUsername As String
+		Private esSchedule As String
 	#tag EndProperty
 
 
 #tag EndWindowCode
 
-#tag Events btnAdd
+#tag Events btnAttach
 	#tag Event
 		Sub Pressed()
-		  Var group As String = Self.GetSelectedAddGroup()
-		  If (group = "") Then Return
+		  Var database As String = Self.GetSelectedAddDatabase()
+		  If (database = "") Then Return
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("ADD USER '" + esUsername.EscapeSqlQuotes + "' TO GROUP '" + group.EscapeSqlQuotes + "'")
+		    Session.DB.ExecuteSQL("ATTACH SCHEDULE '" + esSchedule.EscapeSqlQuotes + "' TO DATABASE '" + database.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Add User to Group", "Could not add user to group.", err)
+		    ShowErrorDialog("Attach Database to Schedule", "Could not attach database to schedule.", err)
 		    Return
 		    
 		  End Try
@@ -376,9 +376,9 @@ End
 		  ebNeedsRefresh = True
 		  Self.Load()
 		  
-		  For i As Integer = lstUserGroups.LastRowIndex DownTo 0
-		    If (lstUserGroups.CellTextAt(i, 0) = group) Then
-		      lstUserGroups.SelectedRowIndex = i
+		  For i As Integer = lstScheduleDatabases.LastRowIndex DownTo 0
+		    If (lstScheduleDatabases.CellTextAt(i, 0) = database) Then
+		      lstScheduleDatabases.SelectedRowIndex = i
 		      Exit 'Loop
 		    End If
 		  Next
@@ -397,7 +397,7 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events lstUserGroups
+#tag Events lstScheduleDatabases
 	#tag Event
 		Sub SelectionChanged(rows() As Integer)
 		  #Pragma unused rows
@@ -407,7 +407,7 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events lstAddGroups
+#tag Events lstAddDatabases
 	#tag Event
 		Sub SelectionChanged(item As WebMenuItem)
 		  #Pragma unused item
@@ -417,18 +417,18 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events btnRemove
+#tag Events btnDetach
 	#tag Event
 		Sub Pressed()
-		  Var group As String = Self.GetSelectedUserGroup()
-		  If (group = "") Then Return
+		  Var database As String = Self.GetSelectedScheduleDatabase()
+		  If (database = "") Then Return
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("REMOVE USER '" + esUsername.EscapeSqlQuotes + "' FROM GROUP '" + group.EscapeSqlQuotes + "'")
+		    Session.DB.ExecuteSQL("DETACH SCHEDULE '" + esSchedule.EscapeSqlQuotes + "' FROM DATABASE '" + database.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Remove User from Group", "Could not remove user from group.", err)
+		    ShowErrorDialog("Detach Database from Schedule", "Could not detach database from schedule.", err)
 		    Return 
 		    
 		  End Try

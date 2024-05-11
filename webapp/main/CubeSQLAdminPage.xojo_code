@@ -29,7 +29,6 @@ Begin WebPage CubeSQLAdminPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebToolbar tbrCubeSQLAdmin
       ControlID       =   ""
@@ -201,6 +200,9 @@ End
 		  Case ContainerKey.Backups
 		    showContainer = New cntBackups
 		    
+		  Case ContainerKey.Schedules
+		    showContainer = New cntSchedules
+		    
 		  Case ContainerKey.Users
 		    showContainer = New cntUsers
 		    
@@ -276,6 +278,7 @@ End
 		  btn.Caption = "Data"
 		  btn.Menu.AddMenuItem(New WebMenuItem("Databases", ContainerKey.Databases))
 		  btn.Menu.AddMenuItem(New WebMenuItem("Backups", ContainerKey.Backups))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Schedules", ContainerKey.Schedules))
 		  Me.AddItem(btn)
 		  
 		  btn = New WebToolbarButton

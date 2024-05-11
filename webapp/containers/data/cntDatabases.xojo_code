@@ -192,7 +192,7 @@ Begin cntDatasourceBase cntDatabases
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   8
+      TabIndex        =   9
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -277,7 +277,7 @@ Begin cntDatasourceBase cntDatabases
       Scope           =   2
       SVGColor        =   &c00000000
       SVGData         =   ""
-      TabIndex        =   9
+      TabIndex        =   10
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
@@ -377,7 +377,7 @@ Begin cntDatasourceBase cntDatabases
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   7
+      TabIndex        =   8
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -403,6 +403,34 @@ Begin cntDatasourceBase cntDatabases
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
+   Begin WebButton btnSchedules
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Schedules"
+      ControlID       =   ""
+      Default         =   False
+      Enabled         =   False
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   6
+      Left            =   286
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   False
+      LockRight       =   True
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   7
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   442
+      Visible         =   False
+      Width           =   120
       _mPanelIndex    =   -1
    End
 End
@@ -479,7 +507,7 @@ End
 		  End Try
 		  
 		  'Success - no dialog
-		  Self.RefreshInfos(Name)
+		  Me.RefreshInfos(Name)
 		  Return True
 		  
 		End Function
@@ -690,10 +718,33 @@ End
 		  End Try
 		  
 		  'Success - no dialog
-		  Self.RefreshInfos(Name)
+		  Me.RefreshInfos(Name)
 		  Return True
 		  
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionSchedules()
+		  Var databasename As String = Me.GetSelectedDatabasename()
+		  If (databasename = "") Then Return
+		  
+		  esActionDatabasename = databasename
+		  
+		  Var dlgSchedules As New dlgDatabaseSchedules
+		  AddHandler dlgSchedules.NeedsRefresh, WeakAddressOf ActionSchedulesButtonPressed
+		  dlgSchedules.Show(databasename)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionSchedulesButtonPressed(obj As dlgDatabaseSchedules)
+		  #Pragma unused obj
+		  
+		  'no need to refresh this list
+		  
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -815,6 +866,8 @@ End
 		  Me.Table = lstInfos
 		  Me.SearchAvailable = True
 		  
+		  ebSchedulesAvailable = cntSchedules.GetSchedulesAvailable()
+		  
 		End Sub
 	#tag EndMethod
 
@@ -875,7 +928,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub RefreshButtons()
-		  Var bDownload, bRename, bStart, bStop, bDrop, bEncryption As Boolean
+		  Var bDownload, bRename, bStart, bStop, bDrop, bEncryption, bSchedules As Boolean
 		  
 		  Var rowTag As Dictionary = Me.GetSelectedTableRowTag()
 		  If (rowTag <> Nil) Then
@@ -886,6 +939,7 @@ End
 		    bStop = (Not bStart)
 		    bDrop = True
 		    bEncryption = True
+		    bSchedules = ebSchedulesAvailable
 		    
 		  End If
 		  
@@ -895,6 +949,9 @@ End
 		  If (btnStop.Enabled <> bStop) Then btnStop.Enabled = bStop
 		  If (btnDrop.Enabled <> bDrop) Then btnDrop.Enabled = bDrop
 		  If (btnEncryption.Enabled <> bEncryption) Then btnEncryption.Enabled = bEncryption
+		  If (btnSchedules.Enabled <> bSchedules) Then btnSchedules.Enabled = bSchedules
+		  If (btnSchedules.Visible <> ebSchedulesAvailable) Then btnSchedules.Visible = ebSchedulesAvailable
+		  
 		End Sub
 	#tag EndMethod
 
@@ -1063,8 +1120,8 @@ End
 		  
 		  Var bFound As Boolean = False
 		  For i As Integer = Me.Table.LastRowIndex DownTo 0
-		    If (Me.Table.RowTagAt(i) IsA Dictionary) Then
-		      Var rowTag As Dictionary = Me.Table.RowTagAt(i)
+		    Var rowTag As Dictionary = Me.Table.RowTagAt(i)
+		    If (rowTag IsA Dictionary) Then
 		      If (rowTag.Lookup("databasename", "").StringValue <> sSelectAfterReload) Then Continue
 		      Me.Table.SelectedRowIndex = i
 		      bFound = True
@@ -1082,6 +1139,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private Download As WebFile
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private ebSchedulesAvailable As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -1415,6 +1476,14 @@ End
 	#tag Event
 		Sub ButtonPressed(button As WebMessageDialogButton)
 		  Self.ActionDecryptButtonPressed(Me, button)
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events btnSchedules
+	#tag Event
+		Sub Pressed()
+		  Self.ActionSchedules()
 		  
 		End Sub
 	#tag EndEvent

@@ -203,7 +203,7 @@ End
 		  End Try
 		  
 		  'Success - no dialog
-		  Self.RefreshInfos(Name)
+		  Me.RefreshInfos(Name)
 		  Return True
 		  
 		End Function
@@ -283,7 +283,7 @@ End
 		  End Try
 		  
 		  'Success - no dialog
-		  Self.RefreshInfos(Name)
+		  Me.RefreshInfos(Name)
 		  Return True
 		  
 		End Function
@@ -428,7 +428,7 @@ End
 		    col.IsVirtual = True
 		    col.IsSearchable = False
 		    col.FieldType = DatasourceColumn.FieldTypes.Integer
-		    col.Sortable = True
+		    col.Sortable = False
 		    col.SortDirection = WebListBox.SortDirections.None
 		    Me.Columns.Add(col)
 		    
@@ -512,8 +512,8 @@ End
 		  
 		  Var bFound As Boolean = False
 		  For i As Integer = Me.Table.LastRowIndex DownTo 0
-		    If (Me.Table.RowTagAt(i) IsA Dictionary) Then
-		      Var rowTag As Dictionary = Me.Table.RowTagAt(i)
+		    Var rowTag As Dictionary = Me.Table.RowTagAt(i)
+		    If (rowTag IsA Dictionary) Then
 		      If (rowTag.Lookup("groupname", "").StringValue <> sSelectAfterReload) Then Continue
 		      Me.Table.SelectedRowIndex = i
 		      bFound = True
