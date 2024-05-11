@@ -29,15 +29,17 @@ Inherits WebListboxCellRenderer
 		  code.Add "  render(controlID, row, data, rowIndex, columnIndex, cell) {"
 		  
 		  // Remove the text that's already in the cell
-		  code.Add "    cell.innerHTML= '';"
+		  code.Add "    cell.innerHTML = '';"
 		  
 		  // Make a bootstrap checkbox
+		  code.Add "    let container = document.createElement('div');"
+		  code.Add "    container.className = 'form-check';"
+		  code.Add "    container.style = 'display: flex; align-items: center; margin-left: 5px;'"
+		  
 		  code.Add "    let checkbox = document.createElement('input');"
 		  code.Add "    checkbox.type = 'checkbox';"
 		  code.Add "    checkbox.className = 'form-check-input';"
 		  code.Add "    checkbox.checked = data.checked;"
-		  code.Add "    checkbox.style.marginLeft = '6px'"
-		  code.Add "    checkbox.style.marginRight = '6px'"
 		  
 		  // Handle clicking on the button
 		  code.Add "    checkbox.addEventListener('click', function(ev) {"
@@ -52,7 +54,8 @@ Inherits WebListboxCellRenderer
 		  code.Add "    });"
 		  
 		  // Add our new content
-		  code.Add "    cell.appendChild(checkbox);"
+		  code.Add "    container.appendChild(checkbox);"
+		  code.Add "    cell.appendChild(container);"
 		  code.Add "  }"
 		  code.Add "}"
 		  

@@ -320,6 +320,8 @@ End
 		    
 		  End Try
 		  
+		  esSelectAfterReload = Session.State.Lookup("groupname", "").StringValue
+		  
 		End Sub
 	#tag EndMethod
 
@@ -556,6 +558,8 @@ End
 		  #Pragma unused rows
 		  
 		  Self.RefreshButtons()
+		  
+		  Session.State.Value("groupname") = Self.GetSelectedGroupname
 		  
 		End Sub
 	#tag EndEvent
