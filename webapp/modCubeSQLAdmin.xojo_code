@@ -1,8 +1,30 @@
 #tag Module
 Protected Module modCubeSQLAdmin
 	#tag Method, Flags = &h0
-		Function EscapeSqlQuotes(Extends sql As String) As String
-		  Return sql.ReplaceAll("'", "''")
+		Function EscapeSqlDefaultValueIfRequired(Extends defaultValue As String) As String
+		  If (defaultValue.Contains(" ") Or defaultValue.Contains("'")) Then
+		    Return "'" + defaultValue.EscapeSqlQuotes + "'"
+		  End If
+		  
+		  Return defaultValue
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function EscapeSqlFieldIfRequired(Extends fieldname As String) As String
+		  If (fieldname.Contains(" ") Or fieldname.Contains("""")) Then
+		    Return """" + fieldname.ReplaceAll("""", """""") + """"
+		  End If
+		  
+		  Return fieldname
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function EscapeSqlQuotes(Extends value As String) As String
+		  Return value.ReplaceAll("'", "''")
 		  
 		End Function
 	#tag EndMethod
@@ -77,15 +99,16 @@ Protected Module modCubeSQLAdmin
 		  Registration=1
 		  Console = 2
 		  Databases = 11
-		  Backups = 12
+		  TablesAndIndexes=12
+		  Schedules=14
+		  Backups = 13
 		  Groups = 21
 		  Users = 22
 		  Privileges = 23
 		  EnginePreferences = 24
 		  Commands = 31
 		  Clients = 32
-		  Log = 33
-		Schedules=13
+		Log = 33
 	#tag EndEnum
 
 
