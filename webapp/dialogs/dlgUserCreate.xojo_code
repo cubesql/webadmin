@@ -495,8 +495,7 @@ End
 		  btnCreate.Enabled = (edtName.Text.Trim <> "") _
 		  And (edtPassword.Text.Trim <> "") _
 		  And (edtPassword.Text.Trim.Compare(edtPasswordRepeat.Text.Trim, ComparisonOptions.Binary) = 0) _
-		  And (Not edtName.Text.Contains("'")) _
-		  And (Not edtPassword.Text.Contains("'"))
+		  And (Not edtName.Text.Contains("'"))
 		  
 		  
 		End Sub

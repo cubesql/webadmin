@@ -33,6 +33,22 @@ Protected Module modCubeSQLAdmin
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function SQLDateTime_AsDateTime_AsLocal(sqlDateTime As String) As DateTime
+		  Return DateTime.FromString(sqlDateTime, Nil, Timezone.Current)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function SQLDateTime_AsDateTime_FromUTC_ToLocal(sqlDateTime As String) As DateTime
+		  Var utcDateTimeValue As DateTime = DateTime.FromString(sqlDateTime, Nil, New TimeZone("UTC"))
+		  Var localDateTimeValue As New DateTime(utcDateTimeValue.SecondsFrom1970, Timezone.Current)
+		  Return localDateTimeValue
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1, Description = 436F6E766572747320636F6D6D616E64206C696E6520617267756D656E747320746F20612064696374696F6E6172792E2045616368206B657920697320616E20617267756D656E74206E616D6520616E642074686520636F72726573706F6E64696E672076616C75652069732074686520617267756D656E742076616C75652E
 		Protected Sub StoreLaunchArguments(args() As String)
 		  dictArgs = New Dictionary

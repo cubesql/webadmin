@@ -5,7 +5,7 @@ Begin WebPage CubeSQLAdminPage
    ControlCount    =   0
    ControlID       =   ""
    Enabled         =   False
-   Height          =   400
+   Height          =   500
    ImplicitInstance=   False
    Index           =   -2147483648
    Indicator       =   0
@@ -19,13 +19,13 @@ Begin WebPage CubeSQLAdminPage
    LockRight       =   False
    LockTop         =   True
    LockVertical    =   False
-   MinimumHeight   =   400
-   MinimumWidth    =   600
+   MinimumHeight   =   500
+   MinimumWidth    =   750
    TabIndex        =   0
    Title           =   "cubeSQL Admin"
    Top             =   0
    Visible         =   True
-   Width           =   600
+   Width           =   750
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
@@ -53,7 +53,7 @@ Begin WebPage CubeSQLAdminPage
       Tooltip         =   ""
       Top             =   0
       Visible         =   True
-      Width           =   600
+      Width           =   750
       _mPanelIndex    =   -1
    End
    Begin WebLabel labContainerTitle
@@ -87,7 +87,7 @@ Begin WebPage CubeSQLAdminPage
       Top             =   64
       Underline       =   False
       Visible         =   True
-      Width           =   252
+      Width           =   402
       _mPanelIndex    =   -1
    End
    Begin WebSearchField edtSearch
@@ -97,7 +97,7 @@ Begin WebPage CubeSQLAdminPage
       Hint            =   "Search"
       Index           =   -2147483648
       Indicator       =   ""
-      Left            =   280
+      Left            =   430
       LockBottom      =   False
       LockedInPosition=   True
       LockHorizontal  =   False
