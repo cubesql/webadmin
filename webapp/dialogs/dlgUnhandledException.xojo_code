@@ -1,10 +1,10 @@
 #tag WebPage
-Begin dlgBase dlgCommonName
+Begin dlgBase dlgUnhandledException
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
    Enabled         =   True
-   Height          =   230
+   Height          =   600
    Index           =   -2147483648
    Indicator       =   0
    LayoutDirection =   0
@@ -22,7 +22,6 @@ Begin dlgBase dlgCommonName
    Width           =   600
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -46,7 +45,7 @@ Begin dlgBase dlgCommonName
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
-      Text            =   "Title"
+      Text            =   "Unhandled Exception"
       TextAlignment   =   2
       TextColor       =   &c000000FF
       Tooltip         =   ""
@@ -62,7 +61,7 @@ Begin dlgBase dlgCommonName
       ControlID       =   ""
       Enabled         =   True
       HasBackgroundColor=   False
-      Height          =   80
+      Height          =   450
       Index           =   -2147483648
       Indicator       =   0
       LayoutDirection =   0
@@ -85,7 +84,7 @@ Begin dlgBase dlgCommonName
       _mDesignHeight  =   0
       _mDesignWidth   =   0
       _mPanelIndex    =   -1
-      Begin WebLabel labName
+      Begin WebLabel labException
          Bold            =   False
          ControlID       =   ""
          Enabled         =   True
@@ -93,47 +92,9 @@ Begin dlgBase dlgCommonName
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         Indicator       =   0
-         InitialParent   =   "rctFormContent"
+         Indicator       =   ""
          Italic          =   False
          Left            =   40
-         LockBottom      =   False
-         LockedInPosition=   True
-         LockHorizontal  =   False
-         LockLeft        =   True
-         LockRight       =   False
-         LockTop         =   True
-         LockVertical    =   False
-         Multiline       =   False
-         PanelIndex      =   "0"
-         Parent          =   "rctFormContent"
-         Scope           =   2
-         TabIndex        =   0
-         TabPanelIndex   =   0
-         TabStop         =   True
-         Text            =   "Name:"
-         TextAlignment   =   0
-         TextColor       =   &c000000FF
-         Tooltip         =   ""
-         Top             =   86
-         Underline       =   False
-         Visible         =   True
-         Width           =   140
-         _mPanelIndex    =   -1
-      End
-      Begin WebTextField edtName
-         AllowAutoComplete=   False
-         AllowSpellChecking=   False
-         Caption         =   ""
-         ControlID       =   ""
-         Enabled         =   True
-         FieldType       =   0
-         Height          =   38
-         Hint            =   ""
-         Index           =   -2147483648
-         Indicator       =   0
-         InitialParent   =   "rctFormContent"
-         Left            =   188
          LockBottom      =   False
          LockedInPosition=   True
          LockHorizontal  =   False
@@ -141,61 +102,133 @@ Begin dlgBase dlgCommonName
          LockRight       =   True
          LockTop         =   True
          LockVertical    =   False
-         MaximumCharactersAllowed=   0
-         PanelIndex      =   "0"
+         Multiline       =   False
          Parent          =   "rctFormContent"
-         ReadOnly        =   False
-         Scope           =   2
+         Scope           =   0
+         TabIndex        =   0
+         TabStop         =   True
+         Text            =   "Oops - an unhandled SomeWeirdException occurred."
+         TextAlignment   =   0
+         TextColor       =   &c000000FF
+         Tooltip         =   ""
+         Top             =   86
+         Underline       =   False
+         Visible         =   True
+         Width           =   520
+         _mPanelIndex    =   -1
+      End
+      Begin WebLabel labInfo
+         Bold            =   False
+         ControlID       =   ""
+         Enabled         =   True
+         FontName        =   ""
+         FontSize        =   0.0
+         Height          =   60
+         Index           =   -2147483648
+         indicator       =   0
+         Italic          =   True
+         Left            =   40
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         LockVertical    =   False
+         Multiline       =   True
+         PanelIndex      =   0
+         Parent          =   "rctFormContent"
+         Scope           =   0
          TabIndex        =   1
-         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   "The application will continue. In case of weird behavior try to Logout and Login again."
+         TextAlignment   =   0
+         TextColor       =   &c000000FF
+         Tooltip         =   ""
+         Top             =   132
+         Underline       =   False
+         Visible         =   True
+         Width           =   520
+         _mPanelIndex    =   -1
+      End
+      Begin WebLabel labStackTrace
+         Bold            =   True
+         ControlID       =   ""
+         Enabled         =   True
+         FontName        =   ""
+         FontSize        =   0.0
+         Height          =   38
+         Index           =   -2147483648
+         indicator       =   0
+         Italic          =   False
+         Left            =   40
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         LockVertical    =   False
+         Multiline       =   False
+         PanelIndex      =   0
+         Parent          =   "rctFormContent"
+         Scope           =   0
+         TabIndex        =   2
+         TabStop         =   True
+         Text            =   "Stack Trace"
+         TextAlignment   =   2
+         TextColor       =   &c000000FF
+         Tooltip         =   ""
+         Top             =   200
+         Underline       =   False
+         Visible         =   True
+         Width           =   520
+         _mPanelIndex    =   -1
+      End
+      Begin WebTextArea edtStackTrace
+         AllowReturnKey  =   True
+         AllowSpellChecking=   False
+         Caption         =   ""
+         ControlID       =   ""
+         Enabled         =   True
+         Height          =   250
+         Hint            =   "Stack Trace"
+         Index           =   -2147483648
+         Indicator       =   ""
+         Left            =   40
+         LockBottom      =   True
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         LockVertical    =   False
+         MaximumCharactersAllowed=   0
+         Parent          =   "rctFormContent"
+         ReadOnly        =   True
+         Scope           =   0
+         TabIndex        =   3
          TabStop         =   True
          Text            =   ""
          TextAlignment   =   0
          Tooltip         =   ""
-         Top             =   86
+         Top             =   246
          Visible         =   True
-         Width           =   372
+         Width           =   520
          _mPanelIndex    =   -1
       End
    End
-   Begin WebButton btnName
+   Begin WebButton btnOk
       AllowAutoDisable=   False
       Cancel          =   False
-      Caption         =   "Create"
-      ControlID       =   ""
-      Default         =   True
-      Enabled         =   False
-      Height          =   38
-      Index           =   -2147483648
-      Indicator       =   1
-      Left            =   480
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   True
-      LockTop         =   False
-      LockVertical    =   False
-      Scope           =   2
-      TabIndex        =   3
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   172
-      Visible         =   True
-      Width           =   100
-      _mPanelIndex    =   -1
-   End
-   Begin WebButton btnCancel
-      AllowAutoDisable=   False
-      Cancel          =   True
-      Caption         =   "Cancel"
+      Caption         =   "OK"
       ControlID       =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
       Index           =   -2147483648
-      Indicator       =   0
-      Left            =   372
+      Indicator       =   5
+      Left            =   480
       LockBottom      =   True
       LockedInPosition=   True
       LockHorizontal  =   False
@@ -207,7 +240,7 @@ Begin dlgBase dlgCommonName
       TabIndex        =   2
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   172
+      Top             =   542
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -218,67 +251,32 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Shown()
-		  edtName.SetFocus()
+		  edtStackTrace.SetFocus()
 		  
 		End Sub
 	#tag EndEvent
 
 
-	#tag Method, Flags = &h21
-		Private Sub RefreshButtons()
-		  btnName.Enabled = (edtName.Text.Trim <> "") and (esNameInitialValue <> edtName.Text.Trim)
-		  
-		  
-		End Sub
-	#tag EndMethod
-
 	#tag Method, Flags = &h0
-		Sub Show(DialogTitle As String, LabelCaption As String, ButtonCaption As String, ButtonIndicator As Indicators = Indicators.Primary, NameInitialValue As String = "")
-		  labTitle.Text = DialogTitle
-		  labName.Text = LabelCaption + ":"
-		  btnName.Caption = ButtonCaption
-		  btnName.Indicator = ButtonIndicator
-		  edtName.Text = NameInitialValue
-		  esNameInitialValue = NameInitialValue
+		Sub Show(Error As RuntimeException)
+		  Var errorType As String = Introspection.GetType(Error).Name
+		  Var errorStack As String = String.FromArray(Error.Stack, EndOfLine)
 		  
-		  Me.RefreshButtons()
+		  labTitle.Text = "Unhandled Exception"
+		  labException.Text = "Oops - an unhandled " + errorType + " occurred."
+		  labInfo.Text = "The application will continue." + EndOfLine + _
+		  "In case of weird behavior try to Logout and Login again."
+		  edtStackTrace.Text = errorStack
+		  
 		  Super.Show()
 		  
 		End Sub
 	#tag EndMethod
 
 
-	#tag Hook, Flags = &h0
-		Event NameAction(Name As String) As Boolean
-	#tag EndHook
-
-
-	#tag Property, Flags = &h21
-		Private esNameInitialValue As String
-	#tag EndProperty
-
-
 #tag EndWindowCode
 
-#tag Events edtName
-	#tag Event
-		Sub TextChanged()
-		  Self.RefreshButtons()
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events btnName
-	#tag Event
-		Sub Pressed()
-		  If NameAction(edtName.Text.Trim) Then
-		    Self.Close()
-		  End If
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events btnCancel
+#tag Events btnOk
 	#tag Event
 		Sub Pressed()
 		  Self.Close()

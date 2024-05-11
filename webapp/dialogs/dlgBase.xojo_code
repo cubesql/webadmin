@@ -1,15 +1,9 @@
 #tag Class
-Protected Class cntBase
-Inherits WebContainer
+Protected Class dlgBase
+Inherits WebDialog
 	#tag Event
 		Sub Opening()
 		  Opening
-		  
-		  Me.Load()
-		  
-		  Me.TableInitColumns()
-		  Me.TableInitRows()
-		  Me.TableLoad()
 		  
 		  ebOpened = True
 		  
@@ -26,52 +20,6 @@ Inherits WebContainer
 	#tag EndEvent
 
 
-	#tag Method, Flags = &h0
-		Sub Close()
-		  Me.Table = Nil
-		  
-		  Super.Close()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Constructor()
-		  Super.Constructor
-		  
-		  Self.LockLeft = True
-		  Self.LockRight = True
-		  Self.LockTop = True
-		  Self.LockBottom = True
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub Load()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub TableInitColumns()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub TableInitRows()
-		  Me.Table.RemoveAllRows
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub TableLoad()
-		  
-		End Sub
-	#tag EndMethod
-
-
 	#tag Hook, Flags = &h0
 		Event Opening()
 	#tag EndHook
@@ -81,10 +29,6 @@ Inherits WebContainer
 	#tag EndHook
 
 
-	#tag Property, Flags = &h0
-		Area As String = "Home"
-	#tag EndProperty
-
 	#tag Property, Flags = &h1
 		Protected ebOpened As Boolean
 	#tag EndProperty
@@ -93,24 +37,8 @@ Inherits WebContainer
 		Protected ebShown As Boolean
 	#tag EndProperty
 
-	#tag Property, Flags = &h1
-		Protected Table As WebListBox
-	#tag EndProperty
-
-	#tag Property, Flags = &h0
-		Title As String
-	#tag EndProperty
-
 
 	#tag ViewBehavior
-		#tag ViewProperty
-			Name="_mPanelIndex"
-			Visible=false
-			Group="Behavior"
-			InitialValue="-1"
-			Type="Integer"
-			EditorType=""
-		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ControlCount"
 			Visible=false
@@ -120,42 +48,10 @@ Inherits WebContainer
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="Index"
-			Visible=true
-			Group="ID"
-			InitialValue="-2147483648"
-			Type="Integer"
-			EditorType=""
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Name"
-			Visible=true
-			Group="ID"
-			InitialValue=""
-			Type="String"
-			EditorType=""
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Super"
-			Visible=true
-			Group="ID"
-			InitialValue=""
-			Type="String"
-			EditorType=""
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Left"
-			Visible=true
-			Group="Position"
-			InitialValue="0"
-			Type="Integer"
-			EditorType=""
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Top"
-			Visible=true
-			Group="Position"
-			InitialValue="0"
+			Name="_mPanelIndex"
+			Visible=false
+			Group="Behavior"
+			InitialValue="-1"
 			Type="Integer"
 			EditorType=""
 		#tag EndViewProperty
@@ -179,61 +75,73 @@ Inherits WebContainer
 			Name="Height"
 			Visible=true
 			Group="Behavior"
-			InitialValue="300"
+			InitialValue="400"
 			Type="Integer"
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="LockBottom"
+			Name="LayoutType"
 			Visible=true
 			Group="Behavior"
-			InitialValue="False"
+			InitialValue="LayoutTypes.Fixed"
+			Type="LayoutTypes"
+			EditorType="Enum"
+			#tag EnumValues
+				"0 - Fixed"
+				"1 - Flex"
+			#tag EndEnumValues
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="LockBottom"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
 			Type="Boolean"
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="LockHorizontal"
-			Visible=true
+			Visible=false
 			Group="Behavior"
-			InitialValue="False"
+			InitialValue=""
 			Type="Boolean"
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="LockLeft"
-			Visible=true
+			Visible=false
 			Group="Behavior"
-			InitialValue="True"
+			InitialValue=""
 			Type="Boolean"
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="LockRight"
-			Visible=true
+			Visible=false
 			Group="Behavior"
-			InitialValue="False"
+			InitialValue=""
 			Type="Boolean"
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="LockTop"
-			Visible=true
+			Visible=false
 			Group="Behavior"
-			InitialValue="True"
+			InitialValue=""
 			Type="Boolean"
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="LockVertical"
-			Visible=true
+			Visible=false
 			Group="Behavior"
-			InitialValue="False"
+			InitialValue=""
 			Type="Boolean"
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Visible"
-			Visible=true
+			Visible=false
 			Group="Behavior"
 			InitialValue=""
 			Type="Boolean"
@@ -243,7 +151,7 @@ Inherits WebContainer
 			Name="Width"
 			Visible=true
 			Group="Behavior"
-			InitialValue="300"
+			InitialValue="600"
 			Type="Integer"
 			EditorType=""
 		#tag EndViewProperty
@@ -270,20 +178,6 @@ Inherits WebContainer
 			InitialValue=""
 			Type="String"
 			EditorType="MultiLineEditor"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="ScrollDirection"
-			Visible=true
-			Group="Behavior"
-			InitialValue="ScrollDirections.None"
-			Type="WebContainer.ScrollDirections"
-			EditorType="Enum"
-			#tag EnumValues
-				"0 - None"
-				"1 - Horizontal"
-				"2 - Vertical"
-				"3 - Both"
-			#tag EndEnumValues
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="TabIndex"
@@ -314,21 +208,9 @@ Inherits WebContainer
 			#tag EndEnumValues
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="LayoutType"
-			Visible=true
-			Group="View"
-			InitialValue="LayoutTypes.Fixed"
-			Type="LayoutTypes"
-			EditorType="Enum"
-			#tag EnumValues
-				"0 - Fixed"
-				"1 - Flex"
-			#tag EndEnumValues
-		#tag EndViewProperty
-		#tag ViewProperty
 			Name="LayoutDirection"
 			Visible=true
-			Group="View"
+			Group="WebView"
 			InitialValue="LayoutDirections.LeftToRight"
 			Type="LayoutDirections"
 			EditorType="Enum"
@@ -340,20 +222,44 @@ Inherits WebContainer
 			#tag EndEnumValues
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="Title"
-			Visible=false
-			Group="Behavior"
+			Name="Name"
+			Visible=true
+			Group="ID"
 			InitialValue=""
 			Type="String"
-			EditorType="MultiLineEditor"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="Area"
-			Visible=false
-			Group="Behavior"
-			InitialValue="Home"
+			Name="Index"
+			Visible=true
+			Group="ID"
+			InitialValue="-2147483648"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Super"
+			Visible=true
+			Group="ID"
+			InitialValue=""
 			Type="String"
-			EditorType="MultiLineEditor"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Left"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Top"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

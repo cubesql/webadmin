@@ -22,6 +22,7 @@ Begin WebContainer cntRegistrationAction
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebButton btnGetServerKey
       AllowAutoDisable=   False
@@ -48,7 +49,7 @@ Begin WebContainer cntRegistrationAction
       Tooltip         =   ""
       Top             =   20
       Visible         =   True
-      Width           =   266
+      Width           =   200
       _mPanelIndex    =   -1
    End
    Begin WebButton btnRegisterServer
@@ -60,8 +61,36 @@ Begin WebContainer cntRegistrationAction
       Enabled         =   True
       Height          =   38
       Index           =   -2147483648
-      Indicator       =   0
-      Left            =   464
+      Indicator       =   3
+      Left            =   530
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   False
+      LockRight       =   True
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   2
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   20
+      Visible         =   True
+      Width           =   200
+      _mPanelIndex    =   -1
+   End
+   Begin WebButton btnServerName
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Server Name"
+      ControlID       =   ""
+      Default         =   False
+      Enabled         =   True
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   5
+      Left            =   322
       LockBottom      =   True
       LockedInPosition=   True
       LockHorizontal  =   False
@@ -76,26 +105,7 @@ Begin WebContainer cntRegistrationAction
       Tooltip         =   ""
       Top             =   20
       Visible         =   True
-      Width           =   266
-      _mPanelIndex    =   -1
-   End
-   Begin WebMessageDialog dlgGetServerKey
-      ControlID       =   ""
-      Enabled         =   True
-      Explanation     =   ""
-      Index           =   -2147483648
-      Indicator       =   ""
-      LockBottom      =   False
-      LockedInPosition=   False
-      LockHorizontal  =   False
-      LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   True
-      LockVertical    =   False
-      Message         =   ""
-      Scope           =   2
-      Title           =   ""
-      Tooltip         =   ""
+      Width           =   200
       _mPanelIndex    =   -1
    End
 End
@@ -104,23 +114,8 @@ End
 #tag WindowCode
 	#tag Method, Flags = &h21
 		Private Sub ActionGetServerKey()
-		  dlgGetServerKey.Title = "Server Key"
-		  dlgGetServerKey.Indicator = Indicators.Default
-		  dlgGetServerKey.ActionButton.Caption = "Get a Key"
-		  dlgGetServerKey.CancelButton.Visible = True
-		  dlgGetServerKey.Message = "Get a Server Key from SQlabs."
-		  dlgGetServerKey.Explanation = "Open this URL in a new Browser Window: " + constUrl_DeveloperKey
-		  
-		  dlgGetServerKey.Show()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ActionGetServerKeyButtonPressed(obj As WebMessageDialog, button As WebMessageDialogButton)
-		  If (button = obj.ActionButton) Then
-		    Self.GoToURL(constUrl_DeveloperKey, True)
-		  End If
+		  Var dlgGetServerKeyInfo As New dlgGetServerKey
+		  dlgGetServerKeyInfo.Show()
 		  
 		End Sub
 	#tag EndMethod
@@ -141,6 +136,9 @@ End
 		      
 		      Name = infos.Lookup("KEY_NAME", "").StringValue
 		      Key = infos.Lookup("KEY_VALUE", "").StringValue
+		      
+		      If (Name = "0") Then Name = ""
+		      If (Key = "0") Then Key = ""
 		    End If
 		    
 		    
@@ -171,29 +169,69 @@ End
 		    End If
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Registration"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not register cubeSQL."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Registration", "Could not register cubeSQL Server.", err)
 		    NeedsRefresh
 		    Return False
 		    
 		  End Try
 		  
-		  Var dialog As New WebMessageDialog
-		  dialog.Title = "Registration"
-		  dialog.Indicator = Indicators.Success
-		  dialog.ActionButton.Caption = "OK"
-		  dialog.CancelButton.Visible = False
-		  dialog.Message = "Thanks for registering cubeSQL Server!"
-		  dialog.Explanation = ""
-		  dialog.Show
+		  ShowSuccessDialog("Registration", "Thanks for registering cubeSQL Server!", "")
 		  NeedsRefresh
 		  
+		  Return True
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionServerName()
+		  Var ServerName As String
+		  
+		  Try
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW PREFERENCES")
+		    If (rs <> Nil) Then
+		      Var infos As New Dictionary
+		      For Each row As DatabaseRow In rs
+		        infos.Value(row.ColumnAt(0).StringValue) = row.ColumnAt(1).StringValue
+		      Next
+		      
+		      rs.Close
+		      
+		      ServerName = infos.Lookup("SERVER_NAME", "").StringValue
+		    End If
+		    
+		    
+		  Catch DatabaseException
+		    
+		  Finally
+		    Var dlgServerName As New dlgCommonName
+		    AddHandler dlgServerName.NameAction, WeakAddressOf ActionServerNameButtonPressed
+		    dlgServerName.Show("Server Name", "Name", "Set", Indicators.Primary, ServerName)
+		    
+		  End Try
+		  
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function ActionServerNameButtonPressed(obj As dlgCommonName, Name As String) As Boolean
+		  #Pragma unused obj
+		  
+		  If (Name = "") Then Return False
+		  
+		  Try
+		    
+		    Session.DB.ExecuteSQL("SET PREFERENCE 'SERVER_NAME' TO '" + Name.EscapeSqlQuotes + "'")
+		    
+		  Catch err As DatabaseException
+		    ShowErrorDialog("Set Server Name", "Could not ser server name.", err)
+		    NeedsRefresh
+		    Return False
+		    
+		  End Try
+		  
+		  NeedsRefresh
 		  Return True
 		  
 		End Function
@@ -210,21 +248,21 @@ End
 #tag Events btnGetServerKey
 	#tag Event
 		Sub Pressed()
-		  self.ActionGetServerKey()
+		  Self.ActionGetServerKey()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events btnRegisterServer
 	#tag Event
 		Sub Pressed()
-		  self.ActionRegistration()
+		  Self.ActionRegistration()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events dlgGetServerKey
+#tag Events btnServerName
 	#tag Event
-		Sub ButtonPressed(button As WebMessageDialogButton)
-		  Self.ActionGetServerKeyButtonPressed(Me, button)
+		Sub Pressed()
+		  Self.ActionServerName()
 		  
 		End Sub
 	#tag EndEvent

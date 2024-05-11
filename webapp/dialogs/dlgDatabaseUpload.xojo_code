@@ -1,5 +1,5 @@
 #tag WebPage
-Begin WebDialog dlgDatabaseUpload
+Begin dlgBase dlgDatabaseUpload
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -411,7 +411,7 @@ End
 		  
 		  Super.Show()
 		  
-		  me.RefreshControls()
+		  Me.RefreshControls()
 		  
 		End Sub
 	#tag EndMethod
@@ -460,6 +460,10 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub FileAdded(filename As String, bytes As UInt64, mimeType As String)
+		  #Pragma unused mimeType
+		  #Pragma unused bytes
+		  #Pragma unused filename
+		  
 		  Self.RefreshControls()
 		  
 		  upProgress.Value = 0
@@ -470,6 +474,8 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub FileRemoved(filename As String)
+		  #Pragma unused filename
+		  
 		  Self.Upload = Nil
 		  Self.RefreshControls()
 		  
@@ -490,6 +496,8 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub UploadError(error As RuntimeException)
+		  #Pragma unused error
+		  
 		  upProgress.Value = 0
 		  upProgress.Visible = False
 		  

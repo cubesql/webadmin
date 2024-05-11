@@ -1,5 +1,5 @@
 #tag WebPage
-Begin WebDialog dlgPrivilegeGrant
+Begin dlgBase dlgPrivilegeGrant
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -22,6 +22,7 @@ Begin WebDialog dlgPrivilegeGrant
    Width           =   600
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -414,13 +415,6 @@ End
 #tag EndWebPage
 
 #tag WindowCode
-	#tag Event
-		Sub Shown()
-		  ebShown = true
-		End Sub
-	#tag EndEvent
-
-
 	#tag Method, Flags = &h21
 		Private Sub Load()
 		  Me.LoadGroup()
@@ -596,10 +590,6 @@ End
 		Event PrivilegeGrantAction(Group As String, Privilege As String, Database As String, Table As String) As Boolean
 	#tag EndHook
 
-
-	#tag Property, Flags = &h21
-		Private ebShown As Boolean
-	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private esPreSelectGroup As String

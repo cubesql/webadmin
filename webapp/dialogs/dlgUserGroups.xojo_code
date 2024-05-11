@@ -1,5 +1,5 @@
 #tag WebPage
-Begin WebDialog dlgUserGroups
+Begin dlgBase dlgUserGroups
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -373,14 +373,7 @@ End
 		    Session.DB.ExecuteSQL("ADD USER '" + esUsername.EscapeSqlQuotes + "' TO GROUP '" + group.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Add User to Group"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not add user to group."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Add User to Group", "Could not add user to group.", err)
 		    Return
 		    
 		  End Try
@@ -441,14 +434,7 @@ End
 		    Session.DB.ExecuteSQL("REMOVE USER '" + esUsername.EscapeSqlQuotes + "' FROM GROUP '" + group.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Remove User from Group"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not remove user from group."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Remove User from Group", "Could not remove user from group.", err)
 		    Return 
 		    
 		  End Try

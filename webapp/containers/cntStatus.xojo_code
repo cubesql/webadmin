@@ -106,20 +106,6 @@ End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Event
-		Sub Opening()
-		  Self.ShowInfos()
-		End Sub
-	#tag EndEvent
-
-	#tag Event
-		Sub Shown()
-		  ebShown = True
-		  
-		End Sub
-	#tag EndEvent
-
-
 	#tag Method, Flags = &h0
 		Sub Close()
 		  timRefresh.RunMode = WebTimer.RunModes.Off
@@ -136,11 +122,44 @@ End
 		  
 		  Me.Area = "cubeSQL"
 		  Me.Title = "Status"
+		  Me.Table = lstInfos
+		  
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub ShowInfos()
+	#tag Method, Flags = &h1
+		Protected Sub TableInitRows()
+		  Super.TableInitRows()
+		  
+		  Me.Table.AddRow "Version"
+		  Me.Table.AddRow "Engine version"
+		  Me.Table.AddRow "License"
+		  Me.Table.AddRow ""
+		  Me.Table.AddRow "Server Name"
+		  Me.Table.AddRow "Address"
+		  Me.Table.AddRow "Port"
+		  Me.Table.AddRow "Host OS"
+		  Me.Table.AddRow ""
+		  Me.Table.AddRow "Current Date Time"
+		  Me.Table.AddRow "Connections"
+		  Me.Table.AddRow "Bytes"
+		  Me.Table.AddRow "Counters"
+		  Me.Table.AddRow "Memory Usage"
+		  Me.Table.AddRow "Up since"
+		  
+		  Var styleKeyColumn As WebStyle = StyleListboxKeyColumn
+		  
+		  For i As Integer = 0 To Me.Table.LastRowIndex
+		    Me.Table.CellTextAt(i, 0) = New WebListBoxStyleRenderer(styleKeyColumn, Me.Table.CellTextAt(i, 0))
+		  Next
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableLoad()
+		  Super.TableLoad()
+		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DETAILED STATISTICS")
 		    If (rs = Nil) Then Return
@@ -152,20 +171,31 @@ End
 		    
 		    rs.Close
 		    
+		    rs = Session.DB.SelectSQL("SHOW PREFERENCE 'SERVER_NAME'")
+		    If (rs <> Nil) Then
+		      For Each row As DatabaseRow In rs
+		        infos.Value(row.ColumnAt(0).StringValue) = row.ColumnAt(1).StringValue
+		      Next
+		      
+		      rs.Close
+		    End If
 		    
-		    lstInfos.CellTextAt(0, 1) = infos.Lookup("server_release", "") + " (" + infos.Lookup("server_mode", "") + ")"
-		    lstInfos.CellTextAt(1, 1) = infos.Lookup("engine_version", "").StringValue
-		    lstInfos.CellTextAt(2, 1) = infos.Lookup("server_license", "").StringValue
 		    
-		    lstInfos.CellTextAt(4, 1) = infos.Lookup("ip_address", "").StringValue
-		    lstInfos.CellTextAt(5, 1) = infos.Lookup("server_port", "").StringValue
-		    lstInfos.CellTextAt(6, 1) = infos.Lookup("os_version", "").StringValue
+		    Me.Table.CellTextAt(0, 1) = infos.Lookup("server_release", "") + " (" + infos.Lookup("server_mode", "") + ")"
+		    Me.Table.CellTextAt(1, 1) = infos.Lookup("engine_version", "").StringValue
+		    Me.Table.CellTextAt(2, 1) = infos.Lookup("server_license", "").StringValue
 		    
-		    lstInfos.CellTextAt(8, 1) = "Current: " + infos.Lookup("current_connections", "") + " | Total: " + infos.Lookup("total_connections", "") + " | Max: " + infos.Lookup("max_connections", "")
-		    lstInfos.CellTextAt(9, 1) = "Sent: " + infos.Lookup("bytes_sent", "") + " | Received: " + infos.Lookup("bytes_received", "")
-		    lstInfos.CellTextAt(10, 1) = "Query: " + infos.Lookup("query_count", "") + " | Exec: " + infos.Lookup("exec_count", "") + " | Custom Commands: " + infos.Lookup("commands_count", "")
-		    lstInfos.CellTextAt(11, 1) = "Current: " + infos.Lookup("memory_usage", "") + " | Max: " + infos.Lookup("max_memory_usage", "")
-		    lstInfos.CellTextAt(12, 1) = infos.Lookup("server_startup_datetime", "").StringValue
+		    Me.Table.CellTextAt(4, 1) = infos.Lookup("SERVER_NAME", "").StringValue
+		    Me.Table.CellTextAt(5, 1) = infos.Lookup("ip_address", "").StringValue
+		    Me.Table.CellTextAt(6, 1) = infos.Lookup("server_port", "").StringValue
+		    Me.Table.CellTextAt(7, 1) = infos.Lookup("os_version", "").StringValue
+		    
+		    Me.Table.CellTextAt(9, 1) = infos.Lookup("server_current_datetime", "").StringValue
+		    Me.Table.CellTextAt(10, 1) = "Current: " + infos.Lookup("current_connections", "") + " | Total: " + infos.Lookup("total_connections", "") + " | Max: " + infos.Lookup("max_connections", "")
+		    Me.Table.CellTextAt(11, 1) = "Sent: " + infos.Lookup("bytes_sent", "") + " | Received: " + infos.Lookup("bytes_received", "")
+		    Me.Table.CellTextAt(12, 1) = "Query: " + infos.Lookup("query_count", "") + " | Exec: " + infos.Lookup("exec_count", "") + " | Custom Commands: " + infos.Lookup("commands_count", "")
+		    Me.Table.CellTextAt(13, 1) = "Current: " + infos.Lookup("memory_usage", "") + " | Max: " + infos.Lookup("max_memory_usage", "")
+		    Me.Table.CellTextAt(14, 1) = infos.Lookup("server_startup_datetime", "").StringValue
 		    
 		    If ebShown Then
 		      ' Don't change Height before shown...
@@ -174,10 +204,10 @@ End
 		      
 		      If serverLicenseIsNotRegistered Or isNotRegistered Then
 		        If (cntServerRegistration.Visible <> True) Then cntServerRegistration.Visible = True
-		        If (lstInfos.Height <> Self.Height - cntServerRegistration.Height) Then lstInfos.Height = Self.Height - cntServerRegistration.Height
+		        If (Me.Table.Height <> Self.Height - cntServerRegistration.Height) Then Me.Table.Height = Self.Height - cntServerRegistration.Height
 		      Else
 		        If (cntServerRegistration.Visible <> False) Then cntServerRegistration.Visible = False
-		        If (lstInfos.Height <> Self.Height) Then lstInfos.Height = Self.Height
+		        If (Me.Table.Height <> Self.Height) Then Me.Table.Height = Self.Height
 		      End If
 		    End If
 		    
@@ -190,52 +220,20 @@ End
 	#tag EndMethod
 
 
-	#tag Property, Flags = &h21
-		Private ebShown As Boolean
-	#tag EndProperty
-
-
 #tag EndWindowCode
 
-#tag Events lstInfos
-	#tag Event
-		Sub Opening()
-		  Me.RemoveAllRows
-		  
-		  Me.AddRow "Version"
-		  Me.AddRow "Engine version"
-		  Me.AddRow "License"
-		  Me.AddRow ""
-		  Me.AddRow "Address"
-		  Me.AddRow "Port"
-		  Me.AddRow "Host OS"
-		  Me.AddRow ""
-		  Me.AddRow "Connections"
-		  Me.AddRow "Bytes"
-		  Me.AddRow "Counters"
-		  Me.AddRow "Memory Usage"
-		  Me.AddRow "Up since"
-		  
-		  Var styleKeyColumn As WebStyle = StyleListboxKeyColumn
-		  
-		  For i As Integer = 0 To Me.LastRowIndex
-		    Me.CellTextAt(i, 0) = New WebListBoxStyleRenderer(styleKeyColumn, Me.CellTextAt(i, 0))
-		  Next
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
 #tag Events timRefresh
 	#tag Event
 		Sub Run()
-		  self.ShowInfos()
+		  Self.TableLoad()
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events cntServerRegistration
 	#tag Event
 		Sub NeedsRefresh()
-		  Self.ShowInfos()
+		  Self.TableLoad()
 		  
 		End Sub
 	#tag EndEvent
@@ -248,14 +246,6 @@ End
 		InitialValue="Home"
 		Type="String"
 		EditorType="MultiLineEditor"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="SearchAvailable"
-		Visible=false
-		Group="Behavior"
-		InitialValue="False"
-		Type="Boolean"
-		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
 		Name="_mPanelIndex"

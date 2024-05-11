@@ -50,20 +50,12 @@ Implements WebDataSource
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function GetColumnData(col As DatasourceColumn, row As Dictionary) As Variant
-		  Select Case col.FieldType
-		  Case DatasourceColumn.FieldTypes.Text
-		    Return row.Lookup(col.DatabaseColumnName, "").StringValue
-		  Case DatasourceColumn.FieldTypes.Integer
-		    Return row.Lookup(col.DatabaseColumnName, 0).IntegerValue.ToString
-		  Case DatasourceColumn.FieldTypes.Boolean
-		    Return If(row.Lookup(col.DatabaseColumnName, 0).BooleanValue, "true", "false")
-		  Case DatasourceColumn.FieldTypes.SQLDateTime
-		    Return SQLDateTime_AsDateTime_AsLocal(row.Lookup(col.DatabaseColumnName, "").StringValue)
-		  Else
-		    Break
-		    Return ""
-		  End Select
+		Protected Function GetSelectedTableRowTag() As Variant
+		  If (Me.Table = Nil) Then Return Nil
+		  
+		  Var rowIndex As Integer = Me.Table.SelectedRowIndex
+		  Return Me.Table.RowTagAt(rowIndex)
+		  
 		End Function
 	#tag EndMethod
 
@@ -129,6 +121,10 @@ Implements WebDataSource
 		            End Select
 		            
 		            If bSearchFilter And col.IsSearchable Then
+		              'Note: This is a technical web app. It'll show Dates as SQLDate/Time
+		              'so we can just use rowSet's .StringValue even for Date Columns.
+		              'Otherwise we would need to get the displayed value out of
+		              'me.TableRowColumnData (which could by a WebListBoxCellRenderer)
 		              If rs.Column(col.DatabaseColumnName).StringValue.Contains(Me.SearchValue, ComparisonOptions.CaseInsensitive) Then
 		                'We want so see rows that contain the text of the SearchFilter
 		                bSearchFilterShowRow = True
@@ -199,11 +195,11 @@ Implements WebDataSource
 		    dictRowTag.Value("id") = Me.TableRows(i).Lookup("id", -1).IntegerValue
 		    
 		    Var row As New WebListBoxRowData
-		    row.PrimaryKey = me.TableRows(i).Lookup("id", -1).IntegerValue
+		    row.PrimaryKey = Me.TableRows(i).Lookup("id", -1).IntegerValue
 		    row.Tag = dictRow
 		    
 		    For Each col As DatasourceColumn In Me.Columns
-		      Var colData As Variant = Me.GetColumnData(col, dictRow)
+		      Var colData As Variant = Me.TableRowColumnData(col, dictRow)
 		      
 		      If (colData <> Nil) Then
 		        If (colData IsA WebListBoxCellRenderer) Then
@@ -245,8 +241,7 @@ Implements WebDataSource
 	#tag Method, Flags = &h0
 		Sub Search(SearchValue As String)
 		  Me.SearchValue = SearchValue
-		  
-		  Super.Search(SearchValue)
+		  Me.TableLoad()
 		  
 		End Sub
 	#tag EndMethod
@@ -333,6 +328,79 @@ Implements WebDataSource
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Sub TableInitColumns()
+		  Redim Me.Columns(-1)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableInitRows()
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableLoad()
+		  Me.Table.NoRowsMessage = Me.TableNoRowsMessage()
+		  
+		  Me.TableLoadFilters
+		  Me.LoadDatasource(Me.TableLoadRowSet)
+		  
+		  If (Me.Table.DataSource = Nil) Then
+		    Me.Table.DataSource = Self
+		  Else
+		    Me.Table.ReloadData()
+		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableLoadFilters()
+		  Me.Filters = New Dictionary
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableLoadRowSet() As RowSet
+		  Return Nil
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableNoRowsMessage() As String
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableRowColumnData(col As DatasourceColumn, row As Dictionary) As Variant
+		  Select Case col.FieldType
+		  Case DatasourceColumn.FieldTypes.Text
+		    Return row.Lookup(col.DatabaseColumnName, "").StringValue
+		  Case DatasourceColumn.FieldTypes.Integer
+		    Return row.Lookup(col.DatabaseColumnName, 0).IntegerValue.ToString
+		  Case DatasourceColumn.FieldTypes.Boolean
+		    Return If(row.Lookup(col.DatabaseColumnName, 0).BooleanValue, "true", "false")
+		  Case DatasourceColumn.FieldTypes.SQLDateTime
+		    Return SQLDateTime_AsDateTime_AsLocal(row.Lookup(col.DatabaseColumnName, "").StringValue)
+		  Else
+		    Break
+		    Return ""
+		  End Select
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableRowDataLoaded()
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Function UnsortedPrimaryKeys() As Integer()
 		  // Part of the WebDataSource interface.
@@ -341,7 +409,7 @@ Implements WebDataSource
 		  Var keys() As Integer
 		  
 		  For i As Integer = 0 To Me.TableRows.LastIndex
-		    keys.Add(me.TableRows(i).Lookup("id", -1).IntegerValue)
+		    keys.Add(Me.TableRows(i).Lookup("id", -1).IntegerValue)
 		  Next
 		  
 		  Return keys
@@ -349,10 +417,12 @@ Implements WebDataSource
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
+	#tag Method, Flags = &h21
+		Private Sub WebTimer_RowDataLoaded(obj As WebTimer)
 		  obj.RunMode = WebTimer.RunModes.Off
 		  obj.Enabled = False
+		  
+		  Me.TableRowDataLoaded()
 		  
 		End Sub
 	#tag EndMethod
@@ -376,6 +446,10 @@ Implements WebDataSource
 
 	#tag Property, Flags = &h21
 		Private mSortFieldType As DatasourceColumn.FieldTypes
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		SearchAvailable As Boolean = False
 	#tag EndProperty
 
 	#tag Property, Flags = &h1

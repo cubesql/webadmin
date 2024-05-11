@@ -65,23 +65,21 @@ End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Event
-		Sub Opening()
-		  Self.ShowInfos()
-		End Sub
-	#tag EndEvent
-
-
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  Super.Constructor
 		  
 		  Me.Area = "Information"
 		  Me.Title = "Commands"
+		  Me.Table = lstInfos
 		  Me.SearchAvailable = True
 		  
-		  
-		  Redim Me.Columns(-1)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableInitColumns()
+		  Super.TableInitColumns()
 		  
 		  Var col As DatasourceColumn
 		  
@@ -115,41 +113,24 @@ End
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub Search(SearchValue As String)
-		  Super.Search(SearchValue)
+	#tag Method, Flags = &h1
+		Protected Function TableLoadRowSet() As RowSet
+		  Return Session.DB.SelectSQL("SHOW COMMANDS")
 		  
-		  Me.ShowInfos()
-		  
-		End Sub
+		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub ShowInfos()
-		  Me.UpdateNoRowsMessage()
-		  
-		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW COMMANDS"))
-		  
-		  If (lstInfos.DataSource = Nil) Then
-		    lstInfos.DataSource = Self
-		  Else
-		    lstInfos.ReloadData()
-		  End If
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub UpdateNoRowsMessage()
+	#tag Method, Flags = &h1
+		Protected Function TableNoRowsMessage() As String
 		  Var sInfo As String = "No Commands"
 		  
 		  If (Me.SearchValue <> "") Then
 		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
 		  End If
 		  
-		  lstInfos.NoRowsMessage = sInfo
+		  Return sInfo
 		  
-		End Sub
+		End Function
 	#tag EndMethod
 
 

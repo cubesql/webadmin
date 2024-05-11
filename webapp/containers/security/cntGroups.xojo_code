@@ -177,13 +177,6 @@ End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Event
-		Sub Opening()
-		  Self.ShowInfos()
-		End Sub
-	#tag EndEvent
-
-
 	#tag Method, Flags = &h21
 		Private Sub ActionCreate()
 		  Var dlgCreate As New dlgCommonName
@@ -204,14 +197,7 @@ End
 		    Session.DB.ExecuteSQL("CREATE GROUP '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Create Group"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not create group."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Create Group", "Could not create group.", err)
 		    Return False
 		    
 		  End Try
@@ -254,14 +240,7 @@ End
 		    Session.DB.ExecuteSQL("DROP GROUP '" + sDropGroupname.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Drop Group"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not drop group."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Drop Group", "Could not drop group.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -298,14 +277,7 @@ End
 		    Session.DB.ExecuteSQL("RENAME GROUP '" + esActionGroupname.EscapeSqlQuotes + "' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Rename Group"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not rename group."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Rename Group", "Could not rename group.", err)
 		    Return False
 		    
 		  End Try
@@ -336,8 +308,8 @@ End
 		  
 		  Me.Area = "Security"
 		  Me.Title = "Groups"
+		  Me.Table = lstInfos
 		  Me.SearchAvailable = True
-		  
 		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS")
@@ -346,12 +318,99 @@ End
 		  Catch err As DatabaseException
 		    ebShowDetails = False
 		    
-		    
 		  End Try
 		  
-		  Redim Me.Columns(-1)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetSelectedGroupname() As String
+		  Var selectedRowTag As Variant = Me.GetSelectedTableRowTag()
+		  If (selectedRowTag IsA Dictionary) Then
+		    Return Dictionary(selectedRowTag).Lookup("groupname", "").StringValue
+		  End If
+		  
+		  Return ""
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshButtons()
+		  Var bRename, bDrop As Boolean
+		  
+		  Var groupname As String = Me.GetSelectedGroupname()
+		  If (groupname <> "admin") And (groupname <> "") Then
+		    bRename = True
+		    bDrop = True
+		  End If
+		  
+		  If (btnRename.Enabled <> bRename) Then btnRename.Enabled = bRename
+		  If (btnDrop.Enabled <> bDrop) Then btnDrop.Enabled = bDrop
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshInfos(selectGroupname As String = "")
+		  If (selectGroupname = "") Then
+		    selectGroupname = Me.GetSelectedGroupname()
+		  End If
+		  
+		  esSelectAfterReload = selectGroupname
+		  
+		  Me.TableLoad()
+		  
+		  'Select Row async via TableRowDataLoaded
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ShowDetails()
+		  If (Not ebShowDetails) Then Return
+		  
+		  Var groupname As String
+		  for each dictRow As Dictionary in Me.TableRows
+		    try
+		      groupname = dictRow.Lookup("groupname", "").StringValue
+		      if (groupname = "") then continue
+		      
+		      Var rs As RowSet = Session.DB.SelectSQL("SHOW USERS IN GROUP '" + groupname.EscapeSqlQuotes + "'")
+		      
+		      Var iCount As Integer = 0
+		      Var sUsers() As String
+		      
+		      If (rs <> Nil) Then
+		        iCount = rs.RowCount
+		        
+		        If (iCount > 0) Then
+		          rs.MoveToFirstRow
+		          While (Not rs.AfterLastRow)
+		            sUsers.Add(rs.Column("username").StringValue)
+		            
+		            rs.MoveToNextRow
+		          Wend
+		        End If
+		        
+		        rs.Close
+		      End If
+		      
+		      dictRow.Value("usercount") = iCount
+		      dictRow.Value("usernames") = String.FromArray(sUsers, ", ")
+		      
+		    catch err As DatabaseException
+		    end try
+		  next
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableInitColumns()
+		  Super.TableInitColumns()
 		  
 		  Var col As DatasourceColumn
+		  
 		  col = New DatasourceColumn()
 		  col.Width = "*"
 		  col.DatabaseColumnName = "groupname"
@@ -388,127 +447,8 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function GetColumnData(col As DatasourceColumn, row As Dictionary) As Variant
-		  Select Case col.DatabaseColumnName
-		    
-		  Case "usercount"
-		    Var iCount As Integer = row.Lookup(col.DatabaseColumnName, 0).IntegerValue
-		    If (iCount < 1) Then Return ""
-		    return New WebListBoxStyleRenderer(StyleListboxTextAlignCenter(), iCount.ToString)
-		    
-		  Else
-		    Return super.GetColumnData(col, row)
-		    
-		  End Select
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function GetSelectedGroupname() As String
-		  If (lstInfos.SelectedRowIndex < 0) Then Return ""
-		  
-		  Var selectedRowTag As Variant = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
-		  If (selectedRowTag IsA Dictionary) Then
-		    Return Dictionary(selectedRowTag).Lookup("groupname", "").StringValue
-		  End If
-		  
-		  Return ""
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub RefreshButtons()
-		  Var bRename, bDrop As Boolean
-		  
-		  Var groupname As String = Me.GetSelectedGroupname()
-		  If (groupname <> "admin") And (groupname <> "") Then
-		    bRename = True
-		    bDrop = True
-		  End If
-		  
-		  If (btnRename.Enabled <> bRename) Then btnRename.Enabled = bRename
-		  If (btnDrop.Enabled <> bDrop) Then btnDrop.Enabled = bDrop
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub RefreshInfos(selectGroupname As String = "")
-		  If (selectGroupname = "") Then
-		    selectGroupname = me.GetSelectedGroupname()
-		  End If
-		  
-		  esSelectAfterReload = selectGroupname
-		  
-		  Me.ShowInfos()
-		  
-		  'Select Row async via WebTimer_RowDataLoaded
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Search(SearchValue As String)
-		  Super.Search(SearchValue)
-		  
-		  Me.ShowInfos()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ShowDetails()
-		  If (Not ebShowDetails) Then Return
-		  
-		  Var groupname As String
-		  for each dictRow As Dictionary in me.TableRows
-		    try
-		      groupname = dictRow.Lookup("groupname", "").StringValue
-		      if (groupname = "") then continue
-		      
-		      Var rs As RowSet = Session.DB.SelectSQL("SHOW USERS IN GROUP '" + groupname.EscapeSqlQuotes + "'")
-		      
-		      Var iCount As Integer = 0
-		      Var sUsers() As String
-		      
-		      If (rs <> Nil) Then
-		        iCount = rs.RowCount
-		        
-		        If (iCount > 0) Then
-		          rs.MoveToFirstRow
-		          While (Not rs.AfterLastRow)
-		            sUsers.Add(rs.Column("username").StringValue)
-		            
-		            rs.MoveToNextRow
-		          Wend
-		        End If
-		        
-		        rs.Close
-		      End If
-		      
-		      dictRow.Value("usercount") = iCount
-		      dictRow.Value("usernames") = String.FromArray(sUsers, ", ")
-		      
-		    catch err As DatabaseException
-		    end try
-		  next
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ShowInfos()
-		  Me.UpdateNoRowsMessage()
-		  
-		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW GROUPS"))
-		  
-		  If (lstInfos.DataSource = Nil) Then
-		    lstInfos.DataSource = Self
-		  Else
-		    lstInfos.ReloadData()
-		  End If
-		  
+		Protected Sub TableLoad()
+		  Super.TableLoad()
 		  
 		  If ebShowDetails Then
 		    Try
@@ -521,22 +461,46 @@ End
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub UpdateNoRowsMessage()
+	#tag Method, Flags = &h1
+		Protected Function TableLoadRowSet() As RowSet
+		  Return Session.DB.SelectSQL("SHOW GROUPS")
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableNoRowsMessage() As String
 		  Var sInfo As String = "No Groups"
 		  
 		  If (Me.SearchValue <> "") Then
 		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
 		  End If
 		  
-		  lstInfos.NoRowsMessage = sInfo
+		  Return sInfo
 		  
-		End Sub
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
-		  Super.WebTimer_RowDataLoaded(obj)
+		Protected Function TableRowColumnData(col As DatasourceColumn, row As Dictionary) As Variant
+		  Select Case col.DatabaseColumnName
+		    
+		  Case "usercount"
+		    Var iCount As Integer = row.Lookup(col.DatabaseColumnName, 0).IntegerValue
+		    If (iCount < 1) Then Return ""
+		    Return New WebListBoxStyleRenderer(StyleListboxTextAlignCenter(), iCount.ToString)
+		    
+		  Else
+		    Return Super.TableRowColumnData(col, row)
+		    
+		  End Select
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableRowDataLoaded()
+		  Super.TableRowDataLoaded()
 		  
 		  If (esSelectAfterReload = "") Then
 		    Me.RefreshButtons()
@@ -547,17 +511,17 @@ End
 		  esSelectAfterReload = ""
 		  
 		  Var bFound As Boolean = False
-		  For i As Integer = lstInfos.LastRowIndex DownTo 0
-		    If (lstInfos.RowTagAt(i) IsA Dictionary) Then
-		      Var rowTag As Dictionary = lstInfos.RowTagAt(i)
+		  For i As Integer = Me.Table.LastRowIndex DownTo 0
+		    If (Me.Table.RowTagAt(i) IsA Dictionary) Then
+		      Var rowTag As Dictionary = Me.Table.RowTagAt(i)
 		      If (rowTag.Lookup("groupname", "").StringValue <> sSelectAfterReload) Then Continue
-		      lstInfos.SelectedRowIndex = i
+		      Me.Table.SelectedRowIndex = i
 		      bFound = True
 		      Exit 'Loop
 		    End If
 		  Next
 		  
-		  If (Not bFound) Then lstInfos.SelectedRowIndex = -1
+		  If (Not bFound) Then Me.Table.SelectedRowIndex = -1
 		  
 		  Me.RefreshButtons()
 		  
@@ -627,7 +591,7 @@ End
 		    If (Not ebShowDetails) Then Return
 		    
 		    Self.ShowDetails()
-		    lstInfos.ReloadData()
+		    
 		  Catch err As RuntimeException
 		  End Try
 		  

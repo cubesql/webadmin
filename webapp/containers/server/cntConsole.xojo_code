@@ -198,10 +198,8 @@ End
 
 	#tag Event
 		Sub Opening()
-		  self.Clear()
 		  Self.RefreshButtons()
 		  
-		  ebOpened = True
 		End Sub
 	#tag EndEvent
 
@@ -227,41 +225,27 @@ End
 		    
 		    If isquery Then
 		      rs = Session.DB.SelectSQL(sql)
-		      lstInfos.NoRowsMessage = "No Records from SELECT SQL"
+		      Me.Table.NoRowsMessage = "No Records from SELECT SQL"
 		    Else
 		      Session.DB.ExecuteSQL(sql)
-		      lstInfos.NoRowsMessage = "EXECUTE SQL successful"
+		      Me.Table.NoRowsMessage = "EXECUTE SQL successful"
 		    End If
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = If(isquery, "SELECT SQL", "EXECUTE SQL")
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not execute " + dialog.Title + " command."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    Var errorDialogTitle As String = If(isquery, "SELECT SQL", "EXECUTE SQL")
+		    ShowErrorDialog(errorDialogTitle, "Could not execute " + errorDialogTitle + " command.", err)
 		    
 		    rs = Nil
 		    If isquery Then
-		      lstInfos.NoRowsMessage = "SELECT SQL Error"
+		      Me.Table.NoRowsMessage = "SELECT SQL Error"
 		    Else
-		      lstInfos.NoRowsMessage = "EXECUTE SQL Error"
+		      Me.Table.NoRowsMessage = "EXECUTE SQL Error"
 		    End If
 		    
 		  Finally
-		    Me.ShowInfos(rs)
+		    Me.TableLoadRowSet(rs)
 		    
 		  End Try
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub Clear()
-		  lstInfos.RemoveAllRows
-		  lstInfos.HasHeader = False
 		  
 		End Sub
 	#tag EndMethod
@@ -272,6 +256,7 @@ End
 		  
 		  Me.Area = "Server"
 		  Me.Title = "Console"
+		  Me.Table = lstInfos
 		  
 		End Sub
 	#tag EndMethod
@@ -283,39 +268,81 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub ShowInfos(rs As RowSet)
-		  Me.Clear
+		Private Sub TableClear()
+		  Me.Table.RemoveAllRows
+		  Me.Table.HasHeader = False
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableInitColumns()
+		  If (eoRowSet = Nil) Then Return
+		  
+		  Me.Table.HasHeader = True
+		  
+		  Me.Table.ColumnCount = eoRowSet.ColumnCount
+		  For i As Integer = eoRowSet.ColumnCount - 1 DownTo 0
+		    Me.Table.HeaderAt(i) = eoRowSet.ColumnAt(i).Name
+		    Me.Table.ColumnSortTypeAt(i) = WebListBox.SortTypes.Sortable
+		    Me.Table.ColumnSortDirectionAt(i) = WebListbox.SortDirections.None
+		  Next
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableInitRows()
+		  Super.TableInitRows()
+		  
+		  ' No fixed table rows
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableLoad()
+		  Super.TableLoad()
+		  
+		  If (eoRowSet = Nil) Then Return
+		  
+		  If (eoRowSet.RowCount > 0) Then
+		    eoRowSet.MoveToFirstRow
+		    While (Not eoRowSet.AfterLastRow)
+		      Me.Table.AddRow("")
+		      
+		      For i As Integer = eoRowSet.ColumnCount - 1 DownTo 0
+		        Me.Table.CellTextAt(Me.Table.LastAddedRowIndex, i) = eoRowSet.ColumnAt(i).StringValue
+		      Next
+		      
+		      eoRowSet.MoveToNextRow
+		    Wend
+		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub TableLoadRowSet(rs As RowSet)
+		  Me.TableClear()
+		  eoRowSet = Nil
 		  
 		  Try
 		    If (rs = Nil) Then Return
+		    eoRowSet = rs
 		    
-		    lstInfos.HasHeader = True
+		    Me.TableInitColumns()
+		    Me.TableLoad()
 		    
-		    lstInfos.ColumnCount = rs.ColumnCount
-		    For i As Integer = rs.ColumnCount - 1 DownTo 0
-		      lstInfos.HeaderAt(i) = rs.ColumnAt(i).Name
-		      lstInfos.ColumnSortTypeAt(i) = WebListBox.SortTypes.Sortable
-		      lstInfos.ColumnSortDirectionAt(i) = WebListbox.SortDirections.None
-		    Next
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        lstInfos.AddRow("")
-		        
-		        For i As Integer = rs.ColumnCount - 1 DownTo 0
-		          lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, i) = rs.ColumnAt(i).StringValue
-		        Next
-		        
-		        rs.MoveToNextRow
-		      Wend
-		    End If
-		    
-		    
-		    rs.Close
-		    
+		    eoRowSet.Close
+		    eoRowSet = Nil
 		    
 		  Catch DatabaseException
+		    
+		  Finally
+		    
+		    If (eoRowSet <> Nil) Then eoRowSet.Close
+		    eoRowSet = Nil
 		    
 		  End Try
 		  
@@ -324,7 +351,7 @@ End
 
 
 	#tag Property, Flags = &h21
-		Private ebOpened As Boolean
+		Private eoRowSet As RowSet
 	#tag EndProperty
 
 
@@ -384,17 +411,10 @@ End
 		    
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Change database"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not change database."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Change database", "Could not change database.", err)
 		    
 		  Finally
-		    Self.Clear()
+		    Self.TableClear()
 		    
 		  End Try
 		  
@@ -417,14 +437,6 @@ End
 		InitialValue="Home"
 		Type="String"
 		EditorType="MultiLineEditor"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="SearchAvailable"
-		Visible=false
-		Group="Behavior"
-		InitialValue="False"
-		Type="Boolean"
-		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
 		Name="_mPanelIndex"

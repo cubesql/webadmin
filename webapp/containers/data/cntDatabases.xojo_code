@@ -399,10 +399,8 @@ Begin cntDatasourceBase cntDatabases
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   10
-      TabStop         =   True
       Title           =   ""
       Tooltip         =   ""
       _mPanelIndex    =   -1
@@ -411,13 +409,6 @@ End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Event
-		Sub Opening()
-		  Self.ShowInfos()
-		End Sub
-	#tag EndEvent
-
-
 	#tag Method, Flags = &h21
 		Private Sub ActionChangeKey(obj As cntDatabasesEncryption)
 		  Var databasename As String = Me.GetSelectedDatabasename()
@@ -446,14 +437,7 @@ End
 		    Session.DB.ExecuteSQL("ENCRYPT DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "' WITH KEY '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Change Key for Database"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not set change key for database."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Change Key for Database", "Could not set change key for database.", err)
 		    Return False
 		    
 		  End Try
@@ -489,14 +473,7 @@ End
 		    Session.DB.ExecuteSQL(sqlCreateDb)
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Create Database"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not create database."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Create Database", "Could not create database.", err)
 		    Return False
 		    
 		  End Try
@@ -543,14 +520,7 @@ End
 		    Session.DB.ExecuteSQL("DECRYPT DATABASE '" + sDecryptDatabasename.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Decrypt Database"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not decrypt database."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Decrypt Database", "Could not decrypt database.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -619,14 +589,7 @@ End
 		    Session.DB.ExecuteSQL("DROP DATABASE '" + sDropDatabasename.EscapeSqlQuotes + "' IF EXISTS")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Drop Database"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not drop database."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Drop Database", "Could not drop database.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -664,14 +627,7 @@ End
 		    Session.DB.ExecuteSQL("ENCRYPT DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "' WITH KEY '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Encrypt Database"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not encrypt database."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Encrypt Database", "Could not encrypt database.", err)
 		    Return False
 		    
 		  End Try
@@ -685,10 +641,10 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ActionEncryption()
-		  Var dbRowTag As Dictionary = Me.GetSelectedRowTag()
+		  Var rowTag As Dictionary = Me.GetSelectedTableRowTag()
 		  
 		  Var popEncryption As New cntDatabasesEncryption
-		  popEncryption.Init(dbRowTag)
+		  popEncryption.Init(rowTag)
 		  
 		  
 		  AddHandler popEncryption.ActionSetKey, WeakAddressOf ActionSetKey
@@ -728,14 +684,7 @@ End
 		    Session.DB.ExecuteSQL("RENAME DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Rename Database"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not rename database."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Rename Database", "Could not rename database.", err)
 		    Return False
 		    
 		  End Try
@@ -775,14 +724,7 @@ End
 		    Session.DB.ExecuteSQL("SET KEY '" + Name.EscapeSqlQuotes + "' FOR DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Set Key for Database"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not set key for database."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Set Key for Database", "Could not set key for database.", err)
 		    Return False
 		    
 		  End Try
@@ -803,14 +745,7 @@ End
 		    Session.DB.ExecuteSQL("START DATABASE '" + databasename.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Start database"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not start database."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Start database", "Could not start database.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -829,14 +764,7 @@ End
 		    Session.DB.ExecuteSQL("STOP DATABASE '" + databasename.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Stop database"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not stop database."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Stop database", "Could not stop database.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -857,6 +785,8 @@ End
 
 	#tag Method, Flags = &h21
 		Private Function ActionUploadButtonPressed(obj As dlgDatabaseUpload, Name As String, Key As String, File As WebUploadedFile) As Boolean
+		  #Pragma unused obj
+		  
 		  If Me.IsThreadRunning Then Return False
 		  If (Name = "") Then Return False
 		  If (File.Data = Nil) Then Return False
@@ -882,10 +812,110 @@ End
 		  
 		  Me.Area = "Data"
 		  Me.Title = "Databases"
+		  Me.Table = lstInfos
 		  Me.SearchAvailable = True
 		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Shared Function GetDatabasesList() As String()
+		  Var databases() As String
 		  
-		  Redim Me.Columns(-1)
+		  Try
+		    
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES WITH DETAILS")
+		    If (rs <> Nil) Then
+		      If (rs.RowCount > 0) Then
+		        rs.MoveToFirstRow
+		        While (Not rs.AfterLastRow)
+		          If (databases.IndexOf(rs.Column("databasename").StringValue) < 0) Then
+		            databases.Add(rs.Column("databasename").StringValue)
+		          End If
+		          
+		          rs.MoveToNextRow
+		        Wend
+		      End If
+		      
+		      rs.Close
+		    End If
+		    
+		    
+		  Catch DatabaseException
+		    
+		  Finally
+		    databases.Sort()
+		    return databases
+		    
+		  End Try
+		  
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetSelectedDatabasename() As String
+		  Var selectedRowTag As Variant = Me.GetSelectedTableRowTag()
+		  If (selectedRowTag IsA Dictionary) Then
+		    Return Dictionary(selectedRowTag).Lookup("databasename", "").StringValue
+		  End If
+		  
+		  Return ""
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function IsThreadRunning() As Boolean
+		  If (thrDownload.ThreadState <> Thread.ThreadStates.NotRunning) Then Return True
+		  Return False
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshButtons()
+		  Var bDownload, bRename, bStart, bStop, bDrop, bEncryption As Boolean
+		  
+		  Var rowTag As Dictionary = Me.GetSelectedTableRowTag()
+		  If (rowTag <> Nil) Then
+		    
+		    bDownload = True
+		    bRename = True
+		    bStart = rowTag.Lookup("stopped", False) = True
+		    bStop = (Not bStart)
+		    bDrop = True
+		    bEncryption = True
+		    
+		  End If
+		  
+		  If (btnDownload.Enabled <> bDownload) Then btnDownload.Enabled = bDownload
+		  If (btnRename.Enabled <> bRename) Then btnRename.Enabled = bRename
+		  If (btnStart.Enabled <> bStart) Then btnStart.Enabled = bStart
+		  If (btnStop.Enabled <> bStop) Then btnStop.Enabled = bStop
+		  If (btnDrop.Enabled <> bDrop) Then btnDrop.Enabled = bDrop
+		  If (btnEncryption.Enabled <> bEncryption) Then btnEncryption.Enabled = bEncryption
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshInfos(selectDatabasename As String = "")
+		  If (selectDatabasename = "") Then
+		    selectDatabasename = Me.GetSelectedDatabasename()
+		  End If
+		  
+		  esSelectAfterReload = selectDatabasename
+		  
+		  Me.TableLoad()
+		  
+		  'Select Row async via TableRowDataLoaded
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableInitColumns()
+		  Super.TableInitColumns()
 		  
 		  Var col As DatasourceColumn
 		  
@@ -964,7 +994,27 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function GetColumnData(col As DatasourceColumn, row As Dictionary) As Variant
+		Protected Function TableLoadRowSet() As RowSet
+		  Return Session.DB.SelectSQL("SHOW DATABASES WITH DETAILS")
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableNoRowsMessage() As String
+		  Var sInfo As String = "No Databases"
+		  
+		  If (Me.SearchValue <> "") Then
+		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
+		  End If
+		  
+		  Return sInfo
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableRowColumnData(col As DatasourceColumn, row As Dictionary) As Variant
 		  Select Case col.DatabaseColumnName
 		    
 		  Case "status"
@@ -992,7 +1042,7 @@ End
 		    End If
 		    
 		  Else
-		    Return Super.GetColumnData(col, row)
+		    Return Super.TableRowColumnData(col, row)
 		    
 		  End Select
 		  
@@ -1000,152 +1050,8 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Shared Function GetDatabasesList() As String()
-		  Var databases() As String
-		  
-		  Try
-		    
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES WITH DETAILS")
-		    If (rs <> Nil) Then
-		      If (rs.RowCount > 0) Then
-		        rs.MoveToFirstRow
-		        While (Not rs.AfterLastRow)
-		          If (databases.IndexOf(rs.Column("databasename").StringValue) < 0) Then
-		            databases.Add(rs.Column("databasename").StringValue)
-		          End If
-		          
-		          rs.MoveToNextRow
-		        Wend
-		      End If
-		      
-		      rs.Close
-		    End If
-		    
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    databases.Sort()
-		    return databases
-		    
-		  End Try
-		  
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function GetSelectedDatabasename() As String
-		  If (lstInfos.SelectedRowIndex < 0) Then Return ""
-		  
-		  Var selectedRowTag As Variant = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
-		  If (selectedRowTag IsA Dictionary) Then
-		    Return Dictionary(selectedRowTag).Lookup("databasename", "").StringValue
-		  End If
-		  
-		  Return ""
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function GetSelectedRowTag() As Dictionary
-		  Var rowTag As Variant
-		  If (lstInfos.SelectedRowIndex >= 0) Then rowTAg = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
-		  If (rowTag IsA Dictionary) Then Return Dictionary(rowTag)
-		  Return Nil
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function IsThreadRunning() As Boolean
-		  If (thrDownload.ThreadState <> Thread.ThreadStates.NotRunning) Then Return True
-		  Return False
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub RefreshButtons()
-		  Var bDownload, bRename, bStart, bStop, bDrop, bEncryption As Boolean
-		  
-		  Var dbRowTag As Dictionary = me.GetSelectedRowTag()
-		  If (dbRowTag <> Nil) Then
-		    
-		    bDownload = True
-		    bRename = True
-		    bStart = dbRowTag.Lookup("stopped", False) = True
-		    bStop = (Not bStart)
-		    bDrop = True
-		    bEncryption = True
-		    
-		  End If
-		  
-		  If (btnDownload.Enabled <> bDownload) Then btnDownload.Enabled = bDownload
-		  If (btnRename.Enabled <> bRename) Then btnRename.Enabled = bRename
-		  If (btnStart.Enabled <> bStart) Then btnStart.Enabled = bStart
-		  If (btnStop.Enabled <> bStop) Then btnStop.Enabled = bStop
-		  If (btnDrop.Enabled <> bDrop) Then btnDrop.Enabled = bDrop
-		  If (btnEncryption.Enabled <> bEncryption) Then btnEncryption.Enabled = bEncryption
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub RefreshInfos(selectDatabasename As String = "")
-		  If (selectDatabasename = "") Then
-		    selectDatabasename = Me.GetSelectedDatabasename()
-		  End If
-		  
-		  esSelectAfterReload = selectDatabasename
-		  
-		  Me.ShowInfos()
-		  
-		  'Select Row async via WebTimer_RowDataLoaded
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Search(SearchValue As String)
-		  Super.Search(SearchValue)
-		  
-		  Me.ShowInfos()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ShowInfos()
-		  Me.UpdateNoRowsMessage()
-		  
-		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW DATABASES WITH DETAILS"))
-		  
-		  If (lstInfos.DataSource = Nil) Then
-		    lstInfos.DataSource = Self
-		  Else
-		    lstInfos.ReloadData()
-		  End If
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub UpdateNoRowsMessage()
-		  Var sInfo As String = "No Databases"
-		  
-		  If (Me.SearchValue <> "") Then
-		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
-		  End If
-		  
-		  lstInfos.NoRowsMessage = sInfo
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
-		  Super.WebTimer_RowDataLoaded(obj)
+		Protected Sub TableRowDataLoaded()
+		  Super.TableRowDataLoaded()
 		  
 		  If (esSelectAfterReload = "") Then
 		    Me.RefreshButtons()
@@ -1156,17 +1062,17 @@ End
 		  esSelectAfterReload = ""
 		  
 		  Var bFound As Boolean = False
-		  For i As Integer = lstInfos.LastRowIndex DownTo 0
-		    If (lstInfos.RowTagAt(i) IsA Dictionary) Then
-		      Var rowTag As Dictionary = lstInfos.RowTagAt(i)
+		  For i As Integer = Me.Table.LastRowIndex DownTo 0
+		    If (Me.Table.RowTagAt(i) IsA Dictionary) Then
+		      Var rowTag As Dictionary = Me.Table.RowTagAt(i)
 		      If (rowTag.Lookup("databasename", "").StringValue <> sSelectAfterReload) Then Continue
-		      lstInfos.SelectedRowIndex = i
+		      Me.Table.SelectedRowIndex = i
 		      bFound = True
 		      Exit 'Loop
 		    End If
 		  Next
 		  
-		  If (Not bFound) Then lstInfos.SelectedRowIndex = -1
+		  If (Not bFound) Then Me.Table.SelectedRowIndex = -1
 		  
 		  Me.RefreshButtons()
 		  
@@ -1284,7 +1190,6 @@ End
 		  If (Self.Upload = Nil) Or (Self.Upload.Data = Nil) Then Return
 		  
 		  Var iDbTimeout As Integer = DB.Timeout
-		  Var prepareDownload As WebFile
 		  
 		  Try
 		    Const kChunkSize = 102400
@@ -1294,7 +1199,7 @@ End
 		    
 		    Dim bs As New BinaryStream(Self.Upload.Data)
 		    Dim chunk As String 'upload data in chunks
-		    While Not bs.EOF
+		    While Not bs.EndOfFile
 		      'read the next chunk
 		      chunk = bs.Read(kChunkSize)
 		      
@@ -1302,7 +1207,7 @@ End
 		      DB.SendChunk chunk
 		      
 		      'if there was an error; report it and bail
-		      If DB.Error Then
+		      If (DB.ErrCode <> 0) or (DB.ErrMsg <> "") Then
 		        Var errorMessage As String = DB.ErrMsg
 		        If (errorMessage = "") Then errorMessage = "Unknown Error while uploading..."
 		        Raise New DatabaseException(errorMessage, DB.ErrCode)
@@ -1351,25 +1256,11 @@ End
 		    End If
 		    
 		    If update.HasKey("Hint") Then
-		      Var dialog As New WebMessageDialog
-		      dialog.Title = "Upload Database"
-		      dialog.Indicator = Indicators.Info
-		      dialog.ActionButton.Caption = "OK"
-		      dialog.CancelButton.Visible = False
-		      dialog.Message = update.Lookup("Hint", "").StringValue.NthField("|", 1)
-		      dialog.Explanation = update.Lookup("Hint", "").StringValue.NthField("|", 2)
-		      dialog.Show
+		      ShowInfoDialog("Upload Database", update.Lookup("Hint", "").StringValue.NthField("|", 1), update.Lookup("Hint", "").StringValue.NthField("|", 2))
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      Var dialog As New WebMessageDialog
-		      dialog.Title = "Upload Database"
-		      dialog.Indicator = Indicators.Warning
-		      dialog.ActionButton.Caption = "OK"
-		      dialog.CancelButton.Visible = False
-		      dialog.Message = "Could not upload database."
-		      dialog.Explanation = update.Lookup("Error", "").StringValue
-		      dialog.Show
+		      ShowErrorDialog("Upload Database", "Could not upload database.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next
@@ -1396,7 +1287,7 @@ End
 		  
 		  Me.RunMode = WebTimer.RunModes.Off
 		  
-		  Session.GoToURL(Self.Download.URL)
+		  Call Self.Download.Download()
 		  
 		End Sub
 	#tag EndEvent
@@ -1416,7 +1307,7 @@ End
 		  
 		  Me.RunMode = WebTimer.RunModes.Off
 		  
-		  Self.ShowInfos()
+		  Self.TableLoad()
 		  
 		End Sub
 	#tag EndEvent
@@ -1448,7 +1339,7 @@ End
 		      Dim chunk As String = DB.ReceiveChunk
 		      
 		      ' there was an error receving a chunk, report the error and bail
-		      If DB.Error Then
+		      If (DB.ErrCode <> 0) Or (DB.ErrMsg <> "") Then
 		        Var errorMessage As String = DB.ErrMsg
 		        If (errorMessage = "") Then errorMessage = "Unknown Error while downloading..."
 		        Raise New DatabaseException(errorMessage, DB.ErrCode)
@@ -1505,14 +1396,7 @@ End
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      Var dialog As New WebMessageDialog
-		      dialog.Title = "Download Database"
-		      dialog.Indicator = Indicators.Warning
-		      dialog.ActionButton.Caption = "OK"
-		      dialog.CancelButton.Visible = False
-		      dialog.Message = "Could not download database."
-		      dialog.Explanation = update.Lookup("Error", "").StringValue
-		      dialog.Show
+		      ShowErrorDialog("Download Database", "Could not download database.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next
@@ -1523,7 +1407,7 @@ End
 #tag Events btnEncryption
 	#tag Event
 		Sub Pressed()
-		  self.ActionEncryption()
+		  Self.ActionEncryption()
 		End Sub
 	#tag EndEvent
 #tag EndEvents

@@ -140,14 +140,6 @@ End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Event
-		Sub Opening()
-		  Self.ShowInfos()
-		  
-		End Sub
-	#tag EndEvent
-
-
 	#tag Method, Flags = &h21
 		Private Sub ActionDisconnect()
 		  Var clientUsername As String
@@ -181,14 +173,7 @@ End
 		    Session.DB.ExecuteSQL("CLOSE CONNECTION " + iDisconnectClientId.ToString)
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Disconnect Client"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not disconnect client."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Disconnect Client", "Could not disconnect client.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -204,10 +189,65 @@ End
 		  
 		  Me.Area = "Information"
 		  Me.Title = "Clients"
+		  Me.Table = lstInfos
 		  Me.SearchAvailable = True
 		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetSelectedClientId(ByRef username As String) As Integer
+		  username = ""
 		  
-		  Redim Me.Columns(-1)
+		  Var selectedRowTag As Variant = Me.GetSelectedTableRowTag()
+		  If (selectedRowTag IsA Dictionary) Then
+		    username = Dictionary(selectedRowTag).Lookup("username", "").StringValue
+		    Return Dictionary(selectedRowTag).Lookup("id", "").IntegerValue
+		  End If
+		  
+		  Return -1
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshButtons()
+		  Var clientUsername As String
+		  Var clientId As Integer = Me.GetSelectedClientId(clientUsername)
+		  
+		  Var bRefresh, bDisconnect As Boolean
+		  
+		  If (clientId > 0) Then
+		    bDisconnect = (clientId <> Session.ClientId)
+		  End If
+		  bRefresh = True
+		  
+		  If (btnRefresh.Enabled <> bRefresh) Then btnRefresh.Enabled = bRefresh
+		  If (btnDisconnect.Enabled <> bDisconnect) Then btnDisconnect.Enabled = bDisconnect
+		  
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshInfos(selectClientId As Integer = -1)
+		  If (eiSelectAfterReload <= 0) Then
+		    Var username As String
+		    selectClientId = Me.GetSelectedClientId(username)
+		  End If
+		  
+		  eiSelectAfterReload = selectClientId
+		  
+		  Me.TableLoad()
+		  
+		  'Select Row async via TableRowDataLoaded
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableInitColumns()
+		  Super.TableInitColumns()
 		  
 		  Var col As DatasourceColumn
 		  
@@ -278,113 +318,45 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function GetColumnData(col As DatasourceColumn, row As Dictionary) As Variant
-		  Select Case col.DatabaseColumnName
-		    
-		  Case "id"
-		    Var id As Integer = row.Lookup(col.DatabaseColumnName, 0).IntegerValue
-		    If (id < 1) Then Return ""
-		    return New WebListBoxStyleRenderer(StyleListboxTextAlignCenter(), id.ToString)
-		    
-		  Else
-		    Return super.GetColumnData(col, row)
-		    
-		  End Select
+		Protected Function TableLoadRowSet() As RowSet
+		  Return Session.DB.SelectSQL("SHOW CONNECTIONS")
 		  
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Function GetSelectedClientId(ByRef username As String) As Integer
-		  username = ""
-		  If (lstInfos.SelectedRowIndex < 0) Then Return -1
-		  
-		  Var selectedRowTag As Variant = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
-		  If (selectedRowTag IsA Dictionary) Then
-		    username = Dictionary(selectedRowTag).Lookup("username", "").StringValue
-		    Return Dictionary(selectedRowTag).Lookup("id", "").IntegerValue
-		  End If
-		  
-		  Return -1
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub RefreshButtons()
-		  Var clientUsername As String
-		  Var clientId As Integer = Me.GetSelectedClientId(clientUsername)
-		  
-		  Var bRefresh, bDisconnect As Boolean
-		  
-		  If (clientId > 0) Then
-		    bDisconnect = (clientId <> Session.ClientId)
-		  End If
-		  bRefresh = True
-		  
-		  If (btnRefresh.Enabled <> bRefresh) Then btnRefresh.Enabled = bRefresh
-		  If (btnDisconnect.Enabled <> bDisconnect) Then btnDisconnect.Enabled = bDisconnect
-		  
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub RefreshInfos(selectClientId As Integer = -1)
-		  If (eiSelectAfterReload <= 0) Then
-		    Var username As String
-		    selectClientId = Me.GetSelectedClientId(username)
-		  End If
-		  
-		  eiSelectAfterReload = selectClientId
-		  
-		  Me.ShowInfos()
-		  
-		  'Select Row async via WebTimer_RowDataLoaded
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Search(SearchValue As String)
-		  Super.Search(SearchValue)
-		  
-		  Me.ShowInfos()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ShowInfos()
-		  Me.UpdateNoRowsMessage()
-		  
-		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW CONNECTIONS"))
-		  
-		  If (lstInfos.DataSource = Nil) Then
-		    lstInfos.DataSource = Self
-		  Else
-		    lstInfos.ReloadData()
-		  End If
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub UpdateNoRowsMessage()
+	#tag Method, Flags = &h1
+		Protected Function TableNoRowsMessage() As String
 		  Var sInfo As String = "No Clients"
 		  
 		  If (Me.SearchValue <> "") Then
 		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
 		  End If
 		  
-		  lstInfos.NoRowsMessage = sInfo
+		  Return sInfo
 		  
-		End Sub
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
-		  Super.WebTimer_RowDataLoaded(obj)
+		Protected Function TableRowColumnData(col As DatasourceColumn, row As Dictionary) As Variant
+		  Select Case col.DatabaseColumnName
+		    
+		  Case "id"
+		    Var id As Integer = row.Lookup(col.DatabaseColumnName, 0).IntegerValue
+		    If (id < 1) Then Return ""
+		    Return New WebListBoxStyleRenderer(StyleListboxTextAlignCenter(), id.ToString)
+		    
+		  Else
+		    Return Super.TableRowColumnData(col, row)
+		    
+		  End Select
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableRowDataLoaded()
+		  Super.TableRowDataLoaded()
 		  
 		  If (eiSelectAfterReload <= 0) Then
 		    Me.RefreshButtons()
@@ -395,17 +367,17 @@ End
 		  eiSelectAfterReload = -1
 		  
 		  Var bFound As Boolean = False
-		  For i As Integer = lstInfos.LastRowIndex DownTo 0
-		    If (lstInfos.RowTagAt(i) IsA Dictionary) Then
-		      Var rowTag As Dictionary = lstInfos.RowTagAt(i)
+		  For i As Integer = Me.Table.LastRowIndex DownTo 0
+		    If (Me.Table.RowTagAt(i) IsA Dictionary) Then
+		      Var rowTag As Dictionary = Me.Table.RowTagAt(i)
 		      If (rowTag.Lookup("id", "").IntegerValue <> iSelectAfterReload) Then Continue
-		      lstInfos.SelectedRowIndex = i
+		      Me.Table.SelectedRowIndex = i
 		      bFound = True
 		      Exit 'Loop
 		    End If
 		  Next
 		  
-		  If (Not bFound) Then lstInfos.SelectedRowIndex = -1
+		  If (Not bFound) Then Me.Table.SelectedRowIndex = -1
 		  
 		  Me.RefreshButtons()
 		  
@@ -443,7 +415,7 @@ End
 #tag Events btnRefresh
 	#tag Event
 		Sub Pressed()
-		  Self.ShowInfos()
+		  Self.TableLoad()
 		  
 		End Sub
 	#tag EndEvent

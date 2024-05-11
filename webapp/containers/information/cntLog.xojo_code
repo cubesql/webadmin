@@ -161,8 +161,6 @@ Begin cntDatasourceBase cntLog
       Period          =   1
       RunMode         =   0
       Scope           =   2
-      TabIndex        =   4
-      TabStop         =   True
       _mPanelIndex    =   -1
    End
 End
@@ -172,7 +170,6 @@ End
 	#tag Event
 		Sub Opening()
 		  Self.RefreshButtons()
-		  Self.ShowInfos()
 		  
 		End Sub
 	#tag EndEvent
@@ -184,10 +181,35 @@ End
 		  
 		  Me.Area = "Information"
 		  Me.Title = "Log"
+		  Me.Table = lstInfos
 		  Me.SearchAvailable = True
 		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshButtons()
+		  btnRefresh.Enabled = (edtLogNumberOfEntries.Text.ToInteger > 0)
 		  
-		  Redim Me.Columns(-1)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshLog(pbImmediately As Boolean)
+		  'if already running, stop
+		  timRefresh.RunMode = WebTimer.RunModes.Off
+		  timRefresh.Enabled = False
+		  
+		  timRefresh.Period = If(pbImmediately, 1, 800)
+		  timRefresh.RunMode = WebTimer.RunModes.Single
+		  timRefresh.Enabled = True
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableInitColumns()
+		  Super.TableInitColumns()
 		  
 		  Var col As DatasourceColumn
 		  
@@ -248,66 +270,29 @@ End
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub RefreshButtons()
-		  btnRefresh.Enabled = (edtLogNumberOfEntries.Text.ToInteger > 0)
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub RefreshSchedule(pbImmediately As Boolean)
-		  'if already running, stop
-		  timRefresh.RunMode = WebTimer.RunModes.Off
-		  timRefresh.Enabled = False
-		  
-		  timRefresh.Period = If(pbImmediately, 1, 800)
-		  timRefresh.RunMode = WebTimer.RunModes.Single
-		  timRefresh.Enabled = True
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Search(SearchValue As String)
-		  Super.Search(SearchValue)
-		  
-		  Me.ShowInfos()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ShowInfos()
+	#tag Method, Flags = &h1
+		Protected Function TableLoadRowSet() As RowSet
 		  Var numLogEntries As Integer = edtLogNumberOfEntries.Text.ToInteger
 		  If (numLogEntries < 1) Then
-		    Return
+		    Return Nil
 		  End If
 		  
-		  Me.UpdateNoRowsMessage()
+		  Return Session.DB.SelectSQL("SHOW LAST " + numLogEntries.ToString + " ROWS FROM Log ORDER DESC")
 		  
-		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW LAST " + numLogEntries.ToString + " ROWS FROM Log ORDER DESC"))
-		  
-		  If (lstInfos.DataSource = Nil) Then
-		    lstInfos.DataSource = Self
-		  Else
-		    lstInfos.ReloadData()
-		  End If
-		  
-		End Sub
+		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub UpdateNoRowsMessage()
+	#tag Method, Flags = &h1
+		Protected Function TableNoRowsMessage() As String
 		  Var sInfo As String = "No Log entries"
 		  
 		  If (Me.SearchValue <> "") Then
 		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
 		  End If
 		  
-		  lstInfos.NoRowsMessage = sInfo
+		  Return sInfo
 		  
-		End Sub
+		End Function
 	#tag EndMethod
 
 
@@ -320,7 +305,7 @@ End
 #tag Events btnRefresh
 	#tag Event
 		Sub Pressed()
-		  Self.RefreshSchedule(True)
+		  Self.RefreshLog(True)
 		  
 		End Sub
 	#tag EndEvent
@@ -328,7 +313,7 @@ End
 #tag Events edtLogNumberOfEntries
 	#tag Event
 		Sub TextChanged()
-		  Self.RefreshSchedule(False)
+		  Self.RefreshLog(False)
 		  
 		End Sub
 	#tag EndEvent
@@ -347,7 +332,7 @@ End
 		  Me.RunMode = WebTimer.RunModes.Off
 		  Me.Enabled = False
 		  
-		  Self.ShowInfos()
+		  Self.TableLoad()
 		  
 		End Sub
 	#tag EndEvent
