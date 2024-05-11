@@ -1,5 +1,5 @@
 #tag WebContainerControl
-Begin cntDatasourceBase cntPrivileges
+Begin cntDatasourceBase cntEnginePreferences
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -45,7 +45,7 @@ Begin cntDatasourceBase cntPrivileges
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
-      NoRowsMessage   =   "No Privileges"
+      NoRowsMessage   =   "No Engine Preferences"
       ProcessingMessage=   ""
       RowCount        =   0
       RowSelectionType=   1
@@ -61,10 +61,10 @@ Begin cntDatasourceBase cntPrivileges
       Width           =   750
       _mPanelIndex    =   -1
    End
-   Begin WebButton btnRevoke
+   Begin WebButton btnDrop
       AllowAutoDisable=   False
       Cancel          =   False
-      Caption         =   "Revoke"
+      Caption         =   "Drop"
       ControlID       =   ""
       Default         =   False
       Enabled         =   False
@@ -80,7 +80,7 @@ Begin cntDatasourceBase cntPrivileges
       LockTop         =   False
       LockVertical    =   False
       Scope           =   2
-      TabIndex        =   3
+      TabIndex        =   4
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -88,10 +88,10 @@ Begin cntDatasourceBase cntPrivileges
       Width           =   100
       _mPanelIndex    =   -1
    End
-   Begin WebButton btnGrant
+   Begin WebButton btnSet
       AllowAutoDisable=   False
       Cancel          =   False
-      Caption         =   "Grant"
+      Caption         =   "Set"
       ControlID       =   ""
       Default         =   False
       Enabled         =   True
@@ -318,7 +318,7 @@ Begin cntDatasourceBase cntPrivileges
          _mPanelIndex    =   -1
       End
    End
-   Begin WebMessageDialog dlgRevoke
+   Begin WebMessageDialog dlgDrop
       ControlID       =   ""
       Enabled         =   True
       Explanation     =   ""
@@ -335,6 +335,34 @@ Begin cntDatasourceBase cntPrivileges
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
+   Begin WebButton btnEdit
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Edit"
+      ControlID       =   ""
+      Default         =   False
+      Enabled         =   False
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   2
+      Left            =   522
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   False
+      LockRight       =   True
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   3
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   442
+      Visible         =   True
+      Width           =   100
       _mPanelIndex    =   -1
    End
 End
@@ -354,38 +382,123 @@ End
 
 
 	#tag Method, Flags = &h21
-		Private Sub ActionGrant()
-		  Var dlgGrant As New dlgPrivilegeGrant
-		  AddHandler dlgGrant.PrivilegeGrantAction, WeakAddressOf ActionGrantButtonPressed
-		  dlgGrant.Show(lstFilterGroup.SelectedRowText)
+		Private Sub ActionDrop()
+		  Var enginePreference As Dictionary = Me.GetSelectedEnginePreference()
+		  If (enginePreference = Nil) Then Return
+		  
+		  Var prefEngine As String = enginePreference.Lookup("engine", "")
+		  Var prefGroup As String = enginePreference.Lookup("groupname", "")
+		  Var prefDb As String = enginePreference.Lookup("databasename", "")
+		  Var prefKey As String = enginePreference.Lookup("key", "")
+		  
+		  Var enginePreferenceParts() As String
+		  enginePreferenceParts.Add("Engine: " + prefEngine)
+		  enginePreferenceParts.Add("Group: " + prefGroup)
+		  enginePreferenceParts.Add("Database: " + prefDb)
+		  enginePreferenceParts.Add("Key: " + prefKey)
+		  
+		  dlgDrop.Title = "Drop Engine Preference"
+		  dlgDrop.Indicator = Indicators.Danger
+		  dlgDrop.ActionButton.Caption = "Drop"
+		  dlgDrop.CancelButton.Visible = True
+		  dlgDrop.Message = "Are you sure you want to drop the Engine Preference '" + String.FromArray(enginePreferenceParts, ", ")+ "'?"
+		  dlgDrop.Explanation = "This action cannot be undone."
+		  
+		  edictActionEnginePreference = enginePreference
+		  
+		  dlgDrop.ShowWithActionDanger()
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function ActionGrantButtonPressed(obj As dlgPrivilegeGrant, Group As String, Privilege As String, Database As String, Table As String) As Boolean
-		  #Pragma unused obj
+		Private Sub ActionDropButtonPressed(obj As WebMessageDialog, button As WebMessageDialogButton)
+		  Var dictDropEnginePreference As Dictionary = edictActionEnginePreference
+		  edictActionEnginePreference = Nil
 		  
-		  If (Group = "") Or (Group = "*") Or (Group = "admin") Then Return False
-		  If (Privilege = "") Or (Privilege = "*") Then Return False
-		  If (Database = "") Then Return False
-		  If (Table = "") Then Return False
+		  If (button <> obj.ActionButton) Then Return
+		  If (dictDropEnginePreference = Nil) Then Return
 		  
 		  Try
+		    Var prefEngine As String = dictDropEnginePreference.Lookup("engine", "")
+		    Var prefGroup As String = dictDropEnginePreference.Lookup("groupname", "")
+		    Var prefDb As String = dictDropEnginePreference.Lookup("databasename", "")
+		    Var prefKey As String = dictDropEnginePreference.Lookup("key", "")
 		    
-		    Var sql As String = "GRANT '" + Privilege + "' TO GROUP '" + Group + "'"
-		    If (Database <> "*") And (Table <> "*") Then sql = sql + " FOR TABLE '" + Table + "' IN DATABASE '" + Database + "'"
-		    If (Database <> "*") And (Table = "*") Then sql = sql + " FOR DATABASE '" + Database + "'"
+		    Var sql As String = "DROP ENGINE PREFERENCE '" + prefEngine + "' FOR '" + prefDB + "' GROUP '" + prefGroup + "' KEY '" + prefKey + "'"
 		    
 		    Session.DB.ExecuteSQL(sql)
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Grant Privilege"
+		    dialog.Title = "Drop Engine Preference"
 		    dialog.Indicator = Indicators.Warning
 		    dialog.ActionButton.Caption = "OK"
 		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not grant privilege."
+		    dialog.Message = "Could not drop engine preference."
+		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
+		    dialog.Show
+		    
+		  Finally
+		    Me.RefreshInfos()
+		    
+		  End Try
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionEdit()
+		  Var enginePreference As Dictionary = Me.GetSelectedEnginePreference()
+		  If (enginePreference = Nil) Then Return
+		  
+		  Var prefEngine As String = enginePreference.Lookup("engine", "")
+		  Var prefGroup As String = enginePreference.Lookup("groupname", "")
+		  Var prefDb As String = enginePreference.Lookup("databasename", "")
+		  Var prefKey As String = enginePreference.Lookup("key", "")
+		  Var prefValue As String = enginePreference.Lookup("value", "")
+		  
+		  If (prefEngine = "") Or (prefGroup = "") Or (prefDb = "") Or (prefKey = "") Then Return
+		  
+		  Var dlgSet As New dlgEnginePreferenceSet
+		  AddHandler dlgSet.EnginePreferenceSetAction, WeakAddressOf ActionSetButtonPressed
+		  dlgSet.ShowForEditing(prefEngine, prefDb, prefGroup, prefKey, prefValue)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionSet()
+		  Var dlgSet As New dlgEnginePreferenceSet
+		  AddHandler dlgSet.EnginePreferenceSetAction, WeakAddressOf ActionSetButtonPressed
+		  dlgSet.Show(lstFilterDatabase.SelectedRowText, lstFilterGroup.SelectedRowText)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function ActionSetButtonPressed(obj As dlgEnginePreferenceSet, Engine As String, Database As String, Group As String, Key As String, Value As String) As Boolean
+		  #Pragma unused obj
+		  
+		  If (Engine = "") Then Return False
+		  If (Database = "") Then Return False
+		  If (Group = "") Then Return False
+		  If (Key = "") Then Return False
+		  If (Value = "") Then Return False
+		  
+		  Try
+		    
+		    Var sql As String = "SET ENGINE PREFERENCE '" + Engine + "' FOR '" + Database + "' GROUP '" + Group + "' KEY '" + Key+ "' VALUE '" + Value + "'"
+		    
+		    Session.DB.ExecuteSQL(sql)
+		    
+		  Catch err As DatabaseException
+		    Var dialog As New WebMessageDialog
+		    dialog.Title = "Set Engine Preference"
+		    dialog.Indicator = Indicators.Warning
+		    dialog.ActionButton.Caption = "OK"
+		    dialog.CancelButton.Visible = False
+		    dialog.Message = "Could not set engine preference."
 		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
 		    dialog.Show
 		    Return False
@@ -402,17 +515,27 @@ End
 		  Var filterDatabasename As String = lstFilterDatabase.RowTagAt(lstFilterDatabase.SelectedRowIndex)
 		  If (filterDatabasename <> "") Then
 		    ebOpened = False
-		    lstFilterDatabase.SelectRowWithTag(Database)
+		    #Pragma BreakOnExceptions False
+		    Try
+		      lstFilterDatabase.SelectRowWithTag(Database)
+		    Catch err As RuntimeException
+		      'engine db is not in list yet
+		      Me.LoadDatabases()
+		      Try
+		        lstFilterDatabase.SelectRowWithTag(Database)
+		      Catch err2 As RuntimeException
+		      End Try
+		    End Try
 		    ebOpened = True
 		  End If
 		  
 		  
 		  'Success - no dialog
 		  Var selectRowTag As New Dictionary
+		  selectRowTag.Value("engine") = Engine
 		  selectRowTag.Value("groupname") = Group
-		  selectRowTag.Value("privilege") = Privilege
 		  selectRowTag.Value("databasename") = Database
-		  selectRowTag.Value("tablename") = Table
+		  selectRowTag.Value("key") = Key
 		  
 		  Self.RefreshInfos(selectRowTag)
 		  Return True
@@ -422,81 +545,12 @@ End
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub ActionRevoke()
-		  Var privilege As Dictionary = Me.GetSelectedPrivilege()
-		  If (privilege = Nil) Then Return
-		  
-		  Var privGroup As String = privilege.Lookup("groupname", "")
-		  Var privName As String = privilege.Lookup("privilege", "")
-		  Var privDB As String = privilege.Lookup("databasename", "")
-		  Var privTable As String = privilege.Lookup("tablename", "")
-		  
-		  Var privilegeCaption As String = privName + " privilege"
-		  If (privDB = "*" And privTable = "*") Then privilegeCaption = privilegeCaption + " on the entire server"
-		  If (privDB <> "*" And privTable = "*") Then privilegeCaption = privilegeCaption + " on database " +  privDB
-		  If (privDB <> "*" And privTable <> "*") Then privilegeCaption = privilegeCaption + " on database " +  privDB + " on table " + privTable
-		  If (privDB = "*" And privTable <> "*") Then privilegeCaption = privilegeCaption + " on table " +  privTable
-		  
-		  
-		  dlgRevoke.Title = "Revoke Privilege"
-		  dlgRevoke.Indicator = Indicators.Danger
-		  dlgRevoke.ActionButton.Caption = "Revoke"
-		  dlgRevoke.CancelButton.Visible = True
-		  dlgRevoke.Message = "Are you sure you want to revoke the " +  privilegeCaption + " for group " + privGroup + "?"
-		  dlgRevoke.Explanation = "This action cannot be undone."
-		  
-		  edictActionPrivilege = privilege
-		  
-		  dlgRevoke.ShowWithActionDanger()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ActionRevokeButtonPressed(obj As WebMessageDialog, button As WebMessageDialogButton)
-		  Var dictRevokePrivilege As Dictionary = edictActionPrivilege
-		  edictActionPrivilege = Nil
-		  
-		  If (button <> obj.ActionButton) Then Return
-		  If (dictRevokePrivilege = Nil) Then Return
-		  
-		  Try
-		    Var privGroup As String = dictRevokePrivilege.Lookup("groupname", "")
-		    Var privName As String = dictRevokePrivilege.Lookup("privilege", "")
-		    Var privDB As String = dictRevokePrivilege.Lookup("databasename", "")
-		    Var privTable As String = dictRevokePrivilege.Lookup("tablename", "")
-		    
-		    Var sql As String = "REVOKE " + privName + " FROM GROUP '" + privGroup + "'"
-		    If (privDB <> "*" And privTable = "*") Then sql = sql + " FOR DATABASE '" + privDB + "'"
-		    If (privDB <> "*" And privTable <> "*") Then sql = sql + " FOR TABLE '" + privTable + "' IN DATABASE '" + privDB + "'"
-		    
-		    Session.DB.ExecuteSQL(sql)
-		    
-		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Revoke Privilege"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not revoke privilege."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
-		    
-		  Finally
-		    Me.RefreshInfos()
-		    
-		  End Try
-		  
-		End Sub
-	#tag EndMethod
-
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  Super.Constructor
 		  
 		  Me.Area = "Security"
-		  Me.Title = "Privileges"
+		  Me.Title = "Engine Preferences"
 		  Me.SearchAvailable = True
 		  
 		  
@@ -505,36 +559,45 @@ End
 		  Var col As DatasourceColumn
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "*"
-		  col.DatabaseColumnName = "groupname"
-		  col.Heading = "Groupname"
+		  col.Width = "15%"
+		  col.DatabaseColumnName = "engine"
+		  col.Heading = "Engine"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text
 		  col.Sortable = True
 		  col.SortDirection = WebListBox.SortDirections.Ascending
 		  Me.Columns.Add(col)
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "15%"
-		  col.DatabaseColumnName = "privilege"
-		  col.Heading = "Privilege"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = True
-		  col.SortDirection = WebListBox.SortDirections.None
-		  Me.Columns.Add(col)
-		  
-		  col = New DatasourceColumn()
-		  col.Width = "25%"
+		  col.Width = "18%"
 		  col.DatabaseColumnName = "databasename"
-		  col.Heading = "Databasename"
+		  col.Heading = "Database"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text
 		  col.Sortable = True
 		  col.SortDirection = WebListBox.SortDirections.None
 		  Me.Columns.Add(col)
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "30%"
-		  col.DatabaseColumnName = "tablename"
-		  col.Heading = "Tablename"
+		  col.Width = "18%"
+		  col.DatabaseColumnName = "groupname"
+		  col.Heading = "Group"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "15%"
+		  col.DatabaseColumnName = "key"
+		  col.Heading = "Key"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "*"
+		  col.DatabaseColumnName = "value"
+		  col.Heading = "Value"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text
 		  col.Sortable = True
 		  col.SortDirection = WebListBox.SortDirections.None
@@ -543,69 +606,8 @@ End
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Shared Function GetDatabasesList() As String()
-		  Var databases() As String
-		  
-		  Try
-		    
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
-		    If (rs <> Nil) Then
-		      If (rs.RowCount > 0) Then
-		        rs.MoveToFirstRow
-		        While (Not rs.AfterLastRow)
-		          If (databases.IndexOf(rs.Column("databasename").StringValue) < 0) Then
-		            databases.Add(rs.Column("databasename").StringValue)
-		          End If
-		          
-		          rs.MoveToNextRow
-		        Wend
-		      End If
-		      
-		      rs.Close
-		    End If
-		    
-		    rs = Session.DB.SelectSQL("SHOW ENGINE PREFERENCES")
-		    If (rs <> Nil) Then
-		      If (rs.RowCount > 0) Then
-		        Var engineDatabase As String
-		        rs.MoveToFirstRow
-		        While (Not rs.AfterLastRow)
-		          If (rs.Column("databasename").StringValue = "") Or (rs.Column("databasename").StringValue = "*") Then
-		            rs.MoveToNextRow
-		            Continue
-		          End If
-		          If (rs.Column("engine").StringValue = "") Then
-		            rs.MoveToNextRow
-		            Continue
-		          End If
-		          
-		          engineDatabase = rs.Column("engine").StringValue + ":" + rs.Column("databasename").StringValue
-		          If (databases.IndexOf(engineDatabase) < 0) Then
-		            databases.Add(engineDatabase)
-		          End If
-		          
-		          rs.MoveToNextRow
-		        Wend
-		      End If
-		      
-		      rs.Close
-		    End If
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    databases.Sort()
-		    return databases
-		    
-		  End Try
-		  
-		  
-		End Function
-	#tag EndMethod
-
 	#tag Method, Flags = &h21
-		Private Function GetSelectedPrivilege() As Dictionary
+		Private Function GetSelectedEnginePreference() As Dictionary
 		  If (lstInfos.SelectedRowIndex >= 0) And (lstInfos.RowTagAt(lstInfos.SelectedRowIndex) IsA Dictionary) Then
 		    Return lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
 		  End If
@@ -627,15 +629,39 @@ End
 		  lstFilterDatabase.RemoveAllRows
 		  lstFilterDatabase.AddRow("(ALL)", "")
 		  lstFilterDatabase.AddRow("-", "")
-		  lstFilterDatabase.AddRow("*", "*")
-		  lstFilterDatabase.AddRow("-", "")
 		  
-		  Var databases() As String = GetDatabasesList()
-		  for each database as string in databases
-		    lstFilterDatabase.AddRow(database, database)
-		  next
 		  
-		  lstFilterDatabase.SelectedRowIndex = 0
+		  Var existingDatabases() As String
+		  
+		  Try
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW ENGINE PREFERENCES")
+		    If (rs <> Nil) Then
+		      
+		      If (rs.RowCount > 0) Then
+		        Var currentValue As String
+		        rs.MoveToFirstRow
+		        While (Not rs.AfterLastRow)
+		          currentValue = rs.Column("databasename").StringValue
+		          If (currentValue <> "") And (existingDatabases.IndexOf(currentValue) < 0) Then existingDatabases.Add(currentValue)
+		          
+		          rs.MoveToNextRow
+		        Wend
+		      End If
+		      
+		      rs.Close
+		    End If
+		    
+		  Catch DatabaseException
+		    
+		  Finally
+		    existingDatabases.Sort()
+		    
+		    For Each addDatabase As String In existingDatabases
+		      lstFilterDatabase.AddRow(addDatabase, addDatabase)
+		    Next
+		    lstFilterDatabase.SelectedRowIndex = 0
+		    
+		  End Try
 		  
 		End Sub
 	#tag EndMethod
@@ -654,9 +680,7 @@ End
 		      rs.MoveToFirstRow
 		      While (Not rs.AfterLastRow)
 		        
-		        If (rs.Column("groupname").StringValue <> "admin") Then
-		          lstFilterGroup.AddRow(rs.Column("groupname").StringValue, rs.Column("groupname").StringValue)
-		        End If
+		        lstFilterGroup.AddRow(rs.Column("groupname").StringValue, rs.Column("groupname").StringValue)
 		        
 		        rs.MoveToNextRow
 		      Wend
@@ -676,17 +700,19 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub RefreshButtons()
-		  Var bGrant, bRevoke As Boolean
+		  Var bSet, bEdit, bDrop As Boolean
 		  
-		  Var selectedPrivilege As Dictionary = Me.GetSelectedPrivilege()
+		  Var selectedEnginePreference As Dictionary = Me.GetSelectedEnginePreference()
 		  
-		  bGrant = True
-		  If (selectedPrivilege <> Nil) And (selectedPrivilege.Lookup("groupname", "") <> "admin") Then
-		    bRevoke = True
+		  bSet = True
+		  If (selectedEnginePreference <> Nil) Then
+		    bEdit = True
+		    bDrop = True
 		  End If
 		  
-		  If (btnGrant.Enabled <> bGrant) Then btnGrant.Enabled = bGrant
-		  If (btnRevoke.Enabled <> bRevoke) Then btnRevoke.Enabled = bRevoke
+		  If (btnSet.Enabled <> bSet) Then btnSet.Enabled = bSet
+		  If (btnEdit.Enabled <> bEdit) Then btnEdit.Enabled = bEdit
+		  If (btnDrop.Enabled <> bDrop) Then btnDrop.Enabled = bDrop
 		  
 		End Sub
 	#tag EndMethod
@@ -694,7 +720,7 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RefreshInfos(selectRowTag As Dictionary = nil)
 		  If (selectRowTag = Nil) And (lstInfos.SelectedRowIndex >= 0) Then
-		    selectRowTag = Me.GetSelectedPrivilege()
+		    selectRowTag = Me.GetSelectedEnginePreference()
 		  End If
 		  
 		  esSelectAfterReload = selectRowTag
@@ -732,7 +758,7 @@ End
 		    Me.Filters.Value("databasename") = filterDatabasename
 		  End If
 		  
-		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW ALL PRIVILEGES"))
+		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW ENGINE PREFERENCES"))
 		  
 		  If (lstInfos.DataSource = Nil) Then
 		    lstInfos.DataSource = Self
@@ -745,7 +771,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub UpdateNoRowsMessage()
-		  Var sInfo As String = "No Privileges"
+		  Var sInfo As String = "No Engine Preferences"
 		  
 		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
 		  Var filterDatabasename As String = lstFilterDatabase.RowTagAt(lstFilterDatabase.SelectedRowIndex)
@@ -753,7 +779,7 @@ End
 		    Var sFilterParts() As String
 		    If (filterGroupname <> "") Then sFilterParts.Add("Group " + filterGroupname)
 		    If (filterDatabasename <> "") Then sFilterParts.Add("Database " + filterDatabasename)
-		    sInfo = sInfo + " with Filter " + string.FromArray(sFilterParts, " and ")
+		    sInfo = sInfo + " with Filter " + String.FromArray(sFilterParts, " and ")
 		  End If
 		  
 		  If (Me.SearchValue <> "") Then
@@ -781,10 +807,10 @@ End
 		  For i As Integer = lstInfos.LastRowIndex DownTo 0
 		    If (lstInfos.RowTagAt(i) IsA Dictionary) Then
 		      Var rowTag As Dictionary = lstInfos.RowTagAt(i)
-		      If (rowTag.Lookup("groupname", "").StringValue = sSelectAfterReload.Lookup("groupname", "-").StringValue) And _
-		        (rowTag.Lookup("privilege", "").StringValue = sSelectAfterReload.Lookup("privilege", "-").StringValue) And _
+		      If(rowTag.Lookup("engine", "").StringValue = sSelectAfterReload.Lookup("engine", "-").StringValue) And _ 
+		        (rowTag.Lookup("groupname", "").StringValue = sSelectAfterReload.Lookup("groupname", "-").StringValue) And _
 		        (rowTag.Lookup("databasename", "").StringValue = sSelectAfterReload.Lookup("databasename", "-").StringValue) And _
-		        (rowTag.Lookup("tablename", "").StringValue = sSelectAfterReload.Lookup("tablename", "-").StringValue) Then
+		        (rowTag.Lookup("key", "").StringValue = sSelectAfterReload.Lookup("key", "-").StringValue) Then
 		        
 		        lstInfos.SelectedRowIndex = i
 		        bFound = True
@@ -806,7 +832,7 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private edictActionPrivilege As Dictionary
+		Private edictActionEnginePreference As Dictionary
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -828,18 +854,18 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events btnRevoke
+#tag Events btnDrop
 	#tag Event
 		Sub Pressed()
-		  Self.ActionRevoke()
+		  Self.ActionDrop()
 		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events btnGrant
+#tag Events btnSet
 	#tag Event
 		Sub Pressed()
-		  Self.ActionGrant()
+		  Self.ActionSet()
 		  
 		End Sub
 	#tag EndEvent
@@ -868,10 +894,18 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events dlgRevoke
+#tag Events dlgDrop
 	#tag Event
 		Sub ButtonPressed(button As WebMessageDialogButton)
-		  Self.ActionRevokeButtonPressed(Me, button)
+		  Self.ActionDropButtonPressed(Me, button)
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events btnEdit
+	#tag Event
+		Sub Pressed()
+		  Self.ActionEdit()
 		  
 		End Sub
 	#tag EndEvent
