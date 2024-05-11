@@ -4,7 +4,7 @@ Begin dlgBase dlgAbout
    ControlCount    =   0
    ControlID       =   ""
    Enabled         =   True
-   Height          =   635
+   Height          =   655
    Index           =   -2147483648
    Indicator       =   0
    LayoutDirection =   0
@@ -22,6 +22,7 @@ Begin dlgBase dlgAbout
    Width           =   520
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebRectangle rctFormContent
       BackgroundColor =   &cFFFFFF
@@ -29,7 +30,7 @@ Begin dlgBase dlgAbout
       ControlID       =   ""
       Enabled         =   True
       HasBackgroundColor=   False
-      Height          =   529
+      Height          =   549
       Index           =   -2147483648
       Indicator       =   0
       LayoutDirection =   0
@@ -68,7 +69,7 @@ Begin dlgBase dlgAbout
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          SVGData         =   ""
@@ -102,7 +103,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   1
@@ -126,7 +127,7 @@ Begin dlgBase dlgAbout
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         Indicator       =   ""
+         Indicator       =   0
          Italic          =   False
          Left            =   66
          LockBottom      =   False
@@ -140,6 +141,7 @@ Begin dlgBase dlgAbout
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   5
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Version:"
          TextAlignment   =   3
@@ -171,10 +173,11 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   6
+         TabPanelIndex   =   0
          TabStop         =   True
          Target          =   1
          Text            =   "0.0.0"
@@ -196,7 +199,7 @@ Begin dlgBase dlgAbout
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         indicator       =   0
+         Indicator       =   0
          Italic          =   False
          Left            =   66
          LockBottom      =   False
@@ -207,10 +210,11 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   7
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "cubeSQL Plugin:"
          TextAlignment   =   3
@@ -230,7 +234,7 @@ Begin dlgBase dlgAbout
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         indicator       =   0
+         Indicator       =   0
          Italic          =   False
          Left            =   66
          LockBottom      =   False
@@ -241,10 +245,11 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   9
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Xojo:"
          TextAlignment   =   3
@@ -276,10 +281,11 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   8
+         TabPanelIndex   =   0
          TabStop         =   True
          Target          =   1
          Text            =   "0.0.0"
@@ -313,10 +319,11 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   10
+         TabPanelIndex   =   0
          TabStop         =   True
          Target          =   1
          Text            =   "0.0.0"
@@ -338,7 +345,7 @@ Begin dlgBase dlgAbout
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         Indicator       =   ""
+         Indicator       =   0
          Italic          =   False
          Left            =   214
          LockBottom      =   False
@@ -352,6 +359,7 @@ Begin dlgBase dlgAbout
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   2
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "A web based administration for"
          TextAlignment   =   0
@@ -371,7 +379,7 @@ Begin dlgBase dlgAbout
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         indicator       =   0
+         Indicator       =   0
          Italic          =   False
          Left            =   214
          LockBottom      =   False
@@ -382,10 +390,11 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   3
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "cubeSQL Server (© sqlabs)"
          TextAlignment   =   0
@@ -405,7 +414,7 @@ Begin dlgBase dlgAbout
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         indicator       =   0
+         Indicator       =   0
          Italic          =   False
          Left            =   40
          LockBottom      =   False
@@ -416,10 +425,11 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   4
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "..."
          TextAlignment   =   2
@@ -439,7 +449,7 @@ Begin dlgBase dlgAbout
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         indicator       =   0
+         Indicator       =   0
          Italic          =   False
          Left            =   40
          LockBottom      =   False
@@ -450,10 +460,11 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   11
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "..."
          TextAlignment   =   2
@@ -473,7 +484,7 @@ Begin dlgBase dlgAbout
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         indicator       =   0
+         Indicator       =   0
          Italic          =   False
          Left            =   66
          LockBottom      =   False
@@ -484,10 +495,11 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   12
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Written by:"
          TextAlignment   =   3
@@ -519,10 +531,11 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   13
+         TabPanelIndex   =   0
          TabStop         =   True
          Target          =   1
          Text            =   "jo-tools.ch"
@@ -536,15 +549,15 @@ Begin dlgBase dlgAbout
          Width           =   266
          _mPanelIndex    =   -1
       End
-      Begin WebLabel labWebAdmin1
+      Begin WebLabel labContactInfo
          Bold            =   False
          ControlID       =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   12.0
-         Height          =   38
+         Height          =   58
          Index           =   -2147483648
-         indicator       =   0
+         Indicator       =   0
          Italic          =   False
          Left            =   214
          LockBottom      =   False
@@ -554,13 +567,14 @@ Begin dlgBase dlgAbout
          LockRight       =   True
          LockTop         =   True
          LockVertical    =   False
-         Multiline       =   False
-         PanelIndex      =   0
+         Multiline       =   True
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   14
+         TabPanelIndex   =   0
          TabStop         =   True
-         Text            =   "Would you like to say 'Thank you'?"
+         Text            =   "If you want to say thanks I'd appreciate a message or a donation via PayPal."
          TextAlignment   =   0
          TextColor       =   colTextKey
          Tooltip         =   ""
@@ -590,17 +604,18 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   15
+         TabPanelIndex   =   0
          TabStop         =   True
          Target          =   2
          Text            =   "Contact"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
-         Top             =   498
+         Top             =   518
          Underline       =   False
          URL             =   "#constUrl_MailTo_Contact"
          Visible         =   True
@@ -615,7 +630,7 @@ Begin dlgBase dlgAbout
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         indicator       =   0
+         Indicator       =   0
          Italic          =   False
          Left            =   360
          LockBottom      =   False
@@ -626,16 +641,17 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   16
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Donation"
          TextAlignment   =   3
          TextColor       =   &c000000FF
          Tooltip         =   ""
-         Top             =   498
+         Top             =   518
          Underline       =   False
          Visible         =   True
          Width           =   120
@@ -664,7 +680,7 @@ Begin dlgBase dlgAbout
       TabIndex        =   1
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   577
+      Top             =   597
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -741,10 +757,6 @@ End
 		  
 		End Sub
 	#tag EndEvent
-#tag EndEvents
-#tag Events labWrittenBy
-#tag EndEvents
-#tag Events labContact
 #tag EndEvents
 #tag Events labDonation
 	#tag Event

@@ -500,7 +500,7 @@ End
 		Private Sub ActionCreate()
 		  Var dlgCreate As New dlgDatabaseCreate
 		  AddHandler dlgCreate.DatabaseCreateAction, WeakAddressOf ActionCreateButtonPressed
-		  dlgCreate.Show(GetDatabasesList)
+		  dlgCreate.Show(GetDatabasesList(True))
 		  
 		End Sub
 	#tag EndMethod
@@ -848,7 +848,7 @@ End
 		Private Sub ActionUpload()
 		  Var dlgUpload As New dlgDatabaseUpload
 		  AddHandler dlgUpload.DatabaseUploadAction, WeakAddressOf ActionUploadButtonPressed
-		  dlgUpload.Show(GetDatabasesList)
+		  dlgUpload.Show(GetDatabasesList(True))
 		  
 		End Sub
 	#tag EndMethod
@@ -892,7 +892,7 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Shared Function GetDatabasesList() As String()
+		Protected Shared Function GetDatabasesList(pbIncludeUnavailable As Boolean) As String()
 		  Var databases() As String
 		  
 		  Try
@@ -902,6 +902,13 @@ End
 		      If (rs.RowCount > 0) Then
 		        rs.MoveToFirstRow
 		        While (Not rs.AfterLastRow)
+		          If (Not pbIncludeUnavailable) Then
+		            If (rs.Column("stopped").BooleanValue = True) Or (rs.Column("available").BooleanValue = False) Then
+		              rs.MoveToNextRow
+		              Continue
+		            End If
+		          End If
+		          
 		          If (databases.IndexOf(rs.Column("databasename").StringValue) < 0) Then
 		            databases.Add(rs.Column("databasename").StringValue)
 		          End If
@@ -918,7 +925,7 @@ End
 		    
 		  Finally
 		    databases.Sort()
-		    return databases
+		    Return databases
 		    
 		  End Try
 		  
@@ -1059,7 +1066,7 @@ End
 		  Me.Columns.Add(col)
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "20%"
+		  col.Width = "19%" '-1% seems to prevent horizontal scrollbars
 		  col.DatabaseColumnName = "lockowner"
 		  col.Heading = "Lock Owner"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text

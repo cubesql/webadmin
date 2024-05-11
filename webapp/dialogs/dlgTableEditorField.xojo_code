@@ -466,7 +466,7 @@ End
 		  Try
 		    lstType.SelectRowWithTag(Type)
 		  Catch InvalidArgumentException
-		    lstType.AddRow("-")
+		    lstType.AddSeparator()
 		    lstType.AddRow(Type, Type)
 		    lstType.SelectRowWithTag(Type)
 		  End Try
@@ -477,7 +477,7 @@ End
 		  Try
 		    lstConstraint.SelectRowWithTag(Constraint)
 		  Catch InvalidArgumentException
-		    lstConstraint.AddRow("-")
+		    lstConstraint.AddSeparator()
 		    lstConstraint.AddRow(Constraint, Constraint)
 		    lstConstraint.SelectRowWithTag(Constraint)
 		  End Try
@@ -528,7 +528,7 @@ End
 		  Me.RemoveAllRows()
 		  
 		  Me.AddRow("(no type)", "")
-		  Me.AddRow("-")
+		  me.AddSeparator()
 		  
 		  Me.AddRow("TEXT", "TEXT")
 		  Me.AddRow("INTEGER", "INTEGER")
@@ -572,7 +572,7 @@ End
 		  Me.RemoveAllRows()
 		  
 		  Me.AddRow("(no constraint)", "")
-		  Me.AddRow("-")
+		  Me.AddSeparator()
 		  
 		  Me.AddRow("NOT NULL", "NOT NULL")
 		  Me.AddRow("PRIMARY KEY", "PRIMARY KEY")

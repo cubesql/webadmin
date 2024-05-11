@@ -389,29 +389,20 @@ End
 		Sub Opening()
 		  Me.RemoveAllRows
 		  Me.AddRow "- NONE -"
+		  Var bNeedsSeparator As Boolean = True
 		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
-		    
-		    If (rs <> Nil) Then
-		      If (rs.RowCount > 0) Then
-		        rs.MoveToFirstRow
-		        While (Not rs.AfterLastRow)
-		          Me.AddRow(rs.Column("databasename").StringValue)
-		          Me.RowTagAt(Me.LastAddedRowIndex) = rs.Column("databasename").StringValue
-		          rs.MoveToNextRow
-		        Wend
-		      End If
-		      
-		      rs.Close
+		  Var databases() As String = cntDatabases.GetDatabasesList(False)
+		  
+		  For Each databasename As String In databases
+		    If (bNeedsSeparator) Then
+		      Me.AddSeparator()
+		      bNeedsSeparator = False
 		    End If
 		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    Me.SelectedRowIndex = 0
-		    
-		  End Try
+		    Me.AddRow(databasename, databasename)
+		  Next
+		  
+		  Me.SelectedRowIndex = 0
 		  
 		End Sub
 	#tag EndEvent

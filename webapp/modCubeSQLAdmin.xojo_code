@@ -119,19 +119,20 @@ Protected Module modCubeSQLAdmin
 
 	#tag Enum, Name = ContainerKey, Type = Integer, Flags = &h0
 		None = -1
-		  Status = 0
-		  Registration=1
-		  Console = 2
-		  Databases = 11
-		  TablesAndIndexes=12
-		  Schedules=14
-		  Backups = 13
-		  Groups = 21
-		  Users = 22
-		  Privileges = 23
-		  EnginePreferences = 24
-		  Commands = 31
-		  Clients = 32
+		Status = 0
+		Registration = 1
+		Plugins = 2
+		Console = 3
+		Databases = 11
+		TablesAndIndexes = 12
+		Schedules = 14
+		Backups = 13
+		Groups = 21
+		Users = 22
+		Privileges = 23
+		EnginePreferences = 24
+		Commands = 31
+		Clients = 32
 		Log = 33
 	#tag EndEnum
 

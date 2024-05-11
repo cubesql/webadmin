@@ -427,7 +427,7 @@ End
 		Private Sub LoadDatabases()
 		  lstDatabase.RemoveAllRows
 		  lstDatabase.AddRow("(ALL)", "*")
-		  lstDatabase.AddRow("-", "*")
+		  lstDatabase.AddSeparator()
 		  
 		  Var databases() As String = cntPrivileges.GetDatabasesList()
 		  for each database as string in databases
@@ -533,7 +533,7 @@ End
 		    Return
 		  End If
 		  
-		  lstTable.AddRow("-", "*")
+		  lstTable.AddSeparator()
 		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW TABLES FOR DATABASE '" + databaseName.EscapeSqlQuotes + "'")

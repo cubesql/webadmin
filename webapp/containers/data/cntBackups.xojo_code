@@ -652,44 +652,29 @@ End
 		  lstFilterDatabase.AddRow(constDBName_CubeSQLSettings, constDBName_CubeSQLSettings)
 		  Var bNeedsSeparator As Boolean = True
 		  
-		  Var iPreselectIndex As Integer = 0
+		  Var databases() As String = cntDatabases.GetDatabasesList(False)
 		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
-		    If (rs = Nil) Then Return
-		    
-		    Var sessionStateDatabasename As String = Session.State.Lookup("databasename", "").StringValue
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        If bNeedsSeparator Then
-		          bNeedsSeparator = False
-		          lstFilterDatabase.AddRow("-", "")
-		        End If
-		        
-		        lstFilterDatabase.AddRow(rs.Column("databasename").StringValue, rs.Column("databasename").StringValue)
-		        If (iPreselectIndex = 0) Then iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
-		        
-		        If (sessionStateDatabasename <> "") And (sessionStateDatabasename = rs.Column("databasename").StringValue) Then
-		          iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
-		        End If
-		        
-		        rs.MoveToNextRow
-		      Wend
+		  Var iPreselectIndex As Integer = 0
+		  Var sessionStateDatabasename As String = Session.State.Lookup("databasename", "").StringValue
+		  
+		  For Each databasename As String In databases
+		    If bNeedsSeparator Then
+		      bNeedsSeparator = False
+		      lstFilterDatabase.AddSeparator()
 		    End If
 		    
-		    rs.Close
+		    lstFilterDatabase.AddRow(databasename, databasename)
+		    If (iPreselectIndex = 0) Then iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
 		    
-		    If (sessionStateDatabasename = constDBName_CubeSQLSettings) Then iPreselectIndex = 0
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    lstFilterDatabase.SelectedRowIndex = iPreselectIndex
-		    Session.State.Value("databasename") = Me.GetSelectedDatabasename()
-		    
-		  End Try
+		    If (sessionStateDatabasename <> "") And (sessionStateDatabasename = databasename) Then
+		      iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
+		    End If
+		  Next
+		  
+		  If (sessionStateDatabasename = constDBName_CubeSQLSettings) Then iPreselectIndex = 0
+		  
+		  lstFilterDatabase.SelectedRowIndex = iPreselectIndex
+		  Session.State.Value("databasename") = Me.GetSelectedDatabasename()
 		  
 		End Sub
 	#tag EndMethod

@@ -191,6 +191,12 @@ End
 		  Case ContainerKey.Registration
 		    showContainer = New cntRegistration
 		    
+		  Case ContainerKey.Plugins
+		    showContainer = New cntPlugins
+		    
+		  Case ContainerKey.Console
+		    showContainer = New cntConsole
+		    
 		  Case ContainerKey.Groups
 		    showContainer = New cntGroups
 		    
@@ -214,9 +220,6 @@ End
 		    
 		  Case ContainerKey.EnginePreferences
 		    showContainer = New cntEnginePreferences
-		    
-		  Case ContainerKey.Console
-		    showContainer = new cntConsole
 		    
 		  Case ContainerKey.Commands
 		    showContainer = New cntCommands
@@ -273,6 +276,7 @@ End
 		  btn.Style = WebToolbarButton.ButtonStyles.Menu
 		  btn.Caption = "Server"
 		  btn.Menu.AddMenuItem(New WebMenuItem("Registration", ContainerKey.Registration))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Plugins", ContainerKey.Plugins))
 		  btn.Menu.AddMenuItem(New WebMenuItem("Console", ContainerKey.Console))
 		  Me.AddItem(btn)
 		  

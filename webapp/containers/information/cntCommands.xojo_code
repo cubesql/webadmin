@@ -84,7 +84,7 @@ End
 		  Var col As DatasourceColumn
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "65%"
+		  col.Width = "64%" '-1% seems to prevent horizontal scrollbars
 		  col.DatabaseColumnName = "command"
 		  col.Heading = "Command"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text

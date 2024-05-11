@@ -502,23 +502,9 @@ End
 		  
 		  Try
 		    
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
-		    If (rs <> Nil) Then
-		      If (rs.RowCount > 0) Then
-		        rs.MoveToFirstRow
-		        While (Not rs.AfterLastRow)
-		          If (databases.IndexOf(rs.Column("databasename").StringValue) < 0) Then
-		            databases.Add(rs.Column("databasename").StringValue)
-		          End If
-		          
-		          rs.MoveToNextRow
-		        Wend
-		      End If
-		      
-		      rs.Close
-		    End If
+		    databases = cntDatabases.GetDatabasesList(False)
 		    
-		    rs = Session.DB.SelectSQL("SHOW ENGINE PREFERENCES")
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW ENGINE PREFERENCES")
 		    If (rs <> Nil) Then
 		      If (rs.RowCount > 0) Then
 		        Var engineDatabase As String
@@ -579,9 +565,9 @@ End
 		Private Sub LoadDatabases()
 		  lstFilterDatabase.RemoveAllRows
 		  lstFilterDatabase.AddRow("(ALL)", "")
-		  lstFilterDatabase.AddRow("-", "")
+		  lstFilterDatabase.AddSeparator()
 		  lstFilterDatabase.AddRow("*", "*")
-		  lstFilterDatabase.AddRow("-", "")
+		  lstFilterDatabase.AddSeparator()
 		  
 		  Var iPreselectIndex As Integer = 0
 		  Var sessionStateDatabasename As String = Session.State.Lookup("databasename", "").StringValue
@@ -605,7 +591,7 @@ End
 		Private Sub LoadGroups()
 		  lstFilterGroup.RemoveAllRows
 		  lstFilterGroup.AddRow("(ALL)", "")
-		  lstFilterGroup.AddRow("-", "")
+		  lstFilterGroup.AddSeparator()
 		  
 		  Var iPreselectIndex As Integer = 0
 		  
@@ -708,9 +694,8 @@ End
 		  col.Sortable = True
 		  col.SortDirection = WebListBox.SortDirections.None
 		  Me.Columns.Add(col)
-		  
 		  col = New DatasourceColumn()
-		  col.Width = "30%"
+		  col.Width = "29%" '-1% seems to prevent horizontal scrollbars
 		  col.DatabaseColumnName = "tablename"
 		  col.Heading = "Tablename"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text

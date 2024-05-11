@@ -263,46 +263,32 @@ End
 		    sDatabaseSchedules.Add(lstScheduleDatabases.CellTextAt(i, 0))
 		  Next
 		  
-		  Try
-		    Var iPreSelectIndex As Integer = 0
-		    Var bNeedsSeparator As Boolean = False
-		    
-		    If (sDatabaseSchedules.IndexOf(constDBName_CubeSQLSettings) < 0) Then
-		      lstAddDatabases.AddRow(constDBName_CubeSQLSettings, constDBName_CubeSQLSettings)
-		      bNeedsSeparator = True
+		  Var iPreSelectIndex As Integer = 0
+		  Var bNeedsSeparator As Boolean = False
+		  
+		  If (sDatabaseSchedules.IndexOf(constDBName_CubeSQLSettings) < 0) Then
+		    lstAddDatabases.AddRow(constDBName_CubeSQLSettings, constDBName_CubeSQLSettings)
+		    bNeedsSeparator = True
+		  End If
+		  
+		  Var databases() As String = cntDatabases.GetDatabasesList(False)
+		  
+		  For Each databasename As String In databases
+		    If (sDatabaseSchedules.IndexOf(databasename) >= 0) Then
+		      'schedule already added to this database
+		      Continue
 		    End If
 		    
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
-		    If (rs = Nil) Then Return
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        If (sDatabaseSchedules.IndexOf(rs.Column("databasename").StringValue) >= 0) Then
-		          'schedule already added to this database
-		          rs.MoveToNextRow
-		          Continue
-		        End If
-		        
-		        If bNeedsSeparator Then
-		          bNeedsSeparator = False
-		          lstAddDatabases.AddRow("-", "")
-		        End If
-		        
-		        lstAddDatabases.AddRow(rs.Column("databasename").StringValue)
-		        If (iPreSelectIndex = 0) Then iPreSelectIndex = lstAddDatabases.LastAddedRowIndex
-		        
-		        rs.MoveToNextRow
-		      Wend
+		    If bNeedsSeparator Then
+		      bNeedsSeparator = False
+		      lstAddDatabases.AddSeparator()
 		    End If
 		    
-		    rs.Close
-		    
-		    If (lstAddDatabases.LastRowIndex >= iPreSelectIndex) Then lstAddDatabases.SelectedRowIndex = iPreSelectIndex
-		    
-		  Catch DatabaseException
-		    
-		  End Try
+		    lstAddDatabases.AddRow(databasename)
+		    If (iPreSelectIndex = 0) Then iPreSelectIndex = lstAddDatabases.LastAddedRowIndex
+		  Next
+		  
+		  If (lstAddDatabases.LastRowIndex >= iPreSelectIndex) Then lstAddDatabases.SelectedRowIndex = iPreSelectIndex
 		  
 		End Sub
 	#tag EndMethod

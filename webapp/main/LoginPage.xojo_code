@@ -479,7 +479,7 @@ Begin WebPage LoginPage
          _mPanelIndex    =   -1
       End
       Begin WebButton btnConnect
-         AllowAutoDisable=   False
+         AllowAutoDisable=   True
          Cancel          =   False
          Caption         =   "Connect"
          ControlID       =   ""
@@ -578,6 +578,33 @@ Begin WebPage LoginPage
          Width           =   346
          _mPanelIndex    =   -1
       End
+      Begin WebProgressWheel pgrConnect
+         Colorize        =   False
+         ControlID       =   ""
+         Enabled         =   True
+         Height          =   32
+         Index           =   -2147483648
+         Indicator       =   ""
+         Left            =   372
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         Parent          =   "rectLogin"
+         Scope           =   2
+         SVGColor        =   &c00000000
+         SVGData         =   ""
+         TabIndex        =   15
+         TabStop         =   True
+         Tooltip         =   ""
+         Top             =   440
+         Visible         =   False
+         Width           =   32
+         _mPanelIndex    =   -1
+      End
    End
    Begin WebMessageDialog dlgMessage
       ControlID       =   ""
@@ -596,6 +623,19 @@ Begin WebPage LoginPage
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
+   Begin WebTimer timConnect
+      ControlID       =   ""
+      Enabled         =   False
+      Index           =   -2147483648
+      Location        =   0
+      LockedInPosition=   False
+      Period          =   50
+      RunMode         =   0
+      Scope           =   2
+      TabIndex        =   15
+      TabStop         =   True
       _mPanelIndex    =   -1
    End
 End
@@ -656,8 +696,6 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub Connect()
-		  #Pragma BreakOnExceptions False
-		  
 		  Var db As New CubeSQLServer
 		  
 		  db.Host = edtHostname.Text.Trim
@@ -665,9 +703,11 @@ End
 		  db.Password = edtPassword.Text.Trim
 		  db.Port = edtPort.Text.Trim.ToInteger
 		  db.Encryption = lstEncryption.RowTagAt(lstEncryption.SelectedRowIndex)
-		  db.Timeout = 10
+		  db.Timeout = 5 'Connection Timeout
 		  
 		  Me.ConnectSSL(db)
+		  
+		  #Pragma BreakOnExceptions False
 		  
 		  Try
 		    If (Not db.Connect) Or (Not db.IsConnected) Then
@@ -680,11 +720,12 @@ End
 		    
 		  End Try
 		  
+		  db.Timeout = 10 'Timeout for Administration Commands
+		  
 		  If (Not Self.CheckAdmin(db)) Then
 		    ShowWarningDialog(dlgMessage, "cubeSQL Admin Login", "Insufficient privileges.", "This application requires Admin privileges in order to function properly.")
 		    Return 
 		  End If
-		  
 		  
 		  If Session.Login(db) Then
 		    'Clear Password for next Login
@@ -1048,7 +1089,17 @@ End
 #tag Events btnConnect
 	#tag Event
 		Sub Pressed()
-		  Self.Connect()
+		  pgrConnect.Visible = True
+		  
+		  timConnect.RunMode = WebTimer.RunModes.Single
+		  timConnect.Enabled = True
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Opening()
+		  Me.AllowAutoDisable = True
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1070,6 +1121,26 @@ End
 		  End Select
 		  
 		  Me.Text = "v." + appVersion + appStageCode
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events timConnect
+	#tag Event
+		Sub Run()
+		  Try
+		    Self.Connect()
+		    
+		  Catch err As RuntimeException
+		    pgrConnect.Visible = False
+		    Self.RefreshButtons()
+		    Raise err
+		    
+		  Finally
+		    pgrConnect.Visible = False
+		    Self.RefreshButtons()
+		    
+		  End Try
 		  
 		End Sub
 	#tag EndEvent

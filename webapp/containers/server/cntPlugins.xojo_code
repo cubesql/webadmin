@@ -1,5 +1,5 @@
 #tag WebContainerControl
-Begin cntDatasourceBase cntLog
+Begin cntDatasourceBase cntPlugins
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -29,7 +29,7 @@ Begin cntDatasourceBase cntLog
       ControlID       =   ""
       Enabled         =   True
       HasHeader       =   True
-      Height          =   422
+      Height          =   392
       HighlightSortedColumn=   True
       Index           =   -2147483648
       Indicator       =   0
@@ -45,10 +45,10 @@ Begin cntDatasourceBase cntLog
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
-      NoRowsMessage   =   "No Log entries"
+      NoRowsMessage   =   "No Plugins"
       ProcessingMessage=   ""
       RowCount        =   0
-      RowSelectionType=   0
+      RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
       SelectedRowColor=   colWebListBoxSelectedRow
@@ -61,216 +61,77 @@ Begin cntDatasourceBase cntLog
       Width           =   750
       _mPanelIndex    =   -1
    End
-   Begin WebButton btnRefresh
-      AllowAutoDisable=   False
-      Cancel          =   False
-      Caption         =   "Refresh"
-      ControlID       =   ""
-      Default         =   False
-      Enabled         =   False
-      Height          =   38
-      Index           =   -2147483648
-      Indicator       =   1
-      Left            =   630
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   True
-      LockTop         =   False
-      LockVertical    =   False
-      Scope           =   2
-      TabIndex        =   4
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   442
-      Visible         =   True
-      Width           =   100
-      _mPanelIndex    =   -1
-   End
-   Begin WebLabel labLogNumberOfEntries
-      Bold            =   False
+   Begin WebTextArea edtPluginDescription
+      AllowReturnKey  =   True
+      AllowSpellChecking=   False
+      Caption         =   ""
       ControlID       =   ""
       Enabled         =   True
-      FontName        =   ""
-      FontSize        =   0.0
-      Height          =   38
+      Height          =   80
+      Hint            =   "Description of selected Plugin"
       Index           =   -2147483648
-      Indicator       =   0
-      Italic          =   False
+      Indicator       =   ""
       Left            =   20
       LockBottom      =   True
       LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      Multiline       =   False
-      Scope           =   2
-      TabIndex        =   1
-      TabStop         =   True
-      Text            =   "Number of Log entries:"
-      TextAlignment   =   0
-      TextColor       =   &c000000FF
-      Tooltip         =   ""
-      Top             =   442
-      Underline       =   False
-      Visible         =   True
-      Width           =   197
-      _mPanelIndex    =   -1
-   End
-   Begin WebTextField edtLogNumberOfEntries
-      AllowAutoComplete=   False
-      AllowSpellChecking=   False
-      Caption         =   ""
-      ControlID       =   ""
-      Enabled         =   True
-      FieldType       =   3
-      Height          =   38
-      Hint            =   ""
-      Index           =   -2147483648
-      Indicator       =   0
-      Left            =   225
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      MaximumCharactersAllowed=   0
-      ReadOnly        =   False
-      Scope           =   2
-      TabIndex        =   2
-      TabStop         =   True
-      Text            =   "#constLogEntriesDefault"
-      TextAlignment   =   3
-      Tooltip         =   ""
-      Top             =   442
-      Visible         =   True
-      Width           =   120
-      _mPanelIndex    =   -1
-   End
-   Begin WebTimer timRefresh
-      ControlID       =   ""
-      Enabled         =   False
-      Index           =   -2147483648
-      Location        =   0
-      LockedInPosition=   True
-      Period          =   1
-      RunMode         =   0
-      Scope           =   2
-      _mPanelIndex    =   -1
-   End
-   Begin WebButton btnDownload
-      AllowAutoDisable=   False
-      Cancel          =   False
-      Caption         =   "Download"
-      ControlID       =   ""
-      Default         =   False
-      Enabled         =   False
-      Height          =   38
-      Index           =   -2147483648
-      Indicator       =   2
-      Left            =   522
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      MaximumCharactersAllowed=   0
+      ReadOnly        =   True
       Scope           =   2
-      TabIndex        =   3
+      TabIndex        =   1
       TabStop         =   True
+      Text            =   ""
+      TextAlignment   =   0
       Tooltip         =   ""
-      Top             =   442
+      Top             =   400
       Visible         =   True
-      Width           =   100
+      Width           =   710
       _mPanelIndex    =   -1
    End
 End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Event
-		Sub Opening()
-		  Self.RefreshButtons()
-		  
-		End Sub
-	#tag EndEvent
-
-
-	#tag Method, Flags = &h21
-		Private Sub ActionDownload()
-		  btnDownload.Enabled = False
-		  
-		  Var prepareDownload As New WebFile
-		  prepareDownload.MimeType = "application/octet-stream"
-		  prepareDownload.ForceDownload = True
-		  prepareDownload.FileName = "cubeSQL-Log_" + esLogTimestamp + ".txt"
-		  prepareDownload.Data = Me.TableDataAsTxt()
-		  AddHandler prepareDownload.Downloaded, WeakAddressOf Self.ActionDownloadStarted
-		  
-		  Me.Download = prepareDownload
-		  
-		  Call Me.Download.Download()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ActionDownloadStarted(file As WebFile)
-		  If (file = Me.Download) Then
-		    Me.Download = Nil
-		  End If
-		  
-		  Me.RefreshButtons()
-		  
-		End Sub
-	#tag EndMethod
-
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  Super.Constructor
 		  
-		  Me.Area = "Information"
-		  Me.Title = "Log"
+		  Me.Area = "Server"
+		  Me.Title = "Plugins"
 		  Me.Table = lstInfos
 		  Me.SearchAvailable = True
 		  
+		  esSelectAfterReload = Session.State.Lookup("pluginname", "").StringValue
 		  
-		  Var sessionState As String = Session.State.Lookup("LogNumberOfEntries", "50").StringValue
-		  If (sessionState <> "") And (sessionState.ToInteger > 0) Then
-		    edtLogNumberOfEntries.Text = sessionState
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetSelectedPluginname() As String
+		  Var selectedRowTag As Variant = Me.GetSelectedTableRowTag()
+		  If (selectedRowTag IsA Dictionary) Then
+		    Return Dictionary(selectedRowTag).Lookup("name", "").StringValue
 		  End If
 		  
+		  Return ""
 		  
-		End Sub
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub RefreshButtons()
-		  Var bRefresh As Boolean = (edtLogNumberOfEntries.Text.ToInteger > 0)
-		  Var bDownload As Boolean = bRefresh And (Me.TableRows <> Nil) And (Me.TableRows.LastIndex >= 0)
+		Private Sub ShowDescription()
+		  Var selectedPluginDescription As String
 		  
-		  If (btnRefresh.Enabled <> bRefresh) Then btnRefresh.Enabled = bRefresh
-		  If (btnDownload.Enabled <> bDownload) Then btnDownload.Enabled = bDownload
+		  Var selectedRowTag As Variant = Me.GetSelectedTableRowTag()
+		  If (selectedRowTag IsA Dictionary) Then
+		    selectedPluginDescription = Dictionary(selectedRowTag).Lookup("description", "").StringValue
+		  End If
 		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub RefreshLog(pbImmediately As Boolean)
-		  'if already running, stop
-		  timRefresh.RunMode = WebTimer.RunModes.Off
-		  timRefresh.Enabled = False
-		  
-		  timRefresh.Period = If(pbImmediately, 1, 800)
-		  timRefresh.RunMode = WebTimer.RunModes.Single
-		  timRefresh.Enabled = True
+		  edtPluginDescription.Text = selectedPluginDescription
 		  
 		End Sub
 	#tag EndMethod
@@ -282,55 +143,38 @@ End
 		  Var col As DatasourceColumn
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "15%"
-		  col.DatabaseColumnName = "datetime"
-		  col.Heading = "Date"
-		  col.FieldType = DatasourceColumn.FieldTypes.SQLDateTime
+		  col.Width = "30%"
+		  col.DatabaseColumnName = "name"
+		  col.Heading = "Name"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
 		  col.Sortable = True
-		  col.SortDirection = WebListBox.SortDirections.Descending
+		  col.SortDirection = WebListBox.SortDirections.Ascending
 		  Me.Columns.Add(col)
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "10%"
-		  col.DatabaseColumnName = "operation"
-		  col.Heading = "Operation"
+		  col.Width = "20%"
+		  col.DatabaseColumnName = "version"
+		  col.Heading = "Version"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text
 		  col.Sortable = False
 		  col.SortDirection = WebListBox.SortDirections.None
 		  Me.Columns.Add(col)
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "25%"
+		  col.Width = "39%" '-1% seems to prevent horizontal scrollbars
+		  col.DatabaseColumnName = "copyright"
+		  col.Heading = "Copyright"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "0%"
 		  col.DatabaseColumnName = "description"
 		  col.Heading = "Description"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = False
-		  col.SortDirection = WebListBox.SortDirections.None
-		  Me.Columns.Add(col)
-		  
-		  col = New DatasourceColumn()
-		  col.Width = "15%"
-		  col.DatabaseColumnName = "address"
-		  col.Heading = "Address"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = False
-		  col.SortDirection = WebListBox.SortDirections.None
-		  Me.Columns.Add(col)
-		  
-		  col = New DatasourceColumn()
-		  col.Width = "17%"
-		  col.DatabaseColumnName = "username"
-		  col.Heading = "Username"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = False
-		  col.SortDirection = WebListBox.SortDirections.None
-		  Me.Columns.Add(col)
-		  
-		  col = New DatasourceColumn()
-		  col.Width = "17%" '-1% seems to prevent horizontal scrollbars
-		  col.DatabaseColumnName = "database"
-		  col.Heading = "Database"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.IsHidden = True
 		  col.Sortable = False
 		  col.SortDirection = WebListBox.SortDirections.None
 		  Me.Columns.Add(col)
@@ -340,29 +184,16 @@ End
 
 	#tag Method, Flags = &h1
 		Protected Function TableLoadRowSet() As RowSet
-		  Var numLogEntries As Integer = edtLogNumberOfEntries.Text.ToInteger
-		  If (numLogEntries < 1) Then
-		    Return Nil
-		  End If
+		  edtPluginDescription.Text = ""
 		  
-		  Session.State.Value("LogNumberOfEntries") = edtLogNumberOfEntries.Text
-		  
-		  esLogTimestamp = DateTime.Now.ToString("yyyyMMdd-HHmmss")
-		  
-		  Return Session.DB.SelectSQL("SHOW LAST " + numLogEntries.ToString + " ROWS FROM LOG ORDER DESC")
+		  Return Session.DB.SelectSQL("SHOW PLUGINS")
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
 		Protected Function TableNoRowsMessage() As String
-		  Var infoNrOfEntries As String
-		  Var numLogEntries As Integer = edtLogNumberOfEntries.Text.ToInteger
-		  If (numLogEntries > 0) Then
-		    infoNrOfEntries = " (last " + numLogEntries.ToString + ")"
-		  End If
-		  
-		  Var sInfo As String = "No Log entries" + infoNrOfEntries
+		  Var sInfo As String = "No Plugins"
 		  
 		  If (Me.SearchValue <> "") Then
 		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
@@ -377,72 +208,45 @@ End
 		Protected Sub TableRowDataLoaded()
 		  Super.TableRowDataLoaded()
 		  
-		  Me.RefreshButtons()
+		  Var sSelectAfterReload As String = esSelectAfterReload
+		  esSelectAfterReload = ""
+		  
+		  Var bFound As Boolean = False
+		  For i As Integer = Me.Table.LastRowIndex DownTo 0
+		    Var rowTag As Dictionary = Me.Table.RowTagAt(i)
+		    If (rowTag IsA Dictionary) Then
+		      If (rowTag.Lookup("name", "").StringValue <> sSelectAfterReload) Then Continue
+		      Me.Table.SelectedRowIndex = i
+		      bFound = True
+		      Exit 'Loop
+		    End If
+		  Next
+		  
+		  If (Not bFound) And (Me.TableRows <> Nil) And (Me.TableRows.LastIndex >= 0) And (Me.Table.RowCount > 0) Then
+		    Me.Table.SelectedRowIndex = 0
+		  End If
+		  
+		  Me.ShowDescription()
 		  
 		End Sub
 	#tag EndMethod
 
 
 	#tag Property, Flags = &h21
-		Private Download As WebFile
+		Private esSelectAfterReload As String
 	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private esLogTimestamp As String
-	#tag EndProperty
-
-
-	#tag Constant, Name = constLogEntriesDefault, Type = String, Dynamic = False, Default = \"50", Scope = Private
-	#tag EndConstant
 
 
 #tag EndWindowCode
 
-#tag Events btnRefresh
+#tag Events lstInfos
 	#tag Event
-		Sub Pressed()
-		  Self.RefreshLog(True)
+		Sub SelectionChanged(rows() As Integer)
+		  #Pragma unused rows
 		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events edtLogNumberOfEntries
-	#tag Event
-		Sub TextChanged()
-		  If (Not ebOpened) Then Return
+		  Self.ShowDescription()
 		  
-		  Self.RefreshLog(False)
-		  
-		End Sub
-	#tag EndEvent
-	#tag Event
-		Sub FocusLost()
-		  If (Not ebOpened) Then Return
-		  
-		  If (edtLogNumberOfEntries.Text.ToInteger < 1) Then
-		    Me.Text = constLogEntriesDefault
-		  End If
-		  
-		  Self.RefreshButtons()
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events timRefresh
-	#tag Event
-		Sub Run()
-		  Me.RunMode = WebTimer.RunModes.Off
-		  Me.Enabled = False
-		  
-		  Self.TableLoad()
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events btnDownload
-	#tag Event
-		Sub Pressed()
-		  Self.ActionDownload()
+		  Session.State.Value("pluginname") = Self.GetSelectedPluginname()
 		  
 		End Sub
 	#tag EndEvent

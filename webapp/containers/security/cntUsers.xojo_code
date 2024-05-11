@@ -637,7 +637,7 @@ End
 		Private Sub LoadGroups()
 		  lstFilterGroup.RemoveAllRows
 		  lstFilterGroup.AddRow("(ALL)", "")
-		  lstFilterGroup.AddRow("-", "")
+		  lstFilterGroup.AddSeparator()
 		  
 		  Var iPreselectIndex As Integer = 0
 		  Var sessionStateGroupname As String = Session.State.Lookup("groupname", "").StringValue
@@ -665,7 +665,7 @@ End
 		  Catch DatabaseException
 		    
 		  Finally
-		    lstFilterGroup.AddRow("-", "")
+		    lstFilterGroup.AddSeparator()
 		    lstFilterGroup.AddRow("(UNASSIGNED)", kGroupTagUnassigned)
 		    If (sessionStateGroupname <> "") And (sessionStateGroupname = kGroupTagUnassigned) Then
 		      iPreselectIndex = lstFilterGroup.LastAddedRowIndex
@@ -763,7 +763,7 @@ End
 		  If ebShowDetails Then
 		    col.Width = "40%"
 		  Else
-		    col.Width = "100%"
+		    col.Width = "*"
 		  End If
 		  col.DatabaseColumnName = "username"
 		  col.Heading = "Username"
@@ -785,7 +785,7 @@ End
 		    Me.Columns.Add(col)
 		    
 		    col = New DatasourceColumn()
-		    col.Width = "50%"
+		    col.Width = "49%" '-1% seems to prevent horizontal scrollbars
 		    col.DatabaseColumnName = "groupnames"
 		    col.Heading = "Groups"
 		    col.IsVirtual = True
