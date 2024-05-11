@@ -51,7 +51,7 @@ Begin cntDatasourceBase cntCommands
       RowSelectionType=   0
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -84,7 +84,7 @@ End
 		  Var col As DatasourceColumn
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "*"
+		  col.Width = "65%"
 		  col.DatabaseColumnName = "command"
 		  col.Heading = "Command"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text
@@ -93,7 +93,7 @@ End
 		  Me.Columns.Add(col)
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "20%"
+		  col.Width = "15%"
 		  col.DatabaseColumnName = "context"
 		  col.Heading = "Context"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text
@@ -129,6 +129,21 @@ End
 		  End If
 		  
 		  Return sInfo
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableRowColumnData(col As DatasourceColumn, row As Dictionary) As Variant
+		  Select Case col.DatabaseColumnName
+		    
+		  Case "command"
+		    Return New CopyContentCellRenderer(row.Lookup(col.DatabaseColumnName, "").StringValue)
+		    
+		  Else
+		    Return Super.TableRowColumnData(col, row)
+		    
+		  End Select
 		  
 		End Function
 	#tag EndMethod

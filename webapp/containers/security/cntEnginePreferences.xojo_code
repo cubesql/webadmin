@@ -51,7 +51,7 @@ Begin cntDatasourceBase cntEnginePreferences
       RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -325,7 +325,7 @@ Begin cntDatasourceBase cntEnginePreferences
       Index           =   -2147483648
       Indicator       =   0
       LockBottom      =   False
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   False
@@ -363,6 +363,25 @@ Begin cntDatasourceBase cntEnginePreferences
       Top             =   442
       Visible         =   True
       Width           =   100
+      _mPanelIndex    =   -1
+   End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
       _mPanelIndex    =   -1
    End
 End
@@ -418,7 +437,7 @@ End
 		    Session.DB.ExecuteSQL(sql)
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Drop Engine Preference", "Could not drop engine preference.", err)
+		    ShowErrorDialog(dlgMessage, "Drop Engine Preference", "Could not drop engine preference.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -474,7 +493,7 @@ End
 		    Session.DB.ExecuteSQL(sql)
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Set Engine Preference", "Could not set engine preference.", err)
+		    ShowErrorDialog(dlgMessage, "Set Engine Preference", "Could not set engine preference.", err)
 		    Return False
 		    
 		  End Try
@@ -700,7 +719,7 @@ End
 		  Me.Columns.Add(col)
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "*"
+		  col.Width = "34%"
 		  col.DatabaseColumnName = "value"
 		  col.Heading = "Value"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text

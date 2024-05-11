@@ -137,7 +137,7 @@ Begin dlgBase dlgUserGroups
       RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   1
       TabStop         =   True
@@ -202,6 +202,25 @@ Begin dlgBase dlgUserGroups
       Top             =   288
       Visible         =   True
       Width           =   100
+      _mPanelIndex    =   -1
+   End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
       _mPanelIndex    =   -1
    End
 End
@@ -367,7 +386,7 @@ End
 		    Session.DB.ExecuteSQL("ADD USER '" + esUsername.EscapeSqlQuotes + "' TO GROUP '" + group.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Add User to Group", "Could not add user to group.", err)
+		    ShowErrorDialog(dlgMessage, "Add User to Group", "Could not add user to group.", err)
 		    Return
 		    
 		  End Try
@@ -428,7 +447,7 @@ End
 		    Session.DB.ExecuteSQL("REMOVE USER '" + esUsername.EscapeSqlQuotes + "' FROM GROUP '" + group.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Remove User from Group", "Could not remove user from group.", err)
+		    ShowErrorDialog(dlgMessage, "Remove User from Group", "Could not remove user from group.", err)
 		    Return 
 		    
 		  End Try

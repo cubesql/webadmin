@@ -51,7 +51,7 @@ Begin cntDatasourceBase cntDatabases
       RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -433,6 +433,25 @@ Begin cntDatasourceBase cntDatabases
       Width           =   120
       _mPanelIndex    =   -1
    End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
 End
 #tag EndWebContainerControl
 
@@ -465,7 +484,7 @@ End
 		    Session.DB.ExecuteSQL("ENCRYPT DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "' WITH KEY '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Change Key for Database", "Could not set change key for database.", err)
+		    ShowErrorDialog(dlgMessage, "Change Key for Database", "Could not set change key for database.", err)
 		    Return False
 		    
 		  End Try
@@ -501,7 +520,7 @@ End
 		    Session.DB.ExecuteSQL(sqlCreateDb)
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Create Database", "Could not create database.", err)
+		    ShowErrorDialog(dlgMessage, "Create Database", "Could not create database.", err)
 		    Return False
 		    
 		  End Try
@@ -548,7 +567,7 @@ End
 		    Session.DB.ExecuteSQL("DECRYPT DATABASE '" + sDecryptDatabasename.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Decrypt Database", "Could not decrypt database.", err)
+		    ShowErrorDialog(dlgMessage, "Decrypt Database", "Could not decrypt database.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -617,7 +636,7 @@ End
 		    Session.DB.ExecuteSQL("DROP DATABASE '" + sDropDatabasename.EscapeSqlQuotes + "' IF EXISTS")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Drop Database", "Could not drop database.", err)
+		    ShowErrorDialog(dlgMessage, "Drop Database", "Could not drop database.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -655,7 +674,7 @@ End
 		    Session.DB.ExecuteSQL("ENCRYPT DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "' WITH KEY '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Encrypt Database", "Could not encrypt database.", err)
+		    ShowErrorDialog(dlgMessage, "Encrypt Database", "Could not encrypt database.", err)
 		    Return False
 		    
 		  End Try
@@ -712,7 +731,7 @@ End
 		    Session.DB.ExecuteSQL("RENAME DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Rename Database", "Could not rename database.", err)
+		    ShowErrorDialog(dlgMessage, "Rename Database", "Could not rename database.", err)
 		    Return False
 		    
 		  End Try
@@ -775,7 +794,7 @@ End
 		    Session.DB.ExecuteSQL("SET KEY '" + Name.EscapeSqlQuotes + "' FOR DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Set Key for Database", "Could not set key for database.", err)
+		    ShowErrorDialog(dlgMessage, "Set Key for Database", "Could not set key for database.", err)
 		    Return False
 		    
 		  End Try
@@ -796,7 +815,7 @@ End
 		    Session.DB.ExecuteSQL("START DATABASE '" + databasename.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Start database", "Could not start database.", err)
+		    ShowErrorDialog(dlgMessage, "Start database", "Could not start database.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -815,7 +834,7 @@ End
 		    Session.DB.ExecuteSQL("STOP DATABASE '" + databasename.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Stop database", "Could not stop database.", err)
+		    ShowErrorDialog(dlgMessage, "Stop database", "Could not stop database.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -1011,7 +1030,7 @@ End
 		  Me.Columns.Add(col)
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "*"
+		  col.Width = "50%"
 		  col.DatabaseColumnName = "databasename"
 		  col.Heading = "Databasename"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text
@@ -1320,11 +1339,11 @@ End
 		    End If
 		    
 		    If update.HasKey("Hint") Then
-		      ShowInfoDialog("Upload Database", update.Lookup("Hint", "").StringValue.NthField("|", 1), update.Lookup("Hint", "").StringValue.NthField("|", 2))
+		      ShowInfoDialog(dlgMessage, "Upload Database", update.Lookup("Hint", "").StringValue.NthField("|", 1), update.Lookup("Hint", "").StringValue.NthField("|", 2))
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      ShowErrorDialog("Upload Database", "Could not upload database.", update.Lookup("Error", "").StringValue)
+		      ShowErrorDialog(dlgMessage, "Upload Database", "Could not upload database.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next
@@ -1460,7 +1479,7 @@ End
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      ShowErrorDialog("Download Database", "Could not download database.", update.Lookup("Error", "").StringValue)
+		      ShowErrorDialog(dlgMessage, "Download Database", "Could not download database.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next

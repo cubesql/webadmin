@@ -51,7 +51,7 @@ Begin cntDatasourceBase cntBackups
       RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -432,6 +432,25 @@ Begin cntDatasourceBase cntBackups
       Period          =   500
       RunMode         =   0
       Scope           =   2
+      _mPanelIndex    =   -1
+   End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
       _mPanelIndex    =   -1
    End
 End
@@ -942,7 +961,7 @@ End
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      ShowErrorDialog("Backup Database", "Could not backup database.", update.Lookup("Error", "").StringValue)
+		      ShowErrorDialog(dlgMessage, "Backup Database", "Could not backup database.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next
@@ -989,7 +1008,7 @@ End
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      ShowErrorDialog("Delete Backup", "Could not delete backup.", update.Lookup("Error", "").StringValue)
+		      ShowErrorDialog(dlgMessage, "Delete Backup", "Could not delete backup.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next
@@ -1036,7 +1055,7 @@ End
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      ShowErrorDialog("Restore Backup", "Could not restore backup.", update.Lookup("Error", "").StringValue)
+		      ShowErrorDialog(dlgMessage, "Restore Backup", "Could not restore backup.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next
@@ -1152,7 +1171,7 @@ End
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      ShowErrorDialog("Download Backup", "Could not download backup.", update.Lookup("Error", "").StringValue)
+		      ShowErrorDialog(dlgMessage, "Download Backup", "Could not download backup.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next

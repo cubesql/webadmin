@@ -1,11 +1,9 @@
 #tag Class
-Protected Class CheckboxCellRenderer
-Inherits WebListboxCellRenderer
+Protected Class CopyContentCellRenderer
+Inherits WebListBoxCellRenderer
 	#tag Event
 		Sub Deserialize(js As JSONItem)
-		  // Restore the values of the column to the object
-		  
-		  Checked = js.Lookup("checked", False).BooleanValue
+		  CopyContent = js.Lookup("copycontent", "")
 		  
 		End Sub
 	#tag EndEvent
@@ -17,7 +15,7 @@ Inherits WebListboxCellRenderer
 		  Var code() As String
 		  
 		  // All custom cells extend the XojoWeb.ListboxCellRenderer class
-		  code.Add "class CheckboxCell extends XojoWeb.ListboxCellRenderer {"
+		  code.Add "class TextWithCopyButtonCell extends XojoWeb.ListboxCellRenderer {"
 		  
 		  // You must override the "render" method
 		  // controlID (string): The identifier of the listbox control that the renderer is currently running under
@@ -32,30 +30,31 @@ Inherits WebListboxCellRenderer
 		  code.Add "    cell.innerText = '';"
 		  code.Add "    cell.innerHTML = '';"
 		  
-		  // Make a bootstrap checkbox
+		  // Make a Container for both Text and Copy Button
 		  code.Add "    let container = document.createElement('div');"
-		  code.Add "    container.className = 'form-check';"
-		  code.Add "    container.style = 'display: flex; align-items: center; margin-left: 5px;'"
+		  code.Add "    container.style = 'display: flex;';"
 		  
-		  code.Add "    let checkbox = document.createElement('input');"
-		  code.Add "    checkbox.type = 'checkbox';"
-		  code.Add "    checkbox.className = 'form-check-input';"
-		  code.Add "    checkbox.checked = data.checked;"
+		  // Div for Text
+		  code.Add "    let textContainer = document.createElement('div');"
+		  code.Add "    textContainer.innerText = data.copycontent;"
+		  code.Add "    textContainer.style = 'white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 5px;';"
+		  
+		  // Make a bootstrap Button
+		  code.Add "    let button = document.createElement('button');"
+		  code.Add "    button.className = 'btn btn-outline-secondary btn-sm';"
+		  code.Add "    button.innerText = 'Copy';"
+		  code.Add "    button.style= 'float: right; margin-left: auto;';"
 		  
 		  // Handle clicking on the button
-		  code.Add "    checkbox.addEventListener('click', function(ev) {"
-		  code.Add "      ev.stopPropagation();"
-		  code.Add "      var obj = new XojoWeb.JSONItem;"
-		  code.Add "      obj.set('row', rowIndex);" // All extensions should include the row (default is -1)
-		  code.Add "      obj.set('column', columnIndex);" // All extensions should include the column (default is -1)
-		  code.Add "      obj.set('identifier', 'idCheckbox');" // All extensions should include an identifier (default is "")
-		  code.Add "      obj.set('value', checkbox.checked);" // Including a value is optional (default is null)
-		  code.Add "      XojoWeb.controls.lookup(controlID).triggerServerEvent('CustomCellAction', obj);"
-		  code.Add "      return false;"
+		  code.Add "    button.addEventListener('click', function(ev) {"
+		  code.Add "        ev.stopPropagation();"
+		  code.Add "        navigator.clipboard.writeText(data.copycontent);"
+		  code.Add "        return false;"
 		  code.Add "    });"
 		  
 		  // Add our new content
-		  code.Add "    container.appendChild(checkbox);"
+		  code.Add "    container.appendChild(textContainer);"
+		  code.Add "    container.appendChild(button);"
 		  code.Add "    cell.appendChild(container);"
 		  code.Add "  }"
 		  code.Add "}"
@@ -67,30 +66,25 @@ Inherits WebListboxCellRenderer
 
 	#tag Event
 		Function Serialize() As JSONItem
-		  // Use this code to convert the value(s) needed to render your codes to JSON.
-		  // This is also used by non-datasource listboxes to store these settings for your column.
-		  
-		  Var js As New JSONItem
-		  js.Value("checked") = Checked
-		  
-		  return js
+		  Var result As New JSONItem
+		  result.Value("copycontent") = CopyContent
+		  Return result
 		End Function
 	#tag EndEvent
 
 
 	#tag Method, Flags = &h0
-		Sub Constructor(isChecked As Boolean)
+		Sub Constructor(Content As String)
 		  // Calling the overridden superclass constructor.
 		  Super.Constructor
 		  
-		  Self.Checked = isChecked
-		  
+		  Me.CopyContent = Content.Trim
 		End Sub
 	#tag EndMethod
 
 
-	#tag Property, Flags = &h0
-		Checked As Boolean
+	#tag Property, Flags = &h21
+		Private CopyContent As String
 	#tag EndProperty
 
 
@@ -133,14 +127,6 @@ Inherits WebListboxCellRenderer
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
-			EditorType=""
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Checked"
-			Visible=false
-			Group="Behavior"
-			InitialValue=""
-			Type="Boolean"
 			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior

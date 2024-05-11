@@ -51,7 +51,7 @@ Begin cntDatasourceBase cntLog
       RowSelectionType=   0
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -157,7 +157,7 @@ Begin cntDatasourceBase cntLog
       Enabled         =   False
       Index           =   -2147483648
       Location        =   0
-      LockedInPosition=   False
+      LockedInPosition=   True
       Period          =   1
       RunMode         =   0
       Scope           =   2

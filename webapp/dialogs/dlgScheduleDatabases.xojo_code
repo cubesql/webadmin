@@ -22,7 +22,6 @@ Begin dlgBase dlgScheduleDatabases
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -138,7 +137,7 @@ Begin dlgBase dlgScheduleDatabases
       RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   1
       TabStop         =   True
@@ -203,6 +202,25 @@ Begin dlgBase dlgScheduleDatabases
       Top             =   288
       Visible         =   True
       Width           =   100
+      _mPanelIndex    =   -1
+   End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
       _mPanelIndex    =   -1
    End
 End
@@ -367,7 +385,7 @@ End
 		    Session.DB.ExecuteSQL("ATTACH SCHEDULE '" + esSchedule.EscapeSqlQuotes + "' TO DATABASE '" + database.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Attach Database to Schedule", "Could not attach database to schedule.", err)
+		    ShowErrorDialog(dlgMessage, "Attach Database to Schedule", "Could not attach database to schedule.", err)
 		    Return
 		    
 		  End Try
@@ -428,7 +446,7 @@ End
 		    Session.DB.ExecuteSQL("DETACH SCHEDULE '" + esSchedule.EscapeSqlQuotes + "' FROM DATABASE '" + database.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Detach Database from Schedule", "Could not detach database from schedule.", err)
+		    ShowErrorDialog(dlgMessage, "Detach Database from Schedule", "Could not detach database from schedule.", err)
 		    Return 
 		    
 		  End Try
