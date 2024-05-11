@@ -98,7 +98,7 @@ Protected Module modCubeSQLAdmin
 	#tag Constant, Name = constUrl_CubeSQLServer, Type = String, Dynamic = False, Default = \"https://sqlabs.com/cubesql", Scope = Public
 	#tag EndConstant
 
-	#tag Constant, Name = constUrl_CubeSQLWebAdmin, Type = String, Dynamic = False, Default = \"https://github.com/jo-tools", Scope = Public
+	#tag Constant, Name = constUrl_CubeSQLWebAdmin, Type = String, Dynamic = False, Default = \"https://github.com/cubesql/webadmin", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = constUrl_DeveloperKey, Type = String, Dynamic = False, Default = \"https://www.sqlabs.com/cubesql_devkey.php", Scope = Public
@@ -107,7 +107,7 @@ Protected Module modCubeSQLAdmin
 	#tag Constant, Name = constUrl_JOTools, Type = String, Dynamic = False, Default = \"https://www.jo-tools.ch/", Scope = Public
 	#tag EndConstant
 
-	#tag Constant, Name = constUrl_MailTo_Contact, Type = String, Dynamic = False, Default = \"mailto:xojo@jo-tools.ch", Scope = Public
+	#tag Constant, Name = constUrl_JOToolsGitHub, Type = String, Dynamic = False, Default = \"https://github.com/jo-tools", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = constUrl_SQLabs, Type = String, Dynamic = False, Default = \"https://sqlabs.com/", Scope = Public
@@ -119,20 +119,20 @@ Protected Module modCubeSQLAdmin
 
 	#tag Enum, Name = ContainerKey, Type = Integer, Flags = &h0
 		None = -1
-		Status = 0
-		Registration = 1
-		Plugins = 2
-		Console = 3
-		Databases = 11
-		TablesAndIndexes = 12
-		Schedules = 14
-		Backups = 13
-		Groups = 21
-		Users = 22
-		Privileges = 23
-		EnginePreferences = 24
-		Commands = 31
-		Clients = 32
+		  Status = 0
+		  Registration = 1
+		  Plugins = 2
+		  Console = 3
+		  Databases = 11
+		  TablesAndIndexes = 12
+		  Schedules = 14
+		  Backups = 13
+		  Groups = 21
+		  Users = 22
+		  Privileges = 23
+		  EnginePreferences = 24
+		  Commands = 31
+		  Clients = 32
 		Log = 33
 	#tag EndEnum
 

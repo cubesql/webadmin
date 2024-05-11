@@ -4,7 +4,7 @@ Begin dlgBase dlgAbout
    ControlCount    =   0
    ControlID       =   ""
    Enabled         =   True
-   Height          =   655
+   Height          =   600
    Index           =   -2147483648
    Indicator       =   0
    LayoutDirection =   0
@@ -30,7 +30,7 @@ Begin dlgBase dlgAbout
       ControlID       =   ""
       Enabled         =   True
       HasBackgroundColor=   False
-      Height          =   549
+      Height          =   494
       Index           =   -2147483648
       Indicator       =   0
       LayoutDirection =   0
@@ -511,7 +511,7 @@ Begin dlgBase dlgAbout
          Width           =   140
          _mPanelIndex    =   -1
       End
-      Begin WebLink labWrittenBy
+      Begin WebLink labWrittenByWebsite
          Appearance      =   0
          Bold            =   False
          ControlID       =   ""
@@ -534,7 +534,7 @@ Begin dlgBase dlgAbout
          PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   13
+         TabIndex        =   14
          TabPanelIndex   =   0
          TabStop         =   True
          Target          =   1
@@ -542,49 +542,14 @@ Begin dlgBase dlgAbout
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
-         Top             =   406
+         Top             =   452
          Underline       =   False
          URL             =   "#constUrl_JOTools"
          Visible         =   True
-         Width           =   266
+         Width           =   120
          _mPanelIndex    =   -1
       End
-      Begin WebLabel labContactInfo
-         Bold            =   False
-         ControlID       =   ""
-         Enabled         =   True
-         FontName        =   ""
-         FontSize        =   12.0
-         Height          =   58
-         Index           =   -2147483648
-         Indicator       =   0
-         Italic          =   False
-         Left            =   214
-         LockBottom      =   False
-         LockedInPosition=   True
-         LockHorizontal  =   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   True
-         LockVertical    =   False
-         Multiline       =   True
-         PanelIndex      =   "0"
-         Parent          =   "rctFormContent"
-         Scope           =   2
-         TabIndex        =   14
-         TabPanelIndex   =   0
-         TabStop         =   True
-         Text            =   "If you want to say thanks I'd appreciate a message or a donation via PayPal."
-         TextAlignment   =   0
-         TextColor       =   colTextKey
-         Tooltip         =   ""
-         Top             =   452
-         Underline       =   False
-         Visible         =   True
-         Width           =   266
-         _mPanelIndex    =   -1
-      End
-      Begin WebLink labContact
+      Begin WebLink labWrittenByGitHub
          Appearance      =   0
          Bold            =   False
          ControlID       =   ""
@@ -595,12 +560,12 @@ Begin dlgBase dlgAbout
          Index           =   -2147483648
          Indicator       =   0
          Italic          =   False
-         Left            =   214
+         Left            =   342
          LockBottom      =   False
          LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
-         LockRight       =   False
+         LockRight       =   True
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
@@ -610,19 +575,19 @@ Begin dlgBase dlgAbout
          TabIndex        =   15
          TabPanelIndex   =   0
          TabStop         =   True
-         Target          =   2
-         Text            =   "Contact"
+         Target          =   1
+         Text            =   "GitHub: jo-tools"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
-         Top             =   518
+         Top             =   452
          Underline       =   False
-         URL             =   "#constUrl_MailTo_Contact"
+         URL             =   "#constUrl_JOToolsGitHub"
          Visible         =   True
-         Width           =   100
+         Width           =   140
          _mPanelIndex    =   -1
       End
-      Begin WebLabel labDonation
+      Begin WebLabel labWrittenByAuthor
          Bold            =   False
          ControlID       =   ""
          Enabled         =   True
@@ -632,29 +597,29 @@ Begin dlgBase dlgAbout
          Index           =   -2147483648
          Indicator       =   0
          Italic          =   False
-         Left            =   360
+         Left            =   214
          LockBottom      =   False
          LockedInPosition=   True
          LockHorizontal  =   False
-         LockLeft        =   False
+         LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   16
+         TabIndex        =   13
          TabPanelIndex   =   0
          TabStop         =   True
-         Text            =   "Donation"
-         TextAlignment   =   3
+         Text            =   "Jürg Otter"
+         TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
-         Top             =   518
+         Top             =   406
          Underline       =   False
          Visible         =   True
-         Width           =   120
+         Width           =   266
          _mPanelIndex    =   -1
       End
    End
@@ -680,7 +645,7 @@ Begin dlgBase dlgAbout
       TabIndex        =   1
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   597
+      Top             =   542
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -689,11 +654,6 @@ End
 #tag EndWebPage
 
 #tag WindowCode
-	#tag Property, Flags = &h21
-		Private wpPayPal As WebPicture
-	#tag EndProperty
-
-
 #tag EndWindowCode
 
 #tag Events labVersion
@@ -754,21 +714,6 @@ End
 	#tag Event
 		Sub Opening()
 		  Me.Text = "<raw><hr /></raw>"
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events labDonation
-	#tag Event
-		Sub Opening()
-		  Self.wpPayPal = New WebPicture(PayPal, "public.png")
-		  
-		  Var divBgColor As String = ""
-		  If Session.IsDarkMode Then
-		    divBgColor = " background-color: #D0D0D0;"
-		  End If
-		  
-		  Me.Text = "<raw><div style=""padding: 10px 10px 10px 10px;" + divBgColor + """><a href=""https://paypal.me/jotools"" target=""_blank"" style=""cursor: pointer;""><img src=""" + Self.wpPayPal.URL + """ width=""100"" height=""26"" border=""0""></a></div></raw>"
 		  
 		End Sub
 	#tag EndEvent
