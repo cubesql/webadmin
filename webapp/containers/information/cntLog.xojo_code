@@ -1,5 +1,5 @@
 #tag WebContainerControl
-Begin cntBase cntCommands
+Begin cntDatasourceBase cntLog
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -22,16 +22,15 @@ Begin cntBase cntCommands
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
-      ColumnCount     =   3
-      ColumnWidths    =   "60%, 20%, 20%"
+      ColumnCount     =   1
+      ColumnWidths    =   ""
       ControlID       =   ""
       Enabled         =   True
       HasHeader       =   True
-      Height          =   500
-      HighlightSortedColumn=   False
+      Height          =   422
+      HighlightSortedColumn=   True
       Index           =   -2147483648
       Indicator       =   0
       InitialValue    =   ""
@@ -46,7 +45,7 @@ Begin cntBase cntCommands
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
-      NoRowsMessage   =   "No Commands"
+      NoRowsMessage   =   "No Log entries"
       ProcessingMessage=   ""
       RowCount        =   0
       RowSelectionType=   0
@@ -62,13 +61,106 @@ Begin cntBase cntCommands
       Width           =   750
       _mPanelIndex    =   -1
    End
+   Begin WebButton btnRefresh
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Refresh"
+      ControlID       =   ""
+      Default         =   False
+      Enabled         =   False
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   1
+      Left            =   630
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   False
+      LockRight       =   True
+      LockTop         =   False
+      LockVertical    =   False
+      Scope           =   2
+      TabIndex        =   3
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   442
+      Visible         =   True
+      Width           =   100
+      _mPanelIndex    =   -1
+   End
+   Begin WebLabel labLogNumberOfEntries
+      Bold            =   False
+      ControlID       =   ""
+      Enabled         =   True
+      FontName        =   ""
+      FontSize        =   0.0
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   0
+      Italic          =   False
+      Left            =   20
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      LockVertical    =   False
+      Multiline       =   False
+      Scope           =   2
+      TabIndex        =   1
+      TabStop         =   True
+      Text            =   "Number of Log entries:"
+      TextAlignment   =   0
+      TextColor       =   &c000000FF
+      Tooltip         =   ""
+      Top             =   442
+      Underline       =   False
+      Visible         =   True
+      Width           =   197
+      _mPanelIndex    =   -1
+   End
+   Begin WebTextField edtLogNumberOfEntries
+      AllowAutoComplete=   False
+      AllowSpellChecking=   False
+      Caption         =   ""
+      ControlID       =   ""
+      Enabled         =   True
+      FieldType       =   3
+      Height          =   38
+      Hint            =   ""
+      Index           =   -2147483648
+      Indicator       =   0
+      Left            =   225
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      LockVertical    =   False
+      MaximumCharactersAllowed=   0
+      ReadOnly        =   False
+      Scope           =   2
+      TabIndex        =   2
+      TabStop         =   True
+      Text            =   "#constLogEntriesDefault"
+      TextAlignment   =   3
+      Tooltip         =   ""
+      Top             =   442
+      Visible         =   True
+      Width           =   120
+      _mPanelIndex    =   -1
+   End
 End
 #tag EndWebContainerControl
 
 #tag WindowCode
 	#tag Event
 		Sub Opening()
+		  Self.RefreshButtons()
 		  Self.ShowInfos()
+		  
 		End Sub
 	#tag EndEvent
 
@@ -77,60 +169,121 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
-		  me.Title = "Commands"
+		  Me.Title = "Log"
+		  
+		  
+		  Redim Me.Columns(-1)
+		  
+		  Var col As DatasourceColumn
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "15%"
+		  col.DatabaseColumnName = "datetime"
+		  col.Heading = "Date"
+		  col.FieldType = DatasourceColumn.FieldTypes.SQLDateTime
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.Descending
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "10%"
+		  col.DatabaseColumnName = "operation"
+		  col.Heading = "Operation"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "25%"
+		  col.DatabaseColumnName = "description"
+		  col.Heading = "Description"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "15%"
+		  col.DatabaseColumnName = "address"
+		  col.Heading = "Address"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "17%"
+		  col.DatabaseColumnName = "username"
+		  col.Heading = "Username"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "18%"
+		  col.DatabaseColumnName = "database"
+		  col.Heading = "Database"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshButtons()
+		  btnRefresh.Enabled = (edtLogNumberOfEntries.Text.ToInteger > 0)
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
-		  lstInfos.RemoveAllRows
+		  Var numLogEntries As Integer = edtLogNumberOfEntries.Text.ToInteger
+		  If (numLogEntries < 1) Then
+		    Return
+		  End If
 		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW COMMANDS")
-		    If (rs = Nil) Then Return
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        lstInfos.AddRow(rs.Column("command").StringValue)
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 1) = rs.Column("context").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 2) = rs.Column("privilege").StringValue
-		        
-		        rs.MoveToNextRow
-		      Wend
-		    End If
-		    
-		    
-		    rs.Close
-		    
-		    
-		  Catch DatabaseException
-		    
-		  End Try
+		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW LAST " + numLogEntries.ToString + " ROWS FROM Log ORDER DESC"))
+		  
+		  If (lstInfos.DataSource = Nil) Then
+		    lstInfos.DataSource = Self
+		  Else
+		    lstInfos.ReloadData()
+		  End If
 		  
 		End Sub
 	#tag EndMethod
 
 
+	#tag Constant, Name = constLogEntriesDefault, Type = String, Dynamic = False, Default = \"50", Scope = Private
+	#tag EndConstant
+
+
 #tag EndWindowCode
 
-#tag Events lstInfos
+#tag Events btnRefresh
 	#tag Event
-		Sub Opening()
-		  Me.HeaderAt(0) = "Command"
-		  Me.HeaderAt(1) = "Context"
-		  Me.HeaderAt(2) = "Privilege"
+		Sub Pressed()
+		  Self.ShowInfos()
 		  
-		  Me.ColumnSortTypeAt(0) = WebListBox.SortTypes.Sortable
-		  Me.ColumnSortDirectionAt(0) = WebListbox.SortDirections.Ascending
-		  
-		  Me.ColumnSortTypeAt(1) = WebListBox.SortTypes.Unsortable
-		  Me.ColumnSortDirectionAt(1) = WebListbox.SortDirections.None
-		  
-		  Me.ColumnSortTypeAt(2) = WebListBox.SortTypes.Unsortable
-		  Me.ColumnSortDirectionAt(2) = WebListbox.SortDirections.None
-		  
-		  Me.RemoveAllRows
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events edtLogNumberOfEntries
+	#tag Event
+		Sub TextChanged()
+		  self.ShowInfos()
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub FocusLost()
+		  If (edtLogNumberOfEntries.Text.ToInteger < 1) Then
+		    Me.Text = constLogEntriesDefault
+		  End If
 		  
 		End Sub
 	#tag EndEvent

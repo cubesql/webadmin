@@ -29,7 +29,6 @@ Begin WebPage LoginPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebRectangle rectLogin
       BackgroundColor =   &cFFFFFF
@@ -44,7 +43,7 @@ Begin WebPage LoginPage
       LayoutType      =   0
       Left            =   20
       LockBottom      =   False
-      LockedInPosition=   True
+      LockedInPosition=   False
       LockHorizontal  =   True
       LockLeft        =   False
       LockRight       =   False
@@ -82,7 +81,7 @@ Begin WebPage LoginPage
          Multiline       =   False
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   2
+         TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Hostname:"
@@ -115,10 +114,10 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   4
+         TabIndex        =   5
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Username:"
@@ -151,10 +150,10 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   6
+         TabIndex        =   7
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Password:"
@@ -187,10 +186,10 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   8
+         TabIndex        =   9
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Port:"
@@ -223,10 +222,10 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   10
+         TabIndex        =   11
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Encryption:"
@@ -263,7 +262,7 @@ Begin WebPage LoginPage
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   3
+         TabIndex        =   4
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -295,11 +294,11 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   5
+         TabIndex        =   6
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -334,7 +333,7 @@ Begin WebPage LoginPage
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   7
+         TabIndex        =   8
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -366,11 +365,11 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   9
+         TabIndex        =   10
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -404,7 +403,7 @@ Begin WebPage LoginPage
          Scope           =   2
          SelectedRowIndex=   0
          SelectedRowText =   ""
-         TabIndex        =   11
+         TabIndex        =   12
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
@@ -466,7 +465,7 @@ Begin WebPage LoginPage
          Multiline       =   False
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   1
+         TabIndex        =   2
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "cubeSQL Admin"
@@ -500,7 +499,7 @@ Begin WebPage LoginPage
          LockVertical    =   False
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   12
+         TabIndex        =   14
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
@@ -529,7 +528,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
@@ -542,6 +541,41 @@ Begin WebPage LoginPage
          Top             =   391
          Visible         =   False
          Width           =   188
+         _mPanelIndex    =   -1
+      End
+      Begin WebLabel labVersion
+         Bold            =   False
+         ControlID       =   ""
+         Enabled         =   True
+         FontName        =   ""
+         FontSize        =   8.0
+         Height          =   38
+         Index           =   -2147483648
+         Indicator       =   0
+         Italic          =   False
+         Left            =   214
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         Multiline       =   False
+         PanelIndex      =   0
+         Parent          =   "rectLogin"
+         Scope           =   2
+         TabIndex        =   1
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   "v.0.0.0"
+         TextAlignment   =   3
+         TextColor       =   &c000000FF
+         Tooltip         =   ""
+         Top             =   40
+         Underline       =   False
+         Visible         =   True
+         Width           =   346
          _mPanelIndex    =   -1
       End
    End
@@ -600,7 +634,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub Connect()
-		  #Pragma BreakOnExceptions off
+		  #Pragma BreakOnExceptions False
 		  
 		  Var db As New CubeSQLServer
 		  
@@ -660,7 +694,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ConnectSSL(db As CubeSQLServer)
-		  #Pragma BreakOnExceptions off
+		  #Pragma BreakOnExceptions False
 		  
 		  If (db.Encryption <> CubeSQLPlugin.kSSL) Then
 		    db.SSLCertificate = Nil
@@ -693,8 +727,8 @@ End
 		          Var fileSSLCertificatePassword As FolderItem = New FolderItem(setSSLCertificatePassword, FolderItem.PathModes.Native)
 		          If (fileSSLCertificatePassword <> Nil) And fileSSLCertificatePassword.Exists Then
 		            Try
-		              Dim stream As TextInputStream = TextInputStream.Open(fileSSLCertificatePassword)
-		              Dim s As String = stream.ReadAll(Encodings.UTF8)
+		              Var stream As TextInputStream = TextInputStream.Open(fileSSLCertificatePassword)
+		              Var s As String = stream.ReadAll(Encodings.UTF8)
 		              stream.Close
 		              
 		              If (s.Trim <> "") Then db.SSLCertificatePassword = s.Trim
@@ -732,8 +766,8 @@ End
 		        Var fileSSLCipherList As FolderItem = New FolderItem(setSSLCipherList, FolderItem.PathModes.Native)
 		        If (fileSSLCipherList <> Nil) And fileSSLCipherList.Exists Then
 		          Try
-		            Dim stream As TextInputStream = TextInputStream.Open(fileSSLCipherList)
-		            Dim s As String = stream.ReadAll(Encodings.UTF8)
+		            Var stream As TextInputStream = TextInputStream.Open(fileSSLCipherList)
+		            Var s As String = stream.ReadAll(Encodings.UTF8)
 		            stream.Close
 		            
 		            If (s.Trim <> "") Then db.SSLCipherList = s.Trim
@@ -845,7 +879,9 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub SelectionChanged(item As WebMenuItem)
-		  Dim bSSLPemPwdVisible As Boolean = False
+		  #Pragma unused item
+		  
+		  Var bSSLPemPwdVisible As Boolean = False
 		  
 		  If (Me.RowTagAt(Me.SelectedRowIndex) = CubeSQLPlugin.kSSL) Then
 		    Var setSSLCertificate As String
@@ -868,6 +904,28 @@ End
 	#tag Event
 		Sub Pressed()
 		  self.Connect()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events labVersion
+	#tag Event
+		Sub Opening()
+		  Var appVersion As String = App.Version
+		  Var appStageCode As String
+		  
+		  Select Case App.StageCode
+		  Case 0
+		    appStageCode = "-dev"
+		  Case 1
+		    appStageCode = "-alpha"
+		  Case 2
+		    appStageCode = "-beta"
+		  Else
+		    'Final
+		  End Select
+		  
+		  Me.Text = "v." + appVersion + appStageCode
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents

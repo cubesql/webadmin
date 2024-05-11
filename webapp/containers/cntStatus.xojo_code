@@ -22,7 +22,6 @@ Begin cntBase cntStatus
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
       ColumnCount     =   2
@@ -90,7 +89,7 @@ Begin cntBase cntStatus
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       ScrollDirection =   0
       TabIndex        =   1

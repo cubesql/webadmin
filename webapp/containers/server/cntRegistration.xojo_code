@@ -1,5 +1,5 @@
 #tag WebContainerControl
-Begin cntBase cntLog
+Begin cntBase cntRegistration
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -22,16 +22,15 @@ Begin cntBase cntLog
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
-      ColumnCount     =   6
-      ColumnWidths    =   "15%,10%,25%,15%,18%,17%"
+      ColumnCount     =   2
+      ColumnWidths    =   "50%,50%"
       ControlID       =   ""
       Enabled         =   True
-      HasHeader       =   True
+      HasHeader       =   False
       Height          =   422
-      HighlightSortedColumn=   True
+      HighlightSortedColumn=   False
       Index           =   -2147483648
       Indicator       =   0
       InitialValue    =   ""
@@ -46,7 +45,7 @@ Begin cntBase cntLog
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
-      NoRowsMessage   =   "No Log entries"
+      NoRowsMessage   =   "No Registration Information"
       ProcessingMessage=   ""
       RowCount        =   0
       RowSelectionType=   0
@@ -62,95 +61,33 @@ Begin cntBase cntLog
       Width           =   750
       _mPanelIndex    =   -1
    End
-   Begin WebButton btnRefresh
-      AllowAutoDisable=   False
-      Cancel          =   False
-      Caption         =   "Refresh"
+   Begin cntRegistrationAction cntServerRegistration
+      ControlCount    =   0
       ControlID       =   ""
-      Default         =   False
-      Enabled         =   False
-      Height          =   38
+      Enabled         =   True
+      Height          =   78
       Index           =   -2147483648
-      Indicator       =   1
-      Left            =   630
+      Indicator       =   0
+      LayoutDirection =   0
+      LayoutType      =   0
+      Left            =   0
       LockBottom      =   True
       LockedInPosition=   True
       LockHorizontal  =   False
-      LockLeft        =   False
+      LockLeft        =   True
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
       Scope           =   2
-      TabIndex        =   3
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   442
-      Visible         =   True
-      Width           =   100
-      _mPanelIndex    =   -1
-   End
-   Begin WebLabel labLogNumberOfEntries
-      Bold            =   False
-      ControlID       =   ""
-      Enabled         =   True
-      FontName        =   ""
-      FontSize        =   0.0
-      Height          =   38
-      Index           =   -2147483648
-      Indicator       =   0
-      Italic          =   False
-      Left            =   20
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      Multiline       =   False
-      Scope           =   2
+      ScrollDirection =   0
       TabIndex        =   1
       TabStop         =   True
-      Text            =   "Number of Log entries:"
-      TextAlignment   =   0
-      TextColor       =   &c000000FF
       Tooltip         =   ""
-      Top             =   442
-      Underline       =   False
+      Top             =   422
       Visible         =   True
-      Width           =   197
-      _mPanelIndex    =   -1
-   End
-   Begin WebTextField edtLogNumberOfEntries
-      AllowAutoComplete=   False
-      AllowSpellChecking=   False
-      Caption         =   ""
-      ControlID       =   ""
-      Enabled         =   True
-      FieldType       =   3
-      Height          =   38
-      Hint            =   ""
-      Index           =   -2147483648
-      Indicator       =   0
-      Left            =   225
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      MaximumCharactersAllowed=   0
-      ReadOnly        =   False
-      Scope           =   2
-      TabIndex        =   2
-      TabStop         =   True
-      Text            =   "50"
-      TextAlignment   =   3
-      Tooltip         =   ""
-      Top             =   442
-      Visible         =   True
-      Width           =   120
+      Width           =   750
+      _mDesignHeight  =   0
+      _mDesignWidth   =   0
       _mPanelIndex    =   -1
    End
 End
@@ -159,9 +96,7 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Opening()
-		  Self.RefreshButtons()
 		  Self.ShowInfos()
-		  
 		End Sub
 	#tag EndEvent
 
@@ -170,42 +105,66 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
-		  me.Title = "Log"
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub RefreshButtons()
-		  btnRefresh.Enabled = (edtLogNumberOfEntries.Text.ToInteger > 0)
-		  
+		  me.Title = "Registration"
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
 		  lstInfos.RemoveAllRows
-		  Var numLogEntries As Integer = edtLogNumberOfEntries.Text.ToInteger
+		  
+		  lstInfos.AddRow "Server Name"
+		  lstInfos.AddRow ""
+		  lstInfos.AddRow "Registered to"
+		  lstInfos.AddRow "Registration type"
+		  lstInfos.AddRow "Upgrade plan expiration date"
+		  lstInfos.AddRow "Max allowed connections"
+		  
+		  Var styleKeyColumn As WebStyle = StyleListboxKeyColumn
+		  For i As Integer = 0 To lstInfos.LastRowIndex
+		    lstInfos.CellTextAt(i, 0) = New WebListBoxStyleRenderer(styleKeyColumn, lstInfos.CellTextAt(i, 0))
+		  Next
 		  
 		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW LAST " + numLogEntries.ToString + " ROWS FROM Log ORDER DESC")
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW PREFERENCES")
 		    If (rs = Nil) Then Return
 		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        lstInfos.AddRow(rs.Column("datetime").StringValue)
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 1) = rs.Column("operation").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 2) = rs.Column("description").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 3) = rs.Column("address").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 4) = rs.Column("username").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 5) = rs.Column("database").StringValue
-		        
-		        rs.MoveToNextRow
-		      Wend
+		    Var infos As New Dictionary
+		    For Each row As DatabaseRow In rs
+		      infos.Value(row.ColumnAt(0).StringValue) = row.ColumnAt(1).StringValue
+		    Next
+		    
+		    rs.Close
+		    
+		    
+		    rs = Session.DB.SelectSQL("SHOW INFO")
+		    If (rs <> Nil) Then
+		      
+		      For Each row As DatabaseRow In rs
+		        infos.Value(row.ColumnAt(0).StringValue) = row.ColumnAt(1).StringValue
+		      Next
+		      
+		      rs.Close
 		    End If
 		    
 		    
-		    rs.Close
+		    lstInfos.CellTextAt(0, 1) = infos.Lookup("SERVER_NAME", "cubeSQL").StringValue
+		    
+		    Var keyName As String = infos.Lookup("KEY_NAME", "").StringValue
+		    If (keyName = "") Or (keyName = "0") Then keyName = "N/A"
+		    lstInfos.CellTextAt(2, 1) = keyName
+		    
+		    lstInfos.CellTextAt(3, 1) = infos.Lookup("KEY_STATUS", "N/A").StringValue
+		    
+		    If (infos.Lookup("KEY_EXPIRATION", "") <> "") Then
+		      lstInfos.CellTextAt(4, 0) = New WebListBoxStyleRenderer(styleKeyColumn, "Key expiration")
+		      lstInfos.CellTextAt(4, 1) = infos.Lookup("server_license", "").StringValue
+		    Else
+		      lstInfos.CellTextAt(4, 0) = New WebListBoxStyleRenderer(styleKeyColumn, "Upgrade plan expiration date")
+		      lstInfos.CellTextAt(4, 1) = infos.Lookup("KEY_EXPIRATION_PLAN", "").StringValue
+		    End If
+		    
+		    lstInfos.CellTextAt(5, 1) = infos.Lookup("max_allowed_connections", "").StringValue
 		    
 		    
 		  Catch DatabaseException
@@ -218,41 +177,10 @@ End
 
 #tag EndWindowCode
 
-#tag Events lstInfos
+#tag Events cntServerRegistration
 	#tag Event
-		Sub Opening()
-		  Me.HeaderAt(0) = "DateTime"
-		  Me.HeaderAt(1) = "Operation"
-		  Me.HeaderAt(2) = "Description"
-		  Me.HeaderAt(3) = "Address"
-		  Me.HeaderAt(4) = "Username"
-		  Me.HeaderAt(5) = "Database"
-		  
-		  Me.ColumnSortTypeAt(0) = WebListBox.SortTypes.Sortable
-		  Me.ColumnSortDirectionAt(0) = WebListbox.SortDirections.Descending
-		  
-		  For i As Integer = 1 To 5
-		    Me.ColumnSortTypeAt(i) = WebListBox.SortTypes.Sortable
-		    Me.ColumnSortDirectionAt(i) = WebListbox.SortDirections.None
-		  next
-		  
-		  Me.RemoveAllRows
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events btnRefresh
-	#tag Event
-		Sub Pressed()
+		Sub NeedsRefresh()
 		  Self.ShowInfos()
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events edtLogNumberOfEntries
-	#tag Event
-		Sub TextChanged()
-		  Self.RefreshButtons()
 		  
 		End Sub
 	#tag EndEvent

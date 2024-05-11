@@ -1,5 +1,5 @@
 #tag WebContainerControl
-Begin cntBase cntGroups
+Begin cntDatasourceBase cntUsers
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -22,11 +22,10 @@ Begin cntBase cntGroups
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
-      ColumnCount     =   3
-      ColumnWidths    =   "30%, 10%, 60%"
+      ColumnCount     =   1
+      ColumnWidths    =   ""
       ControlID       =   ""
       Enabled         =   True
       HasHeader       =   True
@@ -46,7 +45,7 @@ Begin cntBase cntGroups
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
-      NoRowsMessage   =   "No Groups"
+      NoRowsMessage   =   "No Users"
       ProcessingMessage=   ""
       RowCount        =   0
       RowSelectionType=   1
@@ -81,7 +80,7 @@ Begin cntBase cntGroups
       LockTop         =   False
       LockVertical    =   False
       Scope           =   2
-      TabIndex        =   3
+      TabIndex        =   4
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -107,9 +106,9 @@ Begin cntBase cntGroups
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   2
+      TabIndex        =   3
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -135,7 +134,7 @@ Begin cntBase cntGroups
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
@@ -145,7 +144,7 @@ Begin cntBase cntGroups
       Width           =   100
       _mPanelIndex    =   -1
    End
-   Begin dlgCommonName dlgCreate
+   Begin dlgUserCreate dlgCreate
       ControlCount    =   0
       ControlID       =   ""
       Enabled         =   True
@@ -162,7 +161,7 @@ Begin cntBase cntGroups
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   5
       TabStop         =   True
@@ -191,7 +190,7 @@ Begin cntBase cntGroups
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   6
       TabStop         =   True
@@ -206,12 +205,126 @@ Begin cntBase cntGroups
    Begin WebThread thrDetails
       DebugIdentifier =   ""
       Index           =   -2147483648
-      LockedInPosition=   False
+      LockedInPosition=   True
       Priority        =   5
       Scope           =   2
       StackSize       =   0
       ThreadID        =   0
       ThreadState     =   0
+   End
+   Begin WebButton btnPassword
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Set Password"
+      ControlID       =   ""
+      Default         =   False
+      Enabled         =   False
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   5
+      Left            =   374
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   False
+      LockRight       =   True
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   2
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   442
+      Visible         =   True
+      Width           =   140
+      _mPanelIndex    =   -1
+   End
+   Begin dlgUserCreate dlgPassword
+      ControlCount    =   0
+      ControlID       =   ""
+      Enabled         =   True
+      Height          =   314
+      Index           =   -2147483648
+      Indicator       =   0
+      LayoutDirection =   0
+      LayoutType      =   0
+      Left            =   40
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockHorizontal  =   False
+      LockLeft        =   False
+      LockRight       =   False
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   7
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   40
+      Visible         =   True
+      Width           =   600
+      _mDesignHeight  =   0
+      _mDesignWidth   =   0
+      _mPanelIndex    =   -1
+   End
+   Begin WebButton btnGroups
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Groups"
+      ControlID       =   ""
+      Default         =   False
+      Enabled         =   False
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   6
+      Left            =   266
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockHorizontal  =   False
+      LockLeft        =   False
+      LockRight       =   True
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   8
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   442
+      Visible         =   True
+      Width           =   100
+      _mPanelIndex    =   -1
+   End
+   Begin dlgUserGroups dlgGroups
+      ControlCount    =   0
+      ControlID       =   ""
+      Enabled         =   True
+      Height          =   314
+      Index           =   -2147483648
+      Indicator       =   0
+      LayoutDirection =   0
+      LayoutType      =   0
+      Left            =   40
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockHorizontal  =   False
+      LockLeft        =   False
+      LockRight       =   False
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   9
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   40
+      Visible         =   True
+      Width           =   600
+      _mDesignHeight  =   0
+      _mDesignWidth   =   0
+      _mPanelIndex    =   -1
    End
    Begin WebMessageDialog dlgDrop
       ControlID       =   ""
@@ -245,26 +358,26 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ActionCreate()
-		  dlgCreate.Show("Create Group", "Name", "Create")
+		  dlgCreate.Show()
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function ActionCreateButtonPressed(Name As String) As Boolean
+		Private Function ActionCreateButtonPressed(Name As String, Password As String) As Boolean
 		  If (Name = "") Then Return False
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("CREATE GROUP " + "'" + Name + "'")
+		    Session.DB.ExecuteSQL("CREATE USER " + "'" + Name + "' WITH PASSWORD '" + Password + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Create Group"
+		    dialog.Title = "Create User"
 		    dialog.Indicator = Indicators.Warning
 		    dialog.ActionButton.Caption = "OK"
 		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not create group."
+		    dialog.Message = "Could not create user."
 		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
 		    dialog.Show
 		    Return False
@@ -280,17 +393,17 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ActionDrop()
-		  Var groupname As String = Me.GetSelectedGroupname()
-		  If (groupname = "") Then Return
+		  Var username As String = Me.GetSelectedUsername()
+		  If (username = "") Then Return
 		  
-		  dlgDrop.Title = "Drop Group"
+		  dlgDrop.Title = "Drop User"
 		  dlgDrop.Indicator = Indicators.Danger
 		  dlgDrop.ActionButton.Caption = "Drop"
 		  dlgDrop.CancelButton.Visible = True
-		  dlgDrop.Message = "Are you sure you want to drop group '" + groupname + "'?"
+		  dlgDrop.Message = "Are you sure you want to drop user '" + username + "'?"
 		  dlgDrop.Explanation = "This action cannot be undone."
 		  
-		  esActionGroupname = groupname
+		  esActionUsername = username
 		  
 		  dlgDrop.ShowWithActionDanger()
 		  
@@ -299,22 +412,22 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ActionDropButtonPressed(obj As WebMessageDialog, button As WebMessageDialogButton)
-		  Var sDropGroupname As String = esActionGroupname
-		  esActionGroupname = ""
+		  Var sDropUsername As String = esActionUsername
+		  esActionUsername = ""
 		  
 		  If (button <> obj.ActionButton) Then Return
-		  If (sDropGroupname = "") Then Return
+		  If (sDropUsername = "") Then Return
 		  
 		  Try
-		    Session.DB.ExecuteSQL("DROP GROUP '" + sDropGroupname)
+		    Session.DB.ExecuteSQL("DROP USER '" + sDropUsername)
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Drop Group"
+		    dialog.Title = "Drop User"
 		    dialog.Indicator = Indicators.Warning
 		    dialog.ActionButton.Caption = "OK"
 		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not drop group."
+		    dialog.Message = "Could not drop user."
 		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
 		    dialog.Show
 		    
@@ -327,34 +440,93 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Sub ActionGroups()
+		  Var username As String = Me.GetSelectedUsername()
+		  If (username = "") Then Return
+		  
+		  esActionUsername = username
+		  
+		  dlgGroups.Show(username)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionGroupsButtonPressed()
+		  Var sUsername As String = esActionUsername
+		  esActionUsername = ""
+		  
+		  Self.RefreshInfos(sUsername)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionPassword()
+		  Var username As String = Me.GetSelectedUsername()
+		  If (username = "") Then Return
+		  
+		  dlgPassword.ShowSetPassword(username)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function ActionPasswordButtonPressed(Name As String, Password As String) As Boolean
+		  If (Name = "") Then Return False
+		  
+		  Try
+		    
+		    Session.DB.ExecuteSQL("SET PASSWORD '" + Password + "' FOR USER " + "'" + Name)
+		    
+		  Catch err As DatabaseException
+		    Var dialog As New WebMessageDialog
+		    dialog.Title = "Set User Password"
+		    dialog.Indicator = Indicators.Warning
+		    dialog.ActionButton.Caption = "OK"
+		    dialog.CancelButton.Visible = False
+		    dialog.Message = "Could not set user password."
+		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
+		    dialog.Show
+		    Return False
+		    
+		  End Try
+		  
+		  'Success - no dialog
+		  Self.RefreshInfos(Name)
+		  Return True
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub ActionRename()
-		  Var groupname As String = Me.GetSelectedGroupname()
-		  If (groupname = "") Then Return
+		  Var username As String = Me.GetSelectedUsername()
+		  If (username = "") Then Return
 		  
-		  esActionGroupname = groupname
+		  esActionUsername = username
 		  
-		  dlgRename.Show("Rename Group", "Name", "Rename", Indicators.Primary, groupname)
+		  dlgRename.Show("Rename User", "Name", "Rename", Indicators.Primary, username)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Function ActionRenameButtonPressed(Name As String) As Boolean
-		  If (esActionGroupname = "") Then Return False
+		  If (esActionUsername = "") Then Return False
 		  If (Name = "") Then Return False
-		  If (esActionGroupname = Name) Then Return False
+		  If (esActionUsername = Name) Then Return False
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("RENAME GROUP '" + esActionGroupname + "' TO " + "'" + Name + "'")
+		    Session.DB.ExecuteSQL("RENAME USER '" + esActionUsername + "' TO " + "'" + Name + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Rename Group"
+		    dialog.Title = "Rename User"
 		    dialog.Indicator = Indicators.Warning
 		    dialog.ActionButton.Caption = "OK"
 		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not rename group."
+		    dialog.Message = "Could not rename user."
 		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
 		    dialog.Show
 		    Return False
@@ -385,28 +557,98 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
-		  me.Title = "Groups"
+		  me.Title = "Users"
+		  
+		  Try
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW USERS")
+		    ebShowDetails = (rs <> Nil) And (rs.RowCount <= 10)
+		    
+		  Catch err As DatabaseException
+		    ebShowDetails = False
+		    
+		  End Try
+		  
+		  
+		  Redim Me.Columns(-1)
+		  
+		  Var col As DatasourceColumn
+		  col = New DatasourceColumn()
+		  col.Width = "*"
+		  col.DatabaseColumnName = "username"
+		  col.Heading = "Username"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.Ascending
+		  Me.Columns.Add(col)
+		  
+		  If ebShowDetails Then
+		    col = New DatasourceColumn()
+		    col.Width = "10%"
+		    col.DatabaseColumnName = "groupcount"
+		    col.Heading = "#"
+		    col.IsVirtual = True
+		    col.FieldType = DatasourceColumn.FieldTypes.Integer
+		    col.Sortable = True
+		    col.SortDirection = WebListBox.SortDirections.None
+		    Me.Columns.Add(col)
+		    
+		    col = New DatasourceColumn()
+		    col.Width = "50%"
+		    col.DatabaseColumnName = "groupnames"
+		    col.Heading = "Groups"
+		    col.IsVirtual = True
+		    col.FieldType = DatasourceColumn.FieldTypes.Text
+		    col.Sortable = False
+		    col.SortDirection = WebListBox.SortDirections.None
+		    Me.Columns.Add(col)
+		  End If
+		  
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function GetColumnData(col As DatasourceColumn, row As Dictionary) As Variant
+		  Select Case col.DatabaseColumnName
+		    
+		  Case "groupcount"
+		    Var iCount As Integer = row.Lookup(col.DatabaseColumnName, 0).IntegerValue
+		    If (iCount < 1) Then Return ""
+		    return New WebListBoxStyleRenderer(StyleListboxTextAlignCenter(), iCount.ToString)
+		    
+		  Else
+		    Return super.GetColumnData(col, row)
+		    
+		  End Select
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
-		Private Function GetSelectedGroupname() As String
+		Private Function GetSelectedUsername() As String
 		  If (lstInfos.SelectedRowIndex < 0) Then Return ""
-		  return lstInfos.CellTextAt(lstInfos.SelectedRowIndex, 0)
+		  If (lstInfos.RowTagAt(lstInfos.SelectedRowIndex) IsA Dictionary) Then
+		    Return Dictionary(lstInfos.RowTagAt(lstInfos.SelectedRowIndex)).Lookup("username", "").StringValue
+		  End If
+		  
+		  Return ""
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub RefreshButtons()
-		  Var bRename, bDrop As Boolean
+		  Var bGroups, bPassword, bRename, bDrop As Boolean
 		  
-		  Var groupname As String = Me.GetSelectedGroupname()
-		  If (groupname <> "admin") And (groupname <> "") Then
-		    bRename = True
-		    bDrop = True
+		  Var username As String = Me.GetSelectedUsername()
+		  If (username <> "admin") And (username <> "") Then
+		    bGroups = True
+		    bPassword = True
+		    bRename = (username <> Session.DB.UserName)
+		    bDrop = (username <> Session.DB.UserName)
 		  End If
 		  
+		  If (btnGroups.Enabled <> bGroups) Then btnGroups.Enabled = bGroups
+		  If (btnPassword.Enabled <> bPassword) Then btnPassword.Enabled = bPassword
 		  If (btnRename.Enabled <> bRename) Then btnRename.Enabled = bRename
 		  If (btnDrop.Enabled <> bDrop) Then btnDrop.Enabled = bDrop
 		  
@@ -414,44 +656,33 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub RefreshInfos(selectGroupname As String = "")
-		  If (selectGroupname = "") Then
-		    selectGroupname = me.GetSelectedGroupname()
+		Private Sub RefreshInfos(selectUsername As String = "")
+		  If (selectUsername = "") Then
+		    selectUsername = Me.GetSelectedUsername()
 		  End If
+		  
+		  esSelectAfterReload = selectUsername
 		  
 		  Me.ShowInfos()
 		  
-		  If (selectGroupname = "") Then
-		    Me.RefreshButtons()
-		    Return
-		  End If
-		  
-		  For i As Integer = lstInfos.LastRowIndex DownTo 0
-		    If (lstInfos.CellTextAt(i, 0) <> selectGroupname) Then Continue
-		    
-		    lstInfos.SelectedRowIndex = i
-		    Exit 'Loop
-		  Next
-		  
-		  Me.RefreshButtons()
+		  'Select Row async via WebTimer_RowDataLoaded
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub ShowDetails()
-		  Var styleCenter As WebStyle = StyleListboxTextAlignCenter()
+		  If (Not ebShowDetails) Then Return
 		  
-		  Var iLast As Integer = lstInfos.LastRowIndex
-		  For i As Integer = 0 To iLast
-		    Var groupname As String = lstInfos.CellTextAt(i, 0)
-		    If (groupname = "") Then Continue
-		    
+		  For Each dictRow As Dictionary In Me.TableRows
 		    Try
-		      Var rs As RowSet = Session.DB.SelectSQL("SHOW USERS IN GROUP '" + groupname + "'")
+		      Var username As String = dictRow.Lookup("username", "").StringValue
+		      if (username = "") then continue
+		      
+		      Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS FOR USER '" + username + "'")
 		      
 		      Var iCount As Integer = 0
-		      Var sUsers() As String
+		      Var sGroups() As String
 		      
 		      If (rs <> Nil) Then
 		        iCount = rs.RowCount
@@ -459,7 +690,7 @@ End
 		        If (iCount > 0) Then
 		          rs.MoveToFirstRow
 		          While (Not rs.AfterLastRow)
-		            sUsers.Add(rs.Column("username").StringValue)
+		            sGroups.Add(rs.Column("groupname").StringValue)
 		            
 		            rs.MoveToNextRow
 		          Wend
@@ -468,63 +699,76 @@ End
 		        rs.Close
 		      End If
 		      
-		      lstInfos.CellTextAt(i, 1) = New WebListBoxStyleRenderer(styleCenter, iCount.ToString)
-		      lstInfos.CellTextAt(i, 2) = String.FromArray(sUsers, ", ")
+		      dictRow.Value("groupcount") = iCount
+		      dictRow.Value("groupnames") = String.FromArray(sGroups, ", ")
 		      
-		    Catch DatabaseException
-		      
-		    End Try
-		    
-		  Next
+		    catch err As DatabaseException
+		    end try
+		  next
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
-		  lstInfos.RemoveAllRows
+		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS"))
 		  
-		  Try
-		    thrDetails.Stop
-		  Catch err As RuntimeException
-		    
-		  End Try
+		  If (lstInfos.DataSource = Nil) Then
+		    lstInfos.DataSource = Self
+		  Else
+		    lstInfos.ReloadData()
+		  End If
 		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS")
-		    If (rs = Nil) Then Return
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        lstInfos.AddRow(rs.Column("groupname").StringValue)
-		        
-		        rs.MoveToNextRow
-		      Wend
-		    End If
-		    
-		    
-		    rs.Close
-		    
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    
+		  
+		  If ebShowDetails Then
 		    Try
 		      thrDetails.Start
 		    Catch err As RuntimeException
 		      
 		    End Try
-		    
-		  End Try
+		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
+		  Super.WebTimer_RowDataLoaded(obj)
+		  
+		  If (esSelectAfterReload = "") Then Return
+		  
+		  Var sSelectAfterReload As String = esSelectAfterReload
+		  esSelectAfterReload = ""
+		  
+		  Var bFound As Boolean = False
+		  For i As Integer = lstInfos.LastRowIndex DownTo 0
+		    If (lstInfos.RowTagAt(i) IsA Dictionary) Then
+		      Var rowTag As Dictionary = lstInfos.RowTagAt(i)
+		      If (rowTag.Lookup("username", "").StringValue <> sSelectAfterReload) Then Continue
+		      lstInfos.SelectedRowIndex = i
+		      bFound = True
+		      Exit 'Loop
+		    End If
+		  Next
+		  
+		  If (Not bFound) Then lstInfos.SelectedRowIndex = -1
+		  
+		  Me.RefreshButtons()
 		  
 		End Sub
 	#tag EndMethod
 
 
 	#tag Property, Flags = &h21
-		Private esActionGroupname As String
+		Private ebShowDetails As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private esActionUsername As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private esSelectAfterReload As String
 	#tag EndProperty
 
 
@@ -533,19 +777,7 @@ End
 #tag Events lstInfos
 	#tag Event
 		Sub Opening()
-		  Me.ExecuteJavaScript("$('#" + Me.ControlID + "').addClass('listboxGroupsHeaderAlignment')")
-		  
-		  Me.HeaderAt(0) = "Groupname"
-		  Me.HeaderAt(1) = "#"
-		  Me.HeaderAt(2) = "Users"
-		  
-		  Me.ColumnSortTypeAt(0) = WebListBox.SortTypes.Sortable
-		  Me.ColumnSortDirectionAt(0) = WebListbox.SortDirections.Ascending
-		  
-		  For i As Integer = 1 To 2
-		    Me.ColumnSortTypeAt(i) = WebListBox.SortTypes.Unsortable
-		    Me.ColumnSortDirectionAt(i) = WebListbox.SortDirections.None
-		  Next
+		  Me.ExecuteJavaScript("$('#" + Me.ControlID + "').addClass('listboxUsersHeaderAlignment')")
 		  
 		End Sub
 	#tag EndEvent
@@ -584,8 +816,8 @@ End
 #tag EndEvents
 #tag Events dlgCreate
 	#tag Event
-		Function NameAction(Name As String) As Boolean
-		  Return Self.ActionCreateButtonPressed(Name)
+		Function UserCreateAction(Name As String, Password As String) As Boolean
+		  Return Self.ActionCreateButtonPressed(Name, Password)
 		  
 		End Function
 	#tag EndEvent
@@ -602,10 +834,43 @@ End
 	#tag Event
 		Sub Run()
 		  Try
+		    If (Not ebShowDetails) Then Return
+		    
 		    Self.ShowDetails()
 		  Catch err As RuntimeException
 		  End Try
 		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events btnPassword
+	#tag Event
+		Sub Pressed()
+		  Self.ActionPassword()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events dlgPassword
+	#tag Event
+		Function UserCreateAction(Name As String, Password As String) As Boolean
+		  Return Self.ActionPasswordButtonPressed(Name, Password)
+		  
+		End Function
+	#tag EndEvent
+#tag EndEvents
+#tag Events btnGroups
+	#tag Event
+		Sub Pressed()
+		  Self.ActionGroups()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events dlgGroups
+	#tag Event
+		Sub NeedsRefresh()
+		  self.ActionGroupsButtonPressed()
 		End Sub
 	#tag EndEvent
 #tag EndEvents

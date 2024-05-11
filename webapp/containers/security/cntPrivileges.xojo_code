@@ -1,5 +1,5 @@
 #tag WebContainerControl
-Begin cntBase cntPrivileges
+Begin cntDatasourceBase cntPrivileges
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -22,11 +22,10 @@ Begin cntBase cntPrivileges
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
-      ColumnCount     =   4
-      ColumnWidths    =   "30%, 15%, 25%, 30%"
+      ColumnCount     =   1
+      ColumnWidths    =   ""
       ControlID       =   ""
       Enabled         =   True
       HasHeader       =   True
@@ -107,7 +106,7 @@ Begin cntBase cntPrivileges
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   2
       TabStop         =   True
@@ -135,7 +134,7 @@ Begin cntBase cntPrivileges
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   5
       TabStop         =   True
@@ -231,7 +230,7 @@ Begin cntBase cntPrivileges
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFilter"
          Scope           =   2
          TabIndex        =   1
@@ -267,7 +266,7 @@ Begin cntBase cntPrivileges
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFilter"
          Scope           =   2
          TabIndex        =   3
@@ -333,7 +332,7 @@ Begin cntBase cntPrivileges
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFilter"
          RowCount        =   0
          Scope           =   2
@@ -508,8 +507,111 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
-		  me.Title = "Privileges"
+		  Me.Title = "Privileges"
+		  
+		  
+		  Redim Me.Columns(-1)
+		  
+		  Var col As DatasourceColumn
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "*"
+		  col.DatabaseColumnName = "groupname"
+		  col.Heading = "Groupname"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.Ascending
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "15%"
+		  col.DatabaseColumnName = "privilege"
+		  col.Heading = "Privilege"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "25%"
+		  col.DatabaseColumnName = "databasename"
+		  col.Heading = "Databasename"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "30%"
+		  col.DatabaseColumnName = "tablename"
+		  col.Heading = "Tablename"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Shared Function GetDatabasesList() As String()
+		  Var databases() As String
+		  
+		  Try
+		    
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
+		    If (rs <> Nil) Then
+		      If (rs.RowCount > 0) Then
+		        rs.MoveToFirstRow
+		        While (Not rs.AfterLastRow)
+		          If (databases.IndexOf(rs.Column("databasename").StringValue) < 0) Then
+		            databases.Add(rs.Column("databasename").StringValue)
+		          End If
+		          
+		          rs.MoveToNextRow
+		        Wend
+		      End If
+		      
+		      rs.Close
+		    End If
+		    
+		    rs = Session.DB.SelectSQL("SHOW ENGINE PREFERENCES")
+		    If (rs <> Nil) Then
+		      If (rs.RowCount > 0) Then
+		        Var engineDatabase As String
+		        rs.MoveToFirstRow
+		        While (Not rs.AfterLastRow)
+		          If (rs.Column("databasename").StringValue = "") Or (rs.Column("databasename").StringValue = "*") Then
+		            rs.MoveToNextRow
+		            Continue
+		          End If
+		          If (rs.Column("engine").StringValue = "") Then
+		            rs.MoveToNextRow
+		            Continue
+		          End If
+		          
+		          engineDatabase = rs.Column("engine").StringValue + ":" + rs.Column("databasename").StringValue
+		          If (databases.IndexOf(engineDatabase) < 0) Then
+		            databases.Add(engineDatabase)
+		          End If
+		          
+		          rs.MoveToNextRow
+		        Wend
+		      End If
+		      
+		      rs.Close
+		    End If
+		    
+		  Catch DatabaseException
+		    
+		  Finally
+		    databases.Sort()
+		    return databases
+		    
+		  End Try
+		  
+		  
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -533,30 +635,17 @@ End
 	#tag Method, Flags = &h21
 		Private Sub LoadDatabases()
 		  lstFilterDatabase.RemoveAllRows
-		  lstFilterDatabase.AddRow("(ALL)", "*")
-		  lstFilterDatabase.AddRow("-", "*")
+		  lstFilterDatabase.AddRow("(ALL)", "")
+		  lstFilterDatabase.AddRow("-", "")
+		  lstFilterDatabase.AddRow("*", "*")
+		  lstFilterDatabase.AddRow("-", "")
 		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
-		    If (rs = Nil) Then Return
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        lstFilterDatabase.AddRow(rs.Column("databasename").StringValue, rs.Column("databasename").StringValue)
-		        
-		        rs.MoveToNextRow
-		      Wend
-		    End If
-		    
-		    rs.Close
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    If (lstFilterDatabase.RowCount > 0) Then lstFilterDatabase.SelectedRowIndex = 0
-		    
-		  End Try
+		  Var databases() As String = GetDatabasesList()
+		  for each database as string in databases
+		    lstFilterDatabase.AddRow(database, database)
+		  next
+		  
+		  lstFilterDatabase.SelectedRowIndex = 0
 		  
 		End Sub
 	#tag EndMethod
@@ -564,8 +653,8 @@ End
 	#tag Method, Flags = &h21
 		Private Sub LoadGroups()
 		  lstFilterGroup.RemoveAllRows
-		  lstFilterGroup.AddRow("(ALL)", "*")
-		  lstFilterGroup.AddRow("-", "*")
+		  lstFilterGroup.AddRow("(ALL)", "")
+		  lstFilterGroup.AddRow("-", "")
 		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS")
@@ -601,7 +690,7 @@ End
 		  
 		  Var selectedPrivilege As Dictionary = me.GetSelectedPrivilege()
 		  
-		  If (selectedPrivilege <> Nil) And (selectedPrivilege.Lookup("groupname", "*") <> "admin") Then
+		  If (selectedPrivilege <> Nil) And (selectedPrivilege.Lookup("groupname", "") <> "admin") Then
 		    bRevoke = True
 		  End If
 		  
@@ -616,90 +705,69 @@ End
 		    selectRowTag = Me.GetSelectedPrivilege()
 		  End If
 		  
+		  esSelectAfterReload = selectRowTag
+		  
 		  Me.ShowInfos()
 		  
-		  If (selectRowTag = Nil) Then
-		    Me.RefreshButtons()
-		    Return
-		  End If
-		  
-		  For i As Integer = lstInfos.LastRowIndex DownTo 0
-		    Var rowTag As Dictionary
-		    If (lstInfos.RowTagAt(i) IsA Dictionary) Then
-		      rowTag = lstInfos.RowTagAt(i)
-		    End If
-		    If (rowTag = Nil) Then Continue
-		    
-		    
-		    If (rowTag.Lookup("groupname", "").StringValue = selectRowTag.Lookup("groupname", "-").StringValue) And _
-		      (rowTag.Lookup("privilege", "").StringValue = selectRowTag.Lookup("privilege", "-").StringValue) And _
-		      (rowTag.Lookup("databasename", "").StringValue = selectRowTag.Lookup("databasename", "-").StringValue) And _
-		      (rowTag.Lookup("tablename", "").StringValue = selectRowTag.Lookup("tablename", "-").StringValue) Then
-		      
-		      lstInfos.SelectedRowIndex = i
-		      Exit 'Loop
-		    End If
-		  Next
-		  
-		  Me.RefreshButtons()
+		  'Select Row async via WebTimer_RowDataLoaded
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
-		  lstInfos.RemoveAllRows
+		  Me.Filters = New Dictionary
 		  
 		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
 		  Var filterDatabasename As String = lstFilterDatabase.RowTagAt(lstFilterDatabase.SelectedRowIndex)
 		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW ALL PRIVILEGES")
-		    If (rs = Nil) Then Return
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        Var dictRowTag As New Dictionary
-		        dictRowTag.Value("groupname") = rs.Column("groupname").StringValue
-		        dictRowTag.Value("privilege") = rs.Column("privilege").StringValue
-		        dictRowTag.Value("databasename") = rs.Column("databasename").StringValue
-		        dictRowTag.Value("tablename") = rs.Column("tablename").StringValue
+		  If (filterGroupname <> "") Then
+		    Me.Filters.Value("groupname") = filterGroupname
+		  End If
+		  
+		  If (filterDatabasename <> "") Then
+		    Me.Filters.Value("databasename") = filterDatabasename
+		  End If
+		  
+		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW ALL PRIVILEGES"))
+		  
+		  If (lstInfos.DataSource = Nil) Then
+		    lstInfos.DataSource = Self
+		  Else
+		    lstInfos.ReloadData()
+		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
+		  Super.WebTimer_RowDataLoaded(obj)
+		  
+		  If (esSelectAfterReload = Nil) Then Return
+		  
+		  Var sSelectAfterReload As Dictionary = esSelectAfterReload
+		  esSelectAfterReload = Nil
+		  
+		  Var bFound As Boolean = False
+		  For i As Integer = lstInfos.LastRowIndex DownTo 0
+		    If (lstInfos.RowTagAt(i) IsA Dictionary) Then
+		      Var rowTag As Dictionary = lstInfos.RowTagAt(i)
+		      If (rowTag.Lookup("groupname", "").StringValue = sSelectAfterReload.Lookup("groupname", "-").StringValue) And _
+		        (rowTag.Lookup("privilege", "").StringValue = sSelectAfterReload.Lookup("privilege", "-").StringValue) And _
+		        (rowTag.Lookup("databasename", "").StringValue = sSelectAfterReload.Lookup("databasename", "-").StringValue) And _
+		        (rowTag.Lookup("tablename", "").StringValue = sSelectAfterReload.Lookup("tablename", "-").StringValue) Then
 		        
-		        'Filter
-		        If (filterGroupname <> "") And (filterGroupname <> "*") Then
-		          If (dictRowTag.Lookup("groupname", "").StringValue <> filterGroupname) Then
-		            rs.MoveToNextRow
-		            Continue
-		          End If
-		        End If
-		        
-		        If (filterDatabasename <> "") And (filterDatabasename <> "*") Then
-		          If (dictRowTag.Lookup("databasename", "").StringValue <> "*") And _
-		            (dictRowTag.Lookup("databasename", "").StringValue <> filterDatabasename) Then
-		            rs.MoveToNextRow
-		            Continue
-		          End If
-		        End If
-		        
-		        lstInfos.AddRow("")
-		        lstInfos.RowTagAt(lstInfos.LastAddedRowIndex) = dictRowTag
-		        
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 0) = dictRowTag.Lookup("groupname", "").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 1) = dictRowTag.Lookup("privilege", "").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 2) = dictRowTag.Lookup("databasename", "").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 3) = dictRowTag.Lookup("tablename", "").StringValue
-		        
-		        rs.MoveToNextRow
-		      Wend
+		        lstInfos.SelectedRowIndex = i
+		        bFound = True
+		        Exit 'Loop
+		      End If
 		    End If
-		    
-		    rs.Close
-		    
-		    
-		  Catch DatabaseException
-		    
-		  End Try
+		  Next
+		  
+		  If (Not bFound) Then lstInfos.SelectedRowIndex = -1
+		  
+		  Me.RefreshButtons()
 		  
 		End Sub
 	#tag EndMethod
@@ -713,24 +781,29 @@ End
 		Private edictActionPrivilege As Dictionary
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private esSelectAfterReload As Dictionary
+	#tag EndProperty
+
 
 #tag EndWindowCode
 
 #tag Events lstInfos
 	#tag Event
 		Sub Opening()
-		  Me.HeaderAt(0) = "Groupname"
-		  Me.HeaderAt(1) = "Privilege"
-		  Me.HeaderAt(2) = "Databasename"
-		  Me.HeaderAt(3) = "Tablename"
 		  
-		  Me.ColumnSortTypeAt(0) = WebListBox.SortTypes.Sortable
-		  Me.ColumnSortDirectionAt(0) = WebListbox.SortDirections.Ascending
-		  
-		  For i As Integer = 1 To 3
-		    Me.ColumnSortTypeAt(i) = WebListBox.SortTypes.Sortable
-		    Me.ColumnSortDirectionAt(i) = WebListbox.SortDirections.None
-		  Next
+		  'Me.HeaderAt(0) = "Groupname"
+		  'Me.HeaderAt(1) = "Privilege"
+		  'Me.HeaderAt(2) = "Databasename"
+		  'Me.HeaderAt(3) = "Tablename"
+		  '
+		  'Me.ColumnSortTypeAt(0) = WebListBox.SortTypes.Sortable
+		  'Me.ColumnSortDirectionAt(0) = WebListbox.SortDirections.Ascending
+		  '
+		  'For i As Integer = 1 To 3
+		  'Me.ColumnSortTypeAt(i) = WebListBox.SortTypes.Sortable
+		  'Me.ColumnSortDirectionAt(i) = WebListbox.SortDirections.None
+		  'Next
 		  
 		End Sub
 	#tag EndEvent

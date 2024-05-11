@@ -437,27 +437,12 @@ End
 		  lstDatabase.AddRow("(ALL)", "*")
 		  lstDatabase.AddRow("-", "*")
 		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
-		    If (rs = Nil) Then Return
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        lstDatabase.AddRow(rs.Column("databasename").StringValue, rs.Column("databasename").StringValue)
-		        
-		        rs.MoveToNextRow
-		      Wend
-		    End If
-		    
-		    rs.Close
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    If (lstDatabase.RowCount > 0) Then lstDatabase.SelectedRowIndex = 0
-		    
-		  End Try
+		  Var databases() As String = cntPrivileges.GetDatabasesList()
+		  for each database as string in databases
+		    lstDatabase.AddRow(database, database)
+		  next
+		  
+		  lstDatabase.SelectedRowIndex = 0
 		  
 		End Sub
 	#tag EndMethod
