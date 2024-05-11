@@ -38,6 +38,18 @@ Inherits WebSession
 		      rs.Close
 		    End If
 		    
+		    rs = db.SelectSQL("SHOW INFO FOR KEY engine_version")
+		    If (rs <> Nil) Then
+		      
+		      If (rs.RowCount > 0) Then
+		        rs.MoveToFirstRow
+		        
+		        DBEngineVersion = Version_AsDouble(rs.Column("value").StringValue)
+		      End If
+		      
+		      rs.Close
+		    End If
+		    
 		  Catch err As DatabaseException
 		    Return False
 		    
@@ -60,6 +72,7 @@ Inherits WebSession
 		  
 		  DB = Nil
 		  ClientId = -1
+		  DBEngineVersion = 0.0
 		  
 		End Sub
 	#tag EndMethod
@@ -71,6 +84,10 @@ Inherits WebSession
 
 	#tag Property, Flags = &h0
 		DB As CubeSQLServer
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		DBEngineVersion As Double
 	#tag EndProperty
 
 
