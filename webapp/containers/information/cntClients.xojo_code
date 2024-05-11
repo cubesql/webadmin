@@ -51,7 +51,7 @@ Begin cntDatasourceBase cntClients
       RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -73,14 +73,14 @@ Begin cntDatasourceBase cntClients
       Indicator       =   1
       Left            =   502
       LockBottom      =   True
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   False
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
       Scope           =   2
-      TabIndex        =   3
+      TabIndex        =   1
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -100,7 +100,7 @@ Begin cntDatasourceBase cntClients
       Indicator       =   4
       Left            =   610
       LockBottom      =   True
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   False
       LockRight       =   True
@@ -108,7 +108,7 @@ Begin cntDatasourceBase cntClients
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   4
+      TabIndex        =   2
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -123,7 +123,7 @@ Begin cntDatasourceBase cntClients
       Index           =   -2147483648
       Indicator       =   0
       LockBottom      =   False
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   False
@@ -131,6 +131,25 @@ Begin cntDatasourceBase cntClients
       LockVertical    =   False
       Message         =   ""
       PanelIndex      =   "0"
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
@@ -173,7 +192,7 @@ End
 		    Session.DB.ExecuteSQL("CLOSE CONNECTION " + iDisconnectClientId.ToString)
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Disconnect Client", "Could not disconnect client.", err)
+		    ShowErrorDialog(dlgMessage, "Disconnect Client", "Could not disconnect client.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()

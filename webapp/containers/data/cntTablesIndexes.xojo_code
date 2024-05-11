@@ -51,7 +51,7 @@ Begin cntDatasourceBase cntTablesIndexes
       RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -214,7 +214,7 @@ Begin cntDatasourceBase cntTablesIndexes
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   4
+      TabIndex        =   5
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -310,7 +310,7 @@ Begin cntDatasourceBase cntTablesIndexes
       Indicator       =   0
       Left            =   502
       LockBottom      =   True
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   False
       LockRight       =   True
@@ -318,12 +318,31 @@ Begin cntDatasourceBase cntTablesIndexes
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   5
+      TabIndex        =   4
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
       Visible         =   True
       Width           =   120
+      _mPanelIndex    =   -1
+   End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
       _mPanelIndex    =   -1
    End
 End
@@ -373,7 +392,7 @@ End
 		    Session.DB.ExecuteSQL("COMMIT")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Alter Table", "Could not alter table.", err)
+		    ShowErrorDialog(dlgMessage, "Alter Table", "Could not alter table.", err)
 		    Return False
 		    
 		  End Try
@@ -424,7 +443,7 @@ End
 		    Session.DB.ExecuteSQL("COMMIT")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Create Index", "Could not create index.", err)
+		    ShowErrorDialog(dlgMessage, "Create Index", "Could not create index.", err)
 		    Return False
 		    
 		  End Try
@@ -465,7 +484,7 @@ End
 		    Session.DB.ExecuteSQL("COMMIT")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Create Table", "Could not create table.", err)
+		    ShowErrorDialog(dlgMessage, "Create Table", "Could not create table.", err)
 		    Return False
 		    
 		  End Try
@@ -513,7 +532,7 @@ End
 		    Session.DB.ExecuteSQL("COMMIT")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Drop " + dictDropItem.Lookup("type", "").StringValue.Titlecase, "Could not drop " + dictDropItem.Lookup("type", "").StringValue.Lowercase + ".", err)
+		    ShowErrorDialog(dlgMessage, "Drop " + dictDropItem.Lookup("type", "").StringValue.Titlecase, "Could not drop " + dictDropItem.Lookup("type", "").StringValue.Lowercase + ".", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -664,7 +683,6 @@ End
 		  col.SortDirection = WebListBox.SortDirections.None
 		  Me.Columns.Add(col)
 		  
-		  
 		End Sub
 	#tag EndMethod
 
@@ -717,6 +735,9 @@ End
 		    
 		  Case "type"
 		    Return row.Lookup(col.DatabaseColumnName, "").StringValue.Titlecase
+		    
+		  Case "sql"
+		    Return New CopyContentCellRenderer(row.Lookup(col.DatabaseColumnName, "").StringValue)
 		    
 		  Else
 		    Return Super.TableRowColumnData(col, row)

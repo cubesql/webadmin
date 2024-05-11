@@ -68,7 +68,7 @@ Begin dlgBase dlgTableEditorField
       LayoutType      =   0
       Left            =   20
       LockBottom      =   True
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   True
@@ -167,7 +167,7 @@ Begin dlgBase dlgTableEditorField
          LastRowIndex    =   0
          Left            =   188
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -179,7 +179,7 @@ Begin dlgBase dlgTableEditorField
          Scope           =   2
          SelectedRowIndex=   -1
          SelectedRowText =   ""
-         TabIndex        =   2
+         TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
@@ -200,7 +200,7 @@ Begin dlgBase dlgTableEditorField
          Italic          =   False
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -210,7 +210,7 @@ Begin dlgBase dlgTableEditorField
          PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   4
+         TabIndex        =   2
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Type:"
@@ -235,7 +235,7 @@ Begin dlgBase dlgTableEditorField
          Italic          =   False
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -245,7 +245,7 @@ Begin dlgBase dlgTableEditorField
          PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   5
+         TabIndex        =   4
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Default Value:"
@@ -271,7 +271,7 @@ Begin dlgBase dlgTableEditorField
          Indicator       =   0
          Left            =   188
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   True
@@ -282,7 +282,7 @@ Begin dlgBase dlgTableEditorField
          Parent          =   "rctFormContent"
          ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   6
+         TabIndex        =   5
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -304,7 +304,7 @@ Begin dlgBase dlgTableEditorField
          LastRowIndex    =   0
          Left            =   188
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -337,7 +337,7 @@ Begin dlgBase dlgTableEditorField
          Italic          =   False
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -347,7 +347,7 @@ Begin dlgBase dlgTableEditorField
          PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   8
+         TabIndex        =   6
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Constraint:"

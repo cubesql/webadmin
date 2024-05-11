@@ -92,7 +92,7 @@ Begin dlgBase dlgUnhandledException
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         Indicator       =   ""
+         Indicator       =   0
          Italic          =   False
          Left            =   40
          LockBottom      =   False
@@ -106,6 +106,7 @@ Begin dlgBase dlgUnhandledException
          Parent          =   "rctFormContent"
          Scope           =   0
          TabIndex        =   0
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Oops - an unhandled SomeWeirdException occurred."
          TextAlignment   =   0
@@ -125,7 +126,7 @@ Begin dlgBase dlgUnhandledException
          FontSize        =   0.0
          Height          =   60
          Index           =   -2147483648
-         indicator       =   0
+         Indicator       =   0
          Italic          =   True
          Left            =   40
          LockBottom      =   False
@@ -136,10 +137,11 @@ Begin dlgBase dlgUnhandledException
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   True
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   0
          TabIndex        =   1
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "The application will continue. In case of weird behavior try to Logout and Login again."
          TextAlignment   =   0
@@ -159,7 +161,7 @@ Begin dlgBase dlgUnhandledException
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         indicator       =   0
+         Indicator       =   0
          Italic          =   False
          Left            =   40
          LockBottom      =   False
@@ -170,10 +172,11 @@ Begin dlgBase dlgUnhandledException
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   0
          TabIndex        =   2
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Stack Trace"
          TextAlignment   =   2
@@ -194,7 +197,7 @@ Begin dlgBase dlgUnhandledException
          Height          =   250
          Hint            =   "Stack Trace"
          Index           =   -2147483648
-         Indicator       =   ""
+         Indicator       =   0
          Left            =   40
          LockBottom      =   True
          LockedInPosition=   True
@@ -208,6 +211,7 @@ Begin dlgBase dlgUnhandledException
          ReadOnly        =   True
          Scope           =   0
          TabIndex        =   3
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
          TextAlignment   =   0

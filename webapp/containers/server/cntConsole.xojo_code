@@ -51,7 +51,7 @@ Begin cntBase cntConsole
       RowSelectionType=   0
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -180,6 +180,25 @@ Begin cntBase cntConsole
       Width           =   710
       _mPanelIndex    =   -1
    End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
 End
 #tag EndWebContainerControl
 
@@ -233,7 +252,7 @@ End
 		    
 		  Catch err As DatabaseException
 		    Var errorDialogTitle As String = If(isquery, "SELECT SQL", "EXECUTE SQL")
-		    ShowErrorDialog(errorDialogTitle, "Could not execute " + errorDialogTitle + " command.", err)
+		    ShowErrorDialog(dlgMessage, errorDialogTitle, "Could not execute " + errorDialogTitle + " command.", err)
 		    
 		    rs = Nil
 		    If isquery Then
@@ -411,7 +430,7 @@ End
 		    
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Change database", "Could not change database.", err)
+		    ShowErrorDialog(dlgMessage, "Change database", "Could not change database.", err)
 		    
 		  Finally
 		    Self.TableClear()

@@ -253,7 +253,7 @@ Begin dlgBase dlgIndexCreate
          RowSelectionType=   0
          Scope           =   0
          SearchCriteria  =   ""
-         SelectedRowColor=   &c0d6efd
+         SelectedRowColor=   colWebListBoxSelectedRow
          SelectedRowIndex=   0
          TabIndex        =   5
          TabPanelIndex   =   0

@@ -19,7 +19,7 @@ Begin WebPage LoginPage
    LockRight       =   False
    LockTop         =   True
    LockVertical    =   False
-   MinimumHeight   =   400
+   MinimumHeight   =   518
    MinimumWidth    =   600
    TabIndex        =   0
    Title           =   "cubeSQL Admin - Login"
@@ -43,7 +43,7 @@ Begin WebPage LoginPage
       LayoutType      =   0
       Left            =   20
       LockBottom      =   False
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   True
       LockLeft        =   False
       LockRight       =   False
@@ -521,7 +521,7 @@ Begin WebPage LoginPage
          Indicator       =   0
          Left            =   372
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   True
@@ -555,7 +555,7 @@ Begin WebPage LoginPage
          Italic          =   False
          Left            =   214
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -578,6 +578,25 @@ Begin WebPage LoginPage
          Width           =   346
          _mPanelIndex    =   -1
       End
+   End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
+      _mPanelIndex    =   -1
    End
 End
 #tag EndWebPage
@@ -656,13 +675,13 @@ End
 		    End If
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Connect", "Could not connect to cubeSQL.", err)
+		    ShowErrorDialog(dlgMessage, "Connect", "Could not connect to cubeSQL.", err)
 		    Return
 		    
 		  End Try
 		  
 		  If (Not Self.CheckAdmin(db)) Then
-		    ShowWarningDialog("cubeSQL Admin Login", "Insufficient privileges.", "This application requires Admin privileges in order to function properly.")
+		    ShowWarningDialog(dlgMessage, "cubeSQL Admin Login", "Insufficient privileges.", "This application requires Admin privileges in order to function properly.")
 		    Return 
 		  End If
 		  
@@ -903,6 +922,16 @@ End
 		dictInfo.Value("cntCommands") = 0
 		dictInfo.Value("cntClients") = 0
 		dictInfo.Value("dlgDisconnect") = 0
+		dictInfo.Value("cntTablesIndexes") = 0
+		dictInfo.Value("dlgIndexCreate") = 0
+		dictInfo.Value("dlgDatabaseSchedules") = 0
+		dictInfo.Value("dlgTableEditor") = 0
+		dictInfo.Value("dlgTableEditorField") = 0
+		dictInfo.Value("dlgSchedule") = 0
+		dictInfo.Value("dlgScheduleDatabases") = 0
+		dictInfo.Value("cntSchedules") = 0
+		dictInfo.Value("CheckboxCellRenderer") = 0
+		dictInfo.Value("CopyContentCellRenderer") = 0
 		
 		
 		Var checkName As String

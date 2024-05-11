@@ -51,7 +51,7 @@ Begin cntDatasourceBase cntUsers
       RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -362,6 +362,25 @@ Begin cntDatasourceBase cntUsers
          _mPanelIndex    =   -1
       End
    End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
 End
 #tag EndWebContainerControl
 
@@ -390,7 +409,7 @@ End
 		    End If
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Create User", "Could not create user.", err)
+		    ShowErrorDialog(dlgMessage, "Create User", "Could not create user.", err)
 		    Return False
 		    
 		  End Try
@@ -449,7 +468,7 @@ End
 		    Session.DB.ExecuteSQL("DROP USER '" + sDropUsername.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Drop User", "Could not drop user.", err)
+		    ShowErrorDialog(dlgMessage, "Drop User", "Could not drop user.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -508,7 +527,7 @@ End
 		    Session.DB.ExecuteSQL("SET PASSWORD '" + Password.EscapeSqlQuotes + "' FOR USER '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Set User Password", "Could not set user password.", err)
+		    ShowErrorDialog(dlgMessage, "Set User Password", "Could not set user password.", err)
 		    Return False
 		    
 		  End Try
@@ -547,7 +566,7 @@ End
 		    Session.DB.ExecuteSQL("RENAME USER '" + esActionUsername + "' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Rename User", "Could not rename user.", err)
+		    ShowErrorDialog(dlgMessage, "Rename User", "Could not rename user.", err)
 		    Return False
 		    
 		  End Try
@@ -741,7 +760,11 @@ End
 		  Var col As DatasourceColumn
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "*"
+		  If ebShowDetails Then
+		    col.Width = "40%"
+		  Else
+		    col.Width = "100%"
+		  End If
 		  col.DatabaseColumnName = "username"
 		  col.Heading = "Username"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text

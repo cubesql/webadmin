@@ -22,7 +22,6 @@ Begin WebContainer cntRegistrationAction
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebButton btnGetServerKey
       AllowAutoDisable=   False
@@ -108,6 +107,25 @@ Begin WebContainer cntRegistrationAction
       Width           =   200
       _mPanelIndex    =   -1
    End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
 End
 #tag EndWebContainerControl
 
@@ -169,13 +187,13 @@ End
 		    End If
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Registration", "Could not register cubeSQL Server.", err)
+		    ShowErrorDialog(dlgMessage, "Registration", "Could not register cubeSQL Server.", err)
 		    NeedsRefresh
 		    Return False
 		    
 		  End Try
 		  
-		  ShowSuccessDialog("Registration", "Thanks for registering cubeSQL Server!", "")
+		  ShowSuccessDialog(dlgMessage, "Registration", "Thanks for registering cubeSQL Server!", "")
 		  NeedsRefresh
 		  
 		  Return True
@@ -225,7 +243,7 @@ End
 		    Session.DB.ExecuteSQL("SET PREFERENCE 'SERVER_NAME' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Set Server Name", "Could not ser server name.", err)
+		    ShowErrorDialog(dlgMessage, "Set Server Name", "Could not ser server name.", err)
 		    NeedsRefresh
 		    Return False
 		    

@@ -1,45 +1,48 @@
 #tag Module
 Protected Module modDialogs
 	#tag Method, Flags = &h0
-		Sub ShowErrorDialog(Title As String, Message As String, Error As DatabaseException)
+		Sub ShowErrorDialog(dialog As WebMessageDialog, Title As String, Message As String, Error As DatabaseException)
 		  Var errorExplanation As String = "Error" + If(Error.ErrorNumber > 0, " " + Error.ErrorNumber.ToString, "") + ": " + Error.Message
-		  ShowErrorDialog(Title, Message, errorExplanation)
-		  
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub ShowErrorDialog(Title As String, Message As String, Explanation As String)
-		  ShowWebMessageDialog(Title, Message, Explanation, WebMessageDialog.Indicators.Danger)
+		  ShowErrorDialog(dialog, Title, Message, errorExplanation)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub ShowInfoDialog(Title As String, Message As String, Explanation As String)
-		  ShowWebMessageDialog(Title, Message, Explanation, WebMessageDialog.Indicators.Info)
+		Sub ShowErrorDialog(dialog As WebMessageDialog, Title As String, Message As String, Explanation As String)
+		  ShowWebMessageDialog(dialog, Title, Message, Explanation, WebMessageDialog.Indicators.Danger)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub ShowSuccessDialog(Title As String, Message As String, Explanation As String)
-		  ShowWebMessageDialog(Title, Message, Explanation, WebMessageDialog.Indicators.Success)
+		Sub ShowInfoDialog(dialog As WebMessageDialog, Title As String, Message As String, Explanation As String)
+		  ShowWebMessageDialog(dialog, Title, Message, Explanation, WebMessageDialog.Indicators.Info)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub ShowWarningDialog(Title As String, Message As String, Explanation As String)
-		  ShowWebMessageDialog(Title, Message, Explanation, WebMessageDialog.Indicators.Warning)
+		Sub ShowSuccessDialog(dialog As WebMessageDialog, Title As String, Message As String, Explanation As String)
+		  ShowWebMessageDialog(dialog, Title, Message, Explanation, WebMessageDialog.Indicators.Success)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub ShowWarningDialog(dialog As WebMessageDialog, Title As String, Message As String, Explanation As String)
+		  ShowWebMessageDialog(dialog, Title, Message, Explanation, WebMessageDialog.Indicators.Warning)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub ShowWebMessageDialog(Title As String, Message As String, Explanation As String, Indicator As WebUIControl.Indicators)
-		  Var dialog As New WebMessageDialog
+		Private Sub ShowWebMessageDialog(dialog As WebMessageDialog, Title As String, Message As String, Explanation As String, Indicator As WebUIControl.Indicators)
+		  // Note: Instantiating a new WebMessageDialog in a Module results
+		  //       in a Memory Leak...
+		  // Var dialog As New WebMessageDialog
+		  
+		  // Workaround: Place a WebMessageDialog on the Layout
 		  dialog.Title = Title
 		  dialog.Indicator = Indicator
 		  dialog.ActionButton.Caption = "OK"

@@ -92,7 +92,7 @@ Begin dlgBase dlgGetServerKey
          FontSize        =   0.0
          Height          =   60
          Index           =   -2147483648
-         Indicator       =   ""
+         Indicator       =   0
          Italic          =   False
          Left            =   40
          LockBottom      =   False
@@ -106,6 +106,7 @@ Begin dlgBase dlgGetServerKey
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   0
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "You can get a Freeware or Developer Key for cubeSQL Server from sqlabs:"
          TextAlignment   =   0
@@ -126,7 +127,7 @@ Begin dlgBase dlgGetServerKey
          FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
-         Indicator       =   ""
+         Indicator       =   0
          Italic          =   False
          Left            =   40
          LockBottom      =   False
@@ -140,6 +141,7 @@ Begin dlgBase dlgGetServerKey
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   1
+         TabPanelIndex   =   0
          TabStop         =   True
          Target          =   1
          Text            =   "#constUrl_DeveloperKey"

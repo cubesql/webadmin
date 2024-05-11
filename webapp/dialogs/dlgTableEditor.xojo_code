@@ -68,7 +68,7 @@ Begin dlgBase dlgTableEditor
       LayoutType      =   0
       Left            =   20
       LockBottom      =   True
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   True
@@ -172,7 +172,7 @@ Begin dlgBase dlgTableEditor
          LastRowIndex    =   0
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -185,9 +185,9 @@ Begin dlgBase dlgTableEditor
          RowSelectionType=   1
          Scope           =   0
          SearchCriteria  =   ""
-         SelectedRowColor=   &c0d6efd
+         SelectedRowColor=   colWebListBoxSelectedRow
          SelectedRowIndex=   0
-         TabIndex        =   5
+         TabIndex        =   2
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
@@ -208,7 +208,7 @@ Begin dlgBase dlgTableEditor
          Indicator       =   0
          Left            =   660
          LockBottom      =   True
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   False
          LockRight       =   True
@@ -217,7 +217,7 @@ Begin dlgBase dlgTableEditor
          PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   11
+         TabIndex        =   6
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
@@ -238,7 +238,7 @@ Begin dlgBase dlgTableEditor
          Italic          =   False
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -248,7 +248,7 @@ Begin dlgBase dlgTableEditor
          PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   12
+         TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Field:"
@@ -273,7 +273,7 @@ Begin dlgBase dlgTableEditor
          Indicator       =   0
          Left            =   552
          LockBottom      =   True
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   False
          LockRight       =   True
@@ -282,7 +282,7 @@ Begin dlgBase dlgTableEditor
          PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   13
+         TabIndex        =   5
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
@@ -303,7 +303,7 @@ Begin dlgBase dlgTableEditor
          Indicator       =   0
          Left            =   444
          LockBottom      =   True
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   False
          LockRight       =   True
@@ -312,7 +312,7 @@ Begin dlgBase dlgTableEditor
          PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   14
+         TabIndex        =   4
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
@@ -376,6 +376,25 @@ Begin dlgBase dlgTableEditor
       Width           =   100
       _mPanelIndex    =   -1
    End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
 End
 #tag EndWebPage
 
@@ -414,7 +433,7 @@ End
 		  
 		  Var sanityMessage As String = Me.SanityCheckField(dictField)
 		  If (sanityMessage <> "") Then
-		    ShowWarningDialog("Add Field", "Can't add field.", sanityMessage)
+		    ShowWarningDialog(dlgMessage, "Add Field", "Can't add field.", sanityMessage)
 		    Return False
 		  End If
 		  
@@ -512,7 +531,7 @@ End
 		  
 		  Var sanityMessage As String = Me.SanityCheckField(modifiedField)
 		  If (sanityMessage <> "") Then
-		    ShowWarningDialog("Edit Field", "Can't edit field.", sanityMessage)
+		    ShowWarningDialog(dlgMessage, "Edit Field", "Can't edit field.", sanityMessage)
 		    Return False
 		  End If
 		  

@@ -51,7 +51,7 @@ Begin cntDatasourceBase cntPrivileges
       RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -325,7 +325,26 @@ Begin cntDatasourceBase cntPrivileges
       Index           =   -2147483648
       Indicator       =   0
       LockBottom      =   False
-      LockedInPosition=   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   False
@@ -368,7 +387,7 @@ End
 		    Session.DB.ExecuteSQL(sql)
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Grant Privilege", "Could not grant privilege.", err)
+		    ShowErrorDialog(dlgMessage, "Grant Privilege", "Could not grant privilege.", err)
 		    Return False
 		    
 		  End Try
@@ -455,7 +474,7 @@ End
 		    Session.DB.ExecuteSQL(sql)
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Revoke Privilege", "Could not revoke privilege.", err)
+		    ShowErrorDialog(dlgMessage, "Revoke Privilege", "Could not revoke privilege.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -664,7 +683,7 @@ End
 		  Var col As DatasourceColumn
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "*"
+		  col.Width = "30%"
 		  col.DatabaseColumnName = "groupname"
 		  col.Heading = "Groupname"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text

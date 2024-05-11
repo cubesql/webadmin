@@ -22,7 +22,6 @@ Begin dlgBase dlgUserCreate
    Width           =   600
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -36,7 +35,7 @@ Begin dlgBase dlgUserCreate
       Italic          =   False
       Left            =   20
       LockBottom      =   False
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   True
@@ -69,7 +68,7 @@ Begin dlgBase dlgUserCreate
       LayoutType      =   0
       Left            =   20
       LockBottom      =   True
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   True
@@ -98,7 +97,7 @@ Begin dlgBase dlgUserCreate
          Italic          =   False
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -134,7 +133,7 @@ Begin dlgBase dlgUserCreate
          Italic          =   False
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -171,7 +170,7 @@ Begin dlgBase dlgUserCreate
          InitialParent   =   "rctFormContent"
          Left            =   188
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   True
@@ -207,7 +206,7 @@ Begin dlgBase dlgUserCreate
          InitialParent   =   "rctFormContent"
          Left            =   188
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   True
@@ -242,7 +241,7 @@ Begin dlgBase dlgUserCreate
          Italic          =   False
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -279,7 +278,7 @@ Begin dlgBase dlgUserCreate
          InitialParent   =   "rctFormContent"
          Left            =   188
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   True
@@ -313,7 +312,7 @@ Begin dlgBase dlgUserCreate
          Italic          =   False
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -347,7 +346,7 @@ Begin dlgBase dlgUserCreate
          LastRowIndex    =   0
          Left            =   188
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -381,7 +380,7 @@ Begin dlgBase dlgUserCreate
       Indicator       =   1
       Left            =   480
       LockBottom      =   True
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   False
       LockRight       =   True
@@ -408,7 +407,7 @@ Begin dlgBase dlgUserCreate
       Indicator       =   0
       Left            =   372
       LockBottom      =   True
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   False
       LockRight       =   True

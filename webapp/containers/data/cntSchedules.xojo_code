@@ -51,7 +51,7 @@ Begin cntDatasourceBase cntSchedules
       RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -388,12 +388,31 @@ Begin cntDatasourceBase cntSchedules
    Begin WebThread thrDetails
       DebugIdentifier =   ""
       Index           =   -2147483648
-      LockedInPosition=   False
+      LockedInPosition=   True
       Priority        =   5
       Scope           =   2
       StackSize       =   0
       ThreadID        =   0
       ThreadState     =   0
+   End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
+      _mPanelIndex    =   -1
    End
 End
 #tag EndWebContainerControl
@@ -427,7 +446,7 @@ End
 		    Session.DB.ExecuteSQL(sqlCreateSchedule)
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Create Schedule", "Could not create schedule.", err)
+		    ShowErrorDialog(dlgMessage, "Create Schedule", "Could not create schedule.", err)
 		    Return False
 		    
 		  End Try
@@ -494,7 +513,7 @@ End
 		    Session.DB.ExecuteSQL("DROP SCHEDULE '" + sDropSchedule.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Drop Schedule", "Could not drop schedule.", err)
+		    ShowErrorDialog(dlgMessage, "Drop Schedule", "Could not drop schedule.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -538,7 +557,7 @@ End
 		    Session.DB.ExecuteSQL(sqlCreateSchedule)
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Create Schedule", "Could not create schedule.", err)
+		    ShowErrorDialog(dlgMessage, "Create Schedule", "Could not create schedule.", err)
 		    Return False
 		    
 		  End Try
@@ -577,7 +596,7 @@ End
 		    Session.DB.ExecuteSQL("RENAME SCHEDULE '" + esActionSchedule.EscapeSqlQuotes + "' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Rename Schedule", "Could not rename schedule.", err)
+		    ShowErrorDialog(dlgMessage, "Rename Schedule", "Could not rename schedule.", err)
 		    Return False
 		    
 		  End Try
@@ -803,7 +822,11 @@ End
 		  Var col As DatasourceColumn
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "*"
+		  If ebShowDetails Then
+		    col.Width = "70%"
+		  Else
+		    col.Width = "100%"
+		  End If
 		  col.DatabaseColumnName = "schedname"
 		  col.Heading = "Schedule"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text

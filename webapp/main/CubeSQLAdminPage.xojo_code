@@ -120,7 +120,7 @@ Begin WebPage CubeSQLAdminPage
       Enabled         =   False
       Index           =   -2147483648
       Location        =   0
-      LockedInPosition=   False
+      LockedInPosition=   True
       Period          =   1
       RunMode         =   0
       Scope           =   2
@@ -261,7 +261,7 @@ End
 	#tag Event
 		Sub Opening()
 		  Me.Indicator = WebUIControl.Indicators.Dark
-		  Me.Style.BackgroundColor = Color.RGB(0,51,102)
+		  Me.Style.BackgroundColor = Color.RGB(0,50,100)
 		  Me.Style.ForegroundColor = Color.White
 		  
 		  Me.Title = "cubeSQL Admin"

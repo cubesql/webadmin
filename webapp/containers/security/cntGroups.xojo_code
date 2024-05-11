@@ -51,7 +51,7 @@ Begin cntDatasourceBase cntGroups
       RowSelectionType=   1
       Scope           =   2
       SearchCriteria  =   ""
-      SelectedRowColor=   &c0d6efd
+      SelectedRowColor=   colWebListBoxSelectedRow
       SelectedRowIndex=   0
       TabIndex        =   0
       TabStop         =   True
@@ -147,7 +147,7 @@ Begin cntDatasourceBase cntGroups
    Begin WebThread thrDetails
       DebugIdentifier =   ""
       Index           =   -2147483648
-      LockedInPosition=   False
+      LockedInPosition=   True
       Priority        =   5
       Scope           =   2
       StackSize       =   0
@@ -161,7 +161,26 @@ Begin cntDatasourceBase cntGroups
       Index           =   -2147483648
       Indicator       =   0
       LockBottom      =   False
-      LockedInPosition=   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
+   Begin WebMessageDialog dlgMessage
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   ""
+      LockBottom      =   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   False
@@ -197,7 +216,7 @@ End
 		    Session.DB.ExecuteSQL("CREATE GROUP '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Create Group", "Could not create group.", err)
+		    ShowErrorDialog(dlgMessage, "Create Group", "Could not create group.", err)
 		    Return False
 		    
 		  End Try
@@ -240,7 +259,7 @@ End
 		    Session.DB.ExecuteSQL("DROP GROUP '" + sDropGroupname.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Drop Group", "Could not drop group.", err)
+		    ShowErrorDialog(dlgMessage, "Drop Group", "Could not drop group.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -277,7 +296,7 @@ End
 		    Session.DB.ExecuteSQL("RENAME GROUP '" + esActionGroupname.EscapeSqlQuotes + "' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog("Rename Group", "Could not rename group.", err)
+		    ShowErrorDialog(dlgMessage, "Rename Group", "Could not rename group.", err)
 		    Return False
 		    
 		  End Try
@@ -414,7 +433,11 @@ End
 		  Var col As DatasourceColumn
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "*"
+		  If ebShowDetails Then
+		    col.Width = "40%"
+		  Else
+		    col.Width = "100%"
+		  End If
 		  col.DatabaseColumnName = "groupname"
 		  col.Heading = "Groupname"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text
