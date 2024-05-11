@@ -89,7 +89,28 @@ Protected Module modCubeSQLAdmin
 	#tag EndProperty
 
 
+	#tag Constant, Name = constUrl_CubeSQLPlugin, Type = String, Dynamic = False, Default = \"https://github.com/cubesql/cubeSQLAdmin", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = constUrl_CubeSQLServer, Type = String, Dynamic = False, Default = \"https://sqlabs.com/cubesql", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = constUrl_CubeSQLWebAdmin, Type = String, Dynamic = False, Default = \"https://github.com/jo-tools", Scope = Public
+	#tag EndConstant
+
 	#tag Constant, Name = constUrl_DeveloperKey, Type = String, Dynamic = False, Default = \"https://www.sqlabs.com/cubesql_devkey.php", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = constUrl_JOTools, Type = String, Dynamic = False, Default = \"https://www.jo-tools.ch/", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = constUrl_MailTo_Contact, Type = String, Dynamic = False, Default = \"mailto:xojo@jo-tools.ch", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = constUrl_SQLabs, Type = String, Dynamic = False, Default = \"https://sqlabs.com/", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = constUrl_Xojo, Type = String, Dynamic = False, Default = \"https://www.xojo.com/", Scope = Public
 	#tag EndConstant
 
 

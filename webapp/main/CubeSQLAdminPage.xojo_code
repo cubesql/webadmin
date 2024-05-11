@@ -303,9 +303,14 @@ End
 		  Me.AddItem(btn)
 		  
 		  btn = New WebToolbarButton
-		  btn.Style = WebToolbarButton.ButtonStyles.FlexibleSpace
+		  btn.Tag = "About"
+		  btn.Style = WebToolbarButton.ButtonStyles.PushButton
+		  btn.Caption = "About"
 		  Me.AddItem(btn)
 		  
+		  btn = New WebToolbarButton
+		  btn.Style = WebToolbarButton.ButtonStyles.FlexibleSpace
+		  Me.AddItem(btn)
 		  
 		  btn = New WebToolbarButton
 		  btn.Tag = "Logout"
@@ -313,7 +318,6 @@ End
 		  btn.Style = WebToolbarButton.ButtonStyles.PushButton
 		  btn.Caption = "Logout"
 		  Me.AddItem(btn)
-		  
 		  
 		End Sub
 	#tag EndEvent
@@ -326,6 +330,10 @@ End
 		Sub Pressed(item As WebToolbarButton)
 		  Select Case item.Tag
 		    
+		  Case "About"
+		    Var dlgAboutCubeSQLAdmin As New dlgAbout
+		    dlgAboutCubeSQLAdmin.Show()
+		    
 		  Case "Logout"
 		    Self.CloseContainer()
 		    Session.Logout
@@ -333,8 +341,6 @@ End
 		    Return
 		    
 		  End Select
-		  
-		  
 		  
 		End Sub
 	#tag EndEvent
