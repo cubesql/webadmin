@@ -1,10 +1,10 @@
 #tag WebPage
-Begin WebDialog dlgPrivilegeGrant
+Begin WebDialog dlgEnginePreferenceSet
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
    Enabled         =   True
-   Height          =   372
+   Height          =   412
    Index           =   -2147483648
    Indicator       =   0
    LayoutDirection =   0
@@ -45,7 +45,7 @@ Begin WebDialog dlgPrivilegeGrant
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
-      Text            =   "Grant Privilege"
+      Text            =   "Set Engine Preference"
       TextAlignment   =   2
       TextColor       =   &c000000FF
       Tooltip         =   ""
@@ -61,7 +61,7 @@ Begin WebDialog dlgPrivilegeGrant
       ControlID       =   ""
       Enabled         =   True
       HasBackgroundColor=   False
-      Height          =   222
+      Height          =   267
       Index           =   -2147483648
       Indicator       =   0
       LayoutDirection =   0
@@ -84,43 +84,7 @@ Begin WebDialog dlgPrivilegeGrant
       _mDesignHeight  =   0
       _mDesignWidth   =   0
       _mPanelIndex    =   -1
-      Begin WebLabel labPrivilege
-         Bold            =   False
-         ControlID       =   ""
-         Enabled         =   True
-         FontName        =   ""
-         FontSize        =   0.0
-         Height          =   38
-         Index           =   -2147483648
-         Indicator       =   0
-         InitialParent   =   "rctFormContent"
-         Italic          =   False
-         Left            =   40
-         LockBottom      =   False
-         LockedInPosition=   True
-         LockHorizontal  =   False
-         LockLeft        =   True
-         LockRight       =   False
-         LockTop         =   True
-         LockVertical    =   False
-         Multiline       =   False
-         PanelIndex      =   "0"
-         Parent          =   "rctFormContent"
-         Scope           =   2
-         TabIndex        =   2
-         TabPanelIndex   =   0
-         TabStop         =   True
-         Text            =   "Privilege:"
-         TextAlignment   =   0
-         TextColor       =   &c000000FF
-         Tooltip         =   ""
-         Top             =   132
-         Underline       =   False
-         Visible         =   True
-         Width           =   140
-         _mPanelIndex    =   -1
-      End
-      Begin WebLabel labGroup
+      Begin WebLabel labEngine
          Bold            =   False
          ControlID       =   ""
          Enabled         =   True
@@ -146,7 +110,7 @@ Begin WebDialog dlgPrivilegeGrant
          TabIndex        =   0
          TabPanelIndex   =   0
          TabStop         =   True
-         Text            =   "Group:"
+         Text            =   "Engine:"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
@@ -192,17 +156,17 @@ Begin WebDialog dlgPrivilegeGrant
          Width           =   140
          _mPanelIndex    =   -1
       End
-      Begin WebPopupMenu lstGroup
+      Begin WebLabel labGroup
+         Bold            =   False
          ControlID       =   ""
          Enabled         =   True
+         FontName        =   ""
+         FontSize        =   0.0
          Height          =   38
          Index           =   -2147483648
          Indicator       =   0
-         InitialParent   =   "rctFormContent"
-         InitialValue    =   ""
-         LastAddedRowIndex=   0
-         LastRowIndex    =   0
-         Left            =   188
+         Italic          =   False
+         Left            =   40
          LockBottom      =   False
          LockedInPosition=   True
          LockHorizontal  =   False
@@ -210,21 +174,24 @@ Begin WebDialog dlgPrivilegeGrant
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
+         Multiline       =   False
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
-         RowCount        =   0
          Scope           =   2
-         SelectedRowIndex=   0
-         SelectedRowText =   ""
-         TabIndex        =   1
+         TabIndex        =   2
          TabPanelIndex   =   0
          TabStop         =   True
+         Text            =   "Group:"
+         TextAlignment   =   0
+         TextColor       =   &c000000FF
          Tooltip         =   ""
-         Top             =   86
+         Top             =   132
+         Underline       =   False
          Visible         =   True
-         Width           =   392
+         Width           =   140
          _mPanelIndex    =   -1
       End
-      Begin WebPopupMenu lstPrivilege
+      Begin WebPopupMenu lstGroup
          ControlID       =   ""
          Enabled         =   True
          Height          =   38
@@ -256,10 +223,44 @@ Begin WebDialog dlgPrivilegeGrant
          Width           =   392
          _mPanelIndex    =   -1
       End
-      Begin WebPopupMenu lstDatabase
+      Begin WebCombobox edtEngine
          ControlID       =   ""
          Enabled         =   True
          Height          =   38
+         Hint            =   ""
+         Index           =   -2147483648
+         Indicator       =   0
+         InitialValue    =   ""
+         LastAddedRowIndex=   0
+         LastRowIndex    =   0
+         Left            =   188
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         Parent          =   "rctFormContent"
+         RowCount        =   0
+         Scope           =   2
+         SelectedRowIndex=   -1
+         SelectedRowText =   ""
+         TabIndex        =   1
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   ""
+         Tooltip         =   ""
+         Top             =   86
+         Visible         =   True
+         Width           =   392
+         _mPanelIndex    =   -1
+      End
+      Begin WebCombobox edtDatabase
+         ControlID       =   ""
+         Enabled         =   True
+         Height          =   38
+         Hint            =   ""
          Index           =   -2147483648
          Indicator       =   0
          InitialValue    =   ""
@@ -277,18 +278,19 @@ Begin WebDialog dlgPrivilegeGrant
          Parent          =   "rctFormContent"
          RowCount        =   0
          Scope           =   2
-         SelectedRowIndex=   0
+         SelectedRowIndex=   -1
          SelectedRowText =   ""
          TabIndex        =   5
          TabPanelIndex   =   0
          TabStop         =   True
+         Text            =   ""
          Tooltip         =   ""
          Top             =   178
          Visible         =   True
          Width           =   392
          _mPanelIndex    =   -1
       End
-      Begin WebLabel labTable
+      Begin WebLabel labKey
          Bold            =   False
          ControlID       =   ""
          Enabled         =   True
@@ -313,7 +315,7 @@ Begin WebDialog dlgPrivilegeGrant
          TabIndex        =   6
          TabPanelIndex   =   0
          TabStop         =   True
-         Text            =   "Table:"
+         Text            =   "Preference Key:"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
@@ -323,10 +325,81 @@ Begin WebDialog dlgPrivilegeGrant
          Width           =   140
          _mPanelIndex    =   -1
       End
-      Begin WebPopupMenu lstTable
+      Begin WebLabel labValue
+         Bold            =   False
+         ControlID       =   ""
+         Enabled         =   True
+         FontName        =   ""
+         FontSize        =   0.0
+         Height          =   38
+         Index           =   -2147483648
+         Indicator       =   0
+         Italic          =   False
+         Left            =   40
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         Multiline       =   False
+         PanelIndex      =   "0"
+         Parent          =   "rctFormContent"
+         Scope           =   2
+         TabIndex        =   8
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   "Preference Value:"
+         TextAlignment   =   0
+         TextColor       =   &c000000FF
+         Tooltip         =   ""
+         Top             =   270
+         Underline       =   False
+         Visible         =   True
+         Width           =   140
+         _mPanelIndex    =   -1
+      End
+      Begin WebTextField edtValue
+         AllowAutoComplete=   False
+         AllowSpellChecking=   False
+         Caption         =   ""
+         ControlID       =   ""
+         Enabled         =   True
+         FieldType       =   0
+         Height          =   38
+         Hint            =   ""
+         Index           =   -2147483648
+         Indicator       =   0
+         Left            =   188
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         MaximumCharactersAllowed=   0
+         PanelIndex      =   "0"
+         Parent          =   "rctFormContent"
+         ReadOnly        =   False
+         Scope           =   2
+         TabIndex        =   9
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   ""
+         TextAlignment   =   0
+         Tooltip         =   ""
+         Top             =   270
+         Visible         =   True
+         Width           =   392
+         _mPanelIndex    =   -1
+      End
+      Begin WebCombobox edtKey
          ControlID       =   ""
          Enabled         =   True
          Height          =   38
+         Hint            =   ""
          Index           =   -2147483648
          Indicator       =   0
          InitialValue    =   ""
@@ -344,11 +417,12 @@ Begin WebDialog dlgPrivilegeGrant
          Parent          =   "rctFormContent"
          RowCount        =   0
          Scope           =   2
-         SelectedRowIndex=   0
+         SelectedRowIndex=   -1
          SelectedRowText =   ""
          TabIndex        =   7
          TabPanelIndex   =   0
          TabStop         =   True
+         Text            =   ""
          Tooltip         =   ""
          Top             =   224
          Visible         =   True
@@ -356,10 +430,10 @@ Begin WebDialog dlgPrivilegeGrant
          _mPanelIndex    =   -1
       End
    End
-   Begin WebButton btnGrant
+   Begin WebButton btnSet
       AllowAutoDisable=   False
       Cancel          =   False
-      Caption         =   "Grant"
+      Caption         =   "Set"
       ControlID       =   ""
       Default         =   True
       Enabled         =   False
@@ -378,7 +452,7 @@ Begin WebDialog dlgPrivilegeGrant
       TabIndex        =   3
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   314
+      Top             =   354
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -405,7 +479,7 @@ Begin WebDialog dlgPrivilegeGrant
       TabIndex        =   2
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   314
+      Top             =   354
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -416,32 +490,95 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Shown()
-		  ebShown = true
+		  ebShown = True
+		  
+		  If edtEngine.Enabled Then
+		    edtEngine.SetFocus
+		    Return
+		  End If
+		  
+		  If edtValue.Enabled Then
+		    edtValue.SetFocus
+		  End If
+		  
 		End Sub
 	#tag EndEvent
 
 
 	#tag Method, Flags = &h21
-		Private Sub Load()
-		  Me.LoadGroup()
-		  Me.LoadPrivileges()
-		  Me.LoadDatabases()
-		  Me.LoadTables()
+		Private Sub EnableControls(pbEditMode As Boolean)
+		  edtEngine.Enabled = (Not pbEditMode)
+		  edtDatabase.Enabled = (Not pbEditMode)
+		  lstGroup.Enabled = (Not pbEditMode)
+		  edtKey.Enabled = (Not pbEditMode)
+		  edtValue.Enabled = True
+		  
+		  If pbEditMode Then
+		    labTitle.Text = "Edit Engine Preference"
+		  Else
+		    labTitle.Text = "Set Engine Preference"
+		  End If
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub LoadDatabases()
-		  lstDatabase.RemoveAllRows
-		  lstDatabase.AddRow("(ALL)", "*")
-		  lstDatabase.AddRow("-", "*")
+		Private Sub Load()
+		  Me.LoadGroup()
+		  Me.LoadEnginePreferences()
 		  
-		  Var databases() As String = cntPrivileges.GetDatabasesList()
-		  for each database as string in databases
-		    lstDatabase.AddRow(database, database)
-		  next
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub LoadEnginePreferences()
+		  edtEngine.RemoveAllRows
+		  edtDatabase.RemoveAllRows
+		  edtKey.RemoveAllRows
 		  
-		  lstDatabase.SelectedRowIndex = 0
+		  Var existingEngines() As String
+		  Var existingDatabases() As String
+		  Var existingKeys() As String
+		  
+		  Try
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW ENGINE PREFERENCES")
+		    If (rs = Nil) Then Return
+		    
+		    If (rs.RowCount > 0) Then
+		      Var currentValue As String
+		      rs.MoveToFirstRow
+		      While (Not rs.AfterLastRow)
+		        currentValue = rs.Column("engine").StringValue
+		        If (currentValue <> "") And (existingEngines.IndexOf(currentValue) < 0) Then existingEngines.Add(currentValue)
+		        
+		        currentValue = rs.Column("databasename").StringValue
+		        If (currentValue <> "") And (existingDatabases.IndexOf(currentValue) < 0) Then existingDatabases.Add(currentValue)
+		        
+		        currentValue = rs.Column("key").StringValue
+		        If (currentValue <> "") And (existingKeys.IndexOf(currentValue) < 0) Then existingKeys.Add(currentValue)
+		        
+		        rs.MoveToNextRow
+		      Wend
+		    End If
+		    
+		    rs.Close
+		    
+		  Catch DatabaseException
+		    
+		  Finally
+		    existingEngines.Sort()
+		    existingDatabases.Sort()
+		    existingKeys.Sort()
+		    
+		    edtEngine.AddAllRows(existingEngines)
+		    edtDatabase.AddAllRows(existingDatabases)
+		    edtKey.AddAllRows(existingKeys)
+		    
+		    If (existingDatabases.IndexOf(esPreSelectDatabase) >= 0) Then
+		      edtDatabase.SelectedRowIndex = existingDatabases.IndexOf(esPreSelectDatabase)
+		    End If
+		    
+		  End Try
 		  
 		End Sub
 	#tag EndMethod
@@ -459,11 +596,9 @@ End
 		      rs.MoveToFirstRow
 		      While (Not rs.AfterLastRow)
 		        
-		        If (rs.Column("groupname").StringValue <> "admin") Then
-		          lstGroup.AddRow(rs.Column("groupname").StringValue, rs.Column("groupname").StringValue)
-		          If (esPreSelectGroup <> "") And (esPreSelectGroup = rs.Column("groupname").StringValue) Then
-		            iPreSelectGroup = lstGroup.LastAddedRowIndex
-		          End If
+		        lstGroup.AddRow(rs.Column("groupname").StringValue, rs.Column("groupname").StringValue)
+		        If (esPreSelectGroup <> "") And (esPreSelectGroup = rs.Column("groupname").StringValue) Then
+		          iPreSelectGroup = lstGroup.LastAddedRowIndex
 		        End If
 		        
 		        rs.MoveToNextRow
@@ -487,118 +622,64 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub LoadPrivileges()
-		  lstPrivilege.RemoveAllRows
-		  
-		  Var privileges() As String
-		  
-		  Try
-		    
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW PRIVILEGES TABLE")
-		    If (rs = Nil) Then Return
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        Var priv As String = rs.Column("name").StringValue
-		        If (priv <> "") And (privileges.IndexOf(priv) < 0) Then
-		          privileges.Add(priv)
-		        End If
-		        
-		        rs.MoveToNextRow
-		      Wend
-		    End If
-		    
-		    rs.Close
-		    
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    
-		    privileges.Sort()
-		    
-		    For Each sAddPrivilege As String In privileges
-		      lstPrivilege.AddRow(sAddPrivilege, sAddPrivilege)
-		    Next
-		    
-		    If (lstPrivilege.RowCount > 0) Then lstPrivilege.SelectedRowIndex = 0
-		    
-		  End Try
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub LoadTables()
-		  lstTable.RemoveAllRows
-		  lstTable.AddRow("(ALL)", "*")
-		  
-		  Var databaseName As String = lstDatabase.RowTagAt(lstDatabase.SelectedRowIndex).StringValue
-		  If (databaseName = "") Or (databaseName = "*") Then
-		    If (lstTable.RowCount > 0) Then lstTable.SelectedRowIndex = 0
-		    Return
-		  End If
-		  
-		  lstTable.AddRow("-", "*")
-		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW TABLES FOR DATABASE '" + databaseName + "'")
-		    If (rs = Nil) Then Return
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        lstTable.AddRow(rs.Column("tablename").StringValue, rs.Column("tablename").StringValue)
-		        
-		        rs.MoveToNextRow
-		      Wend
-		    End If
-		    
-		    rs.Close
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    If (lstTable.RowCount > 0) Then lstTable.SelectedRowIndex = 0
-		    
-		  End Try
-		  
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
 		Private Sub RefreshButtons()
-		  Var Group As String = lstGroup.RowTagAt(lstGroup.SelectedRowIndex).StringValue
-		  Var Privilege As String = lstPrivilege.RowTagAt(lstPrivilege.SelectedRowIndex).StringValue
-		  
-		  btnGrant.Enabled = (Group <> "admin") And (Group <> "*") And (Group <> "") _
-		  And (Privilege <> "*") And (Privilege <> "")
-		  
+		  btnSet.Enabled = (edtEngine.Text.Trim <> "") And (edtDatabase.Text.Trim <> "") And _
+		  (lstGroup.RowTagAt(lstGroup.SelectedRowIndex).StringValue <> "") And _
+		  (edtKey.Text.Trim <> "") And (edtValue.Text.Trim <> "")
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Show(PreSelectGroup As String)
+		Sub Show(PreSelectDatabase As String, PreSelectGroup As String)
 		  esPreSelectGroup = PreSelectGroup
+		  esPreSelectDatabase = PreSelectDatabase
 		  
 		  Me.Load()
+		  Me.EnableControls(False)
 		  Me.RefreshButtons()
 		  
 		  Super.Show()
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub ShowForEditing(Engine As String, Database As String, Group As String, Key As String, Value As String)
+		  esPreSelectGroup = Group
+		  esPreSelectDatabase = Database
+		  
+		  Me.Load()
+		  
+		  edtEngine.Text = Engine
+		  edtDatabase.Text = Database
+		  If (lstGroup.SelectedRowIndex < 0) Or (lstGroup.RowTagAt(lstGroup.SelectedRowIndex) <> Group) Then
+		    lstGroup.AddRow(Group, Group)
+		    lstGroup.SelectedRowIndex = lstGroup.LastAddedRowIndex
+		  End If
+		  edtKey.Text = Key
+		  edtValue.Text = Value
+		  
+		  Me.EnableControls(True)
+		  Me.RefreshButtons()
+		  
+		  Super.Show()
+		  
 		End Sub
 	#tag EndMethod
 
 
 	#tag Hook, Flags = &h0
-		Event PrivilegeGrantAction(Group As String, Privilege As String, Database As String, Table As String) As Boolean
+		Event EnginePreferenceSetAction(Engine As String, Database As String, Group As String, Key As String, Value As String) As Boolean
 	#tag EndHook
 
 
 	#tag Property, Flags = &h21
 		Private ebShown As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private esPreSelectDatabase As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -620,7 +701,15 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events lstPrivilege
+#tag Events edtEngine
+	#tag Event
+		Sub TextChanged()
+		  If (Not ebShown) Then Return
+		  
+		  Self.RefreshButtons()
+		  
+		End Sub
+	#tag EndEvent
 	#tag Event
 		Sub SelectionChanged(item As WebMenuItem)
 		  #Pragma unused item
@@ -632,21 +721,15 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events lstDatabase
+#tag Events edtDatabase
 	#tag Event
-		Sub SelectionChanged(item As WebMenuItem)
-		  #Pragma unused item
-		  
+		Sub TextChanged()
 		  If (Not ebShown) Then Return
-		  
-		  Self.LoadTables()
 		  
 		  Self.RefreshButtons()
 		  
 		End Sub
 	#tag EndEvent
-#tag EndEvents
-#tag Events lstTable
 	#tag Event
 		Sub SelectionChanged(item As WebMenuItem)
 		  #Pragma unused item
@@ -658,15 +741,47 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events btnGrant
+#tag Events edtValue
+	#tag Event
+		Sub TextChanged()
+		  If (Not ebShown) Then Return
+		  
+		  Self.RefreshButtons()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events edtKey
+	#tag Event
+		Sub TextChanged()
+		  If (Not ebShown) Then Return
+		  
+		  Self.RefreshButtons()
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub SelectionChanged(item As WebMenuItem)
+		  #Pragma unused item
+		  
+		  If (Not ebShown) Then Return
+		  
+		  Self.RefreshButtons()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events btnSet
 	#tag Event
 		Sub Pressed()
-		  If PrivilegeGrantAction( _
+		  If EnginePreferenceSetAction( _
+		    edtEngine.Text.Trim, _
+		    edtDatabase.Text.Trim, _
 		    lstGroup.RowTagAt(lstGroup.SelectedRowIndex).StringValue, _
-		    lstPrivilege.RowTagAt(lstPrivilege.SelectedRowIndex).StringValue, _
-		    lstDatabase.RowTagAt(lstDatabase.SelectedRowIndex).StringValue, _
-		    lstTable.RowTagAt(lstTable.SelectedRowIndex).StringValue _
+		    edtKey.Text.Trim, _
+		    edtValue.Text.Trim _
 		    ) Then
+		    
 		    Self.Close()
 		  End If
 		  
@@ -903,13 +1018,5 @@ End
 			"2 - TopToBottom"
 			"3 - BottomToTop"
 		#tag EndEnumValues
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="esPreSelectGroup"
-		Visible=false
-		Group="Behavior"
-		InitialValue=""
-		Type="String"
-		EditorType="MultiLineEditor"
 	#tag EndViewProperty
 #tag EndViewBehavior

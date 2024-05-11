@@ -72,7 +72,7 @@ Begin WebPage CubeSQLAdminPage
       LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
-      LockRight       =   False
+      LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
       Multiline       =   False
@@ -201,6 +201,9 @@ End
 		  Case ContainerKey.Privileges
 		    showContainer = new cntPrivileges
 		    
+		  Case ContainerKey.EnginePreferences
+		    showContainer = New cntEnginePreferences
+		    
 		  Case ContainerKey.Console
 		    showContainer = new cntConsole
 		    
@@ -269,6 +272,7 @@ End
 		  btn.Menu.AddMenuItem(New WebMenuItem("Groups", ContainerKey.Groups))
 		  btn.Menu.AddMenuItem(New WebMenuItem("Users", ContainerKey.Users))
 		  btn.Menu.AddMenuItem(New WebMenuItem("Privileges", ContainerKey.Privileges))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Engine Preferences", ContainerKey.EnginePreferences))
 		  Me.AddItem(btn)
 		  
 		  btn = New WebToolbarButton
