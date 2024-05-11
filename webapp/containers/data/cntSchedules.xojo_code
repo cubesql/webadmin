@@ -709,47 +709,32 @@ End
 		Private Sub LoadDatabases()
 		  lstFilterDatabase.RemoveAllRows
 		  lstFilterDatabase.AddRow("(ALL)", "")
-		  lstFilterDatabase.AddRow("-", "")
+		  lstFilterDatabase.AddSeparator()
 		  lstFilterDatabase.AddRow(constDBName_CubeSQLSettings, constDBName_CubeSQLSettings)
 		  Var bNeedsSeparator As Boolean = True
 		  
-		  Var iPreselectIndex As Integer = 0
+		  Var databases() As String = cntDatabases.GetDatabasesList(False)
 		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
-		    If (rs = Nil) Then Return
-		    
-		    Var sessionStateDatabasename As String = Session.State.Lookup("databasename", "").StringValue
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        If bNeedsSeparator Then
-		          bNeedsSeparator = False
-		          lstFilterDatabase.AddRow("-", "")
-		        End If
-		        
-		        lstFilterDatabase.AddRow(rs.Column("databasename").StringValue, rs.Column("databasename").StringValue)
-		        
-		        If (sessionStateDatabasename <> "") And (sessionStateDatabasename = rs.Column("databasename").StringValue) Then
-		          iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
-		        End If
-		        
-		        rs.MoveToNextRow
-		      Wend
+		  Var iPreselectIndex As Integer = 0
+		  Var sessionStateDatabasename As String = Session.State.Lookup("databasename", "").StringValue
+		  
+		  For Each databasename As String In databases
+		    If bNeedsSeparator Then
+		      bNeedsSeparator = False
+		      lstFilterDatabase.AddSeparator()
 		    End If
 		    
-		    rs.Close
+		    lstFilterDatabase.AddRow(databasename, databasename)
 		    
-		    If (sessionStateDatabasename = constDBName_CubeSQLSettings) Then iPreselectIndex = 2
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    lstFilterDatabase.SelectedRowIndex = iPreselectIndex
-		    Session.State.Value("databasename") = Me.GetSelectedDatabasename()
-		    
-		  End Try
+		    If (sessionStateDatabasename <> "") And (sessionStateDatabasename = databasename) Then
+		      iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
+		    End If
+		  Next
+		  
+		  If (sessionStateDatabasename = constDBName_CubeSQLSettings) Then iPreselectIndex = 2
+		  
+		  lstFilterDatabase.SelectedRowIndex = iPreselectIndex
+		  Session.State.Value("databasename") = Me.GetSelectedDatabasename()
 		  
 		End Sub
 	#tag EndMethod
@@ -832,9 +817,9 @@ End
 		  
 		  col = New DatasourceColumn()
 		  If ebShowDetails Then
-		    col.Width = "70%"
+		    col.Width = "69%" '-1% seems to prevent horizontal scrollbars
 		  Else
-		    col.Width = "100%"
+		    col.Width = "*"
 		  End If
 		  col.DatabaseColumnName = "schedname"
 		  col.Heading = "Schedule"

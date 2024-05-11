@@ -564,7 +564,7 @@ End
 		Private Sub LoadDatabases()
 		  lstFilterDatabase.RemoveAllRows
 		  lstFilterDatabase.AddRow("(ALL)", "")
-		  lstFilterDatabase.AddRow("-", "")
+		  lstFilterDatabase.AddSeparator()
 		  
 		  Var existingDatabases() As String
 		  
@@ -605,7 +605,7 @@ End
 		Private Sub LoadGroups()
 		  lstFilterGroup.RemoveAllRows
 		  lstFilterGroup.AddRow("(ALL)", "")
-		  lstFilterGroup.AddRow("-", "")
+		  lstFilterGroup.AddSeparator()
 		  
 		  Var iPreselectIndex As Integer = 0
 		  
@@ -719,7 +719,7 @@ End
 		  Me.Columns.Add(col)
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "34%"
+		  col.Width = "33%" '-1% seems to prevent horizontal scrollbars
 		  col.DatabaseColumnName = "value"
 		  col.Heading = "Value"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text

@@ -1248,7 +1248,7 @@ End
 		  Me.RemoveAllRows
 		  
 		  Me.AddRow("Day | Time", "DAYS")
-		  Me.AddRow("-")
+		  me.AddSeparator()
 		  Me.AddRow("Startup", "STARTUP")
 		  Me.AddRow("Shutdown", "SHUTDOWN")
 		  

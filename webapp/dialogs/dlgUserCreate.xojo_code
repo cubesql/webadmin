@@ -453,7 +453,7 @@ End
 		Private Sub LoadGroup()
 		  lstGroup.RemoveAllRows
 		  lstGroup.AddRow("(UNASSIGNED)", "")
-		  lstGroup.AddRow("-", "")
+		  lstGroup.AddSeparator()
 		  
 		  Var iPreSelectGroup As Integer = -1
 		  Try

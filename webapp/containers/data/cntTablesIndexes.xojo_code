@@ -574,36 +574,21 @@ End
 		Private Sub LoadDatabases()
 		  lstFilterDatabase.RemoveAllRows
 		  
-		  Var iPreselectIndex As Integer = 0
+		  Var databases() As String = cntDatabases.GetDatabasesList(False)
 		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
-		    If (rs = Nil) Then Return
+		  Var iPreselectIndex As Integer = 0
+		  Var sessionStateDatabasename As String = Session.State.Lookup("databasename", "").StringValue
+		  
+		  For Each databasename As String In databases
+		    lstFilterDatabase.AddRow(databasename, databasename)
 		    
-		    Var sessionStateDatabasename As String = Session.State.Lookup("databasename", "").StringValue
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        lstFilterDatabase.AddRow(rs.Column("databasename").StringValue, rs.Column("databasename").StringValue)
-		        
-		        If (sessionStateDatabasename <> "") And (sessionStateDatabasename = rs.Column("databasename").StringValue) Then
-		          iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
-		        End If
-		        
-		        rs.MoveToNextRow
-		      Wend
+		    If (sessionStateDatabasename <> "") And (sessionStateDatabasename = databasename) Then
+		      iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
 		    End If
-		    
-		    rs.Close
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    If (lstFilterDatabase.RowCount > 0) Then lstFilterDatabase.SelectedRowIndex = iPreselectIndex
-		    Session.State.Value("databasename") = Me.GetSelectedDatabasename()
-		    
-		  End Try
+		  Next
+		  
+		  If (lstFilterDatabase.RowCount > 0) Then lstFilterDatabase.SelectedRowIndex = iPreselectIndex
+		  Session.State.Value("databasename") = Me.GetSelectedDatabasename()
 		  
 		End Sub
 	#tag EndMethod
@@ -709,7 +694,7 @@ End
 		  Me.Columns.Add(col)
 		  
 		  col = New DatasourceColumn()
-		  col.Width = "65%"
+		  col.Width = "64%" '-1% seems to prevent horizontal scrollbars
 		  col.DatabaseColumnName = "sql"
 		  col.Heading = "SQL"
 		  col.FieldType = DatasourceColumn.FieldTypes.Text

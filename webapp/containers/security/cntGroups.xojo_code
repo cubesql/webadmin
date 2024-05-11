@@ -436,7 +436,7 @@ End
 		  If ebShowDetails Then
 		    col.Width = "40%"
 		  Else
-		    col.Width = "100%"
+		    col.Width = "*"
 		  End If
 		  col.DatabaseColumnName = "groupname"
 		  col.Heading = "Groupname"
@@ -458,7 +458,7 @@ End
 		    Me.Columns.Add(col)
 		    
 		    col = New DatasourceColumn()
-		    col.Width = "50%"
+		    col.Width = "49%" '-1% seems to prevent horizontal scrollbars
 		    col.DatabaseColumnName = "usernames"
 		    col.Heading = "Users"
 		    col.IsVirtual = True
