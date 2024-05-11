@@ -142,7 +142,6 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Opening()
-		  Self.RefreshButtons()
 		  Self.ShowInfos()
 		  
 		End Sub
@@ -203,6 +202,7 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
+		  Me.Area = "Information"
 		  Me.Title = "Clients"
 		  Me.SearchAvailable = True
 		  
@@ -298,9 +298,11 @@ End
 		Private Function GetSelectedClientId(ByRef username As String) As Integer
 		  username = ""
 		  If (lstInfos.SelectedRowIndex < 0) Then Return -1
-		  If (lstInfos.RowTagAt(lstInfos.SelectedRowIndex) IsA Dictionary) Then
-		    username = Dictionary(lstInfos.RowTagAt(lstInfos.SelectedRowIndex)).Lookup("username", "").StringValue
-		    Return Dictionary(lstInfos.RowTagAt(lstInfos.SelectedRowIndex)).Lookup("id", "").IntegerValue
+		  
+		  Var selectedRowTag As Variant = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
+		  If (selectedRowTag IsA Dictionary) Then
+		    username = Dictionary(selectedRowTag).Lookup("username", "").StringValue
+		    Return Dictionary(selectedRowTag).Lookup("id", "").IntegerValue
 		  End If
 		  
 		  Return -1
@@ -317,8 +319,8 @@ End
 		  
 		  If (clientId > 0) Then
 		    bDisconnect = (clientId <> Session.ClientId)
-		    bRefresh = True
 		  End If
+		  bRefresh = True
 		  
 		  If (btnRefresh.Enabled <> bRefresh) Then btnRefresh.Enabled = bRefresh
 		  If (btnDisconnect.Enabled <> bDisconnect) Then btnDisconnect.Enabled = bDisconnect
@@ -354,6 +356,8 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
+		  Me.UpdateNoRowsMessage()
+		  
 		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW CONNECTIONS"))
 		  
 		  If (lstInfos.DataSource = Nil) Then
@@ -365,11 +369,27 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub UpdateNoRowsMessage()
+		  Var sInfo As String = "No Clients"
+		  
+		  If (Me.SearchValue <> "") Then
+		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
+		  End If
+		  
+		  lstInfos.NoRowsMessage = sInfo
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
 		  Super.WebTimer_RowDataLoaded(obj)
 		  
-		  If (eiSelectAfterReload <= 0) Then Return
+		  If (eiSelectAfterReload <= 0) Then
+		    Me.RefreshButtons()
+		    Return
+		  End If
 		  
 		  Var iSelectAfterReload As Integer = eiSelectAfterReload
 		  eiSelectAfterReload = -1
@@ -445,6 +465,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="Area"
+		Visible=false
+		Group="Behavior"
+		InitialValue="Home"
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="SearchAvailable"
 		Visible=false

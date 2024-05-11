@@ -116,36 +116,6 @@ Begin cntDatasourceBase cntPrivileges
       Width           =   100
       _mPanelIndex    =   -1
    End
-   Begin dlgPrivilegeGrant dlgGrant
-      ControlCount    =   0
-      ControlID       =   ""
-      Enabled         =   True
-      esPreSelectGroup=   ""
-      Height          =   314
-      Index           =   -2147483648
-      Indicator       =   0
-      LayoutDirection =   0
-      LayoutType      =   0
-      Left            =   20
-      LockBottom      =   False
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      PanelIndex      =   "0"
-      Scope           =   2
-      TabIndex        =   5
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   20
-      Visible         =   True
-      Width           =   600
-      _mDesignHeight  =   0
-      _mDesignWidth   =   0
-      _mPanelIndex    =   -1
-   End
    Begin WebRectangle rctFilter
       BackgroundColor =   &cFFFFFF
       ControlCount    =   0
@@ -236,7 +206,7 @@ Begin cntDatasourceBase cntPrivileges
          TabIndex        =   1
          TabPanelIndex   =   0
          TabStop         =   True
-         Text            =   "Group(s):"
+         Text            =   "Group:"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
@@ -272,7 +242,7 @@ Begin cntDatasourceBase cntPrivileges
          TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
-         Text            =   "Database(s):"
+         Text            =   "Database:"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
@@ -376,7 +346,6 @@ End
 		  Self.Load()
 		  
 		  Self.ShowInfos()
-		  Self.RefreshButtons()
 		  
 		  ebOpened = True
 		  
@@ -386,13 +355,17 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ActionGrant()
+		  Var dlgGrant As New dlgPrivilegeGrant
+		  AddHandler dlgGrant.PrivilegeGrantAction, WeakAddressOf ActionGrantButtonPressed
 		  dlgGrant.Show(lstFilterGroup.SelectedRowText)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function ActionGrantButtonPressed(Group As String, Privilege As String, Database As String, Table As String) As Boolean
+		Private Function ActionGrantButtonPressed(obj As dlgPrivilegeGrant, Group As String, Privilege As String, Database As String, Table As String) As Boolean
+		  #Pragma unused obj
+		  
 		  If (Group = "") Or (Group = "*") Or (Group = "admin") Then Return False
 		  If (Privilege = "") Or (Privilege = "*") Then Return False
 		  If (Database = "") Then Return False
@@ -418,6 +391,21 @@ End
 		    Return False
 		    
 		  End Try
+		  
+		  
+		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
+		  If (filterGroupname <> "") Then
+		    ebOpened = False
+		    lstFilterGroup.SelectRowWithTag(Group)
+		    ebOpened = True
+		  End If
+		  Var filterDatabasename As String = lstFilterDatabase.RowTagAt(lstFilterDatabase.SelectedRowIndex)
+		  If (filterDatabasename <> "") Then
+		    ebOpened = False
+		    lstFilterDatabase.SelectRowWithTag(Database)
+		    ebOpened = True
+		  End If
+		  
 		  
 		  'Success - no dialog
 		  Var selectRowTag As New Dictionary
@@ -507,6 +495,7 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
+		  Me.Area = "Security"
 		  Me.Title = "Privileges"
 		  Me.SearchAvailable = True
 		  
@@ -726,6 +715,8 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
+		  Me.UpdateNoRowsMessage()
+		  
 		  Me.Filters = New Dictionary
 		  
 		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
@@ -750,11 +741,27 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub UpdateNoRowsMessage()
+		  Var sInfo As String = "No Privileges"
+		  
+		  If (Me.SearchValue <> "") Then
+		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
+		  End If
+		  
+		  lstInfos.NoRowsMessage = sInfo
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
 		  Super.WebTimer_RowDataLoaded(obj)
 		  
-		  If (esSelectAfterReload = Nil) Then Return
+		  If (esSelectAfterReload = Nil) Then
+		    Me.RefreshButtons()
+		    Return
+		  End If
 		  
 		  Var sSelectAfterReload As Dictionary = esSelectAfterReload
 		  esSelectAfterReload = Nil
@@ -844,14 +851,6 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events dlgGrant
-	#tag Event
-		Function PrivilegeGrantAction(Group As String, Privilege As String, Database As String, Table As String) As Boolean
-		  Return Self.ActionGrantButtonPressed(Group, Privilege, Database, Table)
-		  
-		End Function
-	#tag EndEvent
-#tag EndEvents
 #tag Events lstFilterGroup
 	#tag Event
 		Sub SelectionChanged(item As WebMenuItem)
@@ -885,6 +884,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="Area"
+		Visible=false
+		Group="Behavior"
+		InitialValue="Home"
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="SearchAvailable"
 		Visible=false

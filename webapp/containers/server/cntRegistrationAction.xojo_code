@@ -22,7 +22,6 @@ Begin WebContainer cntRegistrationAction
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebButton btnGetServerKey
       AllowAutoDisable=   False
@@ -42,7 +41,7 @@ Begin WebContainer cntRegistrationAction
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
@@ -70,7 +69,7 @@ Begin WebContainer cntRegistrationAction
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
@@ -80,40 +79,12 @@ Begin WebContainer cntRegistrationAction
       Width           =   266
       _mPanelIndex    =   -1
    End
-   Begin dlgRegisterServer dlgRegistration
-      ControlCount    =   0
-      ControlID       =   ""
-      Enabled         =   True
-      Height          =   272
-      Index           =   -2147483648
-      Indicator       =   0
-      LayoutDirection =   0
-      LayoutType      =   0
-      Left            =   0
-      LockBottom      =   False
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      Scope           =   2
-      TabIndex        =   2
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   0
-      Visible         =   True
-      Width           =   600
-      _mDesignHeight  =   0
-      _mDesignWidth   =   0
-      _mPanelIndex    =   -1
-   End
    Begin WebMessageDialog dlgGetServerKey
       ControlID       =   ""
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
-      Indicator       =   0
+      Indicator       =   ""
       LockBottom      =   False
       LockedInPosition=   False
       LockHorizontal  =   False
@@ -132,7 +103,21 @@ End
 
 #tag WindowCode
 	#tag Method, Flags = &h21
-		Private Sub GetServerKeyAction(obj As WebMessageDialog, button As WebMessageDialogButton)
+		Private Sub ActionGetServerKey()
+		  dlgGetServerKey.Title = "Server Key"
+		  dlgGetServerKey.Indicator = Indicators.Default
+		  dlgGetServerKey.ActionButton.Caption = "Get a Key"
+		  dlgGetServerKey.CancelButton.Visible = True
+		  dlgGetServerKey.Message = "Get a Server Key from SQlabs."
+		  dlgGetServerKey.Explanation = "Open this URL in a new Browser Window: " + constUrl_DeveloperKey
+		  
+		  dlgGetServerKey.Show()
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionGetServerKeyButtonPressed(obj As WebMessageDialog, button As WebMessageDialogButton)
 		  If (button = obj.ActionButton) Then
 		    Self.GoToURL(constUrl_DeveloperKey, True)
 		  End If
@@ -141,7 +126,41 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function RegistrationAction(Name As String, Key As String) As Boolean
+		Private Sub ActionRegistration()
+		  Var Name, Key As String
+		  
+		  Try
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW PREFERENCES")
+		    If (rs <> Nil) Then
+		      Var infos As New Dictionary
+		      For Each row As DatabaseRow In rs
+		        infos.Value(row.ColumnAt(0).StringValue) = row.ColumnAt(1).StringValue
+		      Next
+		      
+		      rs.Close
+		      
+		      Name = infos.Lookup("KEY_NAME", "").StringValue
+		      Key = infos.Lookup("KEY_VALUE", "").StringValue
+		    End If
+		    
+		    
+		  Catch DatabaseException
+		    
+		  Finally
+		    Var dlgRegistration As New dlgRegisterServer
+		    AddHandler dlgRegistration.RegistrationAction, WeakAddressOf ActionRegistrationButtonPressed
+		    dlgRegistration.Show(Name, Key)
+		    
+		  End Try
+		  
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function ActionRegistrationButtonPressed(obj As dlgRegisterServer, Name As String, Key As String) As Boolean
+		  #Pragma unused obj
+		  
 		  If (Name = "") Or (Key = "") Then Return False
 		  
 		  Try
@@ -180,50 +199,6 @@ End
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub ShowGetServerKeyDialog()
-		  dlgGetServerKey.Title = "Server Key"
-		  dlgGetServerKey.Indicator = Indicators.Default
-		  dlgGetServerKey.ActionButton.Caption = "Get a Key"
-		  dlgGetServerKey.CancelButton.Visible = True
-		  dlgGetServerKey.Message = "Get a Server Key from SQlabs."
-		  dlgGetServerKey.Explanation = "Open this URL in a new Browser Window: " + constUrl_DeveloperKey
-		  
-		  dlgGetServerKey.Show()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ShowRegistrationDialog()
-		  Var Name, Key As String
-		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW PREFERENCES")
-		    If (rs <> Nil) Then
-		      Var infos As New Dictionary
-		      For Each row As DatabaseRow In rs
-		        infos.Value(row.ColumnAt(0).StringValue) = row.ColumnAt(1).StringValue
-		      Next
-		      
-		      rs.Close
-		      
-		      Name = infos.Lookup("KEY_NAME", "").StringValue
-		      Key = infos.Lookup("KEY_VALUE", "").StringValue
-		    End If
-		    
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    dlgRegistration.Show(Name, Key)
-		    
-		  End Try
-		  
-		  
-		End Sub
-	#tag EndMethod
-
 
 	#tag Hook, Flags = &h0
 		Event NeedsRefresh()
@@ -235,29 +210,21 @@ End
 #tag Events btnGetServerKey
 	#tag Event
 		Sub Pressed()
-		  self.ShowGetServerKeyDialog()
+		  self.ActionGetServerKey()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events btnRegisterServer
 	#tag Event
 		Sub Pressed()
-		  self.ShowRegistrationDialog()
+		  self.ActionRegistration()
 		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events dlgRegistration
-	#tag Event
-		Function RegistrationAction(Name As String, Key As String) As Boolean
-		  Return Self.RegistrationAction(Name, Key)
-		  
-		End Function
 	#tag EndEvent
 #tag EndEvents
 #tag Events dlgGetServerKey
 	#tag Event
 		Sub ButtonPressed(button As WebMessageDialogButton)
-		  Self.GetServerKeyAction(Me, button)
+		  Self.ActionGetServerKeyButtonPressed(Me, button)
 		  
 		End Sub
 	#tag EndEvent

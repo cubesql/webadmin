@@ -152,6 +152,19 @@ Begin cntDatasourceBase cntLog
       Width           =   120
       _mPanelIndex    =   -1
    End
+   Begin WebTimer timRefresh
+      ControlID       =   ""
+      Enabled         =   False
+      Index           =   -2147483648
+      Location        =   0
+      LockedInPosition=   False
+      Period          =   1
+      RunMode         =   0
+      Scope           =   2
+      TabIndex        =   4
+      TabStop         =   True
+      _mPanelIndex    =   -1
+   End
 End
 #tag EndWebContainerControl
 
@@ -169,6 +182,7 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
+		  Me.Area = "Information"
 		  Me.Title = "Log"
 		  Me.SearchAvailable = True
 		  
@@ -241,6 +255,19 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub RefreshSchedule(pbImmediately As Boolean)
+		  'if already running, stop
+		  timRefresh.RunMode = WebTimer.RunModes.Off
+		  timRefresh.Enabled = False
+		  
+		  timRefresh.Period = If(pbImmediately, 1, 800)
+		  timRefresh.RunMode = WebTimer.RunModes.Single
+		  timRefresh.Enabled = True
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Sub Search(SearchValue As String)
 		  Super.Search(SearchValue)
@@ -257,6 +284,8 @@ End
 		    Return
 		  End If
 		  
+		  Me.UpdateNoRowsMessage()
+		  
 		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW LAST " + numLogEntries.ToString + " ROWS FROM Log ORDER DESC"))
 		  
 		  If (lstInfos.DataSource = Nil) Then
@@ -264,6 +293,19 @@ End
 		  Else
 		    lstInfos.ReloadData()
 		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub UpdateNoRowsMessage()
+		  Var sInfo As String = "No Log entries"
+		  
+		  If (Me.SearchValue <> "") Then
+		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
+		  End If
+		  
+		  lstInfos.NoRowsMessage = sInfo
 		  
 		End Sub
 	#tag EndMethod
@@ -278,7 +320,7 @@ End
 #tag Events btnRefresh
 	#tag Event
 		Sub Pressed()
-		  Self.ShowInfos()
+		  Self.RefreshSchedule(True)
 		  
 		End Sub
 	#tag EndEvent
@@ -286,7 +328,8 @@ End
 #tag Events edtLogNumberOfEntries
 	#tag Event
 		Sub TextChanged()
-		  self.ShowInfos()
+		  Self.RefreshSchedule(False)
+		  
 		End Sub
 	#tag EndEvent
 	#tag Event
@@ -298,7 +341,26 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
+#tag Events timRefresh
+	#tag Event
+		Sub Run()
+		  Me.RunMode = WebTimer.RunModes.Off
+		  Me.Enabled = False
+		  
+		  Self.ShowInfos()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="Area"
+		Visible=false
+		Group="Behavior"
+		InitialValue="Home"
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="SearchAvailable"
 		Visible=false

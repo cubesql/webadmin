@@ -29,6 +29,7 @@ Begin WebPage LoginPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebRectangle rectLogin
       BackgroundColor =   &cFFFFFF
@@ -562,7 +563,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rectLogin"
          Scope           =   2
          TabIndex        =   1
@@ -854,6 +855,67 @@ End
 		  
 		End Sub
 	#tag EndMethod
+
+
+	#tag Note, Name = DebugMemoryIssues
+		Place this in the Run Event of a WebThread (Location: Browser).
+		It'll show the count of instances.
+		
+		*****
+		
+		Dim sRuntime As String = "Runtime: Memory Used '" + Runtime.MemoryUsed.ToString + "', ObjectCount '" + Runtime.ObjectCount.ToString + "'"
+		
+		
+		Var dictInfo As New Dictionary
+		dictInfo.Value("LoginPage") = 0
+		dictInfo.Value("CubeSQLAdminPage") = 0
+		dictInfo.Value("cntStatus") = 0
+		dictInfo.Value("cntRegistration") = 0
+		dictInfo.Value("cntRegistrationAction") = 0
+		dictInfo.Value("dlgRegisterServer") = 0
+		dictInfo.Value("cntDatabases") = 0
+		dictInfo.Value("dlgDatabaseCreate") = 0
+		dictInfo.Value("dlgCommonName") = 0
+		dictInfo.Value("WebMessageDialog") = 0
+		dictInfo.Value("WebLabel") = 0
+		dictInfo.Value("WebTextField") = 0
+		dictInfo.Value("WebButton") = 0
+		dictInfo.Value("dlgDrop") = 0
+		dictInfo.Value("cntConsole") = 0
+		dictInfo.Value("cntGroups") = 0
+		dictInfo.Value("cntUsers") = 0
+		dictInfo.Value("dlgUserCreate") = 0
+		dictInfo.Value("dlgUserGroups") = 0
+		dictInfo.Value("cntPrivileges") = 0
+		dictInfo.Value("dlgPrivilegeGrant") = 0
+		dictInfo.Value("dlgRevoke") = 0
+		dictInfo.Value("cntCommands") = 0
+		dictInfo.Value("cntClients") = 0
+		dictInfo.Value("dlgDisconnect") = 0
+		
+		
+		Var checkName As String
+		Var o As Runtime.ObjectIterator = Runtime.IterateObjects
+		o.Reset
+		While o.MoveNext
+		  checkName = Introspection.GetType(o.Current).Name
+		  
+		  For Each vKey As Variant In dictInfo.Keys
+		    If (checkName = vKey.StringValue) Then
+		      dictInfo.Value(vKey) = dictInfo.Value(vKey).IntegerValue + 1
+		    End If
+		  Next
+		Wend
+		
+		Var infos() As String
+		For Each vKey As Variant In dictInfo.Keys
+		  If (dictInfo.Value(vKey).IntegerValue < 1) Then Continue
+		  infos.Add(vKey.StringValue + ": " + dictInfo.Value(vKey).StringValue)
+		Next
+		
+		labMemory.Text = sRuntime + EndOfLine + _
+		String.FromArray(infos, EndOfLine)
+	#tag EndNote
 
 
 	#tag Property, Flags = &h21

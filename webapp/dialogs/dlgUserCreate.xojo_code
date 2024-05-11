@@ -4,7 +4,7 @@ Begin WebDialog dlgUserCreate
    ControlCount    =   0
    ControlID       =   ""
    Enabled         =   True
-   Height          =   314
+   Height          =   360
    Index           =   -2147483648
    Indicator       =   0
    LayoutDirection =   0
@@ -22,7 +22,6 @@ Begin WebDialog dlgUserCreate
    Width           =   600
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -36,7 +35,7 @@ Begin WebDialog dlgUserCreate
       Italic          =   False
       Left            =   20
       LockBottom      =   False
-      LockedInPosition=   True
+      LockedInPosition=   False
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   True
@@ -62,14 +61,14 @@ Begin WebDialog dlgUserCreate
       ControlID       =   ""
       Enabled         =   True
       HasBackgroundColor=   False
-      Height          =   171
+      Height          =   217
       Index           =   -2147483648
       Indicator       =   0
       LayoutDirection =   0
       LayoutType      =   0
       Left            =   20
       LockBottom      =   True
-      LockedInPosition=   True
+      LockedInPosition=   False
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   True
@@ -98,14 +97,14 @@ Begin WebDialog dlgUserCreate
          Italic          =   False
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   True
+         LockedInPosition=   False
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   2
@@ -134,14 +133,14 @@ Begin WebDialog dlgUserCreate
          Italic          =   False
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   True
+         LockedInPosition=   False
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   0
@@ -171,14 +170,14 @@ Begin WebDialog dlgUserCreate
          InitialParent   =   "rctFormContent"
          Left            =   188
          LockBottom      =   False
-         LockedInPosition=   True
+         LockedInPosition=   False
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          ReadOnly        =   False
          Scope           =   2
@@ -207,14 +206,14 @@ Begin WebDialog dlgUserCreate
          InitialParent   =   "rctFormContent"
          Left            =   188
          LockBottom      =   False
-         LockedInPosition=   True
+         LockedInPosition=   False
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          ReadOnly        =   False
          Scope           =   2
@@ -242,14 +241,14 @@ Begin WebDialog dlgUserCreate
          Italic          =   False
          Left            =   40
          LockBottom      =   False
-         LockedInPosition=   True
+         LockedInPosition=   False
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   4
@@ -279,14 +278,14 @@ Begin WebDialog dlgUserCreate
          InitialParent   =   "rctFormContent"
          Left            =   188
          LockBottom      =   False
-         LockedInPosition=   True
+         LockedInPosition=   False
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          ReadOnly        =   False
          Scope           =   2
@@ -297,6 +296,73 @@ Begin WebDialog dlgUserCreate
          TextAlignment   =   0
          Tooltip         =   ""
          Top             =   178
+         Visible         =   True
+         Width           =   372
+         _mPanelIndex    =   -1
+      End
+      Begin WebLabel labGroup
+         Bold            =   False
+         ControlID       =   ""
+         Enabled         =   True
+         FontName        =   ""
+         FontSize        =   0.0
+         Height          =   38
+         Index           =   -2147483648
+         Indicator       =   0
+         Italic          =   False
+         Left            =   40
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         Multiline       =   False
+         PanelIndex      =   "0"
+         Parent          =   "rctFormContent"
+         Scope           =   2
+         TabIndex        =   6
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   "Group:"
+         TextAlignment   =   0
+         TextColor       =   &c000000FF
+         Tooltip         =   ""
+         Top             =   224
+         Underline       =   False
+         Visible         =   True
+         Width           =   140
+         _mPanelIndex    =   -1
+      End
+      Begin WebPopupMenu lstGroup
+         ControlID       =   ""
+         Enabled         =   True
+         Height          =   38
+         Index           =   -2147483648
+         Indicator       =   0
+         InitialValue    =   ""
+         LastAddedRowIndex=   0
+         LastRowIndex    =   0
+         Left            =   188
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         PanelIndex      =   "0"
+         Parent          =   "rctFormContent"
+         RowCount        =   0
+         Scope           =   2
+         SelectedRowIndex=   0
+         SelectedRowText =   ""
+         TabIndex        =   7
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Tooltip         =   ""
+         Top             =   224
          Visible         =   True
          Width           =   372
          _mPanelIndex    =   -1
@@ -314,7 +380,7 @@ Begin WebDialog dlgUserCreate
       Indicator       =   1
       Left            =   480
       LockBottom      =   True
-      LockedInPosition=   True
+      LockedInPosition=   False
       LockHorizontal  =   False
       LockLeft        =   False
       LockRight       =   True
@@ -324,7 +390,7 @@ Begin WebDialog dlgUserCreate
       TabIndex        =   3
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   256
+      Top             =   302
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -341,7 +407,7 @@ Begin WebDialog dlgUserCreate
       Indicator       =   0
       Left            =   372
       LockBottom      =   True
-      LockedInPosition=   True
+      LockedInPosition=   False
       LockHorizontal  =   False
       LockLeft        =   False
       LockRight       =   True
@@ -351,7 +417,7 @@ Begin WebDialog dlgUserCreate
       TabIndex        =   2
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   256
+      Top             =   302
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -362,6 +428,14 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Shown()
+		  labGroup.Visible = (Not ebActionSetPasswordOnly)
+		  lstGroup.Visible = (Not ebActionSetPasswordOnly)
+		  
+		  Var lastLabel As WebLabel = If(ebActionSetPasswordOnly, labPasswordRepeat, labGroup)
+		  rctFormContent.Height = lastLabel.Top - rctFormContent.Top + 59
+		  self.Height = lastLabel.Top + 136
+		  
+		  
 		  If edtName.Enabled Then
 		    edtName.SetFocus()
 		    Return
@@ -376,6 +450,47 @@ End
 
 
 	#tag Method, Flags = &h21
+		Private Sub LoadGroup()
+		  lstGroup.RemoveAllRows
+		  lstGroup.AddRow("(UNASSIGNED)", "")
+		  lstGroup.AddRow("-", "")
+		  
+		  Var iPreSelectGroup As Integer = -1
+		  Try
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS")
+		    If (rs = Nil) Then Return
+		    
+		    If (rs.RowCount > 0) Then
+		      rs.MoveToFirstRow
+		      While (Not rs.AfterLastRow)
+		        
+		        lstGroup.AddRow(rs.Column("groupname").StringValue, rs.Column("groupname").StringValue)
+		        If (esPreSelectGroup <> "") And (esPreSelectGroup = rs.Column("groupname").StringValue) Then
+		          iPreSelectGroup = lstGroup.LastAddedRowIndex
+		        End If
+		        
+		        
+		        rs.MoveToNextRow
+		      Wend
+		    End If
+		    
+		    rs.Close
+		    
+		  Catch DatabaseException
+		    
+		  Finally
+		    If (iPreSelectGroup >= 0) And (lstGroup.LastRowIndex >= iPreSelectGroup) Then
+		      lstGroup.SelectedRowIndex = iPreSelectGroup
+		    Else
+		      If (lstGroup.RowCount > 0) Then lstGroup.SelectedRowIndex = 0
+		    End If
+		    
+		  End Try
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub RefreshButtons()
 		  btnCreate.Enabled = (edtName.Text.Trim <> "") _
 		  And (edtPassword.Text.Trim <> "") _
@@ -388,11 +503,15 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Show()
+		Sub Show(PreSelectGroup As String)
 		  edtName.Text = ""
 		  edtPassword.Text = ""
 		  edtPasswordRepeat.Text = ""
 		  
+		  esPreSelectGroup = PreSelectGroup
+		  Me.LoadGroup()
+		  
+		  ebActionSetPasswordOnly = False
 		  Super.Show()
 		End Sub
 	#tag EndMethod
@@ -406,14 +525,31 @@ End
 		  labTitle.Text = "Set User Password"
 		  edtName.Enabled = False
 		  
+		  labGroup.Visible = False
+		  lstGroup.Visible = False
+		  
+		  lstGroup.RemoveAllRows
+		  lstGroup.AddRow("(PWD-CHANGE)", "")
+		  lstGroup.SelectedRowIndex = 0
+		  
+		  ebActionSetPasswordOnly = True
 		  Super.Show()
 		End Sub
 	#tag EndMethod
 
 
 	#tag Hook, Flags = &h0
-		Event UserCreateAction(Name As String, Password As String) As Boolean
+		Event UserCreateAction(Name As String, Password As String, Group As String) As Boolean
 	#tag EndHook
+
+
+	#tag Property, Flags = &h21
+		Private ebActionSetPasswordOnly As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private esPreSelectGroup As String
+	#tag EndProperty
 
 
 #tag EndWindowCode
@@ -445,7 +581,14 @@ End
 #tag Events btnCreate
 	#tag Event
 		Sub Pressed()
-		  If UserCreateAction(edtName.Text.Trim, edtPassword.Text.Trim) Then
+		  Var group As String
+		  If ebActionSetPasswordOnly Then
+		    group = ""
+		  Else
+		    group = lstGroup.RowTagAt(lstGroup.SelectedRowIndex)
+		  End If
+		  
+		  If UserCreateAction(edtName.Text.Trim, edtPassword.Text.Trim, group) Then
 		    Self.Close()
 		  End If
 		  

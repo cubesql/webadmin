@@ -57,11 +57,11 @@ Begin WebPage CubeSQLAdminPage
       _mPanelIndex    =   -1
    End
    Begin WebLabel labContainerTitle
-      Bold            =   True
+      Bold            =   False
       ControlID       =   ""
       Enabled         =   True
       FontName        =   ""
-      FontSize        =   18.0
+      FontSize        =   16.0
       Height          =   38
       Index           =   -2147483648
       Indicator       =   0
@@ -80,7 +80,7 @@ Begin WebPage CubeSQLAdminPage
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
-      Text            =   "Container Title"
+      Text            =   "Area → Container"
       TextAlignment   =   1
       TextColor       =   &c000000FF
       Tooltip         =   ""
@@ -124,8 +124,6 @@ Begin WebPage CubeSQLAdminPage
       Period          =   1
       RunMode         =   0
       Scope           =   2
-      TabIndex        =   3
-      TabStop         =   True
       _mPanelIndex    =   -1
    End
 End
@@ -151,6 +149,7 @@ End
 		  
 		  edtSearch.Text = ""
 		  edtSearch.Visible = False
+		  labContainerTitle.Text = ""
 		  
 		End Sub
 	#tag EndMethod
@@ -220,7 +219,7 @@ End
 		  
 		  Me.CloseContainer()
 		  
-		  labContainerTitle.Text = showContainer.Title
+		  labContainerTitle.Text = "<raw>" + showContainer.Area + "&nbsp;&nbsp;&rarr;&nbsp;&nbsp;<b><font size=+2>" + showContainer.Title + "</font></b></raw>"
 		  
 		  Var top As Integer = labContainerTitle.Top + labContainerTitle.Height + 10
 		  showContainer.EmbedWithin(Self, 0, top, Self.Width, Self.Height - top)
@@ -342,7 +341,7 @@ End
 #tag Events timSearch
 	#tag Event
 		Sub Run()
-		  me.RunMode = WebTimer.RunModes.Off
+		  Me.RunMode = WebTimer.RunModes.Off
 		  Me.Enabled = False
 		  
 		  Self.Search()
