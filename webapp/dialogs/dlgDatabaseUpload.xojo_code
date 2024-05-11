@@ -1,10 +1,10 @@
 #tag WebPage
-Begin WebDialog dlgDatabaseCreate
+Begin WebDialog dlgDatabaseUpload
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
    Enabled         =   True
-   Height          =   314
+   Height          =   318
    Index           =   -2147483648
    Indicator       =   0
    LayoutDirection =   0
@@ -45,7 +45,7 @@ Begin WebDialog dlgDatabaseCreate
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
-      Text            =   "Create Database"
+      Text            =   "Upload Database"
       TextAlignment   =   2
       TextColor       =   &c000000FF
       Tooltip         =   ""
@@ -61,7 +61,7 @@ Begin WebDialog dlgDatabaseCreate
       ControlID       =   ""
       Enabled         =   True
       HasBackgroundColor=   False
-      Height          =   171
+      Height          =   174
       Index           =   -2147483648
       Indicator       =   0
       LayoutDirection =   0
@@ -84,42 +84,6 @@ Begin WebDialog dlgDatabaseCreate
       _mDesignHeight  =   0
       _mDesignWidth   =   0
       _mPanelIndex    =   -1
-      Begin WebLabel labKey
-         Bold            =   False
-         ControlID       =   ""
-         Enabled         =   True
-         FontName        =   ""
-         FontSize        =   0.0
-         Height          =   38
-         Index           =   -2147483648
-         Indicator       =   0
-         InitialParent   =   "rctFormContent"
-         Italic          =   False
-         Left            =   40
-         LockBottom      =   False
-         LockedInPosition=   True
-         LockHorizontal  =   False
-         LockLeft        =   True
-         LockRight       =   False
-         LockTop         =   True
-         LockVertical    =   False
-         Multiline       =   False
-         PanelIndex      =   "0"
-         Parent          =   "rctFormContent"
-         Scope           =   2
-         TabIndex        =   2
-         TabPanelIndex   =   0
-         TabStop         =   True
-         Text            =   "Encryption Key:"
-         TextAlignment   =   0
-         TextColor       =   &c000000FF
-         Tooltip         =   ""
-         Top             =   132
-         Underline       =   False
-         Visible         =   True
-         Width           =   140
-         _mPanelIndex    =   -1
-      End
       Begin WebLabel labName
          Bold            =   False
          ControlID       =   ""
@@ -143,53 +107,17 @@ Begin WebDialog dlgDatabaseCreate
          PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   0
+         TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Name:"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
-         Top             =   86
+         Top             =   132
          Underline       =   False
          Visible         =   True
          Width           =   140
-         _mPanelIndex    =   -1
-      End
-      Begin WebTextField edtKey
-         AllowAutoComplete=   False
-         AllowSpellChecking=   False
-         Caption         =   ""
-         ControlID       =   ""
-         Enabled         =   True
-         FieldType       =   0
-         Height          =   38
-         Hint            =   "encrypt Database with Key"
-         Index           =   -2147483648
-         Indicator       =   0
-         InitialParent   =   "rctFormContent"
-         Left            =   188
-         LockBottom      =   False
-         LockedInPosition=   True
-         LockHorizontal  =   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   True
-         LockVertical    =   False
-         MaximumCharactersAllowed=   0
-         PanelIndex      =   "0"
-         Parent          =   "rctFormContent"
-         ReadOnly        =   False
-         Scope           =   2
-         TabIndex        =   3
-         TabPanelIndex   =   0
-         TabStop         =   True
-         Text            =   ""
-         TextAlignment   =   0
-         Tooltip         =   ""
-         Top             =   132
-         Visible         =   True
-         Width           =   372
          _mPanelIndex    =   -1
       End
       Begin WebTextField edtName
@@ -217,18 +145,50 @@ Begin WebDialog dlgDatabaseCreate
          Parent          =   "rctFormContent"
          ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   1
+         TabIndex        =   4
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
          TextAlignment   =   0
          Tooltip         =   ""
-         Top             =   86
+         Top             =   132
          Visible         =   True
          Width           =   372
          _mPanelIndex    =   -1
       End
-      Begin WebLabel labEncoding
+      Begin WebFileUploader upFile
+         Caption         =   "Select"
+         ControlID       =   ""
+         Enabled         =   True
+         Filter          =   ""
+         HasFileNameField=   False
+         Height          =   38
+         Hint            =   "SQLite Database File"
+         Index           =   -2147483648
+         Indicator       =   0
+         Left            =   420
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         LockVertical    =   False
+         MaximumBytes    =   0
+         MaximumFileCount=   1
+         Parent          =   "rctFormContent"
+         Scope           =   2
+         TabIndex        =   1
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Tooltip         =   ""
+         Top             =   86
+         UploadTimeout   =   0
+         Visible         =   True
+         Width           =   140
+         _mPanelIndex    =   -1
+      End
+      Begin WebLabel labUpload
          Bold            =   False
          ControlID       =   ""
          Enabled         =   True
@@ -237,7 +197,6 @@ Begin WebDialog dlgDatabaseCreate
          Height          =   38
          Index           =   -2147483648
          Indicator       =   0
-         InitialParent   =   "rctFormContent"
          Italic          =   False
          Left            =   40
          LockBottom      =   False
@@ -251,10 +210,75 @@ Begin WebDialog dlgDatabaseCreate
          PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   4
+         TabIndex        =   0
          TabPanelIndex   =   0
          TabStop         =   True
-         Text            =   "Encoding:"
+         Text            =   "Upload:"
+         TextAlignment   =   0
+         TextColor       =   &c000000FF
+         Tooltip         =   ""
+         Top             =   86
+         Underline       =   False
+         Visible         =   True
+         Width           =   140
+         _mPanelIndex    =   -1
+      End
+      Begin WebProgressBar upProgress
+         AllowAnimation  =   True
+         Caption         =   ""
+         ControlID       =   ""
+         Enabled         =   True
+         Height          =   16
+         Indeterminate   =   False
+         Index           =   -2147483648
+         Indicator       =   0
+         Left            =   188
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         MaximumValue    =   100
+         Parent          =   "rctFormContent"
+         Scope           =   2
+         TabIndex        =   2
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Tooltip         =   ""
+         Top             =   96
+         Value           =   0
+         Visible         =   False
+         Width           =   224
+         _mPanelIndex    =   -1
+      End
+      Begin WebLabel labKey
+         Bold            =   False
+         ControlID       =   ""
+         Enabled         =   True
+         FontName        =   ""
+         FontSize        =   0.0
+         Height          =   38
+         Index           =   -2147483648
+         Indicator       =   0
+         Italic          =   False
+         Left            =   40
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         Multiline       =   False
+         PanelIndex      =   "0"
+         Parent          =   "rctFormContent"
+         Scope           =   2
+         TabIndex        =   5
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   "Encryption Key:"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
@@ -264,36 +288,39 @@ Begin WebDialog dlgDatabaseCreate
          Width           =   140
          _mPanelIndex    =   -1
       End
-      Begin WebPopupMenu lstEncoding
+      Begin WebTextField edtKey
+         AllowAutoComplete=   False
+         AllowSpellChecking=   False
+         Caption         =   ""
          ControlID       =   ""
          Enabled         =   True
+         FieldType       =   0
          Height          =   38
+         Hint            =   "Key of the uploaded Database"
          Index           =   -2147483648
          Indicator       =   0
-         InitialParent   =   "rctFormContent"
-         InitialValue    =   ""
-         LastAddedRowIndex=   0
-         LastRowIndex    =   0
          Left            =   188
          LockBottom      =   False
          LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
-         LockRight       =   False
+         LockRight       =   True
          LockTop         =   True
          LockVertical    =   False
+         MaximumCharactersAllowed=   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
-         RowCount        =   0
+         ReadOnly        =   False
          Scope           =   2
-         SelectedRowIndex=   0
-         SelectedRowText =   ""
-         TabIndex        =   5
+         TabIndex        =   6
          TabPanelIndex   =   0
          TabStop         =   True
+         Text            =   ""
+         TextAlignment   =   0
          Tooltip         =   ""
          Top             =   178
          Visible         =   True
-         Width           =   150
+         Width           =   372
          _mPanelIndex    =   -1
       End
    End
@@ -319,7 +346,7 @@ Begin WebDialog dlgDatabaseCreate
       TabIndex        =   3
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   256
+      Top             =   260
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -346,7 +373,7 @@ Begin WebDialog dlgDatabaseCreate
       TabIndex        =   2
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   256
+      Top             =   260
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -357,35 +384,41 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Shown()
-		  edtName.SetFocus()
+		  upFile.SetFocus
 		  
 		End Sub
 	#tag EndEvent
 
 
 	#tag Method, Flags = &h21
-		Private Sub RefreshButtons()
-		  btnCreate.Enabled = (edtName.Text.Trim <> "") And (ExistingDatabasenames.IndexOf(edtName.Text.Trim) < 0)
+		Private Sub RefreshControls()
+		  Var bUploadAvailable As Boolean = (Me.Upload <> Nil) And (Me.Upload.Data <> Nil) And (Me.Upload.Data.Size > 0)
 		  
+		  edtName.Enabled = bUploadAvailable
+		  edtKey.Enabled = bUploadAvailable
+		  
+		  btnCreate.Enabled = bUploadAvailable And (edtName.Text.Trim <> "") And (ExistingDatabasenames.IndexOf(edtName.Text.Trim) < 0)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Show(DatabasesList() As String)
+		  upFile.RemoveAllFiles()
 		  edtName.Text = ""
-		  edtKey.Text = ""
-		  lstEncoding.SelectedRowIndex = 0
 		  
 		  ExistingDatabasenames = DatabasesList
 		  
 		  Super.Show()
+		  
+		  me.RefreshControls()
+		  
 		End Sub
 	#tag EndMethod
 
 
 	#tag Hook, Flags = &h0
-		Event DatabaseCreateAction(Name As String, Key As String, Encoding As String) As Boolean
+		Event DatabaseUploadAction(Name As String, Key As String, File As WebUploadedFile) As Boolean
 	#tag EndHook
 
 
@@ -393,44 +426,87 @@ End
 		Private ExistingDatabasenames() As String
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private Upload As WebUploadedFile
+	#tag EndProperty
+
 
 #tag EndWindowCode
 
-#tag Events edtKey
-	#tag Event
-		Sub TextChanged()
-		  Self.RefreshButtons()
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
 #tag Events edtName
 	#tag Event
 		Sub TextChanged()
-		  Self.RefreshButtons()
+		  Self.RefreshControls()
 		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events lstEncoding
+#tag Events upFile
 	#tag Event
-		Sub Opening()
-		  Me.RemoveAllRows
+		Sub UploadFinished(files() As WebUploadedFile)
+		  For Each file As WebUploadedFile In files
+		    Self.Upload = file
+		    edtName.Text = file.Name
+		  Next
 		  
-		  Me.AddRow "UTF-8"
-		  Me.AddRow "UTF-16"
-		  Me.AddRow "UTF-16le"
-		  Me.AddRow "UTF-16be"
+		  upProgress.Visible = False
+		  upProgress.Value = 0
 		  
-		  Me.SelectedRowIndex = 0
+		  Self.RefreshControls()
+		  
+		  edtName.SetFocus
 		  
 		End Sub
 	#tag EndEvent
 	#tag Event
-		Sub SelectionChanged(item As WebMenuItem)
-		  #Pragma unused item
+		Sub FileAdded(filename As String, bytes As UInt64, mimeType As String)
+		  Self.RefreshControls()
 		  
-		  Self.RefreshButtons()
+		  upProgress.Value = 0
+		  upProgress.Visible = True
+		  
+		  Me.StartUpload()
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub FileRemoved(filename As String)
+		  Self.Upload = Nil
+		  Self.RefreshControls()
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub FilesRemoved()
+		  Self.Upload = Nil
+		  Self.RefreshControls()
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub UploadProgressed(percent As Integer)
+		  upProgress.Value = percent
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub UploadError(error As RuntimeException)
+		  upProgress.Value = 0
+		  upProgress.Visible = False
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub UploadAborted()
+		  upProgress.Value = 0
+		  upProgress.Visible = False
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events edtKey
+	#tag Event
+		Sub TextChanged()
+		  Self.RefreshControls()
 		  
 		End Sub
 	#tag EndEvent
@@ -438,7 +514,7 @@ End
 #tag Events btnCreate
 	#tag Event
 		Sub Pressed()
-		  If DatabaseCreateAction(edtName.Text.Trim, edtKey.Text.Trim, lstEncoding.SelectedRowText.Trim) Then
+		  If DatabaseUploadAction(edtName.Text.Trim, edtKey.Text.Trim, Self.Upload) Then
 		    Self.Close()
 		  End If
 		  

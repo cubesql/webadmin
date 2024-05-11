@@ -421,8 +421,6 @@ Begin cntDatasourceBase cntBackups
       Period          =   500
       RunMode         =   0
       Scope           =   2
-      TabIndex        =   6
-      TabStop         =   True
       _mPanelIndex    =   -1
    End
    Begin WebTimer timThread
@@ -434,8 +432,6 @@ Begin cntDatasourceBase cntBackups
       Period          =   500
       RunMode         =   0
       Scope           =   2
-      TabIndex        =   6
-      TabStop         =   True
       _mPanelIndex    =   -1
    End
 End
@@ -645,10 +641,7 @@ End
 		  Var iMinute As Integer = psTimestamp.Middle(11, 2).ToInteger
 		  Var iSecond As Integer = psTimestamp.Middle(13, 2).ToInteger
 		  
-		  Var utcDateTimeValue As DateTime = New DateTime(iYear, iMonth, iDay, iHour, iMinute, iSecond, 0, New TimeZone("UTC"))
-		  Var localDateTimeValue As New DateTime(utcDateTimeValue.SecondsFrom1970, Timezone.Current)
-		  
-		  Return localDateTimeValue
+		  Return New DateTime(iYear, iMonth, iDay, iHour, iMinute, iSecond, 0, Timezone.Current)
 		  
 		End Function
 	#tag EndMethod
@@ -905,7 +898,6 @@ End
 		  End If
 		  
 		  Try
-		    
 		    Session.DB.ExecuteSQL("BACKUP NOW '" + Databasename.EscapeSqlQuotes + "'")
 		    
 		    Me.SleepAndYieldToNext 100
@@ -1105,30 +1097,33 @@ End
 		    Return
 		  End If
 		  
-		  Var iDbTimeout As Integer = Session.DB.Timeout
+		  Var DB As CubeSQLServer = Session.DB
+		  if (DB = Nil) then return
+		  
+		  Var iDbTimeout As Integer = DB.Timeout
 		  Var bSuccess As Boolean = False
 		  Var prepareDownload As WebFile
 		  
 		  Try
-		    Session.DB.Timeout = 600 'a long Timeout for Download
-		    Session.DB.ExecuteSQL("DOWNLOAD BACKUP DATABASE '" + sDownloadFromDatabase.EscapeSqlQuotes + "' WITH TIMESTAMP '" + sDownloadTimestamp.EscapeSqlQuotes + "'")
+		    DB.Timeout = 600 'a long Timeout for Download
+		    DB.ExecuteSQL("DOWNLOAD BACKUP DATABASE '" + sDownloadFromDatabase.EscapeSqlQuotes + "' WITH TIMESTAMP '" + sDownloadTimestamp.EscapeSqlQuotes + "'")
 		    
 		    Var data As New MemoryBlock(1) 'we don't know the size - let the MemoryBlock increase as needed
 		    Dim bs As New BinaryStream(data)
 		    ' call ReceiveChunk in a loop until all chunks have been received
 		    While True
 		      ' read the next chunk from the server
-		      Dim chunk As String = Session.DB.ReceiveChunk
+		      Dim chunk As String = DB.ReceiveChunk
 		      
 		      ' there was an error receving a chunk, report the error and bail
-		      If Session.DB.Error Then
-		        Var errorMessage As String = Session.DB.ErrMsg
+		      If DB.Error Then
+		        Var errorMessage As String = DB.ErrMsg
 		        If (errorMessage = "") Then errorMessage = "Unknown Error while downloading..."
-		        Raise New DatabaseException(errorMessage, Session.DB.ErrCode)
+		        Raise New DatabaseException(errorMessage, DB.ErrCode)
 		      End If
 		      
 		      ' see if we have reached the end of the chunks and exit the loop if we have
-		      If Session.DB.EndChunk Or (chunk.Bytes = 0) Then
+		      If DB.EndChunk Or (chunk.Bytes = 0) Then
 		        bSuccess = True
 		        bs.Close
 		        Exit 'Loop
@@ -1156,7 +1151,7 @@ End
 		    Me.AddUserInterfaceUpdate("Error" : "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message)
 		    
 		  Finally
-		    Session.DB.Timeout = iDbTimeout
+		    DB.Timeout = iDbTimeout
 		    
 		  End Try
 		  

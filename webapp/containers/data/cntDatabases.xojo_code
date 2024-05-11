@@ -29,7 +29,7 @@ Begin cntDatasourceBase cntDatabases
       ControlID       =   ""
       Enabled         =   True
       HasHeader       =   True
-      Height          =   422
+      Height          =   380
       HighlightSortedColumn=   True
       Index           =   -2147483648
       Indicator       =   0
@@ -80,10 +80,10 @@ Begin cntDatasourceBase cntDatabases
       LockTop         =   False
       LockVertical    =   False
       Scope           =   2
-      TabIndex        =   5
+      TabIndex        =   4
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   442
+      Top             =   396
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -108,10 +108,10 @@ Begin cntDatasourceBase cntDatabases
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   4
+      TabIndex        =   3
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   442
+      Top             =   396
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -139,7 +139,7 @@ Begin cntDatasourceBase cntDatabases
       TabIndex        =   1
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   442
+      Top             =   396
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -164,10 +164,10 @@ Begin cntDatasourceBase cntDatabases
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   3
+      TabIndex        =   2
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   442
+      Top             =   396
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -182,7 +182,7 @@ Begin cntDatasourceBase cntDatabases
       Height          =   38
       Index           =   -2147483648
       Indicator       =   2
-      Left            =   306
+      Left            =   630
       LockBottom      =   True
       LockedInPosition=   True
       LockHorizontal  =   False
@@ -192,7 +192,7 @@ Begin cntDatasourceBase cntDatabases
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   2
+      TabIndex        =   8
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -207,7 +207,7 @@ Begin cntDatasourceBase cntDatabases
       Index           =   -2147483648
       Indicator       =   0
       LockBottom      =   False
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   False
@@ -215,6 +215,194 @@ Begin cntDatasourceBase cntDatabases
       LockVertical    =   False
       Message         =   ""
       Scope           =   2
+      Title           =   ""
+      Tooltip         =   ""
+      _mPanelIndex    =   -1
+   End
+   Begin WebButton btnDownload
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Download"
+      ControlID       =   ""
+      Default         =   False
+      Enabled         =   False
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   2
+      Left            =   128
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   6
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   442
+      Visible         =   True
+      Width           =   100
+      _mPanelIndex    =   -1
+   End
+   Begin WebThread thrUpload
+      DebugIdentifier =   ""
+      Index           =   -2147483648
+      LockedInPosition=   True
+      Priority        =   5
+      Scope           =   2
+      StackSize       =   0
+      ThreadID        =   0
+      ThreadState     =   ""
+   End
+   Begin WebProgressWheel pgrWheel
+      Colorize        =   False
+      ControlID       =   ""
+      Enabled         =   True
+      Height          =   32
+      Index           =   -2147483648
+      Indicator       =   0
+      Left            =   236
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Parent          =   "rctFilter"
+      Scope           =   2
+      SVGColor        =   &c00000000
+      SVGData         =   ""
+      TabIndex        =   9
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   446
+      Visible         =   False
+      Width           =   32
+      _mPanelIndex    =   -1
+   End
+   Begin WebTimer timThread
+      ControlID       =   ""
+      Enabled         =   True
+      Index           =   -2147483648
+      Location        =   0
+      LockedInPosition=   True
+      Period          =   500
+      RunMode         =   0
+      Scope           =   2
+      _mPanelIndex    =   -1
+   End
+   Begin WebTimer timDownload
+      ControlID       =   ""
+      Enabled         =   True
+      Index           =   -2147483648
+      Location        =   0
+      LockedInPosition=   True
+      Period          =   500
+      RunMode         =   0
+      Scope           =   2
+      _mPanelIndex    =   -1
+   End
+   Begin WebButton btnUpload
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Upload"
+      ControlID       =   ""
+      Default         =   False
+      Enabled         =   True
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   0
+      Left            =   20
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   5
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   442
+      Visible         =   True
+      Width           =   100
+      _mPanelIndex    =   -1
+   End
+   Begin WebTimer timUpload
+      ControlID       =   ""
+      Enabled         =   True
+      Index           =   -2147483648
+      Location        =   0
+      LockedInPosition=   True
+      Period          =   500
+      RunMode         =   0
+      Scope           =   2
+      _mPanelIndex    =   -1
+   End
+   Begin WebThread thrDownload
+      DebugIdentifier =   ""
+      Index           =   -2147483648
+      LockedInPosition=   True
+      Priority        =   5
+      Scope           =   2
+      StackSize       =   0
+      ThreadID        =   0
+      ThreadState     =   ""
+   End
+   Begin WebButton btnEncryption
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Encryption"
+      ControlID       =   ""
+      Default         =   False
+      Enabled         =   False
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   2
+      Left            =   414
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   False
+      LockRight       =   True
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   7
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   442
+      Visible         =   True
+      Width           =   208
+      _mPanelIndex    =   -1
+   End
+   Begin WebMessageDialog dlgDecrypt
+      ControlID       =   ""
+      Enabled         =   True
+      Explanation     =   ""
+      Index           =   -2147483648
+      Indicator       =   0
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Message         =   ""
+      PanelIndex      =   0
+      Scope           =   2
+      TabIndex        =   10
+      TabStop         =   True
       Title           =   ""
       Tooltip         =   ""
       _mPanelIndex    =   -1
@@ -231,10 +419,57 @@ End
 
 
 	#tag Method, Flags = &h21
+		Private Sub ActionChangeKey(obj As cntDatabasesEncryption)
+		  Var databasename As String = Me.GetSelectedDatabasename()
+		  If (databasename = "") Then Return
+		  
+		  esActionDatabasename = databasename
+		  
+		  If (obj <> Nil) Then obj.Close
+		  
+		  Var dlgChangeKey As New dlgCommonName
+		  AddHandler dlgChangeKey.NameAction, WeakAddressOf ActionChangeKeyButtonPressed
+		  dlgChangeKey.Show("Change Key for Database", "New Key", "Change", Indicators.Warning, "")
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function ActionChangeKeyButtonPressed(obj As dlgCommonName, Name As String) As Boolean
+		  #Pragma unused obj
+		  
+		  If (esActionDatabasename = "") Then Return False
+		  If (Name = "") Then Return False
+		  
+		  Try
+		    
+		    Session.DB.ExecuteSQL("ENCRYPT DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "' WITH KEY '" + Name.EscapeSqlQuotes + "'")
+		    
+		  Catch err As DatabaseException
+		    Var dialog As New WebMessageDialog
+		    dialog.Title = "Change Key for Database"
+		    dialog.Indicator = Indicators.Warning
+		    dialog.ActionButton.Caption = "OK"
+		    dialog.CancelButton.Visible = False
+		    dialog.Message = "Could not set change key for database."
+		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
+		    dialog.Show
+		    Return False
+		    
+		  End Try
+		  
+		  'Success - no dialog
+		  Me.RefreshInfos()
+		  Return True
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub ActionCreate()
 		  Var dlgCreate As New dlgDatabaseCreate
 		  AddHandler dlgCreate.DatabaseCreateAction, WeakAddressOf ActionCreateButtonPressed
-		  dlgCreate.Show()
+		  dlgCreate.Show(GetDatabasesList)
 		  
 		End Sub
 	#tag EndMethod
@@ -271,6 +506,85 @@ End
 		  Return True
 		  
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionDecrypt(obj As cntDatabasesEncryption)
+		  Var databasename As String = Me.GetSelectedDatabasename()
+		  If (databasename = "") Then Return
+		  
+		  esActionDatabasename = databasename
+		  
+		  If (obj <> Nil) Then obj.Close
+		  
+		  dlgDecrypt.Title = "Decypt Database"
+		  dlgDecrypt.Indicator = Indicators.Danger
+		  dlgDecrypt.ActionButton.Caption = "Decrypt"
+		  dlgDecrypt.CancelButton.Visible = True
+		  dlgDecrypt.Message = "Are you sure you want to decrypt database '" + databasename + "'?"
+		  dlgDecrypt.Explanation = "Database file will be saved unencrypted on cubeSQL Server."
+		  
+		  esActionDatabasename = databasename
+		  
+		  dlgDecrypt.ShowWithActionDanger()
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionDecryptButtonPressed(obj As WebMessageDialog, button As WebMessageDialogButton)
+		  Var sDecryptDatabasename As String = esActionDatabasename
+		  esActionDatabasename = ""
+		  
+		  If (button <> obj.ActionButton) Then Return
+		  If (sDecryptDatabasename = "") Then Return
+		  
+		  Try
+		    Session.DB.ExecuteSQL("DECRYPT DATABASE '" + sDecryptDatabasename.EscapeSqlQuotes + "'")
+		    
+		  Catch err As DatabaseException
+		    Var dialog As New WebMessageDialog
+		    dialog.Title = "Decrypt Database"
+		    dialog.Indicator = Indicators.Warning
+		    dialog.ActionButton.Caption = "OK"
+		    dialog.CancelButton.Visible = False
+		    dialog.Message = "Could not decrypt database."
+		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
+		    dialog.Show
+		    
+		  Finally
+		    Me.RefreshInfos()
+		    
+		  End Try
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionDownload()
+		  If Me.IsThreadRunning Then Return
+		  
+		  Var databasename As String = Me.GetSelectedDatabasename()
+		  If (databasename = "") Then Return
+		  
+		  esActionDatabasename = databasename
+		  
+		  pgrWheel.Visible = True
+		  
+		  timDownload.RunMode = WebTimer.RunModes.Multiple
+		  thrDownload.Start
+		  timThread.RunMode = WebTimer.RunModes.Multiple
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionDownloadStarted(file As WebFile)
+		  If (file = Me.Download) Then
+		    Me.Download = Nil
+		  End If
+		  
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -323,6 +637,71 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Sub ActionEncrypt(obj As cntDatabasesEncryption)
+		  Var databasename As String = Me.GetSelectedDatabasename()
+		  If (databasename = "") Then Return
+		  
+		  esActionDatabasename = databasename
+		  
+		  If (obj <> Nil) Then obj.Close
+		  
+		  Var dlgEncrypt As New dlgCommonName
+		  AddHandler dlgEncrypt.NameAction, WeakAddressOf ActionEncryptButtonPressed
+		  dlgEncrypt.Show("Encrypt Database", "Key", "Encrypt", Indicators.Success, "")
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function ActionEncryptButtonPressed(obj As dlgCommonName, Name As String) As Boolean
+		  #Pragma unused obj
+		  
+		  If (esActionDatabasename = "") Then Return False
+		  If (Name = "") Then Return False
+		  
+		  Try
+		    
+		    Session.DB.ExecuteSQL("ENCRYPT DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "' WITH KEY '" + Name.EscapeSqlQuotes + "'")
+		    
+		  Catch err As DatabaseException
+		    Var dialog As New WebMessageDialog
+		    dialog.Title = "Encrypt Database"
+		    dialog.Indicator = Indicators.Warning
+		    dialog.ActionButton.Caption = "OK"
+		    dialog.CancelButton.Visible = False
+		    dialog.Message = "Could not encrypt database."
+		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
+		    dialog.Show
+		    Return False
+		    
+		  End Try
+		  
+		  'Success - no dialog
+		  Me.RefreshInfos()
+		  Return True
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionEncryption()
+		  Var dbRowTag As Dictionary = Me.GetSelectedRowTag()
+		  
+		  Var popEncryption As New cntDatabasesEncryption
+		  popEncryption.Init(dbRowTag)
+		  
+		  
+		  AddHandler popEncryption.ActionSetKey, WeakAddressOf ActionSetKey
+		  AddHandler popEncryption.ActionChangeKey, WeakAddressOf ActionChangeKey
+		  AddHandler popEncryption.ActionEncrypt, WeakAddressOf ActionEncrypt
+		  AddHandler popEncryption.ActionDecrypt, WeakAddressOf ActionDecrypt
+		  
+		  popEncryption.ShowPopover(btnEncryption, WebContainer.DisplaySides.Top)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub ActionRename()
 		  Var databasename As String = Me.GetSelectedDatabasename()
 		  If (databasename = "") Then Return
@@ -363,6 +742,53 @@ End
 		  
 		  'Success - no dialog
 		  Self.RefreshInfos(Name)
+		  Return True
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionSetKey(obj As cntDatabasesEncryption)
+		  Var databasename As String = Me.GetSelectedDatabasename()
+		  If (databasename = "") Then Return
+		  
+		  esActionDatabasename = databasename
+		  
+		  If (obj <> Nil) Then obj.Close
+		  
+		  Var dlgSetKey As New dlgCommonName
+		  AddHandler dlgSetKey.NameAction, WeakAddressOf ActionSetKeyButtonPressed
+		  dlgSetKey.Show("Set Key for Database", "Key", "Set Key", Indicators.Warning, "")
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function ActionSetKeyButtonPressed(obj As dlgCommonName, Name As String) As Boolean
+		  #Pragma unused obj
+		  
+		  If (esActionDatabasename = "") Then Return False
+		  If (Name = "") Then Return False
+		  
+		  Try
+		    
+		    Session.DB.ExecuteSQL("SET KEY '" + Name.EscapeSqlQuotes + "' FOR DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "'")
+		    
+		  Catch err As DatabaseException
+		    Var dialog As New WebMessageDialog
+		    dialog.Title = "Set Key for Database"
+		    dialog.Indicator = Indicators.Warning
+		    dialog.ActionButton.Caption = "OK"
+		    dialog.CancelButton.Visible = False
+		    dialog.Message = "Could not set key for database."
+		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
+		    dialog.Show
+		    Return False
+		    
+		  End Try
+		  
+		  'Success - no dialog
+		  Me.RefreshInfos()
 		  Return True
 		  
 		End Function
@@ -418,6 +844,36 @@ End
 		  End Try
 		  
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionUpload()
+		  Var dlgUpload As New dlgDatabaseUpload
+		  AddHandler dlgUpload.DatabaseUploadAction, WeakAddressOf ActionUploadButtonPressed
+		  dlgUpload.Show(GetDatabasesList)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function ActionUploadButtonPressed(obj As dlgDatabaseUpload, Name As String, Key As String, File As WebUploadedFile) As Boolean
+		  If Me.IsThreadRunning Then Return False
+		  If (Name = "") Then Return False
+		  If (File.Data = Nil) Then Return False
+		  
+		  esActionDatabasename = Name
+		  esSelectAfterReload = Name
+		  esUploadKey = Key
+		  pgrWheel.Visible = True
+		  
+		  Me.Upload = File
+		  timUpload.RunMode = WebTimer.RunModes.Multiple
+		  thrUpload.Start
+		  timThread.RunMode = WebTimer.RunModes.Multiple
+		  
+		  Return True 'dismiss dialog, process in Thread
+		  
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
@@ -516,7 +972,7 @@ End
 		    If row.Lookup("stopped", False).BooleanValue Then
 		      icon = WebPicture.BootstrapIcon("stop-circle-fill", Color.Orange)
 		    Else
-		      If  row.Lookup("available", True).BooleanValue Then
+		      If row.Lookup("available", True).BooleanValue Then
 		        icon = WebPicture.BootstrapIcon("check-circle-fill", Color.Green)
 		      Else
 		        icon = WebPicture.BootstrapIcon("exclamation-circle-fill", Color.Red)
@@ -543,6 +999,41 @@ End
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Shared Function GetDatabasesList() As String()
+		  Var databases() As String
+		  
+		  Try
+		    
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES WITH DETAILS")
+		    If (rs <> Nil) Then
+		      If (rs.RowCount > 0) Then
+		        rs.MoveToFirstRow
+		        While (Not rs.AfterLastRow)
+		          If (databases.IndexOf(rs.Column("databasename").StringValue) < 0) Then
+		            databases.Add(rs.Column("databasename").StringValue)
+		          End If
+		          
+		          rs.MoveToNextRow
+		        Wend
+		      End If
+		      
+		      rs.Close
+		    End If
+		    
+		    
+		  Catch DatabaseException
+		    
+		  Finally
+		    databases.Sort()
+		    return databases
+		    
+		  End Try
+		  
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Function GetSelectedDatabasename() As String
 		  If (lstInfos.SelectedRowIndex < 0) Then Return ""
@@ -558,24 +1049,45 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub RefreshButtons()
-		  Var bRename, bStart, bStop, bDrop As Boolean
+		Private Function GetSelectedRowTag() As Dictionary
+		  Var rowTag As Variant
+		  If (lstInfos.SelectedRowIndex >= 0) Then rowTAg = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
+		  If (rowTag IsA Dictionary) Then Return Dictionary(rowTag)
+		  Return Nil
 		  
-		  If (lstInfos.SelectedRowIndex >= 0) And (lstInfos.RowTagAt(lstInfos.SelectedRowIndex) IsA Dictionary) Then
-		    Var dbRowTag As Dictionary = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function IsThreadRunning() As Boolean
+		  If (thrDownload.ThreadState <> Thread.ThreadStates.NotRunning) Then Return True
+		  Return False
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshButtons()
+		  Var bDownload, bRename, bStart, bStop, bDrop, bEncryption As Boolean
+		  
+		  Var dbRowTag As Dictionary = me.GetSelectedRowTag()
+		  If (dbRowTag <> Nil) Then
 		    
+		    bDownload = True
 		    bRename = True
 		    bStart = dbRowTag.Lookup("stopped", False) = True
 		    bStop = (Not bStart)
 		    bDrop = True
+		    bEncryption = True
 		    
 		  End If
 		  
+		  If (btnDownload.Enabled <> bDownload) Then btnDownload.Enabled = bDownload
 		  If (btnRename.Enabled <> bRename) Then btnRename.Enabled = bRename
 		  If (btnStart.Enabled <> bStart) Then btnStart.Enabled = bStart
 		  If (btnStop.Enabled <> bStop) Then btnStop.Enabled = bStop
 		  If (btnDrop.Enabled <> bDrop) Then btnDrop.Enabled = bDrop
-		  
+		  If (btnEncryption.Enabled <> bEncryption) Then btnEncryption.Enabled = bEncryption
 		End Sub
 	#tag EndMethod
 
@@ -663,11 +1175,23 @@ End
 
 
 	#tag Property, Flags = &h21
+		Private Download As WebFile
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private esActionDatabasename As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private esSelectAfterReload As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private esUploadKey As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private Upload As WebUploadedFile
 	#tag EndProperty
 
 
@@ -733,6 +1257,280 @@ End
 	#tag Event
 		Sub ButtonPressed(button As WebMessageDialogButton)
 		  Self.ActionDropButtonPressed(Me, button)
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events btnDownload
+	#tag Event
+		Sub Pressed()
+		  Self.ActionDownload()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events thrUpload
+	#tag Event
+		Sub Run()
+		  Var sUploadKey As String = esUploadKey
+		  esUploadKey = ""
+		  
+		  Var sUploadToDatabase As String = esActionDatabasename
+		  If (sUploadToDatabase = "") Then Return
+		  
+		  Var DB As CubeSQLServer = Session.DB
+		  If (DB = Nil) Then Return
+		  
+		  If (Self.Upload = Nil) Or (Self.Upload.Data = Nil) Then Return
+		  
+		  Var iDbTimeout As Integer = DB.Timeout
+		  Var prepareDownload As WebFile
+		  
+		  Try
+		    Const kChunkSize = 102400
+		    
+		    DB.Timeout = 600 'a long Timeout for Download
+		    DB.ExecuteSQL("UPLOAD DATABASE '" + sUploadToDatabase.EscapeSqlQuotes + "'")
+		    
+		    Dim bs As New BinaryStream(Self.Upload.Data)
+		    Dim chunk As String 'upload data in chunks
+		    While Not bs.EOF
+		      'read the next chunk
+		      chunk = bs.Read(kChunkSize)
+		      
+		      'send the chunk to the server
+		      DB.SendChunk chunk
+		      
+		      'if there was an error; report it and bail
+		      If DB.Error Then
+		        Var errorMessage As String = DB.ErrMsg
+		        If (errorMessage = "") Then errorMessage = "Unknown Error while uploading..."
+		        Raise New DatabaseException(errorMessage, DB.ErrCode)
+		      End If
+		      
+		      Me.YieldToNext
+		    Wend
+		    
+		    'send the stop end chunk command (the server needs this to know that the file has been completely sent)
+		    DB.SendEndChunk
+		    
+		    If (sUploadKey <> "") Then
+		      Try
+		        DB.ExecuteSQL("SET KEY '" + sUploadKey.EscapeSqlQuotes + "' FOR DATABASE '" + sUploadToDatabase.EscapeSqlQuotes + "'")
+		      Catch err As DatabaseException
+		        Select Case err.ErrorNumber
+		        Case 7015 'encryption key wrong
+		          Me.AddUserInterfaceUpdate("Hint" : "Encryption Key is wrong.|Database will not be available until you set the correct Encryption Key.")
+		        Case 7029 'db doesn't seem to be encrypted
+		          Me.AddUserInterfaceUpdate("Hint" : "Database doesn't seem to be encrypted.|Database has been uploaded successfully.")
+		        Else
+		          Raise err
+		        End Select
+		      End Try
+		    End If
+		    
+		  Catch err As DatabaseException
+		    
+		    Me.AddUserInterfaceUpdate("Error" : "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message)
+		    
+		  Finally
+		    DB.Timeout = iDbTimeout
+		    
+		  End Try
+		  
+		  Self.Upload = Nil
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub UserInterfaceUpdate(data() As Dictionary)
+		  For Each update As Dictionary In data
+		    
+		    If update.HasKey("Success") Then
+		      'nothing to do
+		    End If
+		    
+		    If update.HasKey("Hint") Then
+		      Var dialog As New WebMessageDialog
+		      dialog.Title = "Upload Database"
+		      dialog.Indicator = Indicators.Info
+		      dialog.ActionButton.Caption = "OK"
+		      dialog.CancelButton.Visible = False
+		      dialog.Message = update.Lookup("Hint", "").StringValue.NthField("|", 1)
+		      dialog.Explanation = update.Lookup("Hint", "").StringValue.NthField("|", 2)
+		      dialog.Show
+		    End If
+		    
+		    If update.HasKey("Error") Then
+		      Var dialog As New WebMessageDialog
+		      dialog.Title = "Upload Database"
+		      dialog.Indicator = Indicators.Warning
+		      dialog.ActionButton.Caption = "OK"
+		      dialog.CancelButton.Visible = False
+		      dialog.Message = "Could not upload database."
+		      dialog.Explanation = update.Lookup("Error", "").StringValue
+		      dialog.Show
+		    End If
+		    
+		  Next
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events timThread
+	#tag Event
+		Sub Run()
+		  If (Self.IsThreadRunning) Then Return
+		  
+		  Me.RunMode = WebTimer.RunModes.Off
+		  
+		  pgrWheel.Visible = False
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events timDownload
+	#tag Event
+		Sub Run()
+		  If (Self.Download = Nil) Then Return
+		  
+		  Me.RunMode = WebTimer.RunModes.Off
+		  
+		  Session.GoToURL(Self.Download.URL)
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events btnUpload
+	#tag Event
+		Sub Pressed()
+		  Self.ActionUpload()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events timUpload
+	#tag Event
+		Sub Run()
+		  If (Self.Upload <> Nil) Then Return
+		  
+		  Me.RunMode = WebTimer.RunModes.Off
+		  
+		  Self.ShowInfos()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events thrDownload
+	#tag Event
+		Sub Run()
+		  Self.Download = Nil
+		  
+		  Var sDownloadFromDatabase As String = esActionDatabasename
+		  If (sDownloadFromDatabase = "") Then Return
+		  
+		  Var DB As CubeSQLServer = Session.DB
+		  If (DB = Nil) Then Return
+		  
+		  Var iDbTimeout As Integer = DB.Timeout
+		  Var bSuccess As Boolean = False
+		  Var prepareDownload As WebFile
+		  
+		  Try
+		    DB.Timeout = 600 'a long Timeout for Download
+		    DB.ExecuteSQL("DOWNLOAD DATABASE '" + sDownloadFromDatabase.EscapeSqlQuotes + "'")
+		    
+		    Var data As New MemoryBlock(1) 'we don't know the size - let the MemoryBlock increase as needed
+		    Dim bs As New BinaryStream(data)
+		    ' call ReceiveChunk in a loop until all chunks have been received
+		    While True
+		      ' read the next chunk from the server
+		      Dim chunk As String = DB.ReceiveChunk
+		      
+		      ' there was an error receving a chunk, report the error and bail
+		      If DB.Error Then
+		        Var errorMessage As String = DB.ErrMsg
+		        If (errorMessage = "") Then errorMessage = "Unknown Error while downloading..."
+		        Raise New DatabaseException(errorMessage, DB.ErrCode)
+		      End If
+		      
+		      ' see if we have reached the end of the chunks and exit the loop if we have
+		      If DB.EndChunk Or (chunk.Bytes = 0) Then
+		        bSuccess = True
+		        bs.Close
+		        Exit 'Loop
+		      End If
+		      
+		      ' write the chunk out to the stream and loop again
+		      bs.Write chunk
+		      
+		      Me.YieldToNext
+		    Wend
+		    
+		    If (Not bSuccess) Then
+		      Raise New DatabaseException("Unknown Error while downloading...", -1)
+		    End If
+		    
+		    prepareDownload = New WebFile
+		    prepareDownload.MimeType = "application/octet-stream"
+		    prepareDownload.ForceDownload = True
+		    prepareDownload.FileName = sDownloadFromDatabase
+		    prepareDownload.Data = data
+		    AddHandler prepareDownload.Downloaded, WeakAddressOf Self.ActionDownloadStarted
+		    
+		  Catch err As DatabaseException
+		    
+		    Me.AddUserInterfaceUpdate("Error" : "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message)
+		    
+		  Finally
+		    DB.Timeout = iDbTimeout
+		    
+		  End Try
+		  
+		  esActionDatabasename = ""
+		  
+		  If (prepareDownload <> Nil) Then
+		    Self.Download = prepareDownload
+		  End If
+		  
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub UserInterfaceUpdate(data() As Dictionary)
+		  For Each update As Dictionary In data
+		    
+		    If update.HasKey("Success") Then
+		      'nothing to do
+		    End If
+		    
+		    If update.HasKey("Error") Then
+		      Var dialog As New WebMessageDialog
+		      dialog.Title = "Download Database"
+		      dialog.Indicator = Indicators.Warning
+		      dialog.ActionButton.Caption = "OK"
+		      dialog.CancelButton.Visible = False
+		      dialog.Message = "Could not download database."
+		      dialog.Explanation = update.Lookup("Error", "").StringValue
+		      dialog.Show
+		    End If
+		    
+		  Next
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events btnEncryption
+	#tag Event
+		Sub Pressed()
+		  self.ActionEncryption()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events dlgDecrypt
+	#tag Event
+		Sub ButtonPressed(button As WebMessageDialogButton)
+		  Self.ActionDecryptButtonPressed(Me, button)
 		  
 		End Sub
 	#tag EndEvent

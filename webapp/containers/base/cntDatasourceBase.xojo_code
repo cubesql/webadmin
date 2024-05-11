@@ -59,9 +59,7 @@ Implements WebDataSource
 		  Case DatasourceColumn.FieldTypes.Boolean
 		    Return If(row.Lookup(col.DatabaseColumnName, 0).BooleanValue, "true", "false")
 		  Case DatasourceColumn.FieldTypes.SQLDateTime
-		    Var utcDateTimeValue As DateTime = DateTime.FromString(row.Lookup(col.DatabaseColumnName, "").StringValue, Nil, New TimeZone("UTC"))
-		    Var localDateTimeValue As New DateTime(utcDateTimeValue.SecondsFrom1970, Timezone.Current)
-		    Return localDateTimeValue.ToString(DateTime.FormatStyles.Medium, DateTime.FormatStyles.Medium)
+		    Return SQLDateTime_AsDateTime_AsLocal(row.Lookup(col.DatabaseColumnName, "").StringValue)
 		  Else
 		    Break
 		    Return ""
@@ -324,13 +322,14 @@ Implements WebDataSource
 		    If (b1 = False) And (b2 = True) Then Return -1 * desc
 		    Return 0
 		  Case DatasourceColumn.FieldTypes.SQLDateTime
-		    Var d1 As DateTime = DateTime.FromString(row1.Lookup(mSortColumname, "").StringValue, Nil, New TimeZone("UTC"))
-		    Var d2 As DateTime = DateTime.FromString(row2.Lookup(mSortColumname, "").StringValue, Nil, New TimeZone("UTC"))
+		    Var d1 As DateTime = SQLDateTime_AsDateTime_AsLocal(row1.Lookup(mSortColumname, "").StringValue)
+		    Var d2 As DateTime = SQLDateTime_AsDateTime_AsLocal(row2.Lookup(mSortColumname, "").StringValue)
 		    Return d1.Operator_Compare(d2) * desc
 		  Else
 		    Break
 		    Return 0
 		  End Select
+		  
 		End Function
 	#tag EndMethod
 
