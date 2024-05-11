@@ -630,14 +630,22 @@ End
 		Private Sub LoadDatabases()
 		  lstFilterDatabase.RemoveAllRows
 		  
+		  Var iPreselectIndex As Integer = 0
+		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
 		    If (rs = Nil) Then Return
+		    
+		    Var sessionStateDatabasename As String = Session.State.Lookup("databasename", "").StringValue
 		    
 		    If (rs.RowCount > 0) Then
 		      rs.MoveToFirstRow
 		      While (Not rs.AfterLastRow)
 		        lstFilterDatabase.AddRow(rs.Column("databasename").StringValue, rs.Column("databasename").StringValue)
+		        
+		        If (sessionStateDatabasename <> "") And (sessionStateDatabasename = rs.Column("databasename").StringValue) Then
+		          iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
+		        End If
 		        
 		        rs.MoveToNextRow
 		      Wend
@@ -648,7 +656,8 @@ End
 		  Catch DatabaseException
 		    
 		  Finally
-		    If (lstFilterDatabase.RowCount > 0) Then lstFilterDatabase.SelectedRowIndex = 0
+		    If (lstFilterDatabase.RowCount > 0) Then lstFilterDatabase.SelectedRowIndex = iPreselectIndex
+		    Session.State.Value("databasename") = Me.GetSelectedDatabasename()
 		    
 		  End Try
 		  
@@ -867,6 +876,8 @@ End
 		  #Pragma unused item
 		  
 		  If (Not ebOpened) Then Return
+		  
+		  Session.State.Value("databasename") = Self.GetSelectedDatabasename()
 		  
 		  Self.TableLoad()
 		  

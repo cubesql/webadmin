@@ -538,6 +538,14 @@ End
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Function GetSelectedDatabasename() As String
+		  If (lstFilterDatabase.SelectedRowIndex < 0) Then Return ""
+		  Return lstFilterDatabase.RowTagAt(lstFilterDatabase.SelectedRowIndex)
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub Load()
 		  Super.Load()
@@ -556,12 +564,20 @@ End
 		  lstFilterDatabase.AddRow("*", "*")
 		  lstFilterDatabase.AddRow("-", "")
 		  
-		  Var databases() As String = GetDatabasesList()
-		  for each database as string in databases
-		    lstFilterDatabase.AddRow(database, database)
-		  next
+		  Var iPreselectIndex As Integer = 0
+		  Var sessionStateDatabasename As String = Session.State.Lookup("databasename", "").StringValue
 		  
-		  lstFilterDatabase.SelectedRowIndex = 0
+		  Var databases() As String = GetDatabasesList()
+		  For Each database As String In databases
+		    lstFilterDatabase.AddRow(database, database)
+		    
+		    If (sessionStateDatabasename <> "") And (sessionStateDatabasename = database) Then
+		      iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
+		    End If
+		    
+		  Next
+		  
+		  lstFilterDatabase.SelectedRowIndex = iPreselectIndex
 		  
 		End Sub
 	#tag EndMethod
@@ -572,9 +588,13 @@ End
 		  lstFilterGroup.AddRow("(ALL)", "")
 		  lstFilterGroup.AddRow("-", "")
 		  
+		  Var iPreselectIndex As Integer = 0
+		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS")
 		    If (rs = Nil) Then Return
+		    
+		    Var sessionStateGroupname As String = Session.State.Lookup("groupname", "").StringValue
 		    
 		    If (rs.RowCount > 0) Then
 		      rs.MoveToFirstRow
@@ -582,6 +602,10 @@ End
 		        
 		        If (rs.Column("groupname").StringValue <> "admin") Then
 		          lstFilterGroup.AddRow(rs.Column("groupname").StringValue, rs.Column("groupname").StringValue)
+		          
+		          If (sessionStateGroupname <> "") And (sessionStateGroupname = rs.Column("groupname").StringValue) Then
+		            iPreselectIndex = lstFilterGroup.LastAddedRowIndex
+		          End If
 		        End If
 		        
 		        rs.MoveToNextRow
@@ -593,7 +617,8 @@ End
 		  Catch DatabaseException
 		    
 		  Finally
-		    If (lstFilterGroup.RowCount > 0) Then lstFilterGroup.SelectedRowIndex = 0
+		    lstFilterGroup.SelectedRowIndex = iPreselectIndex
+		    Session.State.Value("groupname") = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
 		    
 		  End Try
 		  
@@ -806,6 +831,8 @@ End
 		  
 		  If (Not ebOpened) Then Return
 		  
+		  Session.State.Value("groupname") = Me.RowTagAt(Me.SelectedRowIndex)
+		  
 		  Self.RefreshInfos()
 		  
 		End Sub
@@ -817,6 +844,8 @@ End
 		  #Pragma unused item
 		  
 		  If (Not ebOpened) Then Return
+		  
+		  Session.State.Value("databasename") = Self.GetSelectedDatabasename()
 		  
 		  Self.RefreshInfos()
 		  

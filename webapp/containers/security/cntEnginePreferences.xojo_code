@@ -547,7 +547,6 @@ End
 		  lstFilterDatabase.AddRow("(ALL)", "")
 		  lstFilterDatabase.AddRow("-", "")
 		  
-		  
 		  Var existingDatabases() As String
 		  
 		  Try
@@ -589,15 +588,23 @@ End
 		  lstFilterGroup.AddRow("(ALL)", "")
 		  lstFilterGroup.AddRow("-", "")
 		  
+		  Var iPreselectIndex As Integer = 0
+		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS")
 		    If (rs = Nil) Then Return
+		    
+		    Var sessionStateGroupname As String = Session.State.Lookup("groupname", "").StringValue
 		    
 		    If (rs.RowCount > 0) Then
 		      rs.MoveToFirstRow
 		      While (Not rs.AfterLastRow)
 		        
 		        lstFilterGroup.AddRow(rs.Column("groupname").StringValue, rs.Column("groupname").StringValue)
+		        
+		        If (sessionStateGroupname <> "") And (sessionStateGroupname = rs.Column("groupname").StringValue) Then
+		          iPreselectIndex = lstFilterGroup.LastAddedRowIndex
+		        End If
 		        
 		        rs.MoveToNextRow
 		      Wend
@@ -608,7 +615,8 @@ End
 		  Catch DatabaseException
 		    
 		  Finally
-		    If (lstFilterGroup.RowCount > 0) Then lstFilterGroup.SelectedRowIndex = 0
+		    lstFilterGroup.SelectedRowIndex = iPreselectIndex
+		    Session.State.Value("groupname") = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
 		    
 		  End Try
 		  
@@ -831,6 +839,8 @@ End
 		  #Pragma unused item
 		  
 		  If (Not ebOpened) Then Return
+		  
+		  Session.State.Value("groupname") = Me.RowTagAt(Me.SelectedRowIndex)
 		  
 		  Self.RefreshInfos()
 		  

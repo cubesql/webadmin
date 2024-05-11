@@ -184,6 +184,13 @@ End
 		  Me.Table = lstInfos
 		  Me.SearchAvailable = True
 		  
+		  
+		  Var sessionState As String = Session.State.Lookup("LogNumberOfEntries", "50").StringValue
+		  If (sessionState <> "") And (sessionState.ToInteger > 0) Then
+		    edtLogNumberOfEntries.Text = sessionState
+		  End If
+		  
+		  
 		End Sub
 	#tag EndMethod
 
@@ -277,14 +284,22 @@ End
 		    Return Nil
 		  End If
 		  
-		  Return Session.DB.SelectSQL("SHOW LAST " + numLogEntries.ToString + " ROWS FROM Log ORDER DESC")
+		  Session.State.Value("LogNumberOfEntries") = edtLogNumberOfEntries.Text
+		  
+		  Return Session.DB.SelectSQL("SHOW LAST " + numLogEntries.ToString + " ROWS FROM LOG ORDER DESC")
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
 		Protected Function TableNoRowsMessage() As String
-		  Var sInfo As String = "No Log entries"
+		  Var infoNrOfEntries As String
+		  Var numLogEntries As Integer = edtLogNumberOfEntries.Text.ToInteger
+		  If (numLogEntries > 0) Then
+		    infoNrOfEntries = " (last " + numLogEntries.ToString + ")"
+		  End If
+		  
+		  Var sInfo As String = "No Log entries" + infoNrOfEntries
 		  
 		  If (Me.SearchValue <> "") Then
 		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
@@ -313,12 +328,16 @@ End
 #tag Events edtLogNumberOfEntries
 	#tag Event
 		Sub TextChanged()
+		  If (Not ebOpened) Then Return
+		  
 		  Self.RefreshLog(False)
 		  
 		End Sub
 	#tag EndEvent
 	#tag Event
 		Sub FocusLost()
+		  If (Not ebOpened) Then Return
+		  
 		  If (edtLogNumberOfEntries.Text.ToInteger < 1) Then
 		    Me.Text = constLogEntriesDefault
 		  End If

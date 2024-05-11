@@ -867,6 +867,7 @@ End
 		  Me.SearchAvailable = True
 		  
 		  ebSchedulesAvailable = cntSchedules.GetSchedulesAvailable()
+		  esSelectAfterReload = Session.State.Lookup("databasename", "").StringValue
 		  
 		End Sub
 	#tag EndMethod
@@ -1176,6 +1177,8 @@ End
 		  #Pragma unused rows
 		  
 		  Self.RefreshButtons()
+		  
+		  Session.State.Value("databasename") = Self.GetSelectedDatabasename()
 		  
 		End Sub
 	#tag EndEvent

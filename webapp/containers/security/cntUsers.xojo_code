@@ -620,6 +620,9 @@ End
 		  lstFilterGroup.AddRow("(ALL)", "")
 		  lstFilterGroup.AddRow("-", "")
 		  
+		  Var iPreselectIndex As Integer = 0
+		  Var sessionStateGroupname As String = Session.State.Lookup("groupname", "").StringValue
+		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS")
 		    If (rs = Nil) Then Return
@@ -628,8 +631,10 @@ End
 		      rs.MoveToFirstRow
 		      While (Not rs.AfterLastRow)
 		        
-		        If (rs.Column("groupname").StringValue <> "admin") Then
-		          lstFilterGroup.AddRow(rs.Column("groupname").StringValue, rs.Column("groupname").StringValue)
+		        lstFilterGroup.AddRow(rs.Column("groupname").StringValue, rs.Column("groupname").StringValue)
+		        
+		        If (sessionStateGroupname <> "") And (sessionStateGroupname = rs.Column("groupname").StringValue) Then
+		          iPreselectIndex = lstFilterGroup.LastAddedRowIndex
 		        End If
 		        
 		        rs.MoveToNextRow
@@ -641,12 +646,16 @@ End
 		  Catch DatabaseException
 		    
 		  Finally
-		    If (lstFilterGroup.RowCount > 0) Then lstFilterGroup.SelectedRowIndex = 0
+		    lstFilterGroup.AddRow("-", "")
+		    lstFilterGroup.AddRow("(UNASSIGNED)", kGroupTagUnassigned)
+		    If (sessionStateGroupname <> "") And (sessionStateGroupname = kGroupTagUnassigned) Then
+		      iPreselectIndex = lstFilterGroup.LastAddedRowIndex
+		    End If
+		    
+		    lstFilterGroup.SelectedRowIndex = iPreselectIndex
+		    Session.State.Value("groupname") = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
 		    
 		  End Try
-		  
-		  lstFilterGroup.AddRow("-", "")
-		  lstFilterGroup.AddRow("(UNASSIGNED)", kGroupTagUnassigned)
 		  
 		End Sub
 	#tag EndMethod
@@ -979,6 +988,8 @@ End
 		  #Pragma unused item
 		  
 		  If (Not ebOpened) Then Return
+		  
+		  Session.State.Value("groupname") = Me.RowTagAt(Me.SelectedRowIndex)
 		  
 		  Self.RefreshInfos()
 		  

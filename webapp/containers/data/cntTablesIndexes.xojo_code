@@ -394,9 +394,15 @@ End
 		  Var databasename As String = Me.GetSelectedDatabasename()
 		  If (databasename = "") Then Return
 		  
+		  Var selectedTablename As String
+		  Var rowTag As Dictionary = Me.GetSelectedTableRowTag()
+		  If (rowTag <> Nil) And (rowTag.Lookup("type", "").StringValue = "table") Then
+		    selectedTablename = rowTag.Lookup("name", "").StringValue
+		  End If
+		  
 		  Var dlgIndex As New dlgIndexCreate
 		  AddHandler dlgIndex.IndexCreateAction, WeakAddressOf ActionCreateIndexButtonPressed
-		  dlgIndex.Show(databasename)
+		  dlgIndex.Show(databasename, selectedTablename)
 		  
 		End Sub
 	#tag EndMethod
@@ -548,14 +554,22 @@ End
 		Private Sub LoadDatabases()
 		  lstFilterDatabase.RemoveAllRows
 		  
+		  Var iPreselectIndex As Integer = 0
+		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
 		    If (rs = Nil) Then Return
+		    
+		    Var sessionStateDatabasename As String = Session.State.Lookup("databasename", "").StringValue
 		    
 		    If (rs.RowCount > 0) Then
 		      rs.MoveToFirstRow
 		      While (Not rs.AfterLastRow)
 		        lstFilterDatabase.AddRow(rs.Column("databasename").StringValue, rs.Column("databasename").StringValue)
+		        
+		        If (sessionStateDatabasename <> "") And (sessionStateDatabasename = rs.Column("databasename").StringValue) Then
+		          iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
+		        End If
 		        
 		        rs.MoveToNextRow
 		      Wend
@@ -566,7 +580,8 @@ End
 		  Catch DatabaseException
 		    
 		  Finally
-		    If (lstFilterDatabase.RowCount > 0) Then lstFilterDatabase.SelectedRowIndex = 0
+		    If (lstFilterDatabase.RowCount > 0) Then lstFilterDatabase.SelectedRowIndex = iPreselectIndex
+		    Session.State.Value("databasename") = Me.GetSelectedDatabasename()
 		    
 		  End Try
 		  
@@ -697,6 +712,21 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function TableRowColumnData(col As DatasourceColumn, row As Dictionary) As Variant
+		  Select Case col.DatabaseColumnName
+		    
+		  Case "type"
+		    Return row.Lookup(col.DatabaseColumnName, "").StringValue.Titlecase
+		    
+		  Else
+		    Return Super.TableRowColumnData(col, row)
+		    
+		  End Select
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Sub TableRowDataLoaded()
 		  Super.TableRowDataLoaded()
 		  
@@ -757,6 +787,8 @@ End
 		  #Pragma unused item
 		  
 		  If (Not ebOpened) Then Return
+		  
+		  Session.State.Value("databasename") = Self.GetSelectedDatabasename()
 		  
 		  Self.TableLoad()
 		  

@@ -226,7 +226,7 @@ Begin dlgBase dlgIndexCreate
       End
       Begin WebListBox lstFields
          ColumnCount     =   2
-         ColumnWidths    =   "30, *"
+         ColumnWidths    =   "25, *"
          ControlID       =   ""
          Enabled         =   True
          HasHeader       =   False
@@ -399,7 +399,7 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub Load()
+		Private Sub Load(PreSelectTablename As String = "")
 		  Try
 		    Session.DB.ExecuteSQL("USE DATABASE '" + esDatabasename.EscapeSqlQuotes + "'")
 		    
@@ -407,7 +407,7 @@ End
 		    
 		  Finally
 		    
-		    Me.LoadTables()
+		    Me.LoadTables(PreSelectTablename)
 		    Me.LoadFields()
 		    
 		    Me.RefreshButtons()
@@ -454,8 +454,10 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub LoadTables()
+		Private Sub LoadTables(PreSelectTablename As String = "")
 		  lstTable.RemoveAllRows
+		  
+		  Var iPreSelectIndex As Integer = 0
 		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW TABLES")
@@ -464,6 +466,10 @@ End
 		        rs.MoveToFirstRow
 		        While (Not rs.AfterLastRow)
 		          lstTable.AddRow(rs.Column("tablename").StringValue, rs.Column("tablename").StringValue)
+		          
+		          If (PreSelectTablename <> "") And (PreSelectTablename = rs.Column("tablename").StringValue) Then
+		            iPreSelectIndex = lstTable.LastAddedRowIndex
+		          End If
 		          
 		          rs.MoveToNextRow
 		        Wend
@@ -475,7 +481,7 @@ End
 		  Catch err As DatabaseException
 		    
 		  Finally
-		    If (lstTable.LastRowIndex >= 0) Then lstTable.SelectedRowIndex = 0
+		    If (lstTable.LastRowIndex >= 0) Then lstTable.SelectedRowIndex = iPreSelectIndex
 		    
 		  End Try
 		  
@@ -490,10 +496,10 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Show(Databasename As String)
+		Sub Show(Databasename As String, PreSelectTablename As String)
 		  esDatabasename = Databasename
 		  
-		  Me.Load()
+		  Me.Load(PreSelectTablename)
 		  
 		  Super.Show()
 		End Sub

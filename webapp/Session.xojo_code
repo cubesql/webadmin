@@ -73,8 +73,17 @@ Inherits WebSession
 		  DB = Nil
 		  ClientId = -1
 		  DBEngineVersion = 0.0
+		  mState = Nil
 		  
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function State() As Dictionary
+		  If (mState = Nil) Then mState = New Dictionary
+		  
+		  Return mState
+		End Function
 	#tag EndMethod
 
 
@@ -88,6 +97,10 @@ Inherits WebSession
 
 	#tag Property, Flags = &h0
 		DBEngineVersion As Double
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mState As Dictionary
 	#tag EndProperty
 
 
@@ -311,6 +324,14 @@ Inherits WebSession
 			Group="Behavior"
 			InitialValue="-1"
 			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="DBEngineVersion"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="Double"
 			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior
