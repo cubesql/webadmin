@@ -395,7 +395,7 @@ End
 		  selectRowTag.Value("databasename") = Database
 		  selectRowTag.Value("tablename") = Table
 		  
-		  Self.RefreshInfos(selectRowTag)
+		  Me.RefreshInfos(selectRowTag)
 		  Return True
 		  
 		  
@@ -738,8 +738,8 @@ End
 		  
 		  Var bFound As Boolean = False
 		  For i As Integer = Me.Table.LastRowIndex DownTo 0
-		    If (Me.Table.RowTagAt(i) IsA Dictionary) Then
-		      Var rowTag As Dictionary = Me.Table.RowTagAt(i)
+		    Var rowTag As Dictionary = Me.Table.RowTagAt(i)
+		    If (rowTag IsA Dictionary) Then
 		      If (rowTag.Lookup("groupname", "").StringValue = sSelectAfterReload.Lookup("groupname", "-").StringValue) And _
 		        (rowTag.Lookup("privilege", "").StringValue = sSelectAfterReload.Lookup("privilege", "-").StringValue) And _
 		        (rowTag.Lookup("databasename", "").StringValue = sSelectAfterReload.Lookup("databasename", "-").StringValue) And _

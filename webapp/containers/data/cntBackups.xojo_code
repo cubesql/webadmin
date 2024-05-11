@@ -700,6 +700,7 @@ End
 		  col.FieldType = DatasourceColumn.FieldTypes.Text
 		  col.Sortable = False
 		  col.IsVirtual = True
+		  col.IsSearchable = False
 		  col.SortDirection = WebListBox.SortDirections.None
 		  Me.Columns.Add(col)
 		  
@@ -712,7 +713,6 @@ End
 		  
 		  If (filterDatabasename <> "") Then
 		    Return Session.DB.SelectSQL("SHOW BACKUPS FOR DATABASE '" + filterDatabasename.EscapeSqlQuotes + "'")
-		    
 		  End If
 		  
 		  Return Nil
@@ -779,8 +779,8 @@ End
 		  
 		  Var bFound As Boolean = False
 		  For i As Integer = Me.Table.LastRowIndex DownTo 0
-		    If (Me.Table.RowTagAt(i) IsA Dictionary) Then
-		      Var rowTag As Dictionary = Me.Table.RowTagAt(i)
+		    Var rowTag As Dictionary = Me.Table.RowTagAt(i)
+		    If (rowTag IsA Dictionary) Then
 		      If (rowTag.Lookup("timestamp", "-").StringValue <> sSelectAfterReload) Then Continue
 		      Me.Table.SelectedRowIndex = i
 		      bFound = True
