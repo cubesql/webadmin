@@ -1,5 +1,5 @@
 #tag WebContainerControl
-Begin cntBase cntClients
+Begin cntDatasourceBase cntCommands
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -22,15 +22,14 @@ Begin cntBase cntClients
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
-      ColumnCount     =   7
-      ColumnWidths    =   "5%,15%,15%,15%,15%,18%,17%"
+      ColumnCount     =   1
+      ColumnWidths    =   ""
       ControlID       =   ""
       Enabled         =   True
       HasHeader       =   True
-      Height          =   422
+      Height          =   500
       HighlightSortedColumn=   True
       Index           =   -2147483648
       Indicator       =   0
@@ -46,7 +45,7 @@ Begin cntBase cntClients
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
-      NoRowsMessage   =   "No Clients"
+      NoRowsMessage   =   "No Commands"
       ProcessingMessage=   ""
       RowCount        =   0
       RowSelectionType=   0
@@ -62,42 +61,13 @@ Begin cntBase cntClients
       Width           =   750
       _mPanelIndex    =   -1
    End
-   Begin WebButton btnRefresh
-      AllowAutoDisable=   False
-      Cancel          =   False
-      Caption         =   "Refresh"
-      ControlID       =   ""
-      Default         =   False
-      Enabled         =   False
-      Height          =   38
-      Index           =   -2147483648
-      Indicator       =   1
-      Left            =   630
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   True
-      LockTop         =   False
-      LockVertical    =   False
-      Scope           =   2
-      TabIndex        =   3
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   442
-      Visible         =   True
-      Width           =   100
-      _mPanelIndex    =   -1
-   End
 End
 #tag EndWebContainerControl
 
 #tag WindowCode
 	#tag Event
 		Sub Opening()
-		  Self.RefreshButtons()
 		  Self.ShowInfos()
-		  
 		End Sub
 	#tag EndEvent
 
@@ -106,47 +76,52 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
-		  me.Title = "Clients"
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub RefreshButtons()
-		  btnRefresh.Enabled = True
+		  Me.Title = "Commands"
+		  
+		  
+		  Redim Me.Columns(-1)
+		  
+		  Var col As DatasourceColumn
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "*"
+		  col.DatabaseColumnName = "command"
+		  col.Heading = "Command"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.Ascending
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "20%"
+		  col.DatabaseColumnName = "context"
+		  col.Heading = "Context"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "20%"
+		  col.DatabaseColumnName = "privilege"
+		  col.Heading = "Privilege"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
-		  lstInfos.RemoveAllRows
+		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW COMMANDS"))
 		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW CONNECTIONS")
-		    If (rs = Nil) Then Return
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        lstInfos.AddRow(rs.Column("id").StringValue)
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 1) = rs.Column("address").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 2) = rs.Column("username").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 3) = rs.Column("connection_date").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 4) = rs.Column("last_activity").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 5) = rs.Column("database").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 6) = rs.Column("client_type").StringValue
-		        
-		        rs.MoveToNextRow
-		      Wend
-		    End If
-		    
-		    
-		    rs.Close
-		    
-		    
-		  Catch DatabaseException
-		    
-		  End Try
+		  If (lstInfos.DataSource = Nil) Then
+		    lstInfos.DataSource = Self
+		  Else
+		    lstInfos.ReloadData()
+		  End If
 		  
 		End Sub
 	#tag EndMethod
@@ -155,36 +130,6 @@ End
 #tag EndWindowCode
 
 #tag Events lstInfos
-	#tag Event
-		Sub Opening()
-		  Me.HeaderAt(0) = "ID"
-		  Me.HeaderAt(1) = "Address"
-		  Me.HeaderAt(2) = "Username"
-		  Me.HeaderAt(3) = "Connection Date"
-		  Me.HeaderAt(4) = "Last Activity"
-		  Me.HeaderAt(5) = "Database"
-		  Me.HeaderAt(6) = "Client Type"
-		  
-		  Me.ColumnSortTypeAt(0) = WebListBox.SortTypes.Sortable
-		  Me.ColumnSortDirectionAt(0) = WebListbox.SortDirections.Descending
-		  
-		  For i As Integer = 1 To 6
-		    Me.ColumnSortTypeAt(i) = WebListBox.SortTypes.Sortable
-		    Me.ColumnSortDirectionAt(i) = WebListbox.SortDirections.None
-		  next
-		  
-		  Me.RemoveAllRows
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events btnRefresh
-	#tag Event
-		Sub Pressed()
-		  Self.ShowInfos()
-		  
-		End Sub
-	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
 	#tag ViewProperty

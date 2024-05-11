@@ -11,6 +11,7 @@ Inherits WebSession
 #tag EndSession
 	#tag Method, Flags = &h0
 		Function Login(loginDB As CubeSQLServer) As Boolean
+		  ClientId = -1
 		  If (loginDB = Nil) Then Return False
 		  If (loginDB.IsConnected = False) Then Return False
 		  
@@ -18,6 +19,25 @@ Inherits WebSession
 		  
 		  Try
 		    DB.ExecuteSQL("SET CLIENT TYPE TO 'cubeSQL Web Admin " + App.Version + "'")
+		    
+		    Var rs As RowSet = db.SelectSQL("SHOW MY INFO")
+		    
+		    If (rs <> Nil) Then
+		      
+		      If (rs.RowCount > 0) Then
+		        rs.MoveToFirstRow
+		        While (Not rs.AfterLastRow)
+		          If (rs.Column("key").StringValue = "clientID") Then
+		            ClientId = rs.Column("value").IntegerValue
+		          End If
+		          
+		          rs.MoveToNextRow
+		        Wend
+		      End If
+		      
+		      rs.Close
+		    End If
+		    
 		    
 		  Catch err As DatabaseException
 		    Return False
@@ -40,10 +60,15 @@ Inherits WebSession
 		  End If
 		  
 		  DB = Nil
+		  ClientId = -1
 		  
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h0
+		ClientId As Integer = -1
+	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		DB As CubeSQLServer

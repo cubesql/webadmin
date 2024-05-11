@@ -1,5 +1,5 @@
 #tag WebContainerControl
-Begin cntBase cntDatabases
+Begin cntDatasourceBase cntDatabases
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -22,11 +22,10 @@ Begin cntBase cntDatabases
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
-      ColumnCount     =   5
-      ColumnWidths    =   "10%,50%,10%,20%,10%"
+      ColumnCount     =   1
+      ColumnWidths    =   ""
       ControlID       =   ""
       Enabled         =   True
       HasHeader       =   True
@@ -107,7 +106,7 @@ Begin cntBase cntDatabases
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   4
       TabStop         =   True
@@ -135,7 +134,7 @@ Begin cntBase cntDatabases
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
@@ -163,7 +162,7 @@ Begin cntBase cntDatabases
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   3
       TabStop         =   True
@@ -190,7 +189,7 @@ Begin cntBase cntDatabases
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   5
       TabStop         =   True
@@ -220,7 +219,7 @@ Begin cntBase cntDatabases
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   2
       TabStop         =   True
@@ -247,7 +246,7 @@ Begin cntBase cntDatabases
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   7
       TabStop         =   True
@@ -330,18 +329,18 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ActionDrop()
-		  Var dbRowTag As Dictionary = Me.GetSelectedDbRowTag()
-		  If (dbRowTag = Nil) Or (dbRowTag.Lookup("databasename", "") = "") Then Return
+		  Var databasename As String = Me.GetSelectedDatabasename()
+		  If (databasename = "") Then Return
 		  
 		  
 		  dlgDrop.Title = "Drop Database"
 		  dlgDrop.Indicator = Indicators.Danger
 		  dlgDrop.ActionButton.Caption = "Drop"
 		  dlgDrop.CancelButton.Visible = True
-		  dlgDrop.Message = "Are you sure you want to drop database '" + dbRowTag.Lookup("databasename", "") + "'?"
+		  dlgDrop.Message = "Are you sure you want to drop database '" + databasename + "'?"
 		  dlgDrop.Explanation = "This action cannot be undone."
 		  
-		  esActionDatabasename = dbRowTag.Lookup("databasename", "")
+		  esActionDatabasename = databasename
 		  
 		  dlgDrop.ShowWithActionDanger()
 		  
@@ -379,10 +378,9 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ActionRename()
-		  Var dbRowTag As Dictionary = Me.GetSelectedDbRowTag()
-		  If (dbRowTag = Nil) Or (dbRowTag.Lookup("databasename", "") = "") Then Return
+		  Var databasename As String = Me.GetSelectedDatabasename()
+		  If (databasename = "") Then Return
 		  
-		  Var databasename As String = dbRowTag.Lookup("databasename", "")
 		  esActionDatabasename = databasename
 		  
 		  dlgRename.Show("Rename Database", "Name", "Rename", Indicators.Primary, databasename)
@@ -422,11 +420,11 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ActionStart()
-		  Var dbRowTag As Dictionary = Me.GetSelectedDbRowTag()
-		  If (dbRowTag = Nil) Then Return
+		  Var databasename As String = Me.GetSelectedDatabasename()
+		  If (databasename = "") Then Return
 		  
 		  Try
-		    Session.DB.ExecuteSQL("START DATABASE '" + dbRowTag.Lookup("databasename", "") + "'")
+		    Session.DB.ExecuteSQL("START DATABASE '" + databasename + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -448,11 +446,11 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ActionStop()
-		  Var dbRowTag As Dictionary = Me.GetSelectedDbRowTag()
-		  If (dbRowTag = Nil) Then Return
+		  Var databasename As String = Me.GetSelectedDatabasename()
+		  If (databasename = "") Then Return
 		  
 		  Try
-		    Session.DB.ExecuteSQL("STOP DATABASE '" + dbRowTag.Lookup("databasename", "") + "'")
+		    Session.DB.ExecuteSQL("STOP DATABASE '" + databasename + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -476,21 +474,126 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
-		  me.Title = "Databases"
+		  Me.Title = "Databases"
+		  
+		  
+		  Redim Me.Columns(-1)
+		  
+		  Var col As DatasourceColumn
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "10%"
+		  col.DatabaseColumnName = "status"
+		  col.Heading = "Status"
+		  col.IsVirtual = True
+		  col.FieldType = DatasourceColumn.FieldTypes.Integer
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "0%"
+		  col.DatabaseColumnName = "stopped"
+		  col.Heading = "Stopped"
+		  col.IsHidden = True
+		  col.FieldType = DatasourceColumn.FieldTypes.Boolean
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "0%"
+		  col.DatabaseColumnName = "available"
+		  col.Heading = "Available"
+		  col.IsHidden = True
+		  col.FieldType = DatasourceColumn.FieldTypes.Boolean
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "*"
+		  col.DatabaseColumnName = "databasename"
+		  col.Heading = "Databasename"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.Ascending
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "10%"
+		  col.DatabaseColumnName = "encrypted"
+		  col.Heading = "Encrypted"
+		  col.FieldType = DatasourceColumn.FieldTypes.Boolean
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "10%"
+		  col.DatabaseColumnName = "locked"
+		  col.Heading = "Locked"
+		  col.FieldType = DatasourceColumn.FieldTypes.Integer
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "20%"
+		  col.DatabaseColumnName = "lockowner"
+		  col.Heading = "Lock Owner"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = False
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Function GetSelectedDbRowTag() As Dictionary
-		  If (lstInfos.SelectedRowIndex < 0) Then Return Nil
+	#tag Method, Flags = &h1
+		Protected Function GetColumnData(col As DatasourceColumn, row As Dictionary) As Variant
+		  Select Case col.DatabaseColumnName
+		    
+		  Case "status"
+		    Var icon As WebPicture
+		    If row.Lookup("stopped", False).BooleanValue Then
+		      icon = WebPicture.BootstrapIcon("stop-circle-fill", Color.Orange)
+		    Else
+		      If  row.Lookup("available", True).BooleanValue Then
+		        icon = WebPicture.BootstrapIcon("check-circle-fill", Color.Green)
+		      Else
+		        icon = WebPicture.BootstrapIcon("exclamation-circle-fill", Color.Red)
+		      End If
+		    End If
+		    
+		    Return New WebListboxImageRenderer(icon.URL, True)
+		    
+		  Case "locked"
+		    Return New WebListBoxStyleRenderer(StyleListboxTextAlignCenter(), If(row.Lookup(col.DatabaseColumnName, 0).IntegerValue > 0, "yes", "no"))
+		    
+		  Case "encrypted"
+		    If row.Lookup(col.DatabaseColumnName, 0).BooleanValue Then
+		      Return New WebListBoxStyleRenderer(StyleListboxTextAlignCenterGreen(), "yes")
+		    Else
+		      Return New WebListBoxStyleRenderer(StyleListboxTextAlignCenter(), "no")
+		    End If
+		    
+		  Else
+		    Return Super.GetColumnData(col, row)
+		    
+		  End Select
 		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetSelectedDatabasename() As String
+		  If (lstInfos.SelectedRowIndex < 0) Then Return ""
 		  If (lstInfos.RowTagAt(lstInfos.SelectedRowIndex) IsA Dictionary) Then
-		    Var dbRowTag As Dictionary = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
-		    Return dbRowTag
+		    Return Dictionary(lstInfos.RowTagAt(lstInfos.SelectedRowIndex)).Lookup("databasename", "").StringValue
 		  End If
 		  
-		  Return Nil
-		  
+		  Return ""
 		  
 		End Function
 	#tag EndMethod
@@ -499,16 +602,14 @@ End
 		Private Sub RefreshButtons()
 		  Var bRename, bStart, bStop, bDrop As Boolean
 		  
-		  If (lstInfos.SelectedRowIndex >= 0) Then
-		    If (lstInfos.RowTagAt(lstInfos.SelectedRowIndex) IsA Dictionary) Then
-		      Var dbRowTag As Dictionary = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
-		      
-		      bRename = True
-		      bStart = dbRowTag.Lookup("stopped", False) = True
-		      bStop = (Not bStart)
-		      bDrop = True
-		      
-		    End If
+		  If (lstInfos.SelectedRowIndex >= 0) And (lstInfos.RowTagAt(lstInfos.SelectedRowIndex) IsA Dictionary) Then
+		    Var dbRowTag As Dictionary = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
+		    
+		    bRename = True
+		    bStart = dbRowTag.Lookup("stopped", False) = True
+		    bStop = (Not bStart)
+		    bDrop = True
+		    
 		  End If
 		  
 		  If (btnRename.Enabled <> bRename) Then btnRename.Enabled = bRename
@@ -522,86 +623,54 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RefreshInfos(selectDatabasename As String = "")
 		  If (selectDatabasename = "") Then
-		    Var dbRowTag As Dictionary = Me.GetSelectedDbRowTag()
-		    If (dbRowTag <> Nil) Then
-		      selectDatabasename = dbRowTag.Lookup("databasename", "")
-		    End If
+		    selectDatabasename = Me.GetSelectedDatabasename()
 		  End If
+		  
+		  esSelectAfterReload = selectDatabasename
 		  
 		  Me.ShowInfos()
 		  
-		  If (selectDatabasename = "") Then
-		    Me.RefreshButtons()
-		    Return
-		  End If
-		  
-		  For i As Integer = lstInfos.LastRowIndex DownTo 0
-		    If (lstInfos.CellTextAt(i, 1) <> selectDatabasename) Then Continue
-		    
-		    lstInfos.SelectedRowIndex = i
-		    Exit 'Loop
-		  Next
-		  
-		  Me.RefreshButtons()
+		  'Select Row async via WebTimer_RowDataLoaded
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
-		  lstInfos.RemoveAllRows
+		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW DATABASES WITH DETAILS"))
 		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES WITH DETAILS")
-		    If (rs = Nil) Then Return
-		    
-		    Var styleCenter As WebStyle = StyleListboxTextAlignCenter()
-		    Var styleCenterGreen As WebStyle = StyleListboxTextAlignCenterGreen()
-		    
-		    If (rs.RowCount > 0) Then
-		      rs.MoveToFirstRow
-		      While (Not rs.AfterLastRow)
-		        lstInfos.AddRow("")
-		        
-		        Var icon As WebPicture
-		        If rs.Column("stopped").BooleanValue Then
-		          icon = WebPicture.BootstrapIcon("stop-circle-fill", Color.Orange)
-		        Else
-		          If rs.Column("available").BooleanValue Then
-		            icon = WebPicture.BootstrapIcon("check-circle-fill", Color.Green)
-		          Else
-		            icon = WebPicture.BootstrapIcon("exclamation-circle-fill", Color.Red)
-		          End If
-		        End If
-		        
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 0) = New WebListboxImageRenderer(icon.URL, True)
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 1) = rs.Column("databasename").StringValue
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 2) = New WebListBoxStyleRenderer(styleCenter, If(rs.Column("locked").IntegerValue > 0, "yes", "no"))
-		        lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 3) = rs.Column("lockowner").StringValue
-		        If rs.Column("encrypted").BooleanValue Then
-		          lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 4) = New WebListBoxStyleRenderer(styleCenterGreen, "yes")
-		        Else
-		          lstInfos.CellTextAt(lstInfos.LastAddedRowIndex, 4) = New WebListBoxStyleRenderer(styleCenter, "no")
-		        End If
-		        
-		        Var dbRowTag As New Dictionary
-		        dbRowTag.Value("stopped") = rs.Column("stopped").BooleanValue
-		        dbRowTag.Value("available") = rs.Column("available").BooleanValue
-		        dbRowTag.Value("databasename") = rs.Column("databasename").StringValue
-		        
-		        lstInfos.RowTagAt(lstInfos.LastAddedRowIndex) = dbRowTag
-		        
-		        rs.MoveToNextRow
-		      Wend
+		  If (lstInfos.DataSource = Nil) Then
+		    lstInfos.DataSource = Self
+		  Else
+		    lstInfos.ReloadData()
+		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
+		  Super.WebTimer_RowDataLoaded(obj)
+		  
+		  If (esSelectAfterReload = "") Then Return
+		  
+		  Var sSelectAfterReload As String = esSelectAfterReload
+		  esSelectAfterReload = ""
+		  
+		  Var bFound As Boolean = False
+		  For i As Integer = lstInfos.LastRowIndex DownTo 0
+		    If (lstInfos.RowTagAt(i) IsA Dictionary) Then
+		      Var rowTag As Dictionary = lstInfos.RowTagAt(i)
+		      If (rowTag.Lookup("databasename", "").StringValue <> sSelectAfterReload) Then Continue
+		      lstInfos.SelectedRowIndex = i
+		      bFound = True
+		      Exit 'Loop
 		    End If
-		    
-		    
-		    rs.Close
-		    
-		    
-		  Catch DatabaseException
-		    
-		  End Try
+		  Next
+		  
+		  If (Not bFound) Then lstInfos.SelectedRowIndex = -1
+		  
+		  Me.RefreshButtons()
 		  
 		End Sub
 	#tag EndMethod
@@ -611,6 +680,10 @@ End
 		Private esActionDatabasename As String
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private esSelectAfterReload As String
+	#tag EndProperty
+
 
 #tag EndWindowCode
 
@@ -618,25 +691,6 @@ End
 	#tag Event
 		Sub Opening()
 		  Me.ExecuteJavaScript("$('#" + Me.ControlID + "').addClass('listboxDbHeaderAlignment')")
-		  
-		  Me.HeaderAt(0) = "Status"
-		  Me.HeaderAt(1) = "Name"
-		  Me.HeaderAt(2) = "Locked"
-		  Me.HeaderAt(3) = "Lock Owner"
-		  Me.HeaderAt(4) = "Encrypted"
-		  
-		  Me.ColumnSortTypeAt(0) = WebListBox.SortTypes.Unsortable
-		  Me.ColumnSortDirectionAt(0) = WebListbox.SortDirections.None
-		  
-		  Me.ColumnSortTypeAt(1) = WebListBox.SortTypes.Sortable
-		  Me.ColumnSortDirectionAt(1) = WebListbox.SortDirections.Ascending
-		  
-		  Me.ColumnSortTypeAt(2) = WebListBox.SortTypes.Sortable
-		  Me.ColumnSortDirectionAt(2) = WebListbox.SortDirections.None
-		  Me.ColumnSortTypeAt(3) = WebListBox.SortTypes.Sortable
-		  Me.ColumnSortDirectionAt(3) = WebListbox.SortDirections.None
-		  Me.ColumnSortTypeAt(4) = WebListBox.SortTypes.Sortable
-		  Me.ColumnSortDirectionAt(4) = WebListbox.SortDirections.None
 		  
 		End Sub
 	#tag EndEvent
