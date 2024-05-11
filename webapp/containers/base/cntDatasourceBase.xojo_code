@@ -8,6 +8,11 @@ Implements WebDataSource
 		    If cntrl IsA WebListBox Then WebListBox(cntrl).DataSource = Nil
 		  Next
 		  
+		  If (timRefresh <> Nil) Then
+		    timRefresh.RunMode = WebTimer.RunModes.Off
+		    timRefresh.Enabled = False
+		  End If
+		  
 		  Super.Close()
 		  
 		End Sub
@@ -39,7 +44,7 @@ Implements WebDataSource
 		  timRefresh.Enabled = False
 		  Me.AddControl(timRefresh)
 		  
-		  AddHandler timRefresh.Run, AddressOf WebTimer_RowDataLoaded
+		  AddHandler timRefresh.Run, WeakAddressOf WebTimer_RowDataLoaded
 		  
 		End Sub
 	#tag EndMethod
@@ -388,6 +393,14 @@ Implements WebDataSource
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="Area"
+			Visible=false
+			Group="Behavior"
+			InitialValue="Home"
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="SearchAvailable"
 			Visible=false

@@ -76,6 +76,7 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
+		  Me.Area = "Information"
 		  Me.Title = "Commands"
 		  Me.SearchAvailable = True
 		  
@@ -125,6 +126,8 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
+		  Me.UpdateNoRowsMessage()
+		  
 		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW COMMANDS"))
 		  
 		  If (lstInfos.DataSource = Nil) Then
@@ -136,10 +139,31 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub UpdateNoRowsMessage()
+		  Var sInfo As String = "No Commands"
+		  
+		  If (Me.SearchValue <> "") Then
+		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
+		  End If
+		  
+		  lstInfos.NoRowsMessage = sInfo
+		  
+		End Sub
+	#tag EndMethod
+
 
 #tag EndWindowCode
 
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="Area"
+		Visible=false
+		Group="Behavior"
+		InitialValue="Home"
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="SearchAvailable"
 		Visible=false

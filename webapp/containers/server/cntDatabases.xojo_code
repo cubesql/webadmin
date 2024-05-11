@@ -172,35 +172,6 @@ Begin cntDatasourceBase cntDatabases
       Width           =   100
       _mPanelIndex    =   -1
    End
-   Begin dlgDatabaseCreate dlgCreate
-      ControlCount    =   0
-      ControlID       =   ""
-      Enabled         =   True
-      Height          =   314
-      Index           =   -2147483648
-      Indicator       =   0
-      LayoutDirection =   0
-      LayoutType      =   0
-      Left            =   20
-      LockBottom      =   False
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      PanelIndex      =   "0"
-      Scope           =   2
-      TabIndex        =   5
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   20
-      Visible         =   True
-      Width           =   600
-      _mDesignHeight  =   0
-      _mDesignWidth   =   0
-      _mPanelIndex    =   -1
-   End
    Begin WebButton btnRename
       AllowAutoDisable=   False
       Cancel          =   False
@@ -227,35 +198,6 @@ Begin cntDatasourceBase cntDatabases
       Top             =   442
       Visible         =   True
       Width           =   100
-      _mPanelIndex    =   -1
-   End
-   Begin dlgCommonName dlgRename
-      ControlCount    =   0
-      ControlID       =   ""
-      Enabled         =   True
-      Height          =   314
-      Index           =   -2147483648
-      Indicator       =   0
-      LayoutDirection =   0
-      LayoutType      =   0
-      Left            =   60
-      LockBottom      =   False
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      PanelIndex      =   "0"
-      Scope           =   2
-      TabIndex        =   7
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   60
-      Visible         =   True
-      Width           =   600
-      _mDesignHeight  =   0
-      _mDesignWidth   =   0
       _mPanelIndex    =   -1
    End
    Begin WebMessageDialog dlgDrop
@@ -290,13 +232,17 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ActionCreate()
+		  Var dlgCreate As New dlgDatabaseCreate
+		  AddHandler dlgCreate.DatabaseCreateAction, WeakAddressOf ActionCreateButtonPressed
 		  dlgCreate.Show()
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function ActionCreateButtonPressed(Name As String, Key As String, Encoding As String) As Boolean
+		Private Function ActionCreateButtonPressed(obj As dlgDatabaseCreate, Name As String, Key As String, Encoding As String) As Boolean
+		  #Pragma unused obj
+		  
 		  If (Name = "") Then Return False
 		  
 		  Try
@@ -383,13 +329,17 @@ End
 		  
 		  esActionDatabasename = databasename
 		  
+		  Var dlgRename As New dlgCommonName
+		  AddHandler dlgRename.NameAction, WeakAddressOf ActionRenameButtonPressed
 		  dlgRename.Show("Rename Database", "Name", "Rename", Indicators.Primary, databasename)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function ActionRenameButtonPressed(Name As String) As Boolean
+		Private Function ActionRenameButtonPressed(obj As dlgCommonName, Name As String) As Boolean
+		  #Pragma unused obj
+		  
 		  If (esActionDatabasename = "") Then Return False
 		  If (Name = "") Then Return False
 		  If (esActionDatabasename = Name) Then Return False
@@ -474,6 +424,7 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
+		  Me.Area = "Server"
 		  Me.Title = "Databases"
 		  Me.SearchAvailable = True
 		  
@@ -595,8 +546,10 @@ End
 	#tag Method, Flags = &h21
 		Private Function GetSelectedDatabasename() As String
 		  If (lstInfos.SelectedRowIndex < 0) Then Return ""
-		  If (lstInfos.RowTagAt(lstInfos.SelectedRowIndex) IsA Dictionary) Then
-		    Return Dictionary(lstInfos.RowTagAt(lstInfos.SelectedRowIndex)).Lookup("databasename", "").StringValue
+		  
+		  Var selectedRowTag As Variant = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
+		  If (selectedRowTag IsA Dictionary) Then
+		    Return Dictionary(selectedRowTag).Lookup("databasename", "").StringValue
 		  End If
 		  
 		  Return ""
@@ -652,6 +605,8 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
+		  Me.UpdateNoRowsMessage()
+		  
 		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW DATABASES WITH DETAILS"))
 		  
 		  If (lstInfos.DataSource = Nil) Then
@@ -663,11 +618,27 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub UpdateNoRowsMessage()
+		  Var sInfo As String = "No Databases"
+		  
+		  If (Me.SearchValue <> "") Then
+		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
+		  End If
+		  
+		  lstInfos.NoRowsMessage = sInfo
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
 		  Super.WebTimer_RowDataLoaded(obj)
 		  
-		  If (esSelectAfterReload = "") Then Return
+		  If (esSelectAfterReload = "") Then
+		    Me.RefreshButtons()
+		    Return
+		  End If
 		  
 		  Var sSelectAfterReload As String = esSelectAfterReload
 		  esSelectAfterReload = ""
@@ -750,28 +721,12 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events dlgCreate
-	#tag Event
-		Function DatabaseCreateAction(Name As String, Key As String, Encoding As String) As Boolean
-		  Return Self.ActionCreateButtonPressed(Name, Key, Encoding)
-		  
-		End Function
-	#tag EndEvent
-#tag EndEvents
 #tag Events btnRename
 	#tag Event
 		Sub Pressed()
 		  Self.ActionRename()
 		  
 		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events dlgRename
-	#tag Event
-		Function NameAction(Name As String) As Boolean
-		  Return Self.ActionRenameButtonPressed(Name)
-		  
-		End Function
 	#tag EndEvent
 #tag EndEvents
 #tag Events dlgDrop
@@ -783,6 +738,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="Area"
+		Visible=false
+		Group="Behavior"
+		InitialValue="Home"
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="SearchAvailable"
 		Visible=false

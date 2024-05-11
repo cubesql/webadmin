@@ -29,7 +29,7 @@ Begin cntDatasourceBase cntUsers
       ControlID       =   ""
       Enabled         =   True
       HasHeader       =   True
-      Height          =   422
+      Height          =   342
       HighlightSortedColumn=   True
       Index           =   -2147483648
       Indicator       =   0
@@ -80,7 +80,7 @@ Begin cntDatasourceBase cntUsers
       LockTop         =   False
       LockVertical    =   False
       Scope           =   2
-      TabIndex        =   4
+      TabIndex        =   6
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -108,7 +108,7 @@ Begin cntDatasourceBase cntUsers
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   3
+      TabIndex        =   5
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -136,70 +136,12 @@ Begin cntDatasourceBase cntUsers
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   1
+      TabIndex        =   2
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
       Visible         =   True
       Width           =   100
-      _mPanelIndex    =   -1
-   End
-   Begin dlgUserCreate dlgCreate
-      ControlCount    =   0
-      ControlID       =   ""
-      Enabled         =   True
-      Height          =   314
-      Index           =   -2147483648
-      Indicator       =   0
-      LayoutDirection =   0
-      LayoutType      =   0
-      Left            =   20
-      LockBottom      =   False
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      PanelIndex      =   "0"
-      Scope           =   2
-      TabIndex        =   5
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   20
-      Visible         =   True
-      Width           =   600
-      _mDesignHeight  =   0
-      _mDesignWidth   =   0
-      _mPanelIndex    =   -1
-   End
-   Begin dlgCommonName dlgRename
-      ControlCount    =   0
-      ControlID       =   ""
-      Enabled         =   True
-      Height          =   314
-      Index           =   -2147483648
-      Indicator       =   0
-      LayoutDirection =   0
-      LayoutType      =   0
-      Left            =   40
-      LockBottom      =   False
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      PanelIndex      =   "0"
-      Scope           =   2
-      TabIndex        =   6
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   40
-      Visible         =   True
-      Width           =   600
-      _mDesignHeight  =   0
-      _mDesignWidth   =   0
       _mPanelIndex    =   -1
    End
    Begin WebThread thrDetails
@@ -232,41 +174,12 @@ Begin cntDatasourceBase cntUsers
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   2
+      TabIndex        =   4
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
       Visible         =   True
       Width           =   140
-      _mPanelIndex    =   -1
-   End
-   Begin dlgUserCreate dlgPassword
-      ControlCount    =   0
-      ControlID       =   ""
-      Enabled         =   True
-      Height          =   314
-      Index           =   -2147483648
-      Indicator       =   0
-      LayoutDirection =   0
-      LayoutType      =   0
-      Left            =   40
-      LockBottom      =   False
-      LockedInPosition=   False
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      PanelIndex      =   "0"
-      Scope           =   2
-      TabIndex        =   7
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   40
-      Visible         =   True
-      Width           =   600
-      _mDesignHeight  =   0
-      _mDesignWidth   =   0
       _mPanelIndex    =   -1
    End
    Begin WebButton btnGroups
@@ -281,7 +194,7 @@ Begin cntDatasourceBase cntUsers
       Indicator       =   6
       Left            =   266
       LockBottom      =   True
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   False
       LockRight       =   True
@@ -289,41 +202,12 @@ Begin cntDatasourceBase cntUsers
       LockVertical    =   False
       PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   8
+      TabIndex        =   3
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
       Visible         =   True
       Width           =   100
-      _mPanelIndex    =   -1
-   End
-   Begin dlgUserGroups dlgGroups
-      ControlCount    =   0
-      ControlID       =   ""
-      Enabled         =   True
-      Height          =   314
-      Index           =   -2147483648
-      Indicator       =   0
-      LayoutDirection =   0
-      LayoutType      =   0
-      Left            =   40
-      LockBottom      =   False
-      LockedInPosition=   False
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   False
-      LockTop         =   False
-      LockVertical    =   False
-      PanelIndex      =   "0"
-      Scope           =   2
-      TabIndex        =   9
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   40
-      Visible         =   True
-      Width           =   600
-      _mDesignHeight  =   0
-      _mDesignWidth   =   0
       _mPanelIndex    =   -1
    End
    Begin WebMessageDialog dlgDrop
@@ -333,7 +217,7 @@ Begin cntDatasourceBase cntUsers
       Index           =   -2147483648
       Indicator       =   0
       LockBottom      =   False
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   False
@@ -345,31 +229,177 @@ Begin cntDatasourceBase cntUsers
       Tooltip         =   ""
       _mPanelIndex    =   -1
    End
+   Begin WebRectangle rctFilter
+      BackgroundColor =   &cFFFFFF
+      ControlCount    =   0
+      ControlID       =   ""
+      Enabled         =   True
+      HasBackgroundColor=   False
+      Height          =   75
+      Index           =   -2147483648
+      Indicator       =   0
+      LayoutDirection =   0
+      LayoutType      =   0
+      Left            =   0
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   1
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   350
+      Visible         =   True
+      Width           =   750
+      _mDesignHeight  =   0
+      _mDesignWidth   =   0
+      _mPanelIndex    =   -1
+      Begin WebLabel labFilter
+         Bold            =   True
+         ControlID       =   ""
+         Enabled         =   True
+         FontName        =   ""
+         FontSize        =   0.0
+         Height          =   38
+         Index           =   -2147483648
+         Indicator       =   0
+         Italic          =   False
+         Left            =   20
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         Multiline       =   False
+         PanelIndex      =   "0"
+         Parent          =   "rctFilter"
+         Scope           =   2
+         TabIndex        =   0
+         TabPanelIndex   =   -1
+         TabStop         =   True
+         Text            =   "Filter"
+         TextAlignment   =   0
+         TextColor       =   &c000000FF
+         Tooltip         =   ""
+         Top             =   370
+         Underline       =   False
+         Visible         =   True
+         Width           =   60
+         _mPanelIndex    =   -1
+      End
+      Begin WebLabel labFilterGroup
+         Bold            =   False
+         ControlID       =   ""
+         Enabled         =   True
+         FontName        =   ""
+         FontSize        =   0.0
+         Height          =   38
+         Index           =   -2147483648
+         Indicator       =   0
+         Italic          =   False
+         Left            =   151
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         Multiline       =   False
+         PanelIndex      =   "0"
+         Parent          =   "rctFilter"
+         Scope           =   2
+         TabIndex        =   1
+         TabPanelIndex   =   -1
+         TabStop         =   True
+         Text            =   "Group:"
+         TextAlignment   =   0
+         TextColor       =   &c000000FF
+         Tooltip         =   ""
+         Top             =   370
+         Underline       =   False
+         Visible         =   True
+         Width           =   140
+         _mPanelIndex    =   -1
+      End
+      Begin WebPopupMenu lstFilterGroup
+         ControlID       =   ""
+         Enabled         =   True
+         Height          =   38
+         Index           =   -2147483648
+         Indicator       =   0
+         InitialValue    =   ""
+         LastAddedRowIndex=   0
+         LastRowIndex    =   0
+         Left            =   299
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         PanelIndex      =   "0"
+         Parent          =   "rctFilter"
+         RowCount        =   0
+         Scope           =   2
+         SelectedRowIndex=   0
+         SelectedRowText =   ""
+         TabIndex        =   2
+         TabPanelIndex   =   -1
+         TabStop         =   True
+         Tooltip         =   ""
+         Top             =   370
+         Visible         =   True
+         Width           =   400
+         _mPanelIndex    =   -1
+      End
+   End
 End
 #tag EndWebContainerControl
 
 #tag WindowCode
 	#tag Event
 		Sub Opening()
+		  Self.Load()
+		  
 		  Self.ShowInfos()
+		  
+		  ebOpened = True
+		  
 		End Sub
 	#tag EndEvent
 
 
 	#tag Method, Flags = &h21
 		Private Sub ActionCreate()
-		  dlgCreate.Show()
+		  Var dlgCreate As New dlgUserCreate
+		  AddHandler dlgCreate.UserCreateAction, WeakAddressOf ActionCreateButtonPressed
+		  dlgCreate.Show(lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex))
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function ActionCreateButtonPressed(Name As String, Password As String) As Boolean
+		Private Function ActionCreateButtonPressed(obj As dlgUserCreate, Name As String, Password As String, Group As String) As Boolean
+		  #Pragma unused obj
+		  
 		  If (Name = "") Then Return False
 		  
 		  Try
 		    
 		    Session.DB.ExecuteSQL("CREATE USER " + "'" + Name + "' WITH PASSWORD '" + Password + "'")
+		    
+		    If (Group <> "") Then
+		      Session.DB.ExecuteSQL("ADD USER " + "'" + Name + "' TO GROUP '" + Group + "'")
+		    End If
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -383,6 +413,22 @@ End
 		    Return False
 		    
 		  End Try
+		  
+		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
+		  
+		  If (filterGroupname <> "") Then
+		    ebOpened = False
+		    If (Group = "") Then
+		      'Added user doesn't have a group yet
+		      If (filterGroupname <> kGroupTagUnassigned) Then
+		        lstFilterGroup.SelectedRowIndex = 0
+		      End If
+		    Else
+		      'Added user to a group
+		      lstFilterGroup.SelectRowWithTag(Group)
+		    End If
+		    ebOpened = True
+		  End If
 		  
 		  'Success - no dialog
 		  Self.RefreshInfos(Name)
@@ -446,12 +492,16 @@ End
 		  
 		  esActionUsername = username
 		  
+		  Var dlgGroups As New dlgUserGroups
+		  AddHandler dlgGroups.NeedsRefresh, WeakAddressOf ActionGroupsButtonPressed
 		  dlgGroups.Show(username)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub ActionGroupsButtonPressed()
+		Private Sub ActionGroupsButtonPressed(obj As dlgUserGroups)
+		  #Pragma unused obj
+		  
 		  Var sUsername As String = esActionUsername
 		  esActionUsername = ""
 		  
@@ -465,13 +515,18 @@ End
 		  Var username As String = Me.GetSelectedUsername()
 		  If (username = "") Then Return
 		  
+		  Var dlgPassword As New dlgUserCreate
+		  AddHandler dlgPassword.UserCreateAction, WeakAddressOf ActionPasswordButtonPressed
 		  dlgPassword.ShowSetPassword(username)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function ActionPasswordButtonPressed(Name As String, Password As String) As Boolean
+		Private Function ActionPasswordButtonPressed(obj As dlgUserCreate, Name As String, Password As String, Group As String) As Boolean
+		  #Pragma unused obj
+		  #Pragma unused Group
+		  
 		  If (Name = "") Then Return False
 		  
 		  Try
@@ -505,13 +560,17 @@ End
 		  
 		  esActionUsername = username
 		  
+		  Var dlgRename As New dlgCommonName
+		  AddHandler dlgRename.NameAction, WeakAddressOf ActionRenameButtonPressed
 		  dlgRename.Show("Rename User", "Name", "Rename", Indicators.Primary, username)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function ActionRenameButtonPressed(Name As String) As Boolean
+		Private Function ActionRenameButtonPressed(obj As dlgCommonName, Name As String) As Boolean
+		  #Pragma unused obj
+		  
 		  If (esActionUsername = "") Then Return False
 		  If (Name = "") Then Return False
 		  If (esActionUsername = Name) Then Return False
@@ -557,6 +616,7 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
+		  Me.Area = "Security"
 		  Me.Title = "Users"
 		  Me.SearchAvailable = True
 		  
@@ -629,13 +689,59 @@ End
 	#tag Method, Flags = &h21
 		Private Function GetSelectedUsername() As String
 		  If (lstInfos.SelectedRowIndex < 0) Then Return ""
-		  If (lstInfos.RowTagAt(lstInfos.SelectedRowIndex) IsA Dictionary) Then
-		    Return Dictionary(lstInfos.RowTagAt(lstInfos.SelectedRowIndex)).Lookup("username", "").StringValue
+		  
+		  Var selectedRowTag As Variant = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
+		  If (selectedRowTag IsA Dictionary) Then
+		    Return Dictionary(selectedRowTag).Lookup("username", "").StringValue
 		  End If
 		  
 		  Return ""
 		  
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Load()
+		  Me.LoadGroups()
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub LoadGroups()
+		  lstFilterGroup.RemoveAllRows
+		  lstFilterGroup.AddRow("(ALL)", "")
+		  lstFilterGroup.AddRow("-", "")
+		  
+		  Try
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS")
+		    If (rs = Nil) Then Return
+		    
+		    If (rs.RowCount > 0) Then
+		      rs.MoveToFirstRow
+		      While (Not rs.AfterLastRow)
+		        
+		        If (rs.Column("groupname").StringValue <> "admin") Then
+		          lstFilterGroup.AddRow(rs.Column("groupname").StringValue, rs.Column("groupname").StringValue)
+		        End If
+		        
+		        rs.MoveToNextRow
+		      Wend
+		    End If
+		    
+		    rs.Close
+		    
+		  Catch DatabaseException
+		    
+		  Finally
+		    If (lstFilterGroup.RowCount > 0) Then lstFilterGroup.SelectedRowIndex = 0
+		    
+		  End Try
+		  
+		  lstFilterGroup.AddRow("-", "")
+		  lstFilterGroup.AddRow("(UNASSIGNED)", kGroupTagUnassigned)
+		  
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -723,7 +829,20 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
-		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS"))
+		  Me.UpdateNoRowsMessage()
+		  
+		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
+		  
+		  If (filterGroupname <> "") Then
+		    If (filterGroupname = kGroupTagUnassigned) Then
+		      Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS IN GROUP ''"))
+		    Else
+		      Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS IN GROUP '" + filterGroupname + "'"))
+		    End If
+		  Else
+		    Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS"))
+		  End If
+		  
 		  
 		  If (lstInfos.DataSource = Nil) Then
 		    lstInfos.DataSource = Self
@@ -743,11 +862,35 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub UpdateNoRowsMessage()
+		  Var sInfo As String = "No Users"
+		  
+		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
+		  If (filterGroupname <> "") Then
+		    sInfo = sInfo + " in Group " + filterGroupname
+		    If (filterGroupname = kGroupTagUnassigned) Then
+		      sInfo = "No Users unassigned to a Group"
+		    End If
+		  End If
+		  
+		  If (Me.SearchValue <> "") Then
+		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
+		  End If
+		  
+		  lstInfos.NoRowsMessage = sInfo
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
 		  Super.WebTimer_RowDataLoaded(obj)
 		  
-		  If (esSelectAfterReload = "") Then Return
+		  If (esSelectAfterReload = "") Then
+		    Me.RefreshButtons()
+		    Return
+		  End If
 		  
 		  Var sSelectAfterReload As String = esSelectAfterReload
 		  esSelectAfterReload = ""
@@ -772,6 +915,10 @@ End
 
 
 	#tag Property, Flags = &h21
+		Private ebOpened As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private ebShowDetails As Boolean
 	#tag EndProperty
 
@@ -782,6 +929,10 @@ End
 	#tag Property, Flags = &h21
 		Private esSelectAfterReload As String
 	#tag EndProperty
+
+
+	#tag Constant, Name = kGroupTagUnassigned, Type = , Dynamic = False, Default = \"-----", Scope = Private
+	#tag EndConstant
 
 
 #tag EndWindowCode
@@ -826,22 +977,6 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events dlgCreate
-	#tag Event
-		Function UserCreateAction(Name As String, Password As String) As Boolean
-		  Return Self.ActionCreateButtonPressed(Name, Password)
-		  
-		End Function
-	#tag EndEvent
-#tag EndEvents
-#tag Events dlgRename
-	#tag Event
-		Function NameAction(Name As String) As Boolean
-		  Return Self.ActionRenameButtonPressed(Name)
-		  
-		End Function
-	#tag EndEvent
-#tag EndEvents
 #tag Events thrDetails
 	#tag Event
 		Sub Run()
@@ -863,26 +998,11 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events dlgPassword
-	#tag Event
-		Function UserCreateAction(Name As String, Password As String) As Boolean
-		  Return Self.ActionPasswordButtonPressed(Name, Password)
-		  
-		End Function
-	#tag EndEvent
-#tag EndEvents
 #tag Events btnGroups
 	#tag Event
 		Sub Pressed()
 		  Self.ActionGroups()
 		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events dlgGroups
-	#tag Event
-		Sub NeedsRefresh()
-		  self.ActionGroupsButtonPressed()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -894,7 +1014,27 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
+#tag Events lstFilterGroup
+	#tag Event
+		Sub SelectionChanged(item As WebMenuItem)
+		  #Pragma unused item
+		  
+		  If (Not ebOpened) Then Return
+		  
+		  Self.RefreshInfos()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="Area"
+		Visible=false
+		Group="Behavior"
+		InitialValue="Home"
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="SearchAvailable"
 		Visible=false

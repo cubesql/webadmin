@@ -14,10 +14,15 @@ Inherits WebContainer
 
 	#tag Method, Flags = &h0
 		Sub Search(SearchValue As String)
+		  #Pragma unused SearchValue
 		  
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h0
+		Area As String = "Home"
+	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		SearchAvailable As Boolean = False
@@ -270,6 +275,22 @@ Inherits WebContainer
 			Visible=false
 			Group="Behavior"
 			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="SearchAvailable"
+			Visible=false
+			Group="Behavior"
+			InitialValue="False"
+			Type="Boolean"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Area"
+			Visible=false
+			Group="Behavior"
+			InitialValue="Home"
 			Type="String"
 			EditorType="MultiLineEditor"
 		#tag EndViewProperty

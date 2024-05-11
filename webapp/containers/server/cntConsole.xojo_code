@@ -22,7 +22,6 @@ Begin cntBase cntConsole
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
       ColumnCount     =   1
@@ -271,7 +270,9 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
-		  me.Title = "Console"
+		  Me.Area = "Server"
+		  Me.Title = "Console"
+		  
 		End Sub
 	#tag EndMethod
 
@@ -409,6 +410,22 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="Area"
+		Visible=false
+		Group="Behavior"
+		InitialValue="Home"
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="SearchAvailable"
+		Visible=false
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="_mPanelIndex"
 		Visible=false

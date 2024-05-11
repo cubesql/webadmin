@@ -105,7 +105,8 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
-		  me.Title = "Registration"
+		  Me.Area = "Server"
+		  Me.Title = "Registration"
 		End Sub
 	#tag EndMethod
 
@@ -186,6 +187,22 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="Area"
+		Visible=false
+		Group="Behavior"
+		InitialValue="Home"
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="SearchAvailable"
+		Visible=false
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="_mPanelIndex"
 		Visible=false
