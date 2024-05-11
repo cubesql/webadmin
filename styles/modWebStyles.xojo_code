@@ -26,6 +26,31 @@ Protected Module modWebStyles
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub ShowWithActionWarning(Extends dialog As WebMessageDialog)
+		  dialog.Show
+		  
+		  Timer.CallLater(1, AddressOf ShowWithActionWarningTimerAction, dialog)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ShowWithActionWarningTimerAction(dialog As Variant)
+		  If (Not (dialog IsA WebMessageDialog)) Then Return
+		  
+		  Var javaScript() As String
+		  javaScript.Add("(function() {")
+		  javaScript.Add("  let button = document.getElementById('" + WebMessageDialog(dialog).ControlID + "_action');")
+		  javaScript.Add("  button.classList.remove('btn-primary');")
+		  javaScript.Add("  button.classList.add('btn-warning');")
+		  javaScript.Add("})();")
+		  
+		  WebMessageDialog(dialog).ExecuteJavaScript(String.FromArray(javaScript, ""))
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function StyleListboxKeyColumn() As WebStyle
 		  Var style As New WebStyle
 		  style.ForegroundColor = colTextKey

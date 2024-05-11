@@ -165,9 +165,9 @@ End
 		  
 		  Try
 		    If Name.Contains("'", ComparisonOptions.CaseInsensitive) Then
-		      Session.DB.ExecuteSQL("SET BASE64 REGISTRATION TO '" + EncodeBase64(Name) + "' WITH KEY '" + Key + "'")
+		      Session.DB.ExecuteSQL("SET BASE64 REGISTRATION TO '" + EncodeBase64(Name).EscapeSqlQuotes + "' WITH KEY '" + Key.EscapeSqlQuotes + "'")
 		    Else
-		      Session.DB.ExecuteSQL("SET REGISTRATION TO '" + Name + "' WITH KEY '" + Key + "'")
+		      Session.DB.ExecuteSQL("SET REGISTRATION TO '" + Name.EscapeSqlQuotes + "' WITH KEY '" + Key.EscapeSqlQuotes + "'")
 		    End If
 		    
 		  Catch err As DatabaseException

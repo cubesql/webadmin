@@ -1,5 +1,12 @@
 #tag Module
 Protected Module modCubeSQLAdmin
+	#tag Method, Flags = &h0
+		Function EscapeSqlQuotes(Extends sql As String) As String
+		  Return sql.ReplaceAll("'", "''")
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Function LaunchArgumentGetValue(argKey As String, envKey As String, ByRef argValue As String) As Boolean
 		  // Gets the Launch Argument from
@@ -12,6 +19,18 @@ Protected Module modCubeSQLAdmin
 		  Return (argValue <> "")
 		  
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub SleepAndYieldToNext(Extends ThreadInstance As WebThread, Milliseconds As Integer)
+		  Var SleepInterval As Integer = Milliseconds / 10
+		  
+		  For i As Integer = 1 To 10
+		    ThreadInstance.Sleep SleepInterval
+		    ThreadInstance.YieldToNext
+		  Next
+		  
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h1, Description = 436F6E766572747320636F6D6D616E64206C696E6520617267756D656E747320746F20612064696374696F6E6172792E2045616368206B657920697320616E20617267756D656E74206E616D6520616E642074686520636F72726573706F6E64696E672076616C75652069732074686520617267756D656E742076616C75652E
@@ -61,15 +80,16 @@ Protected Module modCubeSQLAdmin
 		None = -1
 		  Status = 0
 		  Registration=1
-		  Databases = 2
-		  Console = 3
-		  Groups = 11
-		  Users = 12
-		  Privileges = 13
-		  Commands = 21
-		  Clients = 22
-		  Log = 23
-		EnginePreferences = 14
+		  Console = 2
+		  Databases = 11
+		  Backups = 12
+		  Groups = 21
+		  Users = 22
+		  Privileges = 23
+		  EnginePreferences = 24
+		  Commands = 31
+		  Clients = 32
+		Log = 33
 	#tag EndEnum
 
 

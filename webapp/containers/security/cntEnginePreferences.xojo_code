@@ -425,7 +425,7 @@ End
 		    Var prefDb As String = dictDropEnginePreference.Lookup("databasename", "")
 		    Var prefKey As String = dictDropEnginePreference.Lookup("key", "")
 		    
-		    Var sql As String = "DROP ENGINE PREFERENCE '" + prefEngine + "' FOR '" + prefDB + "' GROUP '" + prefGroup + "' KEY '" + prefKey + "'"
+		    Var sql As String = "DROP ENGINE PREFERENCE '" + prefEngine.EscapeSqlQuotes + "' FOR '" + prefDB.EscapeSqlQuotes + "' GROUP '" + prefGroup.EscapeSqlQuotes + "' KEY '" + prefKey.EscapeSqlQuotes + "'"
 		    
 		    Session.DB.ExecuteSQL(sql)
 		    
@@ -488,7 +488,7 @@ End
 		  
 		  Try
 		    
-		    Var sql As String = "SET ENGINE PREFERENCE '" + Engine + "' FOR '" + Database + "' GROUP '" + Group + "' KEY '" + Key+ "' VALUE '" + Value + "'"
+		    Var sql As String = "SET ENGINE PREFERENCE '" + Engine.EscapeSqlQuotes + "' FOR '" + Database.EscapeSqlQuotes + "' GROUP '" + Group.EscapeSqlQuotes + "' KEY '" + Key.EscapeSqlQuotes + "' VALUE '" + Value.EscapeSqlQuotes + "'"
 		    
 		    Session.DB.ExecuteSQL(sql)
 		    

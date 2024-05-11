@@ -395,10 +395,10 @@ End
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("CREATE USER " + "'" + Name + "' WITH PASSWORD '" + Password + "'")
+		    Session.DB.ExecuteSQL("CREATE USER '" + Name.EscapeSqlQuotes + "' WITH PASSWORD '" + Password.EscapeSqlQuotes + "'")
 		    
 		    If (Group <> "") Then
-		      Session.DB.ExecuteSQL("ADD USER " + "'" + Name + "' TO GROUP '" + Group + "'")
+		      Session.DB.ExecuteSQL("ADD USER '" + Name.EscapeSqlQuotes + "' TO GROUP '" + Group.EscapeSqlQuotes + "'")
 		    End If
 		    
 		  Catch err As DatabaseException
@@ -465,7 +465,7 @@ End
 		  If (sDropUsername = "") Then Return
 		  
 		  Try
-		    Session.DB.ExecuteSQL("DROP USER '" + sDropUsername)
+		    Session.DB.ExecuteSQL("DROP USER '" + sDropUsername.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -531,7 +531,7 @@ End
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("SET PASSWORD '" + Password + "' FOR USER " + "'" + Name)
+		    Session.DB.ExecuteSQL("SET PASSWORD '" + Password.EscapeSqlQuotes + "' FOR USER '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -577,7 +577,7 @@ End
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("RENAME USER '" + esActionUsername + "' TO " + "'" + Name + "'")
+		    Session.DB.ExecuteSQL("RENAME USER '" + esActionUsername + "' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -797,7 +797,7 @@ End
 		      Var username As String = dictRow.Lookup("username", "").StringValue
 		      if (username = "") then continue
 		      
-		      Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS FOR USER '" + username + "'")
+		      Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS FOR USER '" + username.EscapeSqlQuotes + "'")
 		      
 		      Var iCount As Integer = 0
 		      Var sGroups() As String
@@ -837,7 +837,7 @@ End
 		    If (filterGroupname = kGroupTagUnassigned) Then
 		      Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS IN GROUP ''"))
 		    Else
-		      Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS IN GROUP '" + filterGroupname + "'"))
+		      Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS IN GROUP '" + filterGroupname.EscapeSqlQuotes + "'"))
 		    End If
 		  Else
 		    Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS"))

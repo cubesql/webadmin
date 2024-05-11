@@ -132,7 +132,7 @@ Implements WebDataSource
 		            
 		            If bSearchFilter And col.IsSearchable Then
 		              If rs.Column(col.DatabaseColumnName).StringValue.Contains(Me.SearchValue, ComparisonOptions.CaseInsensitive) Then
-		                'We want so see rows that contain the text of the SerachFilter
+		                'We want so see rows that contain the text of the SearchFilter
 		                bSearchFilterShowRow = True
 		              End If
 		            End If

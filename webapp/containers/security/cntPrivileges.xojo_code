@@ -373,9 +373,9 @@ End
 		  
 		  Try
 		    
-		    Var sql As String = "GRANT '" + Privilege + "' TO GROUP '" + Group + "'"
-		    If (Database <> "*") And (Table <> "*") Then sql = sql + " FOR TABLE '" + Table + "' IN DATABASE '" + Database + "'"
-		    If (Database <> "*") And (Table = "*") Then sql = sql + " FOR DATABASE '" + Database + "'"
+		    Var sql As String = "GRANT '" + Privilege.EscapeSqlQuotes + "' TO GROUP '" + Group.EscapeSqlQuotes + "'"
+		    If (Database <> "*") And (Table <> "*") Then sql = sql + " FOR TABLE '" + Table.EscapeSqlQuotes + "' IN DATABASE '" + Database.EscapeSqlQuotes + "'"
+		    If (Database <> "*") And (Table = "*") Then sql = sql + " FOR DATABASE '" + Database.EscapeSqlQuotes + "'"
 		    
 		    Session.DB.ExecuteSQL(sql)
 		    
@@ -467,9 +467,9 @@ End
 		    Var privDB As String = dictRevokePrivilege.Lookup("databasename", "")
 		    Var privTable As String = dictRevokePrivilege.Lookup("tablename", "")
 		    
-		    Var sql As String = "REVOKE " + privName + " FROM GROUP '" + privGroup + "'"
-		    If (privDB <> "*" And privTable = "*") Then sql = sql + " FOR DATABASE '" + privDB + "'"
-		    If (privDB <> "*" And privTable <> "*") Then sql = sql + " FOR TABLE '" + privTable + "' IN DATABASE '" + privDB + "'"
+		    Var sql As String = "REVOKE " + privName.EscapeSqlQuotes + " FROM GROUP '" + privGroup.EscapeSqlQuotes + "'"
+		    If (privDB <> "*" And privTable = "*") Then sql = sql + " FOR DATABASE '" + privDB.EscapeSqlQuotes + "'"
+		    If (privDB <> "*" And privTable <> "*") Then sql = sql + " FOR TABLE '" + privTable.EscapeSqlQuotes + "' IN DATABASE '" + privDB.EscapeSqlQuotes + "'"
 		    
 		    Session.DB.ExecuteSQL(sql)
 		    

@@ -247,8 +247,8 @@ End
 		  
 		  Try
 		    
-		    Var sqlCreateDb As String = "CREATE DATABASE " + "'" + Name + "'"
-		    If (Key <> "") Then sqlCreateDb = sqlCreateDb + " WITH KEY " + "'" + Key + "'"
+		    Var sqlCreateDb As String = "CREATE DATABASE '" + Name.EscapeSqlQuotes + "'"
+		    If (Key <> "") Then sqlCreateDb = sqlCreateDb + " WITH KEY '" + Key.EscapeSqlQuotes + "'"
 		    If (Encoding <> "UTF-8") Then sqlCreateDb = sqlCreateDb + " WITH ENCODING " + Encoding
 		    
 		    Session.DB.ExecuteSQL(sqlCreateDb)
@@ -302,7 +302,7 @@ End
 		  If (sDropDatabasename = "") Then Return
 		  
 		  Try
-		    Session.DB.ExecuteSQL("DROP DATABASE '" + sDropDatabasename + "' IF EXISTS")
+		    Session.DB.ExecuteSQL("DROP DATABASE '" + sDropDatabasename.EscapeSqlQuotes + "' IF EXISTS")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -346,7 +346,7 @@ End
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("RENAME DATABASE '" + esActionDatabasename + "' TO " + "'" + Name + "'")
+		    Session.DB.ExecuteSQL("RENAME DATABASE '" + esActionDatabasename.EscapeSqlQuotes + "' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -374,7 +374,7 @@ End
 		  If (databasename = "") Then Return
 		  
 		  Try
-		    Session.DB.ExecuteSQL("START DATABASE '" + databasename + "'")
+		    Session.DB.ExecuteSQL("START DATABASE '" + databasename.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -400,7 +400,7 @@ End
 		  If (databasename = "") Then Return
 		  
 		  Try
-		    Session.DB.ExecuteSQL("STOP DATABASE '" + databasename + "'")
+		    Session.DB.ExecuteSQL("STOP DATABASE '" + databasename.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -424,7 +424,7 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
-		  Me.Area = "Server"
+		  Me.Area = "Data"
 		  Me.Title = "Databases"
 		  Me.SearchAvailable = True
 		  

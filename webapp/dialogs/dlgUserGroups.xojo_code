@@ -22,7 +22,6 @@ Begin WebDialog dlgUserGroups
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -195,7 +194,7 @@ Begin WebDialog dlgUserGroups
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   4
       TabStop         =   True
@@ -285,7 +284,7 @@ End
 		  lstUserGroups.RemoveAllRows
 		  
 		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS FOR USER '" + esUsername + "'")
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW GROUPS FOR USER '" + esUsername.EscapeSqlQuotes + "'")
 		    If (rs = Nil) Then Return
 		    
 		    If (rs.RowCount > 0) Then
@@ -371,7 +370,7 @@ End
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("ADD USER " + "'" + esUsername + "' TO GROUP '" + group + "'")
+		    Session.DB.ExecuteSQL("ADD USER '" + esUsername.EscapeSqlQuotes + "' TO GROUP '" + group.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
@@ -439,7 +438,7 @@ End
 		  
 		  Try
 		    
-		    Session.DB.ExecuteSQL("REMOVE USER " + "'" + esUsername + "' FROM GROUP '" + group + "'")
+		    Session.DB.ExecuteSQL("REMOVE USER '" + esUsername.EscapeSqlQuotes + "' FROM GROUP '" + group.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
 		    Var dialog As New WebMessageDialog
