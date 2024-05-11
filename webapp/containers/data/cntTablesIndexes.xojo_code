@@ -564,6 +564,7 @@ End
 
 	#tag Method, Flags = &h1
 		Protected Sub Load()
+		  Me.LoadRegistrationStatus()
 		  Me.LoadDatabases()
 		  
 		End Sub
@@ -608,6 +609,39 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Sub LoadRegistrationStatus()
+		  ebServerIsRegistered = True
+		  
+		  Try
+		    Var rs As RowSet = Session.DB.SelectSQL("SHOW INFO")
+		    If (rs = Nil) Then
+		      ebServerIsRegistered = False
+		      Return
+		    End If
+		    
+		    Var infos As New Dictionary
+		    For Each row As DatabaseRow In rs
+		      infos.Value(row.ColumnAt(0).StringValue) = row.ColumnAt(1).StringValue
+		    Next
+		    
+		    rs.Close
+		    
+		    Var serverLicenseIsNotRegistered As Boolean = infos.Lookup("server_license", "").StringValue.Contains("NOT REGISTERED", ComparisonOptions.CaseInsensitive)
+		    Var isNotRegistered As Boolean = infos.Lookup("registered", "").StringValue.Contains("NOT REGISTERED", ComparisonOptions.CaseInsensitive)
+		    
+		    If serverLicenseIsNotRegistered Or isNotRegistered Then
+		      ebServerIsRegistered = False
+		    End If
+		    
+		  Catch DatabaseException
+		    ebServerIsRegistered = False
+		    
+		  End Try
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub RefreshButtons()
 		  Var bCreateTable, bAlterTable, bCreateIndex, bDrop As Boolean
 		  
@@ -615,16 +649,16 @@ End
 		  Var selectedItem As Dictionary = Me.GetSelectedTableRowTag()
 		  
 		  If (selectedDatabasename <> "") Then
-		    bCreateTable = True
-		    bCreateIndex = True
+		    bCreateTable = ebServerIsRegistered
+		    bCreateIndex = ebServerIsRegistered
 		  End If
 		  
 		  If (selectedItem <> Nil) And (selectedItem.Lookup("type", "").StringValue = "table") And (selectedItem.Lookup("name", "").StringValue <> "") Then
-		    bAlterTable = True
+		    bAlterTable = ebServerIsRegistered
 		  End If
 		  
 		  If (selectedItem <> Nil) And (selectedItem.Lookup("type", "").StringValue <> "") And (selectedItem.Lookup("name", "").StringValue <> "") Then
-		    bDrop = True
+		    bDrop = ebServerIsRegistered
 		  End If
 		  
 		  If (btnCreateTable.Enabled <> bCreateTable) Then btnCreateTable.Enabled = bCreateTable
@@ -703,7 +737,9 @@ End
 		  End Try
 		  
 		  If (filterDatabasename <> "") Then
-		    Return Session.DB.SelectSQL("SELECT type, name, sql FROM sqlite_master WHERE (type='table' OR type='index') AND (name NOT LIKE 'sqlite_%') AND (name NOT LIKE 'cubesql_temp_%') ORDER BY type DESC, name")
+		    If ebServerIsRegistered Then
+		      Return Session.DB.SelectSQL("SELECT type, name, sql FROM sqlite_master WHERE (type='table' OR type='index') AND (name NOT LIKE 'sqlite_%') AND (name NOT LIKE 'cubesql_temp_%') ORDER BY type DESC, name")
+		    End If
 		  End If
 		  
 		  Return Nil
@@ -713,6 +749,11 @@ End
 
 	#tag Method, Flags = &h1
 		Protected Function TableNoRowsMessage() As String
+		  If (Not ebServerIsRegistered) Then
+		    Return "Tables & Indexes is not available." + EndOfLine + _
+		    "cubeSQL Server Registration is required."
+		  End If
+		  
 		  Var sInfo As String = "No Tables & Indexes"
 		  
 		  Var filterDatabasename As String = Me.GetSelectedDatabasename()
@@ -780,6 +821,10 @@ End
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h21
+		Private ebServerIsRegistered As Boolean
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private edictActionItem As Dictionary

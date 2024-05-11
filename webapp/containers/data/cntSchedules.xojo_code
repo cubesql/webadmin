@@ -710,6 +710,8 @@ End
 		  lstFilterDatabase.RemoveAllRows
 		  lstFilterDatabase.AddRow("(ALL)", "")
 		  lstFilterDatabase.AddRow("-", "")
+		  lstFilterDatabase.AddRow(constDBName_CubeSQLSettings, constDBName_CubeSQLSettings)
+		  Var bNeedsSeparator As Boolean = True
 		  
 		  Var iPreselectIndex As Integer = 0
 		  
@@ -722,6 +724,11 @@ End
 		    If (rs.RowCount > 0) Then
 		      rs.MoveToFirstRow
 		      While (Not rs.AfterLastRow)
+		        If bNeedsSeparator Then
+		          bNeedsSeparator = False
+		          lstFilterDatabase.AddRow("-", "")
+		        End If
+		        
 		        lstFilterDatabase.AddRow(rs.Column("databasename").StringValue, rs.Column("databasename").StringValue)
 		        
 		        If (sessionStateDatabasename <> "") And (sessionStateDatabasename = rs.Column("databasename").StringValue) Then
@@ -734,10 +741,12 @@ End
 		    
 		    rs.Close
 		    
+		    If (sessionStateDatabasename = constDBName_CubeSQLSettings) Then iPreselectIndex = 2
+		    
 		  Catch DatabaseException
 		    
 		  Finally
-		    If (lstFilterDatabase.RowCount > 0) Then lstFilterDatabase.SelectedRowIndex = iPreselectIndex
+		    lstFilterDatabase.SelectedRowIndex = iPreselectIndex
 		    Session.State.Value("databasename") = Me.GetSelectedDatabasename()
 		    
 		  End Try

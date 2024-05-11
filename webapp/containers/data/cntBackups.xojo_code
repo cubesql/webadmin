@@ -649,6 +649,9 @@ End
 		Private Sub LoadDatabases()
 		  lstFilterDatabase.RemoveAllRows
 		  
+		  lstFilterDatabase.AddRow(constDBName_CubeSQLSettings, constDBName_CubeSQLSettings)
+		  Var bNeedsSeparator As Boolean = True
+		  
 		  Var iPreselectIndex As Integer = 0
 		  
 		  Try
@@ -660,7 +663,13 @@ End
 		    If (rs.RowCount > 0) Then
 		      rs.MoveToFirstRow
 		      While (Not rs.AfterLastRow)
+		        If bNeedsSeparator Then
+		          bNeedsSeparator = False
+		          lstFilterDatabase.AddRow("-", "")
+		        End If
+		        
 		        lstFilterDatabase.AddRow(rs.Column("databasename").StringValue, rs.Column("databasename").StringValue)
+		        If (iPreselectIndex = 0) Then iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
 		        
 		        If (sessionStateDatabasename <> "") And (sessionStateDatabasename = rs.Column("databasename").StringValue) Then
 		          iPreselectIndex = lstFilterDatabase.LastAddedRowIndex
@@ -672,10 +681,12 @@ End
 		    
 		    rs.Close
 		    
+		    If (sessionStateDatabasename = constDBName_CubeSQLSettings) Then iPreselectIndex = 0
+		    
 		  Catch DatabaseException
 		    
 		  Finally
-		    If (lstFilterDatabase.RowCount > 0) Then lstFilterDatabase.SelectedRowIndex = iPreselectIndex
+		    lstFilterDatabase.SelectedRowIndex = iPreselectIndex
 		    Session.State.Value("databasename") = Me.GetSelectedDatabasename()
 		    
 		  End Try
@@ -694,7 +705,7 @@ End
 		  
 		  If (timestamp <> "") And (databasename <> "") Then
 		    bDownload = True
-		    bRestore = True
+		    bRestore = (databasename <> constDBName_CubeSQLSettings)
 		    bDelete = True
 		  End If
 		  
@@ -915,7 +926,12 @@ End
 		  End If
 		  
 		  Try
-		    Session.DB.ExecuteSQL("BACKUP NOW '" + Databasename.EscapeSqlQuotes + "'")
+		    Select Case Databasename
+		    Case constDBName_CubeSQLSettings
+		      Session.DB.ExecuteSQL("BACKUP SETTINGS")
+		    Else
+		      Session.DB.ExecuteSQL("BACKUP NOW '" + Databasename.EscapeSqlQuotes + "'")
+		    End Select
 		    
 		    Me.SleepAndYieldToNext 100
 		    

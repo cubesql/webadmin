@@ -264,6 +264,14 @@ End
 		  Next
 		  
 		  Try
+		    Var iPreSelectIndex As Integer = 0
+		    Var bNeedsSeparator As Boolean = False
+		    
+		    If (sDatabaseSchedules.IndexOf(constDBName_CubeSQLSettings) < 0) Then
+		      lstAddDatabases.AddRow(constDBName_CubeSQLSettings, constDBName_CubeSQLSettings)
+		      bNeedsSeparator = True
+		    End If
+		    
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW DATABASES")
 		    If (rs = Nil) Then Return
 		    
@@ -276,7 +284,13 @@ End
 		          Continue
 		        End If
 		        
+		        If bNeedsSeparator Then
+		          bNeedsSeparator = False
+		          lstAddDatabases.AddRow("-", "")
+		        End If
+		        
 		        lstAddDatabases.AddRow(rs.Column("databasename").StringValue)
+		        If (iPreSelectIndex = 0) Then iPreSelectIndex = lstAddDatabases.LastAddedRowIndex
 		        
 		        rs.MoveToNextRow
 		      Wend
@@ -284,7 +298,7 @@ End
 		    
 		    rs.Close
 		    
-		    If (lstAddDatabases.LastRowIndex >= 0) Then lstAddDatabases.SelectedRowIndex = 0
+		    If (lstAddDatabases.LastRowIndex >= iPreSelectIndex) Then lstAddDatabases.SelectedRowIndex = iPreSelectIndex
 		    
 		  Catch DatabaseException
 		    

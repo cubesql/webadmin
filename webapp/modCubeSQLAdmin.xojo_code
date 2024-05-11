@@ -89,6 +89,9 @@ Protected Module modCubeSQLAdmin
 	#tag EndProperty
 
 
+	#tag Constant, Name = constDBName_CubeSQLSettings, Type = String, Dynamic = False, Default = \"cubesql.settings", Scope = Public
+	#tag EndConstant
+
 	#tag Constant, Name = constUrl_CubeSQLPlugin, Type = String, Dynamic = False, Default = \"https://github.com/cubesql/cubeSQLAdmin", Scope = Public
 	#tag EndConstant
 

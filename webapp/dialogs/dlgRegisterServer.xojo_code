@@ -22,6 +22,7 @@ Begin dlgBase dlgRegisterServer
    Width           =   600
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -346,6 +347,12 @@ End
 	#tag Event
 		Sub TextChanged()
 		  Self.RefreshButtons()
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Opening()
+		  Me.Style.Value("text-transform") = "uppercase"
 		  
 		End Sub
 	#tag EndEvent
