@@ -106,7 +106,7 @@ Begin cntDatasourceBase cntClients
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
       TabIndex        =   4
       TabStop         =   True
@@ -130,10 +130,8 @@ Begin cntDatasourceBase cntClients
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
-      PanelIndex      =   0
+      PanelIndex      =   "0"
       Scope           =   2
-      TabIndex        =   5
-      TabStop         =   True
       Title           =   ""
       Tooltip         =   ""
       _mPanelIndex    =   -1
@@ -206,6 +204,8 @@ End
 		  Super.Constructor
 		  
 		  Me.Title = "Clients"
+		  Me.SearchAvailable = True
+		  
 		  
 		  Redim Me.Columns(-1)
 		  
@@ -214,7 +214,7 @@ End
 		  col = New DatasourceColumn()
 		  col.Width = "5%"
 		  col.DatabaseColumnName = "id"
-		  col.Heading = "Client ID"
+		  col.Heading = "ID"
 		  col.FieldType = DatasourceColumn.FieldTypes.Integer
 		  col.Sortable = True
 		  col.SortDirection = WebListBox.SortDirections.Descending
@@ -343,6 +343,15 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub Search(SearchValue As String)
+		  Super.Search(SearchValue)
+		  
+		  Me.ShowInfos()
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub ShowInfos()
 		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW CONNECTIONS"))
@@ -436,6 +445,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="SearchAvailable"
+		Visible=false
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="_mPanelIndex"
 		Visible=false

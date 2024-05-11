@@ -69,6 +69,7 @@ Implements WebDataSource
 		  Redim Me.TableRows(-1)
 		  
 		  If (Me.Filters = Nil) Then Me.Filters = New Dictionary
+		  Var bSearchFilter As Boolean = (Me.SearchValue <> "")
 		  
 		  Try
 		    If (rs <> Nil) Then
@@ -76,10 +77,12 @@ Implements WebDataSource
 		        Var bIdFromRowset As Boolean = False
 		        Var id As Integer = 1
 		        Var bFilteredOut As Boolean
+		        Var bSearchFilterShowRow As Boolean
 		        rs.MoveToFirstRow
 		        While (Not rs.AfterLastRow)
 		          Var tableRow As New Dictionary
 		          bFilteredOut = False
+		          bSearchFilterShowRow = False
 		          bIdFromRowset = False
 		          
 		          For Each col As DatasourceColumn In Me.Columns
@@ -95,7 +98,6 @@ Implements WebDataSource
 		              If Me.Filters.HasKey(col.DatabaseColumnName) Then
 		                If (Me.Filters.Value(col.DatabaseColumnName).StringValue.Compare(rs.Column(col.DatabaseColumnName).StringValue, ComparisonOptions.CaseInsensitive) <> 0) Then
 		                  bFilteredOut = True
-		                  Continue
 		                End If
 		              End If
 		            Case DatasourceColumn.FieldTypes.Integer
@@ -103,7 +105,6 @@ Implements WebDataSource
 		              If Me.Filters.HasKey(col.DatabaseColumnName) Then
 		                If (Me.Filters.Value(col.DatabaseColumnName).IntegerValue = rs.Column(col.DatabaseColumnName).IntegerValue) Then
 		                  bFilteredOut = True
-		                  Continue
 		                End If
 		              End If
 		            Case DatasourceColumn.FieldTypes.Boolean
@@ -111,7 +112,6 @@ Implements WebDataSource
 		              If Me.Filters.HasKey(col.DatabaseColumnName) Then
 		                If (Me.Filters.Value(col.DatabaseColumnName).BooleanValue = rs.Column(col.DatabaseColumnName).BooleanValue) Then
 		                  bFilteredOut = True
-		                  Continue
 		                End If
 		              End If
 		            Case DatasourceColumn.FieldTypes.SQLDateTime
@@ -119,13 +119,21 @@ Implements WebDataSource
 		              If Me.Filters.HasKey(col.DatabaseColumnName) Then
 		                If (Me.Filters.Value(col.DatabaseColumnName).StringValue.Compare(rs.Column(col.DatabaseColumnName).StringValue, ComparisonOptions.CaseInsensitive) <> 0) Then
 		                  bFilteredOut = True
-		                  Continue
 		                End If
 		              End If
 		            Else
 		              Break
 		            End Select
+		            
+		            If bSearchFilter And col.IsSearchable Then
+		              If rs.Column(col.DatabaseColumnName).StringValue.Contains(Me.SearchValue, ComparisonOptions.CaseInsensitive) Then
+		                'We want so see rows that contain the text of the SerachFilter
+		                bSearchFilterShowRow = True
+		              End If
+		            End If
 		          Next
+		          
+		          If bSearchFilter And (Not bSearchFilterShowRow) Then bFilteredOut = True
 		          
 		          If (Not bFilteredOut) Then
 		            If (Not bIdFromRowset) Then
@@ -229,6 +237,15 @@ Implements WebDataSource
 		  Return rows
 		  
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Search(SearchValue As String)
+		  Me.SearchValue = SearchValue
+		  
+		  Super.Search(SearchValue)
+		  
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -358,6 +375,10 @@ Implements WebDataSource
 	#tag EndProperty
 
 	#tag Property, Flags = &h1
+		Protected SearchValue As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h1
 		Protected TableRows() As Dictionary
 	#tag EndProperty
 
@@ -367,6 +388,14 @@ Implements WebDataSource
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="SearchAvailable"
+			Visible=false
+			Group="Behavior"
+			InitialValue="False"
+			Type="Boolean"
+			EditorType=""
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="_mPanelIndex"
 			Visible=false

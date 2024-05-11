@@ -12,6 +12,16 @@ Inherits WebContainer
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub Search(SearchValue As String)
+		  
+		End Sub
+	#tag EndMethod
+
+
+	#tag Property, Flags = &h0
+		SearchAvailable As Boolean = False
+	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		Title As String

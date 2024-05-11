@@ -6,18 +6,22 @@ Inherits WebListBoxColumnData
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		IsHidden As Boolean = false
+		IsHidden As Boolean = False
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		IsVirtual As Boolean = false
+		IsSearchable As Boolean = True
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		IsVirtual As Boolean = False
 	#tag EndProperty
 
 
 	#tag Enum, Name = FieldTypes, Flags = &h0
 		Text = 1
-		Integer = 2
-		Boolean = 3
+		  Integer = 2
+		  Boolean = 3
 		SQLDateTime = 4
 	#tag EndEnum
 
@@ -119,6 +123,7 @@ Inherits WebListBoxColumnData
 				"1 - Text"
 				"2 - Integer"
 				"3 - Boolean"
+				"4 - SQLDateTime"
 			#tag EndEnumValues
 		#tag EndViewProperty
 		#tag ViewProperty

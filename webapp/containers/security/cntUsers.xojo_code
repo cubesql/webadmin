@@ -557,7 +557,9 @@ End
 		Sub Constructor()
 		  Super.Constructor
 		  
-		  me.Title = "Users"
+		  Me.Title = "Users"
+		  Me.SearchAvailable = True
+		  
 		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW USERS")
@@ -587,6 +589,7 @@ End
 		    col.DatabaseColumnName = "groupcount"
 		    col.Heading = "#"
 		    col.IsVirtual = True
+		    col.IsSearchable = False
 		    col.FieldType = DatasourceColumn.FieldTypes.Integer
 		    col.Sortable = True
 		    col.SortDirection = WebListBox.SortDirections.None
@@ -666,6 +669,15 @@ End
 		  Me.ShowInfos()
 		  
 		  'Select Row async via WebTimer_RowDataLoaded
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Search(SearchValue As String)
+		  Super.Search(SearchValue)
+		  
+		  Me.ShowInfos()
 		  
 		End Sub
 	#tag EndMethod
@@ -883,6 +895,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="SearchAvailable"
+		Visible=false
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="_mPanelIndex"
 		Visible=false

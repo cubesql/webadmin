@@ -29,7 +29,6 @@ Begin WebPage CubeSQLAdminPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebToolbar tbrCubeSQLAdmin
       ControlID       =   ""
@@ -68,12 +67,12 @@ Begin WebPage CubeSQLAdminPage
       Indicator       =   0
       InitialParent   =   "rctContainer"
       Italic          =   False
-      Left            =   0
+      Left            =   20
       LockBottom      =   False
       LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
-      LockRight       =   True
+      LockRight       =   False
       LockTop         =   True
       LockVertical    =   False
       Multiline       =   False
@@ -82,13 +81,51 @@ Begin WebPage CubeSQLAdminPage
       TabIndex        =   1
       TabStop         =   True
       Text            =   "Container Title"
-      TextAlignment   =   2
+      TextAlignment   =   1
       TextColor       =   &c000000FF
       Tooltip         =   ""
       Top             =   64
       Underline       =   False
       Visible         =   True
-      Width           =   600
+      Width           =   252
+      _mPanelIndex    =   -1
+   End
+   Begin WebSearchField edtSearch
+      ControlID       =   ""
+      Enabled         =   True
+      Height          =   38
+      Hint            =   "Search"
+      Index           =   -2147483648
+      Indicator       =   ""
+      Left            =   280
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   False
+      LockRight       =   True
+      LockTop         =   True
+      LockVertical    =   False
+      Scope           =   2
+      TabIndex        =   2
+      TabStop         =   True
+      Text            =   ""
+      Tooltip         =   ""
+      Top             =   64
+      Visible         =   True
+      Width           =   300
+      _mPanelIndex    =   -1
+   End
+   Begin WebTimer timSearch
+      ControlID       =   ""
+      Enabled         =   False
+      Index           =   -2147483648
+      Location        =   0
+      LockedInPosition=   False
+      Period          =   1
+      RunMode         =   0
+      Scope           =   2
+      TabIndex        =   3
+      TabStop         =   True
       _mPanelIndex    =   -1
    End
 End
@@ -111,6 +148,31 @@ End
 		    Me.CurrentContainer = Nil
 		    me.CurrentContainerKey = ContainerKey.None
 		  End If
+		  
+		  edtSearch.Text = ""
+		  edtSearch.Visible = False
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Search()
+		  If (Me.CurrentContainer <> Nil) And Me.CurrentContainer.SearchAvailable And edtSearch.Visible Then
+		    Me.CurrentContainer.Search(edtSearch.Text.Trim)
+		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub SearchSchedule(pbImmediately As Boolean)
+		  'if already running, stop
+		  timSearch.RunMode = WebTimer.RunModes.Off
+		  timSearch.Enabled = False
+		  
+		  timSearch.Period = If(pbImmediately, 1, 800)
+		  timSearch.RunMode = WebTimer.RunModes.Single
+		  timSearch.Enabled = True
 		  
 		End Sub
 	#tag EndMethod
@@ -160,11 +222,12 @@ End
 		  
 		  labContainerTitle.Text = showContainer.Title
 		  
-		  Var top As Integer = labContainerTitle.Top + labContainerTitle.Height
+		  Var top As Integer = labContainerTitle.Top + labContainerTitle.Height + 10
 		  showContainer.EmbedWithin(Self, 0, top, Self.Width, Self.Height - top)
 		  
 		  Me.CurrentContainer = showContainer
 		  Me.CurrentContainerKey = containerItem
+		  edtSearch.Visible = showContainer.SearchAvailable
 		  
 		End Sub
 	#tag EndMethod
@@ -258,6 +321,31 @@ End
 		  #Pragma unused item
 		  
 		  Self.ShowContainer(hitItem.Tag)
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events edtSearch
+	#tag Event
+		Sub Pressed()
+		  Self.SearchSchedule(True)
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub TextChanged()
+		  Self.SearchSchedule(False)
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events timSearch
+	#tag Event
+		Sub Run()
+		  me.RunMode = WebTimer.RunModes.Off
+		  Me.Enabled = False
+		  
+		  Self.Search()
 		  
 		End Sub
 	#tag EndEvent
