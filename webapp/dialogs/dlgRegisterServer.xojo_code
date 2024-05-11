@@ -1,5 +1,5 @@
 #tag WebPage
-Begin WebDialog dlgRegisterServer
+Begin dlgBase dlgRegisterServer
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -22,7 +22,6 @@ Begin WebDialog dlgRegisterServer
    Width           =   600
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -105,7 +104,7 @@ Begin WebDialog dlgRegisterServer
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   2
@@ -141,7 +140,7 @@ Begin WebDialog dlgRegisterServer
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   0
@@ -178,7 +177,7 @@ Begin WebDialog dlgRegisterServer
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          ReadOnly        =   False
          Scope           =   2
@@ -214,7 +213,7 @@ Begin WebDialog dlgRegisterServer
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   0
+         PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          ReadOnly        =   False
          Scope           =   2
@@ -308,7 +307,7 @@ End
 
 	#tag Method, Flags = &h0
 		Sub Show()
-		  me.Show("", "")
+		  Me.Show("", "")
 		End Sub
 	#tag EndMethod
 
@@ -319,6 +318,8 @@ End
 		  
 		  esInitialName = edtName.Text
 		  esInitialKey = edtKey.Text
+		  
+		  Me.RefreshButtons()
 		  
 		  Super.Show()
 		End Sub

@@ -29,6 +29,7 @@ Begin WebPage CubeSQLAdminPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebToolbar tbrCubeSQLAdmin
       ControlID       =   ""
@@ -134,7 +135,7 @@ End
 		Sub Opening()
 		  Me.Title = "cubeSQL Admin - " + Session.DB.Host + ":" + Session.DB.Port.ToString
 		  
-		  me.ShowContainer(ContainerKey.Status)
+		  Me.ShowContainer(ContainerKey.Status)
 		End Sub
 	#tag EndEvent
 
@@ -144,7 +145,7 @@ End
 		  If (Me.CurrentContainer <> Nil) Then
 		    Me.CurrentContainer.Close
 		    Me.CurrentContainer = Nil
-		    me.CurrentContainerKey = ContainerKey.None
+		    Me.CurrentContainerKey = ContainerKey.None
 		  End If
 		  
 		  edtSearch.Text = ""
@@ -156,8 +157,10 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub Search()
-		  If (Me.CurrentContainer <> Nil) And Me.CurrentContainer.SearchAvailable And edtSearch.Visible Then
-		    Me.CurrentContainer.Search(edtSearch.Text.Trim)
+		  If (Me.CurrentContainer <> Nil) And (Me.CurrentContainer IsA cntDatasourceBase) Then
+		    If (cntDatasourceBase(Me.CurrentContainer).SearchAvailable And edtSearch.Visible) Then
+		      cntDatasourceBase(Me.CurrentContainer).Search(edtSearch.Text.Trim)
+		    End If
 		  End If
 		  
 		End Sub
@@ -232,7 +235,7 @@ End
 		  
 		  Me.CurrentContainer = showContainer
 		  Me.CurrentContainerKey = containerItem
-		  edtSearch.Visible = showContainer.SearchAvailable
+		  edtSearch.Visible = (showContainer IsA cntDatasourceBase) And cntDatasourceBase(showContainer).SearchAvailable
 		  
 		End Sub
 	#tag EndMethod
@@ -309,7 +312,7 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub TitlePressed()
-		  self.ShowContainer(ContainerKey.Status)
+		  Self.ShowContainer(ContainerKey.Status)
 		End Sub
 	#tag EndEvent
 	#tag Event

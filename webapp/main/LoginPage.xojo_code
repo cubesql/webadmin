@@ -29,7 +29,6 @@ Begin WebPage LoginPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebRectangle rectLogin
       BackgroundColor =   &cFFFFFF
@@ -594,7 +593,10 @@ End
 	#tag Event
 		Sub Shown()
 		  Self.Prefill()
+		  
 		  ebShown = True
+		  
+		  Self.RefreshButtons()
 		  
 		End Sub
 	#tag EndEvent
@@ -642,7 +644,7 @@ End
 		  db.Host = edtHostname.Text.Trim
 		  db.UserName = edtUsername.Text.Trim
 		  db.Password = edtPassword.Text.Trim
-		  db.Port = edtPort.Text.ToInteger
+		  db.Port = edtPort.Text.Trim.ToInteger
 		  db.Encryption = lstEncryption.RowTagAt(lstEncryption.SelectedRowIndex)
 		  db.Timeout = 10
 		  
@@ -654,27 +656,13 @@ End
 		    End If
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Connect"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not connect to cubeSQL."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Connect", "Could not connect to cubeSQL.", err)
 		    Return
 		    
 		  End Try
 		  
 		  If (Not Self.CheckAdmin(db)) Then
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "cubeSQL Admin Login"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Insufficient privileges."
-		    dialog.Explanation = "This application requires Admin privileges in order to function properly."
-		    dialog.Show
+		    ShowWarningDialog("cubeSQL Admin Login", "Insufficient privileges.", "This application requires Admin privileges in order to function properly.")
 		    Return 
 		  End If
 		  
@@ -789,6 +777,8 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub Prefill()
+		  'Prefill only once, first time shown (per session)
+		  'Don't overwrite after Logout
 		  If ebShown Then Return
 		  
 		  Var setHostname As String
@@ -852,6 +842,27 @@ End
 		      'except in DebugBuild - see above
 		    End If
 		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshButtons()
+		  Var bConnect As Boolean = True
+		  
+		  If (edtHostname.Text.Trim = "") Then bConnect = False
+		  If (edtPort.Text.Trim.ToInteger < 1) Then bConnect = False
+		  
+		  If (lstEncryption.RowTagAt(lstEncryption.SelectedRowIndex) <> CubeSQLPlugin.kSSL) Or (Not edtSSLPemPwd.Visible) Then
+		    'needs to be set if:
+		    ' - no SSL
+		    ' - SSL, but no Certificate
+		    If (edtUsername.Text.Trim = "") Then bConnect = False
+		    If (edtPassword.Text.Trim = "") Then bConnect = False
+		  End If
+		  
+		  
+		  If (btnConnect.Enabled <> bConnect) Then btnConnect.Enabled = bConnect
 		  
 		End Sub
 	#tag EndMethod
@@ -925,6 +936,46 @@ End
 
 #tag EndWindowCode
 
+#tag Events edtHostname
+	#tag Event
+		Sub TextChanged()
+		  If (Not ebShown) Then Return
+		  
+		  Self.RefreshButtons()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events edtUsername
+	#tag Event
+		Sub TextChanged()
+		  If (Not ebShown) Then Return
+		  
+		  Self.RefreshButtons()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events edtPassword
+	#tag Event
+		Sub TextChanged()
+		  If (Not ebShown) Then Return
+		  
+		  Self.RefreshButtons()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events edtPort
+	#tag Event
+		Sub TextChanged()
+		  If (Not ebShown) Then Return
+		  
+		  Self.RefreshButtons()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events lstEncryption
 	#tag Event
 		Sub Opening()
@@ -959,13 +1010,16 @@ End
 		  
 		  edtSSLPemPwd.Visible = bSSLPemPwdVisible
 		  
+		  If (Not ebShown) Then Return
+		  Self.RefreshButtons()
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events btnConnect
 	#tag Event
 		Sub Pressed()
-		  self.Connect()
+		  Self.Connect()
 		End Sub
 	#tag EndEvent
 #tag EndEvents

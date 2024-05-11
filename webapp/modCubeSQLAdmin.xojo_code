@@ -9,9 +9,9 @@ Protected Module modCubeSQLAdmin
 
 	#tag Method, Flags = &h1
 		Protected Function LaunchArgumentGetValue(argKey As String, envKey As String, ByRef argValue As String) As Boolean
-		  // Gets the Launch Argument from
-		  // 1. Launch Argument
-		  // 2. Environment Variable
+		  ' Gets the Launch Argument from
+		  ' 1. Launch Argument
+		  ' 2. Environment Variable
 		  
 		  argValue = dictArgs.Lookup(argKey, "").StringValue.Trim
 		  If (argValue = "") Then argValue = System.EnvironmentVariable(envKey).Trim
@@ -22,29 +22,8 @@ Protected Module modCubeSQLAdmin
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub SleepAndYieldToNext(Extends ThreadInstance As WebThread, Milliseconds As Integer)
-		  Var SleepInterval As Integer = Milliseconds / 10
-		  
-		  For i As Integer = 1 To 10
-		    ThreadInstance.Sleep SleepInterval
-		    ThreadInstance.YieldToNext
-		  Next
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function SQLDateTime_AsDateTime_AsLocal(sqlDateTime As String) As DateTime
-		  Return DateTime.FromString(sqlDateTime, Nil, Timezone.Current)
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function SQLDateTime_AsDateTime_FromUTC_ToLocal(sqlDateTime As String) As DateTime
-		  Var utcDateTimeValue As DateTime = DateTime.FromString(sqlDateTime, Nil, New TimeZone("UTC"))
-		  Var localDateTimeValue As New DateTime(utcDateTimeValue.SecondsFrom1970, Timezone.Current)
-		  Return localDateTimeValue
+		Function ServerVersion_AsDouble(Extends db As CubeSQLServer) As Double
+		  Return Version_AsDouble(db.ServerVersion)
 		  
 		End Function
 	#tag EndMethod

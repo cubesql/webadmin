@@ -1,5 +1,5 @@
 #tag WebPage
-Begin WebDialog dlgUserCreate
+Begin dlgBase dlgUserCreate
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -22,6 +22,7 @@ Begin WebDialog dlgUserCreate
    Width           =   600
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -433,7 +434,7 @@ End
 		  
 		  Var lastLabel As WebLabel = If(ebActionSetPasswordOnly, labPasswordRepeat, labGroup)
 		  rctFormContent.Height = lastLabel.Top - rctFormContent.Top + 59
-		  self.Height = lastLabel.Top + 136
+		  Self.Height = lastLabel.Top + 136
 		  
 		  
 		  If edtName.Enabled Then

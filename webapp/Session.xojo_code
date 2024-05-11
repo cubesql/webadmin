@@ -38,7 +38,6 @@ Inherits WebSession
 		      rs.Close
 		    End If
 		    
-		    
 		  Catch err As DatabaseException
 		    Return False
 		    

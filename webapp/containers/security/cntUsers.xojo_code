@@ -366,18 +366,6 @@ End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Event
-		Sub Opening()
-		  Self.Load()
-		  
-		  Self.ShowInfos()
-		  
-		  ebOpened = True
-		  
-		End Sub
-	#tag EndEvent
-
-
 	#tag Method, Flags = &h21
 		Private Sub ActionCreate()
 		  Var dlgCreate As New dlgUserCreate
@@ -402,14 +390,7 @@ End
 		    End If
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Create User"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not create user."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Create User", "Could not create user.", err)
 		    Return False
 		    
 		  End Try
@@ -468,14 +449,7 @@ End
 		    Session.DB.ExecuteSQL("DROP USER '" + sDropUsername.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Drop User"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not drop user."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Drop User", "Could not drop user.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -534,14 +508,7 @@ End
 		    Session.DB.ExecuteSQL("SET PASSWORD '" + Password.EscapeSqlQuotes + "' FOR USER '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Set User Password"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not set user password."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Set User Password", "Could not set user password.", err)
 		    Return False
 		    
 		  End Try
@@ -580,14 +547,7 @@ End
 		    Session.DB.ExecuteSQL("RENAME USER '" + esActionUsername + "' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Rename User"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not rename user."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Rename User", "Could not rename user.", err)
 		    Return False
 		    
 		  End Try
@@ -618,8 +578,8 @@ End
 		  
 		  Me.Area = "Security"
 		  Me.Title = "Users"
+		  Me.Table = lstInfos
 		  Me.SearchAvailable = True
-		  
 		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW USERS")
@@ -630,67 +590,12 @@ End
 		    
 		  End Try
 		  
-		  
-		  Redim Me.Columns(-1)
-		  
-		  Var col As DatasourceColumn
-		  col = New DatasourceColumn()
-		  col.Width = "*"
-		  col.DatabaseColumnName = "username"
-		  col.Heading = "Username"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = True
-		  col.SortDirection = WebListBox.SortDirections.Ascending
-		  Me.Columns.Add(col)
-		  
-		  If ebShowDetails Then
-		    col = New DatasourceColumn()
-		    col.Width = "10%"
-		    col.DatabaseColumnName = "groupcount"
-		    col.Heading = "#"
-		    col.IsVirtual = True
-		    col.IsSearchable = False
-		    col.FieldType = DatasourceColumn.FieldTypes.Integer
-		    col.Sortable = True
-		    col.SortDirection = WebListBox.SortDirections.None
-		    Me.Columns.Add(col)
-		    
-		    col = New DatasourceColumn()
-		    col.Width = "50%"
-		    col.DatabaseColumnName = "groupnames"
-		    col.Heading = "Groups"
-		    col.IsVirtual = True
-		    col.FieldType = DatasourceColumn.FieldTypes.Text
-		    col.Sortable = False
-		    col.SortDirection = WebListBox.SortDirections.None
-		    Me.Columns.Add(col)
-		  End If
-		  
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Function GetColumnData(col As DatasourceColumn, row As Dictionary) As Variant
-		  Select Case col.DatabaseColumnName
-		    
-		  Case "groupcount"
-		    Var iCount As Integer = row.Lookup(col.DatabaseColumnName, 0).IntegerValue
-		    If (iCount < 1) Then Return ""
-		    return New WebListBoxStyleRenderer(StyleListboxTextAlignCenter(), iCount.ToString)
-		    
-		  Else
-		    Return super.GetColumnData(col, row)
-		    
-		  End Select
-		  
-		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Function GetSelectedUsername() As String
-		  If (lstInfos.SelectedRowIndex < 0) Then Return ""
-		  
-		  Var selectedRowTag As Variant = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
+		  Var selectedRowTag As Variant = Me.GetSelectedTableRowTag()
 		  If (selectedRowTag IsA Dictionary) Then
 		    Return Dictionary(selectedRowTag).Lookup("username", "").StringValue
 		  End If
@@ -700,8 +605,10 @@ End
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub Load()
+	#tag Method, Flags = &h1
+		Protected Sub Load()
+		  Super.Load()
+		  
 		  Me.LoadGroups()
 		  
 		End Sub
@@ -772,18 +679,9 @@ End
 		  
 		  esSelectAfterReload = selectUsername
 		  
-		  Me.ShowInfos()
+		  Me.TableLoad()
 		  
-		  'Select Row async via WebTimer_RowDataLoaded
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Search(SearchValue As String)
-		  Super.Search(SearchValue)
-		  
-		  Me.ShowInfos()
+		  'Select Row async via TableRowDataLoaded
 		  
 		End Sub
 	#tag EndMethod
@@ -827,29 +725,50 @@ End
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub ShowInfos()
-		  Me.UpdateNoRowsMessage()
+	#tag Method, Flags = &h1
+		Protected Sub TableInitColumns()
+		  Super.TableInitColumns()
 		  
-		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
+		  Var col As DatasourceColumn
 		  
-		  If (filterGroupname <> "") Then
-		    If (filterGroupname = kGroupTagUnassigned) Then
-		      Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS IN GROUP ''"))
-		    Else
-		      Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS IN GROUP '" + filterGroupname.EscapeSqlQuotes + "'"))
-		    End If
-		  Else
-		    Me.LoadDatasource(Session.DB.SelectSQL("SHOW USERS"))
+		  col = New DatasourceColumn()
+		  col.Width = "*"
+		  col.DatabaseColumnName = "username"
+		  col.Heading = "Username"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.Ascending
+		  Me.Columns.Add(col)
+		  
+		  If ebShowDetails Then
+		    col = New DatasourceColumn()
+		    col.Width = "10%"
+		    col.DatabaseColumnName = "groupcount"
+		    col.Heading = "#"
+		    col.IsVirtual = True
+		    col.IsSearchable = False
+		    col.FieldType = DatasourceColumn.FieldTypes.Integer
+		    col.Sortable = True
+		    col.SortDirection = WebListBox.SortDirections.None
+		    Me.Columns.Add(col)
+		    
+		    col = New DatasourceColumn()
+		    col.Width = "50%"
+		    col.DatabaseColumnName = "groupnames"
+		    col.Heading = "Groups"
+		    col.IsVirtual = True
+		    col.FieldType = DatasourceColumn.FieldTypes.Text
+		    col.Sortable = False
+		    col.SortDirection = WebListBox.SortDirections.None
+		    Me.Columns.Add(col)
 		  End If
 		  
-		  
-		  If (lstInfos.DataSource = Nil) Then
-		    lstInfos.DataSource = Self
-		  Else
-		    lstInfos.ReloadData()
-		  End If
-		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableLoad()
+		  Super.TableLoad()
 		  
 		  If ebShowDetails Then
 		    Try
@@ -862,8 +781,34 @@ End
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub UpdateNoRowsMessage()
+	#tag Method, Flags = &h1
+		Protected Sub TableLoadFilters()
+		  Super.TableLoadFilters()
+		  
+		  'Filter applied in TableLoadRowSet
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableLoadRowSet() As RowSet
+		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
+		  
+		  If (filterGroupname <> "") Then
+		    If (filterGroupname = kGroupTagUnassigned) Then
+		      Return Session.DB.SelectSQL("SHOW USERS IN GROUP ''")
+		    Else
+		      Return Session.DB.SelectSQL("SHOW USERS IN GROUP '" + filterGroupname.EscapeSqlQuotes + "'")
+		    End If
+		  End If
+		  
+		  Return Session.DB.SelectSQL("SHOW USERS")
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableNoRowsMessage() As String
 		  Var sInfo As String = "No Users"
 		  
 		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
@@ -878,14 +823,31 @@ End
 		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
 		  End If
 		  
-		  lstInfos.NoRowsMessage = sInfo
+		  Return sInfo
 		  
-		End Sub
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
-		  Super.WebTimer_RowDataLoaded(obj)
+		Protected Function TableRowColumnData(col As DatasourceColumn, row As Dictionary) As Variant
+		  Select Case col.DatabaseColumnName
+		    
+		  Case "groupcount"
+		    Var iCount As Integer = row.Lookup(col.DatabaseColumnName, 0).IntegerValue
+		    If (iCount < 1) Then Return ""
+		    Return New WebListBoxStyleRenderer(StyleListboxTextAlignCenter(), iCount.ToString)
+		    
+		  Else
+		    Return Super.TableRowColumnData(col, row)
+		    
+		  End Select
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableRowDataLoaded()
+		  Super.TableRowDataLoaded()
 		  
 		  If (esSelectAfterReload = "") Then
 		    Me.RefreshButtons()
@@ -896,27 +858,23 @@ End
 		  esSelectAfterReload = ""
 		  
 		  Var bFound As Boolean = False
-		  For i As Integer = lstInfos.LastRowIndex DownTo 0
-		    If (lstInfos.RowTagAt(i) IsA Dictionary) Then
-		      Var rowTag As Dictionary = lstInfos.RowTagAt(i)
+		  For i As Integer = Me.Table.LastRowIndex DownTo 0
+		    If (Me.Table.RowTagAt(i) IsA Dictionary) Then
+		      Var rowTag As Dictionary = Me.Table.RowTagAt(i)
 		      If (rowTag.Lookup("username", "").StringValue <> sSelectAfterReload) Then Continue
-		      lstInfos.SelectedRowIndex = i
+		      Me.Table.SelectedRowIndex = i
 		      bFound = True
 		      Exit 'Loop
 		    End If
 		  Next
 		  
-		  If (Not bFound) Then lstInfos.SelectedRowIndex = -1
+		  If (Not bFound) Then Me.Table.SelectedRowIndex = -1
 		  
 		  Me.RefreshButtons()
 		  
 		End Sub
 	#tag EndMethod
 
-
-	#tag Property, Flags = &h21
-		Private ebOpened As Boolean
-	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private ebShowDetails As Boolean
@@ -984,6 +942,7 @@ End
 		    If (Not ebShowDetails) Then Return
 		    
 		    Self.ShowDetails()
+		    
 		  Catch err As RuntimeException
 		  End Try
 		  

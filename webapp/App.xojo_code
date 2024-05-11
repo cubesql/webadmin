@@ -3,7 +3,7 @@ Protected Class App
 Inherits WebApplication
 	#tag Event
 		Sub Opening(args() As String)
-		  // Store Launch Arguments for later
+		  ' Store Launch Arguments for later
 		  modCubeSQLAdmin.StoreLaunchArguments(args)
 		  
 		End Sub
@@ -11,9 +11,12 @@ Inherits WebApplication
 
 	#tag Event
 		Function UnhandledException(error As RuntimeException) As Boolean
-		  #Pragma unused error
+		  If (error = Nil) Then Return True
 		  
-		  Break
+		  Var dialog As New dlgUnhandledException
+		  dialog.Show(error)
+		  
+		  Return True
 		  
 		End Function
 	#tag EndEvent

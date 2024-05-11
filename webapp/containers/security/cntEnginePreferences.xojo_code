@@ -369,21 +369,9 @@ End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Event
-		Sub Opening()
-		  Self.Load()
-		  
-		  Self.ShowInfos()
-		  
-		  ebOpened = True
-		  
-		End Sub
-	#tag EndEvent
-
-
 	#tag Method, Flags = &h21
 		Private Sub ActionDrop()
-		  Var enginePreference As Dictionary = Me.GetSelectedEnginePreference()
+		  Var enginePreference As Dictionary = Me.GetSelectedTableRowTag()
 		  If (enginePreference = Nil) Then Return
 		  
 		  Var prefEngine As String = enginePreference.Lookup("engine", "")
@@ -430,14 +418,7 @@ End
 		    Session.DB.ExecuteSQL(sql)
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Drop Engine Preference"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not drop engine preference."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Drop Engine Preference", "Could not drop engine preference.", err)
 		    
 		  Finally
 		    Me.RefreshInfos()
@@ -449,7 +430,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub ActionEdit()
-		  Var enginePreference As Dictionary = Me.GetSelectedEnginePreference()
+		  Var enginePreference As Dictionary = Me.GetSelectedTableRowTag()
 		  If (enginePreference = Nil) Then Return
 		  
 		  Var prefEngine As String = enginePreference.Lookup("engine", "")
@@ -493,14 +474,7 @@ End
 		    Session.DB.ExecuteSQL(sql)
 		    
 		  Catch err As DatabaseException
-		    Var dialog As New WebMessageDialog
-		    dialog.Title = "Set Engine Preference"
-		    dialog.Indicator = Indicators.Warning
-		    dialog.ActionButton.Caption = "OK"
-		    dialog.CancelButton.Visible = False
-		    dialog.Message = "Could not set engine preference."
-		    dialog.Explanation = "Error" + If(err.ErrorNumber > 0, " " + err.ErrorNumber.ToString, "") + ": " + err.Message
-		    dialog.Show
+		    ShowErrorDialog("Set Engine Preference", "Could not set engine preference.", err)
 		    Return False
 		    
 		  End Try
@@ -551,76 +525,19 @@ End
 		  
 		  Me.Area = "Security"
 		  Me.Title = "Engine Preferences"
+		  Me.Table = lstInfos
 		  Me.SearchAvailable = True
-		  
-		  
-		  Redim Me.Columns(-1)
-		  
-		  Var col As DatasourceColumn
-		  
-		  col = New DatasourceColumn()
-		  col.Width = "15%"
-		  col.DatabaseColumnName = "engine"
-		  col.Heading = "Engine"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = True
-		  col.SortDirection = WebListBox.SortDirections.Ascending
-		  Me.Columns.Add(col)
-		  
-		  col = New DatasourceColumn()
-		  col.Width = "18%"
-		  col.DatabaseColumnName = "databasename"
-		  col.Heading = "Database"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = True
-		  col.SortDirection = WebListBox.SortDirections.None
-		  Me.Columns.Add(col)
-		  
-		  col = New DatasourceColumn()
-		  col.Width = "18%"
-		  col.DatabaseColumnName = "groupname"
-		  col.Heading = "Group"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = True
-		  col.SortDirection = WebListBox.SortDirections.None
-		  Me.Columns.Add(col)
-		  
-		  col = New DatasourceColumn()
-		  col.Width = "15%"
-		  col.DatabaseColumnName = "key"
-		  col.Heading = "Key"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = True
-		  col.SortDirection = WebListBox.SortDirections.None
-		  Me.Columns.Add(col)
-		  
-		  col = New DatasourceColumn()
-		  col.Width = "*"
-		  col.DatabaseColumnName = "value"
-		  col.Heading = "Value"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = True
-		  col.SortDirection = WebListBox.SortDirections.None
-		  Me.Columns.Add(col)
 		  
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Function GetSelectedEnginePreference() As Dictionary
-		  If (lstInfos.SelectedRowIndex >= 0) And (lstInfos.RowTagAt(lstInfos.SelectedRowIndex) IsA Dictionary) Then
-		    Return lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
-		  End If
+	#tag Method, Flags = &h1
+		Protected Sub Load()
+		  Super.Load()
 		  
-		  Return Nil
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub Load()
 		  Me.LoadGroups()
-		  me.LoadDatabases()
+		  Me.LoadDatabases()
+		  
 		End Sub
 	#tag EndMethod
 
@@ -702,7 +619,7 @@ End
 		Private Sub RefreshButtons()
 		  Var bSet, bEdit, bDrop As Boolean
 		  
-		  Var selectedEnginePreference As Dictionary = Me.GetSelectedEnginePreference()
+		  Var selectedEnginePreference As Dictionary = Me.GetSelectedTableRowTag()
 		  
 		  bSet = True
 		  If (selectedEnginePreference <> Nil) Then
@@ -719,33 +636,76 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub RefreshInfos(selectRowTag As Dictionary = nil)
-		  If (selectRowTag = Nil) And (lstInfos.SelectedRowIndex >= 0) Then
-		    selectRowTag = Me.GetSelectedEnginePreference()
+		  If (selectRowTag = Nil) Then
+		    selectRowTag = Me.GetSelectedTableRowTag()
 		  End If
 		  
-		  esSelectAfterReload = selectRowTag
+		  edictSelectAfterReload = selectRowTag
 		  
-		  Me.ShowInfos()
+		  Me.TableLoad()
 		  
-		  'Select Row async via WebTimer_RowDataLoaded
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Search(SearchValue As String)
-		  Super.Search(SearchValue)
-		  
-		  Me.ShowInfos()
+		  'Select Row async via TableRowDataLoaded
 		  
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub ShowInfos()
-		  Me.UpdateNoRowsMessage()
+	#tag Method, Flags = &h1
+		Protected Sub TableInitColumns()
+		  Super.TableInitColumns()
 		  
-		  Me.Filters = New Dictionary
+		  Var col As DatasourceColumn
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "15%"
+		  col.DatabaseColumnName = "engine"
+		  col.Heading = "Engine"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.Ascending
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "18%"
+		  col.DatabaseColumnName = "databasename"
+		  col.Heading = "Database"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "18%"
+		  col.DatabaseColumnName = "groupname"
+		  col.Heading = "Group"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "15%"
+		  col.DatabaseColumnName = "key"
+		  col.Heading = "Key"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		  col = New DatasourceColumn()
+		  col.Width = "*"
+		  col.DatabaseColumnName = "value"
+		  col.Heading = "Value"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableLoadFilters()
+		  Super.TableLoadFilters()
 		  
 		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
 		  Var filterDatabasename As String = lstFilterDatabase.RowTagAt(lstFilterDatabase.SelectedRowIndex)
@@ -758,19 +718,18 @@ End
 		    Me.Filters.Value("databasename") = filterDatabasename
 		  End If
 		  
-		  Me.LoadDatasource(Session.DB.SelectSQL("SHOW ENGINE PREFERENCES"))
-		  
-		  If (lstInfos.DataSource = Nil) Then
-		    lstInfos.DataSource = Self
-		  Else
-		    lstInfos.ReloadData()
-		  End If
-		  
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub UpdateNoRowsMessage()
+	#tag Method, Flags = &h1
+		Protected Function TableLoadRowSet() As RowSet
+		  Return Session.DB.SelectSQL("SHOW ENGINE PREFERENCES")
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableNoRowsMessage() As String
 		  Var sInfo As String = "No Engine Preferences"
 		  
 		  Var filterGroupname As String = lstFilterGroup.RowTagAt(lstFilterGroup.SelectedRowIndex)
@@ -786,40 +745,40 @@ End
 		    sInfo = sInfo + " matching '" + Me.SearchValue + "'"
 		  End If
 		  
-		  lstInfos.NoRowsMessage = sInfo
+		  Return sInfo
 		  
-		End Sub
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
-		  Super.WebTimer_RowDataLoaded(obj)
+		Protected Sub TableRowDataLoaded()
+		  super.TableRowDataLoaded()
 		  
-		  If (esSelectAfterReload = Nil) Then
+		  If (edictSelectAfterReload = Nil) Then
 		    Me.RefreshButtons()
 		    Return
 		  End If
 		  
-		  Var sSelectAfterReload As Dictionary = esSelectAfterReload
-		  esSelectAfterReload = Nil
+		  Var sSelectAfterReload As Dictionary = edictSelectAfterReload
+		  edictSelectAfterReload = Nil
 		  
 		  Var bFound As Boolean = False
-		  For i As Integer = lstInfos.LastRowIndex DownTo 0
-		    If (lstInfos.RowTagAt(i) IsA Dictionary) Then
-		      Var rowTag As Dictionary = lstInfos.RowTagAt(i)
+		  For i As Integer = Me.Table.LastRowIndex DownTo 0
+		    If (Me.Table.RowTagAt(i) IsA Dictionary) Then
+		      Var rowTag As Dictionary = Me.Table.RowTagAt(i)
 		      If(rowTag.Lookup("engine", "").StringValue = sSelectAfterReload.Lookup("engine", "-").StringValue) And _ 
 		        (rowTag.Lookup("groupname", "").StringValue = sSelectAfterReload.Lookup("groupname", "-").StringValue) And _
 		        (rowTag.Lookup("databasename", "").StringValue = sSelectAfterReload.Lookup("databasename", "-").StringValue) And _
 		        (rowTag.Lookup("key", "").StringValue = sSelectAfterReload.Lookup("key", "-").StringValue) Then
 		        
-		        lstInfos.SelectedRowIndex = i
+		        Me.Table.SelectedRowIndex = i
 		        bFound = True
 		        Exit 'Loop
 		      End If
 		    End If
 		  Next
 		  
-		  If (Not bFound) Then lstInfos.SelectedRowIndex = -1
+		  If (Not bFound) Then Me.Table.SelectedRowIndex = -1
 		  
 		  Me.RefreshButtons()
 		  
@@ -828,15 +787,11 @@ End
 
 
 	#tag Property, Flags = &h21
-		Private ebOpened As Boolean
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
 		Private edictActionEnginePreference As Dictionary
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private esSelectAfterReload As Dictionary
+		Private edictSelectAfterReload As Dictionary
 	#tag EndProperty
 
 

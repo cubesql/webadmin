@@ -1,10 +1,10 @@
 #tag WebPage
-Begin dlgBase dlgCommonName
+Begin dlgBase dlgGetServerKey
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
    Enabled         =   True
-   Height          =   230
+   Height          =   300
    Index           =   -2147483648
    Indicator       =   0
    LayoutDirection =   0
@@ -19,10 +19,9 @@ Begin dlgBase dlgCommonName
    TabIndex        =   0
    Top             =   0
    Visible         =   True
-   Width           =   600
+   Width           =   550
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -46,14 +45,14 @@ Begin dlgBase dlgCommonName
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
-      Text            =   "Title"
+      Text            =   "Get a cubeSQL Server Key"
       TextAlignment   =   2
       TextColor       =   &c000000FF
       Tooltip         =   ""
       Top             =   20
       Underline       =   False
       Visible         =   True
-      Width           =   560
+      Width           =   510
       _mPanelIndex    =   -1
    End
    Begin WebRectangle rctFormContent
@@ -62,7 +61,7 @@ Begin dlgBase dlgCommonName
       ControlID       =   ""
       Enabled         =   True
       HasBackgroundColor=   False
-      Height          =   80
+      Height          =   148
       Index           =   -2147483648
       Indicator       =   0
       LayoutDirection =   0
@@ -81,59 +80,21 @@ Begin dlgBase dlgCommonName
       Tooltip         =   ""
       Top             =   66
       Visible         =   True
-      Width           =   560
+      Width           =   510
       _mDesignHeight  =   0
       _mDesignWidth   =   0
       _mPanelIndex    =   -1
-      Begin WebLabel labName
+      Begin WebLabel labInfo
          Bold            =   False
          ControlID       =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
-         Height          =   38
+         Height          =   60
          Index           =   -2147483648
-         Indicator       =   0
-         InitialParent   =   "rctFormContent"
+         Indicator       =   ""
          Italic          =   False
          Left            =   40
-         LockBottom      =   False
-         LockedInPosition=   True
-         LockHorizontal  =   False
-         LockLeft        =   True
-         LockRight       =   False
-         LockTop         =   True
-         LockVertical    =   False
-         Multiline       =   False
-         PanelIndex      =   "0"
-         Parent          =   "rctFormContent"
-         Scope           =   2
-         TabIndex        =   0
-         TabPanelIndex   =   0
-         TabStop         =   True
-         Text            =   "Name:"
-         TextAlignment   =   0
-         TextColor       =   &c000000FF
-         Tooltip         =   ""
-         Top             =   86
-         Underline       =   False
-         Visible         =   True
-         Width           =   140
-         _mPanelIndex    =   -1
-      End
-      Begin WebTextField edtName
-         AllowAutoComplete=   False
-         AllowSpellChecking=   False
-         Caption         =   ""
-         ControlID       =   ""
-         Enabled         =   True
-         FieldType       =   0
-         Height          =   38
-         Hint            =   ""
-         Index           =   -2147483648
-         Indicator       =   0
-         InitialParent   =   "rctFormContent"
-         Left            =   188
          LockBottom      =   False
          LockedInPosition=   True
          LockHorizontal  =   False
@@ -141,61 +102,69 @@ Begin dlgBase dlgCommonName
          LockRight       =   True
          LockTop         =   True
          LockVertical    =   False
-         MaximumCharactersAllowed=   0
-         PanelIndex      =   "0"
+         Multiline       =   True
          Parent          =   "rctFormContent"
-         ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   1
-         TabPanelIndex   =   0
+         TabIndex        =   0
          TabStop         =   True
-         Text            =   ""
+         Text            =   "You can get a Freeware or Developer Key for cubeSQL Server from sqlabs:"
          TextAlignment   =   0
+         TextColor       =   &c000000FF
          Tooltip         =   ""
          Top             =   86
+         Underline       =   False
          Visible         =   True
-         Width           =   372
+         Width           =   470
+         _mPanelIndex    =   -1
+      End
+      Begin WebLink labLink
+         Appearance      =   0
+         Bold            =   True
+         ControlID       =   ""
+         Enabled         =   True
+         FontName        =   ""
+         FontSize        =   0.0
+         Height          =   38
+         Index           =   -2147483648
+         Indicator       =   ""
+         Italic          =   False
+         Left            =   40
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         LockVertical    =   False
+         Multiline       =   False
+         Parent          =   "rctFormContent"
+         Scope           =   2
+         TabIndex        =   1
+         TabStop         =   True
+         Target          =   1
+         Text            =   "#constUrl_DeveloperKey"
+         TextAlignment   =   0
+         TextColor       =   &c000000FF
+         Tooltip         =   ""
+         Top             =   154
+         Underline       =   False
+         URL             =   "#constUrl_DeveloperKey"
+         Visible         =   True
+         Width           =   470
          _mPanelIndex    =   -1
       End
    End
-   Begin WebButton btnName
+   Begin WebButton btnOk
       AllowAutoDisable=   False
       Cancel          =   False
-      Caption         =   "Create"
+      Caption         =   "Ok"
       ControlID       =   ""
       Default         =   True
-      Enabled         =   False
-      Height          =   38
-      Index           =   -2147483648
-      Indicator       =   1
-      Left            =   480
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   True
-      LockTop         =   False
-      LockVertical    =   False
-      Scope           =   2
-      TabIndex        =   3
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   172
-      Visible         =   True
-      Width           =   100
-      _mPanelIndex    =   -1
-   End
-   Begin WebButton btnCancel
-      AllowAutoDisable=   False
-      Cancel          =   True
-      Caption         =   "Cancel"
-      ControlID       =   ""
-      Default         =   False
       Enabled         =   True
       Height          =   38
       Index           =   -2147483648
       Indicator       =   0
-      Left            =   372
+      Left            =   430
       LockBottom      =   True
       LockedInPosition=   True
       LockHorizontal  =   False
@@ -207,7 +176,7 @@ Begin dlgBase dlgCommonName
       TabIndex        =   2
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   172
+      Top             =   242
       Visible         =   True
       Width           =   100
       _mPanelIndex    =   -1
@@ -216,69 +185,17 @@ End
 #tag EndWebPage
 
 #tag WindowCode
-	#tag Event
-		Sub Shown()
-		  edtName.SetFocus()
-		  
-		End Sub
-	#tag EndEvent
-
-
-	#tag Method, Flags = &h21
-		Private Sub RefreshButtons()
-		  btnName.Enabled = (edtName.Text.Trim <> "") and (esNameInitialValue <> edtName.Text.Trim)
-		  
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Show(DialogTitle As String, LabelCaption As String, ButtonCaption As String, ButtonIndicator As Indicators = Indicators.Primary, NameInitialValue As String = "")
-		  labTitle.Text = DialogTitle
-		  labName.Text = LabelCaption + ":"
-		  btnName.Caption = ButtonCaption
-		  btnName.Indicator = ButtonIndicator
-		  edtName.Text = NameInitialValue
-		  esNameInitialValue = NameInitialValue
-		  
-		  Me.RefreshButtons()
-		  Super.Show()
-		  
-		End Sub
-	#tag EndMethod
-
-
-	#tag Hook, Flags = &h0
-		Event NameAction(Name As String) As Boolean
-	#tag EndHook
-
-
-	#tag Property, Flags = &h21
-		Private esNameInitialValue As String
-	#tag EndProperty
-
-
 #tag EndWindowCode
 
-#tag Events edtName
+#tag Events labLink
 	#tag Event
-		Sub TextChanged()
-		  Self.RefreshButtons()
+		Sub Opening()
+		  Me.URL = constUrl_DeveloperKey
 		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events btnName
-	#tag Event
-		Sub Pressed()
-		  If NameAction(edtName.Text.Trim) Then
-		    Self.Close()
-		  End If
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events btnCancel
+#tag Events btnOk
 	#tag Event
 		Sub Pressed()
 		  Self.Close()

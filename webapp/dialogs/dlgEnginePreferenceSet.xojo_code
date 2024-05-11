@@ -1,5 +1,5 @@
 #tag WebPage
-Begin WebDialog dlgEnginePreferenceSet
+Begin dlgBase dlgEnginePreferenceSet
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
@@ -22,6 +22,7 @@ Begin WebDialog dlgEnginePreferenceSet
    Width           =   600
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
@@ -490,8 +491,6 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Shown()
-		  ebShown = True
-		  
 		  If edtEngine.Enabled Then
 		    edtEngine.SetFocus
 		    Return
@@ -673,10 +672,6 @@ End
 		Event EnginePreferenceSetAction(Engine As String, Database As String, Group As String, Key As String, Value As String) As Boolean
 	#tag EndHook
 
-
-	#tag Property, Flags = &h21
-		Private ebShown As Boolean
-	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private esPreSelectDatabase As String

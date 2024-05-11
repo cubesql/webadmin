@@ -94,37 +94,39 @@ End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Event
-		Sub Opening()
-		  Self.ShowInfos()
-		End Sub
-	#tag EndEvent
-
-
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  Super.Constructor
 		  
 		  Me.Area = "Server"
 		  Me.Title = "Registration"
+		  Me.Table = lstInfos
+		  
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub ShowInfos()
-		  lstInfos.RemoveAllRows
+	#tag Method, Flags = &h1
+		Protected Sub TableInitRows()
+		  Super.TableInitRows()
 		  
-		  lstInfos.AddRow "Server Name"
-		  lstInfos.AddRow ""
-		  lstInfos.AddRow "Registered to"
-		  lstInfos.AddRow "Registration type"
-		  lstInfos.AddRow "Upgrade plan expiration date"
-		  lstInfos.AddRow "Max allowed connections"
+		  Me.Table.AddRow "Server Name"
+		  Me.Table.AddRow ""
+		  Me.Table.AddRow "Registered to"
+		  Me.Table.AddRow "Registration type"
+		  Me.Table.AddRow "Upgrade plan expiration date"
+		  Me.Table.AddRow "Max allowed connections"
 		  
 		  Var styleKeyColumn As WebStyle = StyleListboxKeyColumn
-		  For i As Integer = 0 To lstInfos.LastRowIndex
-		    lstInfos.CellTextAt(i, 0) = New WebListBoxStyleRenderer(styleKeyColumn, lstInfos.CellTextAt(i, 0))
+		  For i As Integer = 0 To Me.Table.LastRowIndex
+		    Me.Table.CellTextAt(i, 0) = New WebListBoxStyleRenderer(styleKeyColumn, Me.Table.CellTextAt(i, 0))
 		  Next
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableLoad()
+		  Super.TableLoad()
 		  
 		  Try
 		    Var rs As RowSet = Session.DB.SelectSQL("SHOW PREFERENCES")
@@ -149,23 +151,24 @@ End
 		    End If
 		    
 		    
-		    lstInfos.CellTextAt(0, 1) = infos.Lookup("SERVER_NAME", "cubeSQL").StringValue
+		    Me.Table.CellTextAt(0, 1) = infos.Lookup("SERVER_NAME", "cubeSQL").StringValue
 		    
 		    Var keyName As String = infos.Lookup("KEY_NAME", "").StringValue
 		    If (keyName = "") Or (keyName = "0") Then keyName = "N/A"
-		    lstInfos.CellTextAt(2, 1) = keyName
+		    Me.Table.CellTextAt(2, 1) = keyName
 		    
-		    lstInfos.CellTextAt(3, 1) = infos.Lookup("KEY_STATUS", "N/A").StringValue
+		    Me.Table.CellTextAt(3, 1) = infos.Lookup("KEY_STATUS", "N/A").StringValue
 		    
+		    Var styleKeyColumn As WebStyle = StyleListboxKeyColumn
 		    If (infos.Lookup("KEY_EXPIRATION", "") <> "") Then
-		      lstInfos.CellTextAt(4, 0) = New WebListBoxStyleRenderer(styleKeyColumn, "Key expiration")
-		      lstInfos.CellTextAt(4, 1) = infos.Lookup("server_license", "").StringValue
+		      Me.Table.CellTextAt(4, 0) = New WebListBoxStyleRenderer(styleKeyColumn, "Key expiration")
+		      Me.Table.CellTextAt(4, 1) = infos.Lookup("server_license", "").StringValue
 		    Else
-		      lstInfos.CellTextAt(4, 0) = New WebListBoxStyleRenderer(styleKeyColumn, "Upgrade plan expiration date")
-		      lstInfos.CellTextAt(4, 1) = infos.Lookup("KEY_EXPIRATION_PLAN", "").StringValue
+		      Me.Table.CellTextAt(4, 0) = New WebListBoxStyleRenderer(styleKeyColumn, "Upgrade plan expiration date")
+		      Me.Table.CellTextAt(4, 1) = infos.Lookup("KEY_EXPIRATION_PLAN", "").StringValue
 		    End If
 		    
-		    lstInfos.CellTextAt(5, 1) = infos.Lookup("max_allowed_connections", "").StringValue
+		    Me.Table.CellTextAt(5, 1) = infos.Lookup("max_allowed_connections", "").StringValue
 		    
 		    
 		  Catch DatabaseException
@@ -181,7 +184,7 @@ End
 #tag Events cntServerRegistration
 	#tag Event
 		Sub NeedsRefresh()
-		  Self.ShowInfos()
+		  Self.TableLoad()
 		  
 		End Sub
 	#tag EndEvent
@@ -194,14 +197,6 @@ End
 		InitialValue="Home"
 		Type="String"
 		EditorType="MultiLineEditor"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="SearchAvailable"
-		Visible=false
-		Group="Behavior"
-		InitialValue="False"
-		Type="Boolean"
-		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
 		Name="_mPanelIndex"

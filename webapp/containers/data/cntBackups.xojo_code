@@ -438,18 +438,6 @@ End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Event
-		Sub Opening()
-		  Self.Load()
-		  
-		  Self.ShowInfos()
-		  
-		  ebOpened = True
-		  
-		End Sub
-	#tag EndEvent
-
-
 	#tag Method, Flags = &h21
 		Private Sub ActionBackup()
 		  If Me.IsThreadRunning Then Return
@@ -482,7 +470,7 @@ End
 		  dlgDelete.Indicator = Indicators.Danger
 		  dlgDelete.ActionButton.Caption = "Delete"
 		  dlgDelete.CancelButton.Visible = True
-		  dlgDelete.Message = "Are you sure you want to delete Backup '" + backupDate.ToString(DateTime.FormatStyles.Medium, DateTime.FormatStyles.Medium) + "' of Database " + databasename + "?"
+		  dlgDelete.Message = "Are you sure you want to delete Backup '" + backupDate.SQLDateTime + "' of Database " + databasename + "?"
 		  dlgDelete.Explanation = "This action cannot be undone."
 		  
 		  esActionDatabasename = databasename
@@ -549,7 +537,7 @@ End
 		  dlgRestore.Indicator = Indicators.Danger
 		  dlgRestore.ActionButton.Caption = "Restore"
 		  dlgRestore.CancelButton.Visible = True
-		  dlgRestore.Message = "Are you sure you want to restore database " + databasename+ " from Backup '" + backupDate.ToString(DateTime.FormatStyles.Medium, DateTime.FormatStyles.Medium) + "' ?"
+		  dlgRestore.Message = "Are you sure you want to restore database " + databasename + " from Backup '" + backupDate.SQLDateTime + "' ?"
 		  dlgRestore.Explanation = "This action cannot be undone."
 		  
 		  esActionDatabasename = databasename
@@ -579,56 +567,10 @@ End
 		  
 		  Me.Area = "Data"
 		  Me.Title = "Backups"
-		  
-		  
-		  Redim Me.Columns(-1)
-		  
-		  Var col As DatasourceColumn
-		  
-		  col = New DatasourceColumn()
-		  col.Width = "50%"
-		  col.DatabaseColumnName = "timestamp"
-		  col.Heading = "Date"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = True
-		  col.SortDirection = WebListBox.SortDirections.Descending
-		  Me.Columns.Add(col)
-		  
-		  col = New DatasourceColumn()
-		  col.Width = "50%"
-		  col.DatabaseColumnName = "virtualtime"
-		  col.Heading = "Time"
-		  col.FieldType = DatasourceColumn.FieldTypes.Text
-		  col.Sortable = False
-		  col.IsVirtual = True
-		  col.SortDirection = WebListBox.SortDirections.None
-		  Me.Columns.Add(col)
+		  Me.Table = lstInfos
+		  Me.SearchAvailable = False
 		  
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Function GetColumnData(col As DatasourceColumn, row As Dictionary) As Variant
-		  Select Case col.DatabaseColumnName
-		    
-		  Case "timestamp", "virtualtime"
-		    Var sTimestamp As String = row.Lookup("timestamp", "19000101_000000").StringValue
-		    Var timestamp As DateTime = Me.GetDateTimeFromTimestamp(sTimestamp)
-		    
-		    Select Case col.DatabaseColumnName
-		    Case "timestamp"
-		      Return timestamp.ToString(DateTime.FormatStyles.Long, DateTime.FormatStyles.None)
-		    Case "virtualtime"
-		      Return timestamp.ToString(DateTime.FormatStyles.None, DateTime.FormatStyles.Medium)
-		    End Select
-		    
-		    
-		  Else
-		    Return Super.GetColumnData(col, row)
-		    
-		  End Select
-		  
-		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -656,9 +598,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Function GetSelectedTimestamp() As String
-		  If (lstInfos.SelectedRowIndex < 0) Then Return ""
-		  
-		  Var selectedRowTag As Variant = lstInfos.RowTagAt(lstInfos.SelectedRowIndex)
+		  Var selectedRowTag As Variant = Me.GetSelectedTableRowTag()
 		  If (selectedRowTag IsA Dictionary) Then
 		    Return Dictionary(selectedRowTag).Lookup("timestamp", "").StringValue
 		  End If
@@ -679,8 +619,8 @@ End
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub Load()
+	#tag Method, Flags = &h1
+		Protected Sub Load()
 		  Me.LoadDatabases()
 		  
 		End Sub
@@ -738,30 +678,50 @@ End
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub ShowInfos()
-		  Me.UpdateNoRowsMessage()
+	#tag Method, Flags = &h1
+		Protected Sub TableInitColumns()
+		  Super.TableInitColumns()
 		  
-		  Var filterDatabasename As String = Me.GetSelectedDatabasename()
+		  Var col As DatasourceColumn
 		  
-		  If (filterDatabasename <> "") Then
-		    Me.LoadDatasource(Session.DB.SelectSQL("SHOW BACKUPS FOR DATABASE '" + filterDatabasename.EscapeSqlQuotes + "'"))
-		  Else
-		    Me.LoadDatasource(Nil)
-		  End If
+		  col = New DatasourceColumn()
+		  col.Width = "50%"
+		  col.DatabaseColumnName = "timestamp"
+		  col.Heading = "Date"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = True
+		  col.SortDirection = WebListBox.SortDirections.Descending
+		  Me.Columns.Add(col)
 		  
-		  
-		  If (lstInfos.DataSource = Nil) Then
-		    lstInfos.DataSource = Self
-		  Else
-		    lstInfos.ReloadData()
-		  End If
+		  col = New DatasourceColumn()
+		  col.Width = "50%"
+		  col.DatabaseColumnName = "virtualtime"
+		  col.Heading = "Time"
+		  col.FieldType = DatasourceColumn.FieldTypes.Text
+		  col.Sortable = False
+		  col.IsVirtual = True
+		  col.SortDirection = WebListBox.SortDirections.None
+		  Me.Columns.Add(col)
 		  
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub UpdateNoRowsMessage()
+	#tag Method, Flags = &h1
+		Protected Function TableLoadRowSet() As RowSet
+		  Var filterDatabasename As String = Me.GetSelectedDatabasename()
+		  
+		  If (filterDatabasename <> "") Then
+		    Return Session.DB.SelectSQL("SHOW BACKUPS FOR DATABASE '" + filterDatabasename.EscapeSqlQuotes + "'")
+		    
+		  End If
+		  
+		  Return Nil
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableNoRowsMessage() As String
 		  Var sInfo As String = "No Backups"
 		  
 		  Var filterDatabasename As String = Me.GetSelectedDatabasename()
@@ -769,14 +729,45 @@ End
 		    sInfo = sInfo + " for Database " + filterDatabasename
 		  End If
 		  
-		  lstInfos.NoRowsMessage = sInfo
+		  Return sInfo
 		  
-		End Sub
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Sub WebTimer_RowDataLoaded(obj As WebTimer)
-		  Super.WebTimer_RowDataLoaded(obj)
+		Protected Function TableRowColumnData(col As DatasourceColumn, row As Dictionary) As Variant
+		  Select Case col.DatabaseColumnName
+		    
+		  Case "timestamp", "virtualtime"
+		    Var sTimestamp As String = row.Lookup("timestamp", "19000101_000000").StringValue
+		    Var timestamp As DateTime = Me.GetDateTimeFromTimestamp(sTimestamp)
+		    
+		    'Note: This is a technical web app. It'll show Dates as SQLDate/Time
+		    'Otherwise we would need to show in User Locale:
+		    'Var userLanguageCode As String = Session.LanguageCode
+		    'Var userLocale As New Locale(userLanguageCode)
+		    
+		    Select Case col.DatabaseColumnName
+		    Case "timestamp"
+		      Return timestamp.SQLDate
+		      'Return timestamp.ToString(userLocale, DateTime.FormatStyles.Long, DateTime.FormatStyles.None)
+		    Case "virtualtime"
+		      Return timestamp.ToString("HH:mm:ss")
+		      'Return timestamp.ToString(userLocale, DateTime.FormatStyles.None, DateTime.FormatStyles.Medium)
+		    End Select
+		    
+		    
+		  Else
+		    Return Super.TableRowColumnData(col, row)
+		    
+		  End Select
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableRowDataLoaded()
+		  Super.TableRowDataLoaded()
 		  
 		  If (esSelectAfterReload = "") Then
 		    Me.RefreshButtons()
@@ -787,17 +778,17 @@ End
 		  esSelectAfterReload = ""
 		  
 		  Var bFound As Boolean = False
-		  For i As Integer = lstInfos.LastRowIndex DownTo 0
-		    If (lstInfos.RowTagAt(i) IsA Dictionary) Then
-		      Var rowTag As Dictionary = lstInfos.RowTagAt(i)
+		  For i As Integer = Me.Table.LastRowIndex DownTo 0
+		    If (Me.Table.RowTagAt(i) IsA Dictionary) Then
+		      Var rowTag As Dictionary = Me.Table.RowTagAt(i)
 		      If (rowTag.Lookup("timestamp", "-").StringValue <> sSelectAfterReload) Then Continue
-		      lstInfos.SelectedRowIndex = i
+		      Me.Table.SelectedRowIndex = i
 		      bFound = True
 		      Exit 'Loop
 		    End If
 		  Next
 		  
-		  If (Not bFound) Then lstInfos.SelectedRowIndex = -1
+		  If (Not bFound) Then Me.Table.SelectedRowIndex = -1
 		  
 		  Me.RefreshButtons()
 		  
@@ -807,10 +798,6 @@ End
 
 	#tag Property, Flags = &h21
 		Private Download As WebFile
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private ebOpened As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -881,7 +868,7 @@ End
 		  
 		  If (Not ebOpened) Then Return
 		  
-		  Self.ShowInfos()
+		  Self.TableLoad()
 		  
 		End Sub
 	#tag EndEvent
@@ -944,14 +931,7 @@ End
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      Var dialog As New WebMessageDialog
-		      dialog.Title = "Backup Database"
-		      dialog.Indicator = Indicators.Warning
-		      dialog.ActionButton.Caption = "OK"
-		      dialog.CancelButton.Visible = False
-		      dialog.Message = "Could not backup database."
-		      dialog.Explanation = update.Lookup("Error", "").StringValue
-		      dialog.Show
+		      ShowErrorDialog("Backup Database", "Could not backup database.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next
@@ -998,14 +978,7 @@ End
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      Var dialog As New WebMessageDialog
-		      dialog.Title = "Delete Backup"
-		      dialog.Indicator = Indicators.Warning
-		      dialog.ActionButton.Caption = "OK"
-		      dialog.CancelButton.Visible = False
-		      dialog.Message = "Could not delete backup."
-		      dialog.Explanation = update.Lookup("Error", "").StringValue
-		      dialog.Show
+		      ShowErrorDialog("Delete Backup", "Could not delete backup.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next
@@ -1052,14 +1025,7 @@ End
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      Var dialog As New WebMessageDialog
-		      dialog.Title = "Restore Backup"
-		      dialog.Indicator = Indicators.Warning
-		      dialog.ActionButton.Caption = "OK"
-		      dialog.CancelButton.Visible = False
-		      dialog.Message = "Could not restore backup."
-		      dialog.Explanation = update.Lookup("Error", "").StringValue
-		      dialog.Show
+		      ShowErrorDialog("Restore Backup", "Could not restore backup.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next
@@ -1116,7 +1082,7 @@ End
 		      Dim chunk As String = DB.ReceiveChunk
 		      
 		      ' there was an error receving a chunk, report the error and bail
-		      If DB.Error Then
+		      If (DB.ErrCode <> 0) Or (DB.ErrMsg <> "") Then
 		        Var errorMessage As String = DB.ErrMsg
 		        If (errorMessage = "") Then errorMessage = "Unknown Error while downloading..."
 		        Raise New DatabaseException(errorMessage, DB.ErrCode)
@@ -1175,14 +1141,7 @@ End
 		    End If
 		    
 		    If update.HasKey("Error") Then
-		      Var dialog As New WebMessageDialog
-		      dialog.Title = "Download Backup"
-		      dialog.Indicator = Indicators.Warning
-		      dialog.ActionButton.Caption = "OK"
-		      dialog.CancelButton.Visible = False
-		      dialog.Message = "Could not download backup."
-		      dialog.Explanation = update.Lookup("Error", "").StringValue
-		      dialog.Show
+		      ShowErrorDialog("Download Backup", "Could not download backup.", update.Lookup("Error", "").StringValue)
 		    End If
 		    
 		  Next
@@ -1197,7 +1156,7 @@ End
 		  
 		  Me.RunMode = WebTimer.RunModes.Off
 		  
-		  Session.GoToURL(Self.Download.URL)
+		  Call Self.Download.Download()
 		  
 		End Sub
 	#tag EndEvent
@@ -1212,7 +1171,7 @@ End
 		  pgrWheel.Visible = False
 		  
 		  If ebReloadAfterThread Then
-		    Self.ShowInfos()
+		    Self.TableLoad()
 		  End If
 		  
 		  
