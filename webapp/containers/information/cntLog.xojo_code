@@ -80,7 +80,7 @@ Begin cntDatasourceBase cntLog
       LockTop         =   False
       LockVertical    =   False
       Scope           =   2
-      TabIndex        =   3
+      TabIndex        =   4
       TabStop         =   True
       Tooltip         =   ""
       Top             =   442
@@ -163,6 +163,34 @@ Begin cntDatasourceBase cntLog
       Scope           =   2
       _mPanelIndex    =   -1
    End
+   Begin WebButton btnDownload
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Download"
+      ControlID       =   ""
+      Default         =   False
+      Enabled         =   False
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   2
+      Left            =   522
+      LockBottom      =   True
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   False
+      LockRight       =   True
+      LockTop         =   False
+      LockVertical    =   False
+      PanelIndex      =   "0"
+      Scope           =   2
+      TabIndex        =   3
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   442
+      Visible         =   True
+      Width           =   100
+      _mPanelIndex    =   -1
+   End
 End
 #tag EndWebContainerControl
 
@@ -174,6 +202,35 @@ End
 		End Sub
 	#tag EndEvent
 
+
+	#tag Method, Flags = &h21
+		Private Sub ActionDownload()
+		  btnDownload.Enabled = False
+		  
+		  Var prepareDownload As New WebFile
+		  prepareDownload.MimeType = "application/octet-stream"
+		  prepareDownload.ForceDownload = True
+		  prepareDownload.FileName = "cubeSQL-Log_" + esLogTimestamp + ".txt"
+		  prepareDownload.Data = Me.TableDataAsTxt()
+		  AddHandler prepareDownload.Downloaded, WeakAddressOf Self.ActionDownloadStarted
+		  
+		  Me.Download = prepareDownload
+		  
+		  Call Me.Download.Download()
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ActionDownloadStarted(file As WebFile)
+		  If (file = Me.Download) Then
+		    Me.Download = Nil
+		  End If
+		  
+		  Me.RefreshButtons()
+		  
+		End Sub
+	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Constructor()
@@ -196,7 +253,11 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub RefreshButtons()
-		  btnRefresh.Enabled = (edtLogNumberOfEntries.Text.ToInteger > 0)
+		  Var bRefresh As Boolean = (edtLogNumberOfEntries.Text.ToInteger > 0)
+		  Var bDownload As Boolean = bRefresh And (Me.TableRows <> Nil) And (Me.TableRows.LastIndex >= 0)
+		  
+		  If (btnRefresh.Enabled <> bRefresh) Then btnRefresh.Enabled = bRefresh
+		  If (btnDownload.Enabled <> bDownload) Then btnDownload.Enabled = bDownload
 		  
 		End Sub
 	#tag EndMethod
@@ -286,6 +347,8 @@ End
 		  
 		  Session.State.Value("LogNumberOfEntries") = edtLogNumberOfEntries.Text
 		  
+		  esLogTimestamp = DateTime.Now.ToString("yyyyMMdd-HHmmss")
+		  
 		  Return Session.DB.SelectSQL("SHOW LAST " + numLogEntries.ToString + " ROWS FROM LOG ORDER DESC")
 		  
 		End Function
@@ -309,6 +372,24 @@ End
 		  
 		End Function
 	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableRowDataLoaded()
+		  Super.TableRowDataLoaded()
+		  
+		  Me.RefreshButtons()
+		  
+		End Sub
+	#tag EndMethod
+
+
+	#tag Property, Flags = &h21
+		Private Download As WebFile
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private esLogTimestamp As String
+	#tag EndProperty
 
 
 	#tag Constant, Name = constLogEntriesDefault, Type = String, Dynamic = False, Default = \"50", Scope = Private
@@ -342,6 +423,8 @@ End
 		    Me.Text = constLogEntriesDefault
 		  End If
 		  
+		  Self.RefreshButtons()
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -352,6 +435,14 @@ End
 		  Me.Enabled = False
 		  
 		  Self.TableLoad()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events btnDownload
+	#tag Event
+		Sub Pressed()
+		  Self.ActionDownload()
 		  
 		End Sub
 	#tag EndEvent

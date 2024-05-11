@@ -329,6 +329,42 @@ Implements WebDataSource
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function TableDataAsTxt() As String
+		  If (Me.Columns = Nil) Or (Me.Columns.LastIndex < 0) Then Return ""
+		  If (Me.TableRows = Nil) Or (Me.TableRows.LastIndex < 0) Then Return ""
+		  
+		  Const kTab = &u9
+		  
+		  Var sRows() As String
+		  Var sRowItems() As String
+		  
+		  For Each col As DatasourceColumn In Me.Columns
+		    If col.IsHidden Then Continue
+		    If col.IsVirtual Then Continue
+		    
+		    sRowItems.Add(col.Heading.ReplaceAll(kTab, " "))
+		  Next
+		  
+		  sRows.Add(String.FromArray(sRowItems, kTab))
+		  
+		  For i As Integer = 0 To Me.TableRows.LastIndex
+		    Redim sRowItems(-1)
+		    For Each col As DatasourceColumn In Me.Columns
+		      If col.IsHidden Then Continue
+		      If col.IsVirtual Then Continue
+		      
+		      sRowItems.Add(Me.TableRows(i).Lookup(col.DatabaseColumnName, "").StringValue.ReplaceAll(kTab, " "))
+		    Next
+		    
+		    sRows.Add(String.FromArray(sRowItems, kTab))
+		  Next
+		  
+		  Return String.FromArray(sRows, EndOfLine.LF)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Sub TableInitColumns()
 		  Redim Me.Columns(-1)
 		  
