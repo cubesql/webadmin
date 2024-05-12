@@ -108,7 +108,7 @@ Begin dlgBase dlgGetServerKey
          TabIndex        =   0
          TabPanelIndex   =   0
          TabStop         =   True
-         Text            =   "You can get a Freeware or Developer Key for cubeSQL Server from sqlabs:"
+         Text            =   "You can get a Freeware or Developer Key for cubeSQL Server from SQLabs:"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""

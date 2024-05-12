@@ -87,7 +87,7 @@
 					Call DoShellCommand("cd """ + baseFolder + """ && tar -c -z -v --no-mac-metadata --no-xattrs -f ../" + sTGZFilename + " ./" + foldernameApp, 0)
 					
 				End
-				Begin IDEScriptBuildStep Xojo2Docker , AppliesTo = 2, Architecture = 1, Target = 0
+				Begin IDEScriptBuildStep Xojo2Docker , AppliesTo = 3, Architecture = 1, Target = 0
 					'*************************************************************
 					'Xojo Web App 2 Docker - How to use with your Xojo-built .app?
 					'*************************************************************
@@ -257,7 +257,7 @@
 				Begin SignProjectStep Sign
 				  DeveloperID=
 				End
-				Begin IDEScriptBuildStep Xojo2PKG , AppliesTo = 2, Architecture = 0, Target = 0
+				Begin IDEScriptBuildStep Xojo2PKG , AppliesTo = 3, Architecture = 0, Target = 0
 					'***********************
 					'Create a notarized .pkg
 					'***********************
@@ -360,8 +360,8 @@
 					'*************************
 					'Var sCODESIGN_IDENT_APPLICATION As String = "Developer ID Application: YOUR NAME"
 					'Var sCODESIGN_IDENT_INSTALLER As String = "Developer ID Installer: YOUR NAME"
-					Var sCODESIGN_IDENT_APPLICATION As String = "Developer ID Application: Juerg Otter"
-					Var sCODESIGN_IDENT_INSTALLER As String = "Developer ID Installer: Juerg Otter"
+					Var sCODESIGN_IDENT_APPLICATION As String = ""
+					Var sCODESIGN_IDENT_INSTALLER As String = ""
 					Var sCODESIGN_ENTITLEMENTS As String = sPROJECT_PATH + sFolderScripts + "/entitlements.plist"
 					
 					

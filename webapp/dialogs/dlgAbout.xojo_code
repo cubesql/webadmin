@@ -396,7 +396,7 @@ Begin dlgBase dlgAbout
          TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
-         Text            =   "cubeSQL Server (© sqlabs)"
+         Text            =   "cubeSQL Server (© SQLabs)"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
@@ -476,7 +476,7 @@ Begin dlgBase dlgAbout
          Width           =   440
          _mPanelIndex    =   -1
       End
-      Begin WebLabel labWrittenByTitle
+      Begin WebLabel labCopyrightTitle
          Bold            =   False
          ControlID       =   ""
          Enabled         =   True
@@ -501,7 +501,7 @@ Begin dlgBase dlgAbout
          TabIndex        =   12
          TabPanelIndex   =   0
          TabStop         =   True
-         Text            =   "Written by:"
+         Text            =   "Copyright:"
          TextAlignment   =   3
          TextColor       =   colTextKey
          Tooltip         =   ""
@@ -511,8 +511,7 @@ Begin dlgBase dlgAbout
          Width           =   140
          _mPanelIndex    =   -1
       End
-      Begin WebLink labWrittenByWebsite
-         Appearance      =   0
+      Begin WebLabel labCopyright
          Bold            =   False
          ControlID       =   ""
          Enabled         =   True
@@ -534,19 +533,52 @@ Begin dlgBase dlgAbout
          PanelIndex      =   "0"
          Parent          =   "rctFormContent"
          Scope           =   2
-         TabIndex        =   14
+         TabIndex        =   13
          TabPanelIndex   =   0
          TabStop         =   True
-         Target          =   1
-         Text            =   "jo-tools.ch"
+         Text            =   "SQLabs and jo-tools"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
+         Top             =   406
+         Underline       =   False
+         Visible         =   True
+         Width           =   266
+         _mPanelIndex    =   -1
+      End
+      Begin WebLabel labWrittenByTitle
+         Bold            =   False
+         ControlID       =   ""
+         Enabled         =   True
+         FontName        =   ""
+         FontSize        =   0.0
+         Height          =   38
+         Index           =   -2147483648
+         Indicator       =   0
+         Italic          =   False
+         Left            =   66
+         LockBottom      =   False
+         LockedInPosition=   True
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         Multiline       =   False
+         PanelIndex      =   "0"
+         Parent          =   "rctFormContent"
+         Scope           =   2
+         TabIndex        =   14
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   "Written by:"
+         TextAlignment   =   3
+         TextColor       =   colTextKey
+         Tooltip         =   ""
          Top             =   452
          Underline       =   False
-         URL             =   "#constUrl_JOTools"
          Visible         =   True
-         Width           =   120
+         Width           =   140
          _mPanelIndex    =   -1
       End
       Begin WebLink labWrittenByGitHub
@@ -560,7 +592,7 @@ Begin dlgBase dlgAbout
          Index           =   -2147483648
          Indicator       =   0
          Italic          =   False
-         Left            =   342
+         Left            =   214
          LockBottom      =   False
          LockedInPosition=   True
          LockHorizontal  =   False
@@ -576,48 +608,13 @@ Begin dlgBase dlgAbout
          TabPanelIndex   =   0
          TabStop         =   True
          Target          =   1
-         Text            =   "GitHub: jo-tools"
+         Text            =   "Jürg Otter"
          TextAlignment   =   0
          TextColor       =   &c000000FF
          Tooltip         =   ""
          Top             =   452
          Underline       =   False
          URL             =   "#constUrl_JOToolsGitHub"
-         Visible         =   True
-         Width           =   140
-         _mPanelIndex    =   -1
-      End
-      Begin WebLabel labWrittenByAuthor
-         Bold            =   False
-         ControlID       =   ""
-         Enabled         =   True
-         FontName        =   ""
-         FontSize        =   0.0
-         Height          =   38
-         Index           =   -2147483648
-         Indicator       =   0
-         Italic          =   False
-         Left            =   214
-         LockBottom      =   False
-         LockedInPosition=   True
-         LockHorizontal  =   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   True
-         LockVertical    =   False
-         Multiline       =   False
-         PanelIndex      =   0
-         Parent          =   "rctFormContent"
-         Scope           =   2
-         TabIndex        =   13
-         TabPanelIndex   =   0
-         TabStop         =   True
-         Text            =   "Jürg Otter"
-         TextAlignment   =   0
-         TextColor       =   &c000000FF
-         Tooltip         =   ""
-         Top             =   406
-         Underline       =   False
          Visible         =   True
          Width           =   266
          _mPanelIndex    =   -1
@@ -697,7 +694,7 @@ End
 #tag Events labCubeSQLServer
 	#tag Event
 		Sub Opening()
-		  Me.Text = "<raw><a href=""" + constUrl_CubeSQLServer + """ target=""_blank"">cubeSQL Server</a> (&copy; <a href=""" + constUrl_SQLabs + """ target=""_blank"">sqlabs</a>)</raw>"
+		  Me.Text = "<raw><a href=""" + constUrl_CubeSQLServer + """ target=""_blank"">cubeSQL Server</a> (&copy; <a href=""" + constUrl_SQLabs + """ target=""_blank"">SQLabs</a>)</raw>"
 		  
 		End Sub
 	#tag EndEvent
@@ -714,6 +711,14 @@ End
 	#tag Event
 		Sub Opening()
 		  Me.Text = "<raw><hr /></raw>"
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events labCopyright
+	#tag Event
+		Sub Opening()
+		  Me.Text = "<raw><a href=""" + constUrl_SQLabs + """ target=""_blank"">SQLabs</a> and <a href=""" + constUrl_JOTools + """ target=""_blank"">jo-tools</a></raw>"
 		  
 		End Sub
 	#tag EndEvent
