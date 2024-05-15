@@ -87,7 +87,7 @@
 					Call DoShellCommand("cd """ + baseFolder + """ && tar -c -z -v --no-mac-metadata --no-xattrs -f ../" + sTGZFilename + " ./" + foldernameApp, 0)
 					
 				End
-				Begin IDEScriptBuildStep Xojo2Docker , AppliesTo = 3, Architecture = 1, Target = 0
+				Begin IDEScriptBuildStep Xojo2Docker , AppliesTo = 3, Architecture = 0, Target = 0
 					'*************************************************************
 					'Xojo Web App 2 Docker - How to use with your Xojo-built .app?
 					'*************************************************************
@@ -156,9 +156,15 @@
 					
 					
 					'Check Build Target
+					Var sDOCKER_ARCH As String
+					Var sDOCKER_BUILD_MULTIARCH_IMAGE As String = "amd64-arm64v8"
 					Select Case CurrentBuildTarget
 					Case 17
 					'Linux (Intel, 64Bit)
+					sDOCKER_ARCH = "amd64"
+					Case 26
+					'Linux (ARM, 64Bit)
+					sDOCKER_ARCH = "arm64v8"
 					Else
 					Return
 					End Select
@@ -217,6 +223,8 @@
 					sShellArguments.Add(sBUILD_LOCATION)
 					sShellArguments.Add(sBUILD_APPNAME)
 					sShellArguments.Add(sDOCKER_TAG)
+					sShellArguments.Add(sDOCKER_ARCH)
+					sShellArguments.Add(sDOCKER_BUILD_MULTIARCH_IMAGE)
 					sShellArguments.Add(If(bDockerPushEnabled, "yes", "no"))
 					
 					'Make sure the ShellScript is executable:
