@@ -1,5 +1,12 @@
+#DOCKER BUILD ARGUMENTS
+ARG ARCH=
+
 #BASE IMAGE
-FROM ubuntu:22.04
+FROM ${ARCH}/ubuntu:22.04
+
+#ARGUMENTS IN BUILD STAGE
+ARG ARCH
+ARG BUILDPLATFORM
 
 #ENVIRONMENT
 ENV TZ=Etc/UTC
@@ -12,6 +19,14 @@ ENV CUBESQL_PASSWORD=
 
 #INSTALL REQUIRED LIBRARIES
 ARG DEBIAN_FRONTEND=noninteractive
+
+# WORKAROUND TO BUILD ON INTEL MAC FOR TARGET ARM64V8 
+RUN if [ "${BUILDPLATFORM}" = "linux/amd64" ] && [ "${ARCH}" = "arm64v8" ]; then \
+        rm /var/lib/dpkg/info/libc-bin.* && \
+        apt-get clean && \
+        apt-get update && \
+        apt-get install -y libc-bin \
+    ; fi
 RUN apt-get update
 RUN apt-get install -y \
 		tzdata \
