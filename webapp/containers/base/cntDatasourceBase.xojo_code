@@ -54,6 +54,8 @@ Implements WebDataSource
 		  If (Me.Table = Nil) Then Return Nil
 		  
 		  Var rowIndex As Integer = Me.Table.SelectedRowIndex
+		  If (rowIndex < 0) Then Return Nil
+		  
 		  Return Me.Table.RowTagAt(rowIndex)
 		  
 		End Function
