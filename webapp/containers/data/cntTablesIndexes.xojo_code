@@ -785,19 +785,13 @@ End
 		  Var sSelectAfterReload As Dictionary = edictSelectAfterReload
 		  edictSelectAfterReload = Nil
 		  
-		  Var bFound As Boolean = False
-		  For i As Integer = Me.TableRows.LastIndex DownTo 0
-		    Var tableRow As Dictionary = Me.TableRows(i)
-		    If (tableRow.Lookup("type", "").StringValue = sSelectAfterReload.Lookup("type", "-").StringValue) And _
-		      (tableRow.Lookup("name", "").StringValue = sSelectAfterReload.Lookup("name", "-").StringValue) Then
-		      
-		      Me.Table.SelectedRowIndex = i
-		      bFound = True
-		      Exit 'Loop
-		    End If
-		  Next
+		  Var findByFields As New Dictionary
+		  findByFields.Value("type") = sSelectAfterReload.Lookup("type", "-").StringValue
+		  findByFields.Value("name") = sSelectAfterReload.Lookup("name", "-").StringValue
 		  
-		  If (Not bFound) Then Me.Table.SelectedRowIndex = -1
+		  If (Not Me.TableRowFindAndSelect(findByFields)) Then
+		    Me.Table.SelectedRowIndex = -1
+		  End If
 		  
 		  Me.RefreshButtons()
 		  

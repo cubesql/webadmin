@@ -765,21 +765,15 @@ End
 		  Var sSelectAfterReload As Dictionary = edictSelectAfterReload
 		  edictSelectAfterReload = Nil
 		  
-		  Var bFound As Boolean = False
-		  For i As Integer = Me.TableRows.LastIndex DownTo 0
-		    Var tableRow As Dictionary = Me.TableRows(i)
-		    If (tableRow.Lookup("groupname", "").StringValue = sSelectAfterReload.Lookup("groupname", "-").StringValue) And _
-		      (tableRow.Lookup("privilege", "").StringValue = sSelectAfterReload.Lookup("privilege", "-").StringValue) And _
-		      (tableRow.Lookup("databasename", "").StringValue = sSelectAfterReload.Lookup("databasename", "-").StringValue) And _
-		      (tableRow.Lookup("tablename", "").StringValue = sSelectAfterReload.Lookup("tablename", "-").StringValue) Then
-		      
-		      Me.Table.SelectedRowIndex = i
-		      bFound = True
-		      Exit 'Loop
-		    End If
-		  Next
+		  Var findByFields As New Dictionary
+		  findByFields.Value("groupname") = sSelectAfterReload.Lookup("groupname", "-").StringValue
+		  findByFields.Value("privilege") = sSelectAfterReload.Lookup("privilege", "-").StringValue
+		  findByFields.Value("databasename") = sSelectAfterReload.Lookup("databasename", "-").StringValue
+		  findByFields.Value("tablename") = sSelectAfterReload.Lookup("tablename", "-").StringValue
 		  
-		  If (Not bFound) Then Me.Table.SelectedRowIndex = -1
+		  If (Not Me.TableRowFindAndSelect(findByFields)) Then
+		    Me.Table.SelectedRowIndex = -1
+		  End If
 		  
 		  Me.RefreshButtons()
 		  

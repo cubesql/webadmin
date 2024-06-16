@@ -439,6 +439,35 @@ Implements WebDataSource
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function TableRowFindAndSelect(findByFields As Dictionary) As Boolean
+		  If (Me.TableRows = Nil) Or (Me.TableRows.LastIndex < 0) Then Return False
+		  If (findByFields = Nil) Or (findByFields.KeyCount < 1) Then Return False
+		  
+		  Var tableRow As Dictionary
+		  Var bAllFieldsFound As Boolean
+		  For i As Integer = Me.TableRows.LastIndex DownTo 0
+		    tableRow = Me.TableRows(i)
+		    
+		    bAllFieldsFound = True
+		    For Each field As Variant In findByFields.Keys
+		      If (tableRow.Lookup(field.StringValue, "").StringValue <> findByFields.Value(field).StringValue) Then
+		        bAllFieldsFound = False
+		        Exit 'Loop matching Fields
+		      End If
+		    Next
+		    
+		    If (Not bAllFieldsFound) Then Continue 'searching next Table Row
+		    
+		    Me.Table.SelectedRowIndex = i
+		    Return True
+		  Next
+		  
+		  Return False
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Function UnsortedPrimaryKeys() As Integer()
 		  // Part of the WebDataSource interface.

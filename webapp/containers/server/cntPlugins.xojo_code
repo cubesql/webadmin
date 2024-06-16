@@ -211,16 +211,10 @@ End
 		  Var sSelectAfterReload As String = esSelectAfterReload
 		  esSelectAfterReload = ""
 		  
-		  Var bFound As Boolean = False
-		  For i As Integer = Me.TableRows.LastIndex DownTo 0
-		    Var tableRow As Dictionary = Me.TableRows(i)
-		    If (tableRow.Lookup("name", "").StringValue <> sSelectAfterReload) Then Continue
-		    Me.Table.SelectedRowIndex = i
-		    bFound = True
-		    Exit 'Loop
-		  Next
+		  Var findByFields As New Dictionary
+		  findByFields.Value("name") = sSelectAfterReload
 		  
-		  If (Not bFound) And (Me.TableRows <> Nil) And (Me.TableRows.LastIndex >= 0) And (Me.Table.RowCount > 0) Then
+		  If (Not Me.TableRowFindAndSelect(findByFields)) And (Me.TableRows.LastIndex >= 0) And (Me.Table.RowCount > 0) Then
 		    Me.Table.SelectedRowIndex = 0
 		  End If
 		  

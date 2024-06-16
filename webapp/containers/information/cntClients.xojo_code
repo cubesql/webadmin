@@ -385,16 +385,12 @@ End
 		  Var iSelectAfterReload As Integer = eiSelectAfterReload
 		  eiSelectAfterReload = -1
 		  
-		  Var bFound As Boolean = False
-		  For i As Integer = Me.TableRows.LastIndex DownTo 0
-		    Var tableRow As Dictionary = Me.TableRows(i)
-		    If (tableRow.Lookup("id", "").IntegerValue <> iSelectAfterReload) Then Continue
-		    Me.Table.SelectedRowIndex = i
-		    bFound = True
-		    Exit 'Loop
-		  Next
+		  Var findByFields As New Dictionary
+		  findByFields.Value("id") = iSelectAfterReload
 		  
-		  If (Not bFound) Then Me.Table.SelectedRowIndex = -1
+		  If (Not Me.TableRowFindAndSelect(findByFields)) Then
+		    Me.Table.SelectedRowIndex = -1
+		  End If
 		  
 		  Me.RefreshButtons()
 		  
@@ -432,7 +428,7 @@ End
 #tag Events btnRefresh
 	#tag Event
 		Sub Pressed()
-		  Self.TableLoad()
+		  Self.RefreshInfos()
 		  
 		End Sub
 	#tag EndEvent
