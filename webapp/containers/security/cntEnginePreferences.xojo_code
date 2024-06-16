@@ -790,18 +790,16 @@ End
 		  edictSelectAfterReload = Nil
 		  
 		  Var bFound As Boolean = False
-		  For i As Integer = Me.Table.LastRowIndex DownTo 0
-		    Var rowTag As Dictionary = Me.Table.RowTagAt(i)
-		    If (rowTag IsA Dictionary) Then
-		      If(rowTag.Lookup("engine", "").StringValue = sSelectAfterReload.Lookup("engine", "-").StringValue) And _ 
-		        (rowTag.Lookup("groupname", "").StringValue = sSelectAfterReload.Lookup("groupname", "-").StringValue) And _
-		        (rowTag.Lookup("databasename", "").StringValue = sSelectAfterReload.Lookup("databasename", "-").StringValue) And _
-		        (rowTag.Lookup("key", "").StringValue = sSelectAfterReload.Lookup("key", "-").StringValue) Then
-		        
-		        Me.Table.SelectedRowIndex = i
-		        bFound = True
-		        Exit 'Loop
-		      End If
+		  For i As Integer = Me.TableRows.LastIndex DownTo 0
+		    Var tableRow As Dictionary = Me.TableRows(i)
+		    If(tableRow.Lookup("engine", "").StringValue = sSelectAfterReload.Lookup("engine", "-").StringValue) And _ 
+		      (tableRow.Lookup("groupname", "").StringValue = sSelectAfterReload.Lookup("groupname", "-").StringValue) And _
+		      (tableRow.Lookup("databasename", "").StringValue = sSelectAfterReload.Lookup("databasename", "-").StringValue) And _
+		      (tableRow.Lookup("key", "").StringValue = sSelectAfterReload.Lookup("key", "-").StringValue) Then
+		      
+		      Me.Table.SelectedRowIndex = i
+		      bFound = True
+		      Exit 'Loop
 		    End If
 		  Next
 		  

@@ -786,16 +786,14 @@ End
 		  edictSelectAfterReload = Nil
 		  
 		  Var bFound As Boolean = False
-		  For i As Integer = Me.Table.LastRowIndex DownTo 0
-		    Var rowTag As Dictionary = Me.Table.RowTagAt(i)
-		    If (rowTag IsA Dictionary) Then
-		      If (rowTag.Lookup("type", "").StringValue = sSelectAfterReload.Lookup("type", "-").StringValue) And _
-		        (rowTag.Lookup("name", "").StringValue = sSelectAfterReload.Lookup("name", "-").StringValue) Then
-		        
-		        Me.Table.SelectedRowIndex = i
-		        bFound = True
-		        Exit 'Loop
-		      End If
+		  For i As Integer = Me.TableRows.LastIndex DownTo 0
+		    Var tableRow As Dictionary = Me.TableRows(i)
+		    If (tableRow.Lookup("type", "").StringValue = sSelectAfterReload.Lookup("type", "-").StringValue) And _
+		      (tableRow.Lookup("name", "").StringValue = sSelectAfterReload.Lookup("name", "-").StringValue) Then
+		      
+		      Me.Table.SelectedRowIndex = i
+		      bFound = True
+		      Exit 'Loop
 		    End If
 		  Next
 		  

@@ -1146,14 +1146,12 @@ End
 		  esSelectAfterReload = ""
 		  
 		  Var bFound As Boolean = False
-		  For i As Integer = Me.Table.LastRowIndex DownTo 0
-		    Var rowTag As Dictionary = Me.Table.RowTagAt(i)
-		    If (rowTag IsA Dictionary) Then
-		      If (rowTag.Lookup("databasename", "").StringValue <> sSelectAfterReload) Then Continue
-		      Me.Table.SelectedRowIndex = i
-		      bFound = True
-		      Exit 'Loop
-		    End If
+		  For i As Integer = Me.TableRows.LastIndex DownTo 0
+		    Var tableRow As Dictionary = Me.TableRows(i)
+		    If (tableRow.Lookup("databasename", "").StringValue <> sSelectAfterReload) Then Continue
+		    Me.Table.SelectedRowIndex = i
+		    bFound = True
+		    Exit 'Loop
 		  Next
 		  
 		  If (Not bFound) Then Me.Table.SelectedRowIndex = -1
