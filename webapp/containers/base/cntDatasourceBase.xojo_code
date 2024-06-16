@@ -54,6 +54,8 @@ Implements WebDataSource
 		  If (Me.Table = Nil) Then Return Nil
 		  
 		  Var rowIndex As Integer = Me.Table.SelectedRowIndex
+		  If (rowIndex < 0) Then Return Nil
+		  
 		  Return Me.Table.RowTagAt(rowIndex)
 		  
 		End Function
@@ -165,6 +167,8 @@ Implements WebDataSource
 	#tag Method, Flags = &h21
 		Private Function RowData(rowCount As Integer, rowOffset As Integer, sortColumns As String) As WebListboxRowData()
 		  // Part of the WebDataSource interface.
+		  Var rows() As WebListboxRowData
+		  If (rowOffset < 0) Then Return rows
 		  
 		  'Sort Table Rows
 		  Var sortCol As String = sortColumns.NthField(" ", 1)
@@ -184,8 +188,6 @@ Implements WebDataSource
 		  TableRows.Sort(AddressOf SortedTableRowsDelegate)
 		  
 		  'Return requested sorted Rows
-		  Var rows() As WebListboxRowData
-		  
 		  Var dictRow As Dictionary
 		  For i As Integer = rowOffset To rowOffset + rowCount-1
 		    If (Me.TableRows.LastIndex < i) Then Continue
