@@ -54,9 +54,9 @@ Implements WebDataSource
 		  If (Me.Table = Nil) Then Return Nil
 		  
 		  Var rowIndex As Integer = Me.Table.SelectedRowIndex
-		  If (rowIndex < 0) Then Return Nil
+		  If (rowIndex < 0) Or (rowIndex > Me.TableRows.LastIndex) Then Return Nil
 		  
-		  Return Me.Table.RowTagAt(rowIndex)
+		  Return Me.TableRows(rowIndex).Lookup("rowtag", Nil)
 		  
 		End Function
 	#tag EndMethod
@@ -198,7 +198,6 @@ Implements WebDataSource
 		    
 		    Var row As New WebListBoxRowData
 		    row.PrimaryKey = Me.TableRows(i).Lookup("id", -1).IntegerValue
-		    row.Tag = dictRow
 		    
 		    For Each col As DatasourceColumn In Me.Columns
 		      Var colData As Variant = Me.TableRowColumnData(col, dictRow)
@@ -226,6 +225,8 @@ Implements WebDataSource
 		        Break
 		      End Select
 		    Next
+		    
+		    dictRow.Value("rowtag") = dictRowTag
 		    
 		    row.Tag = dictRowTag
 		    rows.Add(row)
