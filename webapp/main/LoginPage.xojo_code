@@ -29,6 +29,7 @@ Begin WebPage LoginPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebRectangle rectLogin
       BackgroundColor =   &cFFFFFF
@@ -584,7 +585,7 @@ Begin WebPage LoginPage
          Enabled         =   True
          Height          =   32
          Index           =   -2147483648
-         Indicator       =   ""
+         Indicator       =   0
          Left            =   372
          LockBottom      =   False
          LockedInPosition=   True
@@ -598,6 +599,7 @@ Begin WebPage LoginPage
          SVGColor        =   &c00000000
          SVGData         =   ""
          TabIndex        =   15
+         TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
          Top             =   440
@@ -634,8 +636,6 @@ Begin WebPage LoginPage
       Period          =   50
       RunMode         =   0
       Scope           =   2
-      TabIndex        =   15
-      TabStop         =   True
       _mPanelIndex    =   -1
    End
 End
@@ -929,7 +929,13 @@ End
 
 
 	#tag Note, Name = DebugMemoryIssues
-		Place this in the Run Event of a WebThread (Location: Browser).
+		1. Add a WebLabel
+		   - Name: labMemory
+		   - Multiline: True
+		2. Add a WebTimer
+		   - Location: Browser
+		3. Copy and Paste the code below to the Run Event of the WebTimer
+		
 		It'll show the count of instances.
 		
 		*****
