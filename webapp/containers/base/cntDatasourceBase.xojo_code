@@ -72,11 +72,7 @@ Implements WebDataSource
 		    If (rs <> Nil) Then
 		      If (rs.RowCount > 0) Then
 		        Var bIdFromRowset As Boolean = False
-		        #If (XojoVersion >= 2024.02) Then
-		          Var id As Integer = 0
-		        #Else
-		          Var id As Integer = 1
-		        #EndIf
+		        Var id As Integer = 1
 		        Var bFilteredOut As Boolean
 		        Var bSearchFilterShowRow As Boolean
 		        rs.MoveToFirstRow
