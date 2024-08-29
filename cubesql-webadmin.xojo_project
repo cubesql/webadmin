@@ -50,6 +50,7 @@ Class=DatasourceColumn;webapp/containers/base/DatasourceColumn.xojo_code;&h00000
 Class=App;webapp/App.xojo_code;&h0000000055A03FFF;&h0000000018D38FFF;false
 WebSession=Session;webapp/Session.xojo_code;&h0000000046C87FFF;&h0000000018D38FFF;false
 Module=modCubeSQLAdmin;webapp/modCubeSQLAdmin.xojo_code;&h00000000097C9FFF;&h0000000018D38FFF;false
+Class=ConnectionItem;webapp/ConnectionItem.xojo_code;&h0000000046AE4FFF;&h0000000018D38FFF;false
 MultiImage=icon_128;resources/icon_128.xojo_image;&h000000007294E7FF;&h0000000035B107FF;false
 BuildSteps=Build Automation;Build Automation.xojo_code;&h000000001394FFFF;&h0000000000000000;false
 ColorAsset=colTextKey;styles/colTextKey.xojo_color;&h000000005870AFFF;&h00000000139DBFFF;false
