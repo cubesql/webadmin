@@ -29,7 +29,6 @@ Begin WebPage LoginPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebRectangle rectLogin
       BackgroundColor =   &cFFFFFF
@@ -44,7 +43,7 @@ Begin WebPage LoginPage
       LayoutType      =   0
       Left            =   20
       LockBottom      =   False
-      LockedInPosition=   True
+      LockedInPosition=   False
       LockHorizontal  =   True
       LockLeft        =   False
       LockRight       =   False
@@ -607,6 +606,38 @@ Begin WebPage LoginPage
          Width           =   32
          _mPanelIndex    =   -1
       End
+      Begin WebPopupMenu lstChoice
+         ControlID       =   ""
+         Enabled         =   True
+         Height          =   38
+         Index           =   -2147483648
+         Indicator       =   0
+         InitialValue    =   ""
+         LastAddedRowIndex=   0
+         LastRowIndex    =   0
+         Left            =   214
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockHorizontal  =   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         LockVertical    =   False
+         PanelIndex      =   "0"
+         Parent          =   "rectLogin"
+         RowCount        =   0
+         Scope           =   2
+         SelectedRowIndex=   0
+         SelectedRowText =   ""
+         TabIndex        =   16
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Tooltip         =   ""
+         Top             =   161
+         Visible         =   True
+         Width           =   346
+         _mPanelIndex    =   -1
+      End
    End
    Begin WebMessageDialog dlgMessage
       ControlID       =   ""
@@ -730,12 +761,22 @@ End
 		  If Session.Login(db) Then
 		    'Clear Password for next Login
 		    'Except if prefilled password
-		    Var setUsername As String
-		    Var setPassword As String
-		    Me.Prefill_UserAndPwd(setUsername, setPassword)
-		    If (edtUsername.Text.Trim <> setUsername) Or (edtPassword.Text.Trim <> setPassword) Then
-		      edtPassword.Text = ""
+		    
+		    Var bKeepPwd As Boolean = False
+		    If (Me.eoConnectionItem <> Nil) Then
+		      If (Me.eoConnectionItem.Username = edtUsername.Text.Trim) And (Me.eoConnectionItem.Password = edtPassword.Text.Trim) Then bKeepPwd = True
+		      
+		      If Me.eoConnectionItem.IsNewConnection Then
+		        'default values have been changed to connect to another server
+		        If (Me.eoConnectionItem.Hostname <> edtHostname.Text.Trim) Then bKeepPwd = False
+		        If (Me.eoConnectionItem.Port <> edtPort.Text.ToInteger) Then bKeepPwd = False
+		      Else
+		        'preconfigured connection (doesn't allow changing hostname/port, but allows changing username)
+		        'so the above check for username/password is all that's needed
+		      End If
 		    End If
+		    
+		    If (Not bKeepPwd) Then edtPassword.Text = ""
 		  End If
 		  
 		End Sub
@@ -745,91 +786,45 @@ End
 		Private Sub ConnectSSL(db As CubeSQLServer)
 		  #Pragma BreakOnExceptions False
 		  
-		  If (db.Encryption <> CubeSQLPlugin.kSSL) Then
-		    db.SSLCertificate = Nil
-		    db.RootCertificate = Nil
-		    db.SSLCipherList = ""
-		    Return
-		  End If
+		  'reset
+		  db.SSLCertificate = Nil
+		  db.RootCertificate = Nil
+		  db.SSLCipherList = ""
 		  
-		  Var setSSLCertificate As String
-		  If modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLSSLCertificate", "CUBESQL_SSL_CERTIFICATE", setSSLCertificate) Then
-		    Try
-		      Var fileSSLCertificate As New FolderItem(setSSLCertificate, FolderItem.PathModes.Native)
-		      If (fileSSLCertificate <> Nil) And fileSSLCertificate.Exists Then
-		        db.SSLCertificate = fileSSLCertificate
-		      End If
-		    Catch err As IOException
-		    Catch err As UnsupportedFormatException
-		    End Try
-		  End If
+		  'no ssl connection
+		  If (db.Encryption <> CubeSQLPlugin.kSSL) Then Return
 		  
-		  Var setSSLCertificatePassword As String
-		  If edtSSLPemPwd.Visible Then
-		    setSSLCertificatePassword = edtSSLPemPwd.Text
-		    db.SSLCertificatePassword = setSSLCertificatePassword.Trim
+		  'certificate can only be set via ConnectionItem
+		  If (Me.eoConnectionItem = Nil) Then Return
+		  
+		  'in 'new connection' only apply if it's the preconfigured connection
+		  'and not manually changed
+		  If Me.eoConnectionItem.IsNewConnection Then
+		    'default values have been changed to connect to another server
+		    If (Me.eoConnectionItem.Hostname <> edtHostname.Text.Trim) Then Return
+		    If (Me.eoConnectionItem.Port <> edtPort.Text.ToInteger) Then Return
 		  Else
-		    If modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLSSLCertificatePassword", "CUBESQL_SSL_CERTIFICATEPASSWORD", setSSLCertificatePassword) Then
-		      Try
-		        If setSSLCertificatePassword.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
-		          'read from .txt file
-		          Var fileSSLCertificatePassword As FolderItem = New FolderItem(setSSLCertificatePassword, FolderItem.PathModes.Native)
-		          If (fileSSLCertificatePassword <> Nil) And fileSSLCertificatePassword.Exists Then
-		            Try
-		              Var stream As TextInputStream = TextInputStream.Open(fileSSLCertificatePassword)
-		              Var s As String = stream.ReadAll(Encodings.UTF8)
-		              stream.Close
-		              
-		              If (s.Trim <> "") Then db.SSLCertificatePassword = s.Trim
-		            Catch e As IOException
-		            End Try
-		          End If
-		        Else
-		          'use value
-		          db.SSLCertificatePassword = setSSLCertificatePassword.Trim
-		        End If
-		      Catch err As IOException
-		      Catch err As UnsupportedFormatException
-		      End Try
-		    End If
-		  End If
-		  
-		  Var setRootCertificate As String
-		  If modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLSSLRootCertificate", "CUBESQL_SSL_ROOTCERTIFICATE", setRootCertificate) Then
-		    Try
-		      Var fileRootCertificate As New FolderItem(setRootCertificate, FolderItem.PathModes.Native)
-		      If (fileRootCertificate <> Nil) And fileRootCertificate.Exists Then
-		        db.RootCertificate = fileRootCertificate
-		      End If
-		    Catch err As IOException
-		    Catch err As UnsupportedFormatException
-		    End Try
+		    'preconfigured connection (doesn't allow changing hostname/port, but allows changing username)
 		  End If
 		  
 		  
-		  Var setSSLCipherList As String
-		  If modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLSSLCipherList", "CUBESQL_SSL_CIPHERLIST", setSSLCipherList) Then
-		    Try
-		      If setSSLCipherList.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
-		        'read from .txt file
-		        Var fileSSLCipherList As FolderItem = New FolderItem(setSSLCipherList, FolderItem.PathModes.Native)
-		        If (fileSSLCipherList <> Nil) And fileSSLCipherList.Exists Then
-		          Try
-		            Var stream As TextInputStream = TextInputStream.Open(fileSSLCipherList)
-		            Var s As String = stream.ReadAll(Encodings.UTF8)
-		            stream.Close
-		            
-		            If (s.Trim <> "") Then db.SSLCipherList = s.Trim
-		          Catch e As IOException
-		          End Try
-		        End If
-		      Else
-		        'use value
-		        db.SSLCipherList = setSSLCipherList.Trim
-		      End If
-		    Catch err As IOException
-		    Catch err As UnsupportedFormatException
-		    End Try
+		  'assign ssl settings
+		  If (Me.eoConnectionItem.SSLCertificate <> Nil) And Me.eoConnectionItem.SSLCertificate.Exists Then
+		    db.SSLCertificate = me.eoConnectionItem.SSLCertificate
+		  End If
+		  
+		  If edtSSLPemPwd.Visible Then
+		    db.SSLCertificatePassword = edtSSLPemPwd.Text.Trim
+		  ElseIf (Me.eoConnectionItem.SSLCertificatePassword <> "") Then
+		    db.SSLCertificatePassword = Me.eoConnectionItem.SSLCertificatePassword
+		  End If
+		  
+		  If (Me.eoConnectionItem.SSLRootCertificate <> Nil) And Me.eoConnectionItem.SSLRootCertificate.Exists Then
+		    db.RootCertificate = Me.eoConnectionItem.SSLRootCertificate
+		  End If
+		  
+		  If (Me.eoConnectionItem.SSLCipherlist <> "") Then
+		    db.SSLCipherList = Me.eoConnectionItem.SSLCipherlist
 		  End If
 		  
 		End Sub
@@ -841,13 +836,121 @@ End
 		  'Don't overwrite after Logout
 		  If ebShown Then Return
 		  
+		  Var defaultConnectionItem As ConnectionItem = Me.Prefill_GetDefaultNewConnection
+		  
+		  Me.Prefill_Choices(defaultConnectionItem)
+		  
+		  Var prefillConnectionItem As ConnectionItem = defaultConnectionItem
+		  If (lstChoice.RowTagAt(lstChoice.SelectedRowIndex) IsA ConnectionItem) Then
+		    prefillConnectionItem = ConnectionItem(lstChoice.RowTagAt(lstChoice.SelectedRowIndex))
+		  End If
+		  
+		  Me.Prefill_Apply(prefillConnectionItem)
+		  
+		  lstChoice.Visible = (lstChoice.Count > 1)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Prefill_Apply(connectionItem As ConnectionItem)
+		  If (connectionItem = Nil) Then Return
+		  
+		  'fill in connection data
+		  eoConnectionItem = connectionItem
+		  
+		  edtHostname.Text = connectionItem.Hostname
+		  edtPort.Text = connectionItem.Port.ToString
+		  
+		  edtUsername.Text = connectionItem.Username
+		  edtPassword.Text = connectionItem.Password
+		  
+		  lstEncryption.SelectRowWithTag(connectionItem.Encryption)
+		  
+		  edtSSLPemPwd.Text = connectionItem.SSLCertificatePassword
+		  
+		  'disable controls in preconfigured connection items
+		  edtHostname.Enabled = connectionItem.IsNewConnection
+		  edtPort.Enabled = connectionItem.IsNewConnection
+		  lstEncryption.Enabled = connectionItem.IsNewConnection
+		  edtSSLPemPwd.Enabled = connectionItem.IsNewConnection
+		  
+		  
+		  btnConnect.SetFocus
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Prefill_Choices(defaultConnectionItem As ConnectionItem)
+		  lstChoice.RemoveAllRows
+		  
+		  lstChoice.AddRow(defaultConnectionItem.Caption, defaultConnectionItem)
+		  lstChoice.SelectRowWithTag(defaultConnectionItem)
+		  
+		  Var setJsonFile As String
+		  If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLConnectionChoice", "CUBESQL_CONNECTIONCHOICE", setJsonFile)) Then
+		    Return
+		  End If
+		  
+		  Var fileJson As FolderItem
+		  Try
+		    fileJson = New FolderItem(setJsonFile, FolderItem.PathModes.Native)
+		  Catch err As IOException
+		  Catch err As UnsupportedFormatException
+		  End Try
+		  
+		  If (fileJson = Nil) Or (Not fileJson.Exists) Then Return
+		  
+		  Var json As JSONItem
+		  Try
+		    Var stream As TextInputStream = TextInputStream.Open(fileJson)
+		    Var s As String = stream.ReadAll(Encodings.UTF8)
+		    stream.Close
+		    
+		    If (s.Trim <> "") Then json = New JSONItem(s)
+		  Catch err As IOException
+		  Catch err As JSONException
+		  End Try
+		  
+		  If (json = Nil) Or (Not json.IsArray) Then Return
+		  
+		  Var bNeedsSeparator As Boolean = True
+		  Var jsonItem As JSONItem
+		  For i As Integer = 0 To json.LastRowIndex
+		    jsonItem = json.ChildAt(i)
+		    
+		    Var connectionItem As New ConnectionItem(jsonItem, False)
+		    If (Not connectionItem.IsValid) Then Continue
+		    
+		    If bNeedsSeparator Then
+		      lstChoice.AddSeparator
+		      bNeedsSeparator = False
+		    End If
+		    
+		    lstChoice.AddRow(connectionItem.Caption, connectionItem)
+		    
+		    If (Not defaultConnectionItem.Selected) And connectionItem.Selected Then
+		      lstChoice.SelectRowWithTag(connectionItem)
+		    End If
+		  Next
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function Prefill_GetDefaultNewConnection() As ConnectionItem
+		  Var setSelected As Boolean = True
+		  
 		  Var setHostname As String
 		  If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLHostname", "CUBESQL_HOSTNAME", setHostname)) Then
+		    setSelected = False
 		    setHostname = "localhost"
 		  End If
 		  
 		  Var setPort As String
 		  If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLPort", "CUBESQL_PORT", setPort)) Then
+		    setSelected = False
 		    setPort = "4430"
 		  End If
 		  If (setPort.ToInteger < 1) Then setPort = "4430"
@@ -859,51 +962,41 @@ End
 		  
 		  Var setUsername As String
 		  Var setPassword As String
-		  Me.Prefill_UserAndPwd(setUsername, setPassword)
-		  
-		  edtHostname.Text = setHostname
-		  edtPort.Text = setPort
-		  edtUsername.Text = setUsername
-		  edtPassword.Text = setPassword
-		  
-		  Select Case setEncryption
-		    
-		  Case "NONE"
-		    lstEncryption.SelectRowWithTag(CubeSQLPlugin.kAESNONE)
-		    
-		  Case "AES128"
-		    lstEncryption.SelectRowWithTag(CubeSQLPlugin.kAES128)
-		    
-		  Case "AES256"
-		    lstEncryption.SelectRowWithTag(CubeSQLPlugin.kAES256)
-		    
-		  Case "SSL"
-		    lstEncryption.SelectRowWithTag(CubeSQLPlugin.kSSL)
-		    
-		  End Select
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub Prefill_UserAndPwd(ByRef setUsername As String, ByRef setPassword As String)
-		  setUsername = ""
-		  setPassword = ""
-		  
 		  Var bUsernameIsSet As Boolean = True
 		  If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLUsername", "CUBESQL_USERNAME", setUsername)) Then
 		    bUsernameIsSet = False
 		    setUsername = "admin"
 		  End If
-		  
 		  If bUsernameIsSet Then
 		    If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLPassword", "CUBESQL_PASSWORD", setPassword)) Then
-		      'never prefill a default password
-		      'except in DebugBuild - see above
+		      'never prefill a default password without a prefilled username
 		    End If
 		  End If
 		  
-		End Sub
+		  Var jsonDefault As New JSONItem("")
+		  jsonDefault.Value("caption") = "New Connection"
+		  jsonDefault.Value("selected") = setSelected
+		  
+		  jsonDefault.Value("hostname") = setHostname
+		  jsonDefault.Value("port") = setPort.ToInteger
+		  jsonDefault.Value("username") = setUsername
+		  jsonDefault.Value("password") = setPassword
+		  
+		  'ensure valid encryption value
+		  Select Case setEncryption
+		    
+		  Case "NONE", "AES128", "AES256", "SSL"
+		    jsonDefault.Value("encryption") = setEncryption
+		    
+		  Else
+		    jsonDefault.Value("encryption") = "NONE"
+		    
+		  End Select
+		  
+		  Var defaultConnectionItem As New ConnectionItem(jsonDefault, True)
+		  Return defaultConnectionItem
+		  
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -1009,6 +1102,10 @@ End
 		Private ebShown As Boolean
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private eoConnectionItem As ConnectionItem
+	#tag EndProperty
+
 
 #tag EndWindowCode
 
@@ -1073,12 +1170,10 @@ End
 		  Var bSSLPemPwdVisible As Boolean = False
 		  
 		  If (Me.RowTagAt(Me.SelectedRowIndex) = CubeSQLPlugin.kSSL) Then
-		    Var setSSLCertificate As String
-		    If modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLSSLCertificate", "CUBESQL_SSL_CERTIFICATE", setSSLCertificate) Then
+		    If (Self.eoConnectionItem <> Nil) And (Self.eoConnectionItem.SSLCertificate <> Nil) Then
 		      bSSLPemPwdVisible = True
 		      
-		      Var setSSLCertificatePassword As String
-		      If modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLSSLCertificatePassword", "CUBESQL_SSL_CERTIFICATEPASSWORD", setSSLCertificatePassword) Then
+		      If (Self.eoConnectionItem.SSLCertificatePassword <> "") Then
 		        bSSLPemPwdVisible = False
 		      End If
 		    End If
@@ -1127,6 +1222,20 @@ End
 		  End Select
 		  
 		  Me.Text = "v." + appVersion + appStageCode
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events lstChoice
+	#tag Event
+		Sub SelectionChanged(item As WebMenuItem)
+		  #Pragma unused item
+		  
+		  If (Not ebShown) Then Return
+		  If (Not (item.Tag IsA ConnectionItem)) Then Return
+		  
+		  Var connectionItem As ConnectionItem = ConnectionItem(item.Tag)
+		  Self.Prefill_Apply(connectionItem)
 		  
 		End Sub
 	#tag EndEvent
