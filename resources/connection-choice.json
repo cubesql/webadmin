@@ -1,0 +1,58 @@
+[
+	{
+		"caption": "localhost (4430, AES256)",
+		"selected": false,
+		"hostname": "localhost",
+		"username": "admin",
+		"password": "admin",
+		"port": 4430,
+		"encryption": "AES256",
+		"sslcertificate": "",
+		"sslcertificatepassword": "",
+		"sslrootcertificate": "",
+		"sslcipherlist": ""
+	},
+	{
+		"caption": "localhost (4430, AES128)",
+		"selected": false,
+		"hostname": "localhost",
+		"username": "admin",
+		"password": "admin",
+		"port": 4430,
+		"encryption": "AES128",
+		"sslcertificate": "",
+		"sslcertificatepassword": "",
+		"sslrootcertificate": "",
+		"sslcipherlist": ""
+	},
+	{
+		"caption": "localhost (4430, NONE)",
+		"selected": false,
+		"hostname": "localhost",
+		"username": "admin",
+		"password": "admin",
+		"port": 4430,
+		"encryption": "NONE",
+		"sslcertificate": "",
+		"sslcertificatepassword": "",
+		"sslrootcertificate": "",
+		"sslcipherlist": ""
+	},
+	{
+		"caption": "-",
+		"hostname": "-"
+	},
+	{
+		"caption": "localhost (4440, AES256)",
+		"selected": false,
+		"hostname": "localhost",
+		"username": "admin",
+		"password": "admin",
+		"port": 4440,
+		"encryption": "AES256",
+		"sslcertificate": "",
+		"sslcertificatepassword": "",
+		"sslrootcertificate": "",
+		"sslcipherlist": ""
+	}
+]

@@ -893,14 +893,9 @@ End
 		    Return
 		  End If
 		  
-		  Var fileJson As FolderItem
-		  Try
-		    fileJson = New FolderItem(setJsonFile, FolderItem.PathModes.Native)
-		  Catch err As IOException
-		  Catch err As UnsupportedFormatException
-		  End Try
+		  Var fileJson As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setJsonFile)
 		  
-		  If (fileJson = Nil) Or (Not fileJson.Exists) Then Return
+		  If (fileJson = Nil) Or (Not fileJson.Exists) Or (fileJson.IsFolder) Then Return
 		  
 		  Var json As JSONItem
 		  Try
@@ -921,6 +916,7 @@ End
 		    jsonItem = json.ChildAt(i)
 		    
 		    Var connectionItem As New ConnectionItem(jsonItem, False)
+		    If (connectionItem.IsSeparator) Then bNeedsSeparator = True
 		    If (Not connectionItem.IsValid) Then Continue
 		    
 		    If bNeedsSeparator Then

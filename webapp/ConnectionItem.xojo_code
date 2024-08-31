@@ -82,8 +82,8 @@ Protected Class ConnectionItem
 		  Var setSSLCertificate As String = jsonItem.Lookup("sslcertificate", "").StringValue.Trim
 		  If (setSSLCertificate <> "") Then
 		    Try
-		      Var fileSSLCertificate As New FolderItem(setSSLCertificate, FolderItem.PathModes.Native)
-		      If (fileSSLCertificate <> Nil) And fileSSLCertificate.Exists Then
+		      Var fileSSLCertificate As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setSSLCertificate)
+		      If (fileSSLCertificate <> Nil) And fileSSLCertificate.Exists And (Not fileSSLCertificate.IsFolder) Then
 		        eoSSLCertificate = fileSSLCertificate
 		      End If
 		    Catch err As IOException
@@ -99,8 +99,8 @@ Protected Class ConnectionItem
 		    Try
 		      If setSSLCertificatePassword.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
 		        'try to read from .txt file
-		        Var fileSSLCertificatePassword As FolderItem = New FolderItem(setSSLCertificatePassword, FolderItem.PathModes.Native)
-		        If (fileSSLCertificatePassword <> Nil) And fileSSLCertificatePassword.Exists Then
+		        Var fileSSLCertificatePassword As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setSSLCertificatePassword)
+		        If (fileSSLCertificatePassword <> Nil) And fileSSLCertificatePassword.Exists And (Not fileSSLCertificatePassword.IsFolder) Then
 		          Try
 		            Var stream As TextInputStream = TextInputStream.Open(fileSSLCertificatePassword)
 		            Var s As String = stream.ReadAll(Encodings.UTF8)
@@ -120,8 +120,8 @@ Protected Class ConnectionItem
 		  Var setRootCertificate As String = jsonItem.Lookup("sslrootcertificate", "").StringValue.Trim
 		  If (setRootCertificate <> "") Then
 		    Try
-		      Var fileRootCertificate As New FolderItem(setRootCertificate, FolderItem.PathModes.Native)
-		      If (fileRootCertificate <> Nil) And fileRootCertificate.Exists Then
+		      Var fileRootCertificate As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setRootCertificate)
+		      If (fileRootCertificate <> Nil) And fileRootCertificate.Exists And (Not fileRootCertificate.IsFolder) Then
 		        eoSSLRootCertificate = fileRootCertificate
 		      End If
 		    Catch err As IOException
@@ -138,8 +138,8 @@ Protected Class ConnectionItem
 		    Try
 		      If setSSLCipherList.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
 		        'try to read from .txt file
-		        Var fileSSLCipherList As FolderItem = New FolderItem(setSSLCipherList, FolderItem.PathModes.Native)
-		        If (fileSSLCipherList <> Nil) And fileSSLCipherList.Exists Then
+		        Var fileSSLCipherList As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setSSLCipherList)
+		        If (fileSSLCipherList <> Nil) And fileSSLCipherList.Exists And (Not fileSSLCipherList.IsFolder) Then
 		          Try
 		            Var stream As TextInputStream = TextInputStream.Open(fileSSLCipherList)
 		            Var s As String = stream.ReadAll(Encodings.UTF8)
@@ -161,6 +161,16 @@ Protected Class ConnectionItem
 	#tag Method, Flags = &h0
 		Function IsNewConnection() As Boolean
 		  Return ebIsNewConnection
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function IsSeparator() As Boolean
+		  If (esCaption = "-") Then Return True
+		  if (esHostname = "-") then return true
+		  
+		  Return False
 		  
 		End Function
 	#tag EndMethod

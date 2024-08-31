@@ -94,7 +94,7 @@ MDICaption=
 DefaultEncoding=&h0
 AppIcon=cubesql-webadmin.xojo_resources;&h0
 OSXBundleID=com.sqlabs.cubesqlwebadmin
-DebuggerCommandLine=--CubeSQLHostname=localhost --CubeSQLPort=4430 --CubeSQLUsername=admin --CubeSQLPassword=admin
+DebuggerCommandLine=--CubeSQLHostname=localhost --CubeSQLPort=4430 --CubeSQLUsername=admin --CubeSQLPassword=admin --CubeSQLConnectionChoice=./resources/connection-choice.json
 UseGDIPlus=False
 UseBuildsFolder=True
 HiDPI=True

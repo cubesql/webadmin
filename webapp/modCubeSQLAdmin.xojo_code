@@ -30,6 +30,64 @@ Protected Module modCubeSQLAdmin
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function GetFolderItemFromArgument(psArgumentValue As String) As FolderItem
+		  #Pragma BreakOnExceptions False
+		  
+		  If (psArgumentValue = "") Then Return Nil
+		  
+		  If (Not psArgumentValue.BeginsWith(".")) Then
+		    'Expect a full native path
+		    
+		    Var fileJson As FolderItem
+		    Try
+		      fileJson = New FolderItem(psArgumentValue, FolderItem.PathModes.Native)
+		    Catch err As IOException
+		    Catch err As UnsupportedFormatException
+		    End Try
+		    
+		    Return Nil
+		  End If
+		  
+		  'Try get relative path
+		  Try
+		    
+		    #If TargetWindows Then
+		      psArgumentValue = psArgumentValue.ReplaceAll("\", "/")
+		    #EndIf
+		    
+		    Var relativePathParts() As String = psArgumentValue.Split("/")
+		    
+		    Var item As FolderItem = App.ExecutableFile.Parent
+		    #If DebugBuild Then
+		      'DebugBuilds are in a subfolder of the project - use project folder as starting point
+		      item = item.Parent
+		    #EndIf
+		    
+		    If (item = Nil) Or (Not item.Exists) Or (Not item.IsFolder) Then Return Nil
+		    
+		    For Each relativePathPart As String In relativePathParts
+		      Select Case relativePathPart
+		      Case "."
+		        'current folder
+		        Continue
+		      Case ".."
+		        'parent folder
+		        item = item.Parent
+		      Else
+		        item = item.Child(relativePathPart)
+		      End Select
+		    Next
+		    
+		    If (item <> Nil) And (Not item.IsFolder) And item.Exists Then Return item
+		    
+		  Catch err As IOException
+		  Catch err As UnsupportedFormatException
+		  Catch err As NilObjectException
+		  End Try
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function LaunchArgumentGetValue(argKey As String, envKey As String, ByRef argValue As String) As Boolean
 		  ' Gets the Launch Argument from
 		  ' 1. Launch Argument
