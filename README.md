@@ -38,10 +38,10 @@ In order to build cubeSQL Web Admin application, [Xojo](https://xojo.com/) and t
 
 cubeSQL Web Admin supports the following launch arguments and corresponding environment variables:
 
-#### Web Application
+### Web Application
 - `--Port` | `CUBESQL_WEBADMIN_PORT`
 
-#### Prefill Login data:
+### Default New Connection
 
 - `--CubeSQLHostname` | `CUBESQL_HOSTNAME`
 - `--CubeSQLPort` | `CUBESQL_PORT`
@@ -58,6 +58,15 @@ cubeSQL Web Admin supports the following launch arguments and corresponding envi
 - `--CubeSQLUsername` | `CUBESQL_USERNAME`  
   Only if Username is prefilled:
   - `--CubeSQLPassword` | `CUBESQL_PASSWORD`
+
+### Connection Choice
+
+To offer a list of connection choices they can be specified in a JSON file which contains an array of [`ConnectionItems`](./webapp/ConnectionItem.xojo_code).  
+Example: [`connection-choice.json`](./resources/connection-choice.json)
+
+- `--CubeSQLConnectionChoice` | `CUBESQL_CONNECTIONCHOICE`
+  with value: `/path/to/connection-choice.json`
+
 
 
 ## About
