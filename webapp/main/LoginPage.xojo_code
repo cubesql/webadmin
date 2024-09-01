@@ -29,6 +29,7 @@ Begin WebPage LoginPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebRectangle rectLogin
       BackgroundColor =   &cFFFFFF
@@ -81,7 +82,7 @@ Begin WebPage LoginPage
          Multiline       =   False
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   3
+         TabIndex        =   4
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Hostname:"
@@ -117,7 +118,7 @@ Begin WebPage LoginPage
          PanelIndex      =   "0"
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   5
+         TabIndex        =   6
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Username:"
@@ -153,7 +154,7 @@ Begin WebPage LoginPage
          PanelIndex      =   "0"
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   7
+         TabIndex        =   8
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Password:"
@@ -189,7 +190,7 @@ Begin WebPage LoginPage
          PanelIndex      =   "0"
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   9
+         TabIndex        =   10
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Port:"
@@ -225,7 +226,7 @@ Begin WebPage LoginPage
          PanelIndex      =   "0"
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   11
+         TabIndex        =   12
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Encryption:"
@@ -262,7 +263,7 @@ Begin WebPage LoginPage
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   4
+         TabIndex        =   5
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -298,7 +299,7 @@ Begin WebPage LoginPage
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   6
+         TabIndex        =   7
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -333,7 +334,7 @@ Begin WebPage LoginPage
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   8
+         TabIndex        =   9
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -369,7 +370,7 @@ Begin WebPage LoginPage
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   10
+         TabIndex        =   11
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -403,7 +404,7 @@ Begin WebPage LoginPage
          Scope           =   2
          SelectedRowIndex=   0
          SelectedRowText =   ""
-         TabIndex        =   12
+         TabIndex        =   13
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
@@ -499,7 +500,7 @@ Begin WebPage LoginPage
          LockVertical    =   False
          Parent          =   "rectLogin"
          Scope           =   2
-         TabIndex        =   14
+         TabIndex        =   16
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
@@ -532,7 +533,7 @@ Begin WebPage LoginPage
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
-         TabIndex        =   13
+         TabIndex        =   14
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -617,7 +618,7 @@ Begin WebPage LoginPage
          LastRowIndex    =   0
          Left            =   214
          LockBottom      =   False
-         LockedInPosition=   False
+         LockedInPosition=   True
          LockHorizontal  =   False
          LockLeft        =   True
          LockRight       =   False
@@ -629,7 +630,7 @@ Begin WebPage LoginPage
          Scope           =   2
          SelectedRowIndex=   0
          SelectedRowText =   ""
-         TabIndex        =   16
+         TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
