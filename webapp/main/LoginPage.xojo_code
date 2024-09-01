@@ -29,6 +29,7 @@ Begin WebPage LoginPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebRectangle rectLogin
       BackgroundColor =   &cFFFFFF
@@ -43,7 +44,7 @@ Begin WebPage LoginPage
       LayoutType      =   0
       Left            =   20
       LockBottom      =   False
-      LockedInPosition=   False
+      LockedInPosition=   True
       LockHorizontal  =   True
       LockLeft        =   False
       LockRight       =   False
@@ -663,7 +664,7 @@ Begin WebPage LoginPage
       Enabled         =   False
       Index           =   -2147483648
       Location        =   0
-      LockedInPosition=   False
+      LockedInPosition=   True
       Period          =   50
       RunMode         =   0
       Scope           =   2
@@ -926,7 +927,7 @@ End
 		    
 		    lstChoice.AddRow(connectionItem.Caption, connectionItem)
 		    
-		    If (Not defaultConnectionItem.Selected) And connectionItem.Selected Then
+		    If connectionItem.Selected Then
 		      lstChoice.SelectRowWithTag(connectionItem)
 		    End If
 		  Next
@@ -936,17 +937,13 @@ End
 
 	#tag Method, Flags = &h21
 		Private Function Prefill_GetDefaultNewConnection() As ConnectionItem
-		  Var setSelected As Boolean = True
-		  
 		  Var setHostname As String
 		  If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLHostname", "CUBESQL_HOSTNAME", setHostname)) Then
-		    setSelected = False
 		    setHostname = "localhost"
 		  End If
 		  
 		  Var setPort As String
 		  If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLPort", "CUBESQL_PORT", setPort)) Then
-		    setSelected = False
 		    setPort = "4430"
 		  End If
 		  If (setPort.ToInteger < 1) Then setPort = "4430"
@@ -971,7 +968,7 @@ End
 		  
 		  Var jsonDefault As New JSONItem("")
 		  jsonDefault.Value("caption") = "New Connection"
-		  jsonDefault.Value("selected") = setSelected
+		  jsonDefault.Value("selected") = True
 		  
 		  jsonDefault.Value("hostname") = setHostname
 		  jsonDefault.Value("port") = setPort.ToInteger
