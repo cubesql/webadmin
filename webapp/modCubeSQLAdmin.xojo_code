@@ -41,11 +41,12 @@ Protected Module modCubeSQLAdmin
 		    Var fileJson As FolderItem
 		    Try
 		      fileJson = New FolderItem(psArgumentValue, FolderItem.PathModes.Native)
+		      Return fileJson
 		    Catch err As IOException
 		    Catch err As UnsupportedFormatException
 		    End Try
 		    
-		    Return Nil
+		    If (fileJson <> Nil) And (Not fileJson.IsFolder) And fileJson.Exists Then Return fileJson
 		  End If
 		  
 		  'Try get relative path
