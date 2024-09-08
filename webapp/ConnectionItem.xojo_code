@@ -60,6 +60,39 @@ Protected Class ConnectionItem
 		  esUsername = jsonItem.Lookup("username", "").StringValue.Trim
 		  esPassword = jsonItem.Lookup("password", "").StringValue.Trim
 		  
+		  If esPassword.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
+		    'try to read from .txt file
+		    Var filePassword As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(esPassword)
+		    If (filePassword <> Nil) And filePassword.Exists And (Not filePassword.IsFolder) Then
+		      Try
+		        esPassword = ""
+		        
+		        Var stream As TextInputStream = TextInputStream.Open(filePassword)
+		        Var s As String = stream.ReadAll(Encodings.UTF8)
+		        stream.Close
+		        
+		        If (s.Trim <> "") Then esPassword = s.Trim
+		      Catch e As IOException
+		      End Try
+		    End If
+		  ElseIf esPassword.BeginsWith("`") And esPassword.EndsWith("`") Then
+		    'try to read from shell command
+		    Try
+		      Var shellCommand As String = esPassword.Trim("`")
+		      esPassword = ""
+		      
+		      Var shell As New Shell
+		      shell.Execute(shellCommand)
+		      Var s As String = shell.Result
+		      shell.Close
+		      
+		      If (s.Trim <> "") Then esPassword = s.Trim
+		    Catch err As ShellNotAvailableException
+		    Catch err As ShellNotRunningException
+		    End Try
+		  End If
+		  
+		  
 		  Me.Init_SSL(jsonItem)
 		  
 		  ebSelected = jsonItem.Lookup("selected", False).BooleanValue
@@ -81,14 +114,10 @@ Protected Class ConnectionItem
 		  
 		  Var setSSLCertificate As String = jsonItem.Lookup("sslcertificate", "").StringValue.Trim
 		  If (setSSLCertificate <> "") Then
-		    Try
-		      Var fileSSLCertificate As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setSSLCertificate)
-		      If (fileSSLCertificate <> Nil) And fileSSLCertificate.Exists And (Not fileSSLCertificate.IsFolder) Then
-		        eoSSLCertificate = fileSSLCertificate
-		      End If
-		    Catch err As IOException
-		    Catch err As UnsupportedFormatException
-		    End Try
+		    Var fileSSLCertificate As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setSSLCertificate)
+		    If (fileSSLCertificate <> Nil) And fileSSLCertificate.Exists And (Not fileSSLCertificate.IsFolder) Then
+		      eoSSLCertificate = fileSSLCertificate
+		    End If
 		  End If
 		  
 		  Var setSSLCertificatePassword As String = jsonItem.Lookup("sslcertificatepassword", "").StringValue.Trim
@@ -96,37 +125,31 @@ Protected Class ConnectionItem
 		    'use value
 		    esSSLCertificatePassword = setSSLCertificatePassword.Trim
 		    
-		    Try
-		      If setSSLCertificatePassword.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
-		        'try to read from .txt file
-		        Var fileSSLCertificatePassword As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setSSLCertificatePassword)
-		        If (fileSSLCertificatePassword <> Nil) And fileSSLCertificatePassword.Exists And (Not fileSSLCertificatePassword.IsFolder) Then
-		          Try
-		            Var stream As TextInputStream = TextInputStream.Open(fileSSLCertificatePassword)
-		            Var s As String = stream.ReadAll(Encodings.UTF8)
-		            stream.Close
-		            
-		            If (s.Trim <> "") Then esSSLCertificatePassword = s.Trim
-		          Catch e As IOException
-		          End Try
-		        End If
+		    If setSSLCertificatePassword.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
+		      'try to read from .txt file
+		      Var fileSSLCertificatePassword As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setSSLCertificatePassword)
+		      If (fileSSLCertificatePassword <> Nil) And fileSSLCertificatePassword.Exists And (Not fileSSLCertificatePassword.IsFolder) Then
+		        Try
+		          esSSLCertificatePassword = ""
+		          
+		          Var stream As TextInputStream = TextInputStream.Open(fileSSLCertificatePassword)
+		          Var s As String = stream.ReadAll(Encodings.UTF8)
+		          stream.Close
+		          
+		          If (s.Trim <> "") Then esSSLCertificatePassword = s.Trim
+		        Catch e As IOException
+		        End Try
 		      End If
-		    Catch err As IOException
-		    Catch err As UnsupportedFormatException
-		    End Try
+		    End If
 		  End If
 		  
 		  
 		  Var setRootCertificate As String = jsonItem.Lookup("sslrootcertificate", "").StringValue.Trim
 		  If (setRootCertificate <> "") Then
-		    Try
-		      Var fileRootCertificate As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setRootCertificate)
-		      If (fileRootCertificate <> Nil) And fileRootCertificate.Exists And (Not fileRootCertificate.IsFolder) Then
-		        eoSSLRootCertificate = fileRootCertificate
-		      End If
-		    Catch err As IOException
-		    Catch err As UnsupportedFormatException
-		    End Try
+		    Var fileRootCertificate As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setRootCertificate)
+		    If (fileRootCertificate <> Nil) And fileRootCertificate.Exists And (Not fileRootCertificate.IsFolder) Then
+		      eoSSLRootCertificate = fileRootCertificate
+		    End If
 		  End If
 		  
 		  
@@ -135,24 +158,22 @@ Protected Class ConnectionItem
 		    'use value
 		    esSSLCipherlist = setSSLCipherList.Trim
 		    
-		    Try
-		      If setSSLCipherList.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
-		        'try to read from .txt file
-		        Var fileSSLCipherList As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setSSLCipherList)
-		        If (fileSSLCipherList <> Nil) And fileSSLCipherList.Exists And (Not fileSSLCipherList.IsFolder) Then
-		          Try
-		            Var stream As TextInputStream = TextInputStream.Open(fileSSLCipherList)
-		            Var s As String = stream.ReadAll(Encodings.UTF8)
-		            stream.Close
-		            
-		            If (s.Trim <> "") Then esSSLCipherlist = s.Trim
-		          Catch e As IOException
-		          End Try
-		        End If
+		    If setSSLCipherList.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
+		      'try to read from .txt file
+		      Var fileSSLCipherList As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setSSLCipherList)
+		      If (fileSSLCipherList <> Nil) And fileSSLCipherList.Exists And (Not fileSSLCipherList.IsFolder) Then
+		        Try
+		          esSSLCipherlist = ""
+		          
+		          Var stream As TextInputStream = TextInputStream.Open(fileSSLCipherList)
+		          Var s As String = stream.ReadAll(Encodings.UTF8)
+		          stream.Close
+		          
+		          If (s.Trim <> "") Then esSSLCipherlist = s.Trim
+		        Catch e As IOException
+		        End Try
 		      End If
-		    Catch err As IOException
-		    Catch err As UnsupportedFormatException
-		    End Try
+		    End If
 		  End If
 		  
 		End Sub
