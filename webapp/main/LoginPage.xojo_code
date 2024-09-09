@@ -29,7 +29,6 @@ Begin WebPage LoginPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebRectangle rectLogin
       BackgroundColor =   &cFFFFFF
@@ -837,16 +836,35 @@ End
 		  'Don't overwrite after Logout
 		  If ebShown Then Return
 		  
-		  Var defaultConnectionItem As ConnectionItem = Me.Prefill_GetDefaultNewConnection
+		  Var choices() As ConnectionItem = modCubeSQLAdmin.GetConnectionChoices()
 		  
-		  Me.Prefill_Choices(defaultConnectionItem)
+		  Var selectedConnectionItem As ConnectionItem
+		  Var bNeedsSeparator As Boolean
 		  
-		  Var prefillConnectionItem As ConnectionItem = defaultConnectionItem
-		  If (lstChoice.RowTagAt(lstChoice.SelectedRowIndex) IsA ConnectionItem) Then
-		    prefillConnectionItem = ConnectionItem(lstChoice.RowTagAt(lstChoice.SelectedRowIndex))
+		  lstChoice.RemoveAllRows
+		  
+		  For Each choice As ConnectionItem In choices
+		    If (choice.IsSeparator) Then bNeedsSeparator = True
+		    If (Not choice.IsValid) Then Continue
+		    
+		    If bNeedsSeparator Then
+		      lstChoice.AddSeparator
+		      bNeedsSeparator = False
+		    End If
+		    
+		    lstChoice.AddRow(choice.Caption, choice)
+		    
+		    If choice.Selected Then selectedConnectionItem = choice
+		    If choice.IsNewConnection Then bNeedsSeparator = True
+		  Next
+		  
+		  If (selectedConnectionItem = Nil) And (choices.LastIndex >= 0) Then selectedConnectionItem = choices(0)
+		  
+		  If (selectedConnectionItem <> Nil) Then
+		    lstChoice.SelectRowWithTag(selectedConnectionItem)
+		    
+		    Me.Prefill_Apply(selectedConnectionItem)
 		  End If
-		  
-		  Me.Prefill_Apply(prefillConnectionItem)
 		  
 		  lstChoice.Visible = (lstChoice.Count > 1)
 		  
@@ -880,116 +898,6 @@ End
 		  btnConnect.SetFocus
 		  
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub Prefill_Choices(defaultConnectionItem As ConnectionItem)
-		  lstChoice.RemoveAllRows
-		  
-		  lstChoice.AddRow(defaultConnectionItem.Caption, defaultConnectionItem)
-		  lstChoice.SelectRowWithTag(defaultConnectionItem)
-		  
-		  Var setJsonFile As String
-		  If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLConnectionChoice", "CUBESQL_CONNECTIONCHOICE", setJsonFile)) Then
-		    Return
-		  End If
-		  
-		  Var fileJson As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setJsonFile)
-		  
-		  If (fileJson = Nil) Or (Not fileJson.Exists) Or (fileJson.IsFolder) Then Return
-		  
-		  Var json As JSONItem
-		  Try
-		    Var stream As TextInputStream = TextInputStream.Open(fileJson)
-		    Var s As String = stream.ReadAll(Encodings.UTF8)
-		    stream.Close
-		    
-		    If (s.Trim <> "") Then json = New JSONItem(s)
-		  Catch err As IOException
-		  Catch err As JSONException
-		  End Try
-		  
-		  If (json = Nil) Or (Not json.IsArray) Then Return
-		  
-		  Var bNeedsSeparator As Boolean = True
-		  Var jsonItem As JSONItem
-		  For i As Integer = 0 To json.LastRowIndex
-		    jsonItem = json.ChildAt(i)
-		    
-		    Var connectionItem As New ConnectionItem(jsonItem, False)
-		    If (connectionItem.IsSeparator) Then bNeedsSeparator = True
-		    If (Not connectionItem.IsValid) Then Continue
-		    
-		    If bNeedsSeparator Then
-		      lstChoice.AddSeparator
-		      bNeedsSeparator = False
-		    End If
-		    
-		    lstChoice.AddRow(connectionItem.Caption, connectionItem)
-		    
-		    If connectionItem.Selected Then
-		      lstChoice.SelectRowWithTag(connectionItem)
-		    End If
-		  Next
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function Prefill_GetDefaultNewConnection() As ConnectionItem
-		  Var setHostname As String
-		  If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLHostname", "CUBESQL_HOSTNAME", setHostname)) Then
-		    setHostname = "localhost"
-		  End If
-		  
-		  Var setPort As String
-		  If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLPort", "CUBESQL_PORT", setPort)) Then
-		    setPort = "4430"
-		  End If
-		  If (setPort.ToInteger < 1) Then setPort = "4430"
-		  
-		  Var setEncryption As String
-		  If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLEncryption", "CUBESQL_ENCRYPTION", setEncryption)) Then
-		    setEncryption = "AES256"
-		  End If
-		  
-		  Var setUsername As String
-		  Var setPassword As String
-		  Var bUsernameIsSet As Boolean = True
-		  If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLUsername", "CUBESQL_USERNAME", setUsername)) Then
-		    bUsernameIsSet = False
-		    setUsername = "admin"
-		  End If
-		  If bUsernameIsSet Then
-		    If (Not modCubeSQLAdmin.LaunchArgumentGetValue("--CubeSQLPassword", "CUBESQL_PASSWORD", setPassword)) Then
-		      'never prefill a default password without a prefilled username
-		    End If
-		  End If
-		  
-		  Var jsonDefault As New JSONItem("")
-		  jsonDefault.Value("caption") = "New Connection"
-		  jsonDefault.Value("selected") = True
-		  
-		  jsonDefault.Value("hostname") = setHostname
-		  jsonDefault.Value("port") = setPort.ToInteger
-		  jsonDefault.Value("username") = setUsername
-		  jsonDefault.Value("password") = setPassword
-		  
-		  'ensure valid encryption value
-		  Select Case setEncryption
-		    
-		  Case "NONE", "AES128", "AES256", "SSL"
-		    jsonDefault.Value("encryption") = setEncryption
-		    
-		  Else
-		    jsonDefault.Value("encryption") = "NONE"
-		    
-		  End Select
-		  
-		  Var defaultConnectionItem As New ConnectionItem(jsonDefault, True)
-		  Return defaultConnectionItem
-		  
-		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21

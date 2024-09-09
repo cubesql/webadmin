@@ -67,6 +67,7 @@ Folder=information;webapp/containers/information;&h000000005EFC7FFF;&h0000000058
 WebContainer=cntCommands;webapp/containers/information/cntCommands.xojo_code;&h000000002752C7FF;&h000000005EFC7FFF;false
 WebContainer=cntClients;webapp/containers/information/cntClients.xojo_code;&h000000002140EFFF;&h000000005EFC7FFF;false
 WebContainer=cntLog;webapp/containers/information/cntLog.xojo_code;&h000000002B1057FF;&h000000005EFC7FFF;false
+Class=thrConnectionChoices;webapp/thrConnectionChoices.xojo_code;&h00000000733557FF;&h0000000018D38FFF;false
 DefaultWindow=LoginPage
 MajorVersion=1
 MinorVersion=0

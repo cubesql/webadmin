@@ -1,5 +1,12 @@
 #tag Module
 Protected Module modCubeSQLAdmin
+	#tag Method, Flags = &h1
+		Protected Sub AddConnectionChoice(poConnectionChoice As ConnectionItem)
+		  eoConnectionChoices.Add(poConnectionChoice)
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function EscapeSqlDefaultValueIfRequired(Extends defaultValue As String) As String
 		  If (defaultValue.Contains(" ") Or defaultValue.Contains("'")) Then
@@ -25,6 +32,17 @@ Protected Module modCubeSQLAdmin
 	#tag Method, Flags = &h0
 		Function EscapeSqlQuotes(Extends value As String) As String
 		  Return value.ReplaceAll("'", "''")
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function GetConnectionChoices() As ConnectionItem()
+		  Var choices() As ConnectionItem
+		  For Each item As ConnectionItem In eoConnectionChoices
+		    choices.Add(item)
+		  Next
+		  Return choices
 		  
 		End Function
 	#tag EndMethod
@@ -142,6 +160,10 @@ Protected Module modCubeSQLAdmin
 		#tag EndSetter
 		Private dictArgs As Dictionary
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private eoConnectionChoices() As ConnectionItem
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mdictArgs As Dictionary
