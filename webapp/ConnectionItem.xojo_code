@@ -82,8 +82,13 @@ Protected Class ConnectionItem
 		      esPassword = ""
 		      
 		      Var shell As New Shell
+		      shell.TimeOut = 10000
 		      shell.Execute(shellCommand)
-		      Var s As String = shell.Result
+		      Var s As String
+		      Select Case shell.ExitCode
+		      Case 0 'the command succeeded
+		        s = shell.Result
+		      End Select
 		      shell.Close
 		      
 		      If (s.Trim <> "") Then esPassword = s.Trim
