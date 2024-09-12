@@ -128,11 +128,11 @@ Protected Class ConnectionItem
 		  Var setSSLCertificatePassword As String = jsonItem.Lookup("sslcertificatepassword", "").StringValue.Trim
 		  If (setSSLCertificatePassword <> "") Then
 		    'use value
-		    esSSLCertificatePassword = setSSLCertificatePassword.Trim
+		    esSSLCertificatePassword = setSSLCertificatePassword
 		    
-		    If setSSLCertificatePassword.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
+		    If esSSLCertificatePassword.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
 		      'try to read from .txt file
-		      Var fileSSLCertificatePassword As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setSSLCertificatePassword)
+		      Var fileSSLCertificatePassword As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(esSSLCertificatePassword)
 		      If (fileSSLCertificatePassword <> Nil) And fileSSLCertificatePassword.Exists And (Not fileSSLCertificatePassword.IsFolder) Then
 		        Try
 		          esSSLCertificatePassword = ""
@@ -145,6 +145,26 @@ Protected Class ConnectionItem
 		        Catch e As IOException
 		        End Try
 		      End If
+		    ElseIf esSSLCertificatePassword.BeginsWith("`") And esSSLCertificatePassword.EndsWith("`") Then
+		      'try to read from shell command
+		      Try
+		        Var shellCommand As String = esSSLCertificatePassword.Trim("`")
+		        esSSLCertificatePassword = ""
+		        
+		        Var shell As New Shell
+		        shell.TimeOut = 10000
+		        shell.Execute(shellCommand)
+		        Var s As String
+		        Select Case shell.ExitCode
+		        Case 0 'the command succeeded
+		          s = shell.Result
+		        End Select
+		        shell.Close
+		        
+		        If (s.Trim <> "") Then esSSLCertificatePassword = s.Trim
+		      Catch err As ShellNotAvailableException
+		      Catch err As ShellNotRunningException
+		      End Try
 		    End If
 		  End If
 		  
@@ -161,11 +181,11 @@ Protected Class ConnectionItem
 		  Var setSSLCipherList As String = jsonItem.Lookup("sslcipherlist", "").StringValue.Trim
 		  If (setSSLCipherList <> "") Then
 		    'use value
-		    esSSLCipherlist = setSSLCipherList.Trim
+		    esSSLCipherlist = setSSLCipherList
 		    
-		    If setSSLCipherList.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
+		    If esSSLCipherlist.EndsWith(".txt", ComparisonOptions.CaseInsensitive) Then
 		      'try to read from .txt file
-		      Var fileSSLCipherList As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(setSSLCipherList)
+		      Var fileSSLCipherList As FolderItem = modCubeSQLAdmin.GetFolderItemFromArgument(esSSLCipherlist)
 		      If (fileSSLCipherList <> Nil) And fileSSLCipherList.Exists And (Not fileSSLCipherList.IsFolder) Then
 		        Try
 		          esSSLCipherlist = ""
