@@ -15,10 +15,10 @@ cubeSQL Web Admin is a web based administration tool for [cubeSQL Server](htt
 
 ## Build from Source Code
 
-In order to build cubeSQL Web Admin application, [Xojo](https://xojo.com/) and the latest [cubeSQL Xojo Plugin](https://github.com/cubesql/cubeSQLAdmin) are required.
+In order to build cubeSQL Web Admin application, [Xojo](https://xojo.com/) and the latest [cubeSQL Xojo Plugin](https://github.com/marcobambini/cubesqlplugin) are required.
 
-- Xojo can be obtained from: https://xojo.com/
-- Latest [cubeSQL Xojo Plugin](https://github.com/cubesql/cubeSQLAdmin) can be found inside the Plugins folder
+- Xojo can be obtained from: [https://xojo.com/](https://xojo.com/)
+- Latest [cubeSQL Xojo Plugin](https://github.com/marcobambini/cubesqlplugin) can be downloaded from the [Releases](https://github.com/marcobambini/cubesqlplugin/releases)
 
 ## Ready to use executables and Docker Images
 
