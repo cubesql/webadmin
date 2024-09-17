@@ -1,6 +1,18 @@
 #tag Module
 Protected Module modFunctions
 	#tag Method, Flags = &h0, CompatibilityFlags = API2Only and ( (TargetWeb and (Target32Bit or Target64Bit)) )
+		Sub SleepAndYieldToNext(Extends ThreadInstance As Thread, Milliseconds As Integer)
+		  Var SleepInterval As Integer = Milliseconds / 10
+		  
+		  For i As Integer = 1 To 10
+		    ThreadInstance.Sleep SleepInterval
+		    ThreadInstance.YieldToNext
+		  Next
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0, CompatibilityFlags = API2Only and ( (TargetWeb and (Target32Bit or Target64Bit)) )
 		Sub SleepAndYieldToNext(Extends ThreadInstance As WebThread, Milliseconds As Integer)
 		  Var SleepInterval As Integer = Milliseconds / 10
 		  

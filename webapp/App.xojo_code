@@ -3,8 +3,10 @@ Protected Class App
 Inherits WebApplication
 	#tag Event
 		Sub Opening(args() As String)
-		  ' Store Launch Arguments for later
 		  modCubeSQLAdmin.StoreLaunchArguments(args)
+		  
+		  ethrConnectionChoices = New thrConnectionChoices
+		  ethrConnectionChoices.Start
 		  
 		End Sub
 	#tag EndEvent
@@ -20,6 +22,11 @@ Inherits WebApplication
 		  
 		End Function
 	#tag EndEvent
+
+
+	#tag Property, Flags = &h21
+		Private ethrConnectionChoices As thrConnectionChoices
+	#tag EndProperty
 
 
 	#tag Constant, Name = constDockerTag, Type = String, Dynamic = False, Default = \"jotools/cubesql-webadmin", Scope = Private

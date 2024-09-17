@@ -1,5 +1,12 @@
 #tag Module
 Protected Module modCubeSQLAdmin
+	#tag Method, Flags = &h1
+		Protected Sub AddConnectionChoice(poConnectionChoice As ConnectionItem)
+		  eoConnectionChoices.Add(poConnectionChoice)
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function EscapeSqlDefaultValueIfRequired(Extends defaultValue As String) As String
 		  If (defaultValue.Contains(" ") Or defaultValue.Contains("'")) Then
@@ -26,6 +33,76 @@ Protected Module modCubeSQLAdmin
 		Function EscapeSqlQuotes(Extends value As String) As String
 		  Return value.ReplaceAll("'", "''")
 		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function GetConnectionChoices() As ConnectionItem()
+		  Var choices() As ConnectionItem
+		  For Each item As ConnectionItem In eoConnectionChoices
+		    choices.Add(item)
+		  Next
+		  Return choices
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function GetFolderItemFromArgument(psArgumentValue As String) As FolderItem
+		  #Pragma BreakOnExceptions False
+		  
+		  If (psArgumentValue = "") Then Return Nil
+		  
+		  If (Not psArgumentValue.BeginsWith(".")) Then
+		    'Expect a full native path
+		    
+		    Var fileJson As FolderItem
+		    Try
+		      fileJson = New FolderItem(psArgumentValue, FolderItem.PathModes.Native)
+		      Return fileJson
+		    Catch err As IOException
+		    Catch err As UnsupportedFormatException
+		    End Try
+		    
+		    If (fileJson <> Nil) And (Not fileJson.IsFolder) And fileJson.Exists Then Return fileJson
+		  End If
+		  
+		  'Try get relative path
+		  Try
+		    
+		    #If TargetWindows Then
+		      psArgumentValue = psArgumentValue.ReplaceAll("\", "/")
+		    #EndIf
+		    
+		    Var relativePathParts() As String = psArgumentValue.Split("/")
+		    
+		    Var item As FolderItem = App.ExecutableFile.Parent
+		    #If DebugBuild Then
+		      'DebugBuilds are in a subfolder of the project - use project folder as starting point
+		      item = item.Parent
+		    #EndIf
+		    
+		    If (item = Nil) Or (Not item.Exists) Or (Not item.IsFolder) Then Return Nil
+		    
+		    For Each relativePathPart As String In relativePathParts
+		      Select Case relativePathPart
+		      Case "."
+		        'current folder
+		        Continue
+		      Case ".."
+		        'parent folder
+		        item = item.Parent
+		      Else
+		        item = item.Child(relativePathPart)
+		      End Select
+		    Next
+		    
+		    If (item <> Nil) And (Not item.IsFolder) And item.Exists Then Return item
+		    
+		  Catch err As IOException
+		  Catch err As UnsupportedFormatException
+		  Catch err As NilObjectException
+		  End Try
 		End Function
 	#tag EndMethod
 
@@ -83,6 +160,10 @@ Protected Module modCubeSQLAdmin
 		#tag EndSetter
 		Private dictArgs As Dictionary
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private eoConnectionChoices() As ConnectionItem
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mdictArgs As Dictionary
