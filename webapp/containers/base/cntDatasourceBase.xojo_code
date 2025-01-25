@@ -61,8 +61,14 @@ Implements WebDataSource
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Sub LoadDatasource(rs As RowSet)
+	#tag Method, Flags = &h21
+		Private Sub LoadDatasource()
+		  If (Not ebNeedsLoadDatasource) Then Return
+		  
+		  #Pragma DisableBackgroundTasks True
+		  
+		  Var rs As RowSet = Me.TableLoadRowSet
+		  
 		  Redim Me.TableRows(-1)
 		  
 		  If (Me.Filters = Nil) Then Me.Filters = New Dictionary
@@ -151,6 +157,10 @@ Implements WebDataSource
 		    
 		  Catch err As DatabaseException
 		    
+		  Finally
+		    ebNeedsLoadDatasource = False
+		    
+		    
 		  End Try
 		End Sub
 	#tag EndMethod
@@ -158,6 +168,8 @@ Implements WebDataSource
 	#tag Method, Flags = &h21
 		Private Function RowCount() As Integer
 		  // Part of the WebDataSource interface.
+		  
+		  Me.LoadDatasource
 		  
 		  Return Me.TableRows.Count
 		  
@@ -167,6 +179,8 @@ Implements WebDataSource
 	#tag Method, Flags = &h21
 		Private Function RowData(rowCount As Integer, rowOffset As Integer, sortColumns As String) As WebListboxRowData()
 		  // Part of the WebDataSource interface.
+		  Me.LoadDatasource
+		  
 		  Var rows() As WebListboxRowData
 		  If (rowOffset < 0) Then Return rows
 		  
@@ -247,54 +261,6 @@ Implements WebDataSource
 		  Me.TableLoad()
 		  
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function SortedPrimaryKeys(sortColumns As String) As Integer()
-		  // Part of the WebDataSource interface.
-		  
-		  Var sortCol As String = sortColumns.NthField(" ", 1)
-		  Var bSortDesc As Boolean = sortColumns.NthField(" ", 2) = "desc"
-		  Var sortFieldType As DatasourceColumn.FieldTypes = DataSourceColumn.FieldTypes.Text
-		  For Each col As DatasourceColumn In Me.Columns
-		    If (col.DatabaseColumnName = sortCol) Then
-		      sortFieldType = col.FieldType
-		      Exit 'Loop
-		    End If
-		  Next
-		  
-		  mSortColumname = sortCol
-		  mSortDesc = bSortDesc
-		  mSortFieldType = sortFieldType
-		  
-		  Var keys() As Integer
-		  
-		  For i As Integer = 0 To Me.TableRows.LastIndex
-		    keys.Add(i)
-		  Next
-		  
-		  keys.Sort(AddressOf SortedPrimaryKeysDelegate)
-		  
-		  'Primary Key is "id": 0-x
-		  
-		  Var sortedPrimaryKeys() As Integer
-		  For i As Integer = 0 To keys.LastIndex
-		    sortedPrimaryKeys.Add(Me.TableRows(keys(i)).Lookup("id", -1).IntegerValue)
-		  Next
-		  
-		  Return sortedPrimaryKeys
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function SortedPrimaryKeysDelegate(index1 As Integer, index2 As Integer) As Integer
-		  Var row1 As Dictionary = Me.TableRows(index1)
-		  Var row2 As Dictionary = Me.TableRows(index2)
-		  
-		  Return SortedTableRowsDelegate(row1, row2)
-		  
-		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -383,9 +349,10 @@ Implements WebDataSource
 	#tag Method, Flags = &h1
 		Protected Sub TableLoad()
 		  Me.Table.NoRowsMessage = Me.TableNoRowsMessage()
+		  Me.Table.ProcessingMessage = me.TableProcessingMessage()
 		  
 		  Me.TableLoadFilters
-		  Me.LoadDatasource(Me.TableLoadRowSet)
+		  ebNeedsLoadDatasource = true
 		  
 		  If (Me.Table.DataSource = Nil) Then
 		    Me.Table.DataSource = Self
@@ -412,6 +379,14 @@ Implements WebDataSource
 
 	#tag Method, Flags = &h1
 		Protected Function TableNoRowsMessage() As String
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function TableProcessingMessage() As String
+		  If (Me.Title.Trim <> "") Then Return "Loading " + Me.Title.Trim + "..."
+		  Return "Loading..."
 		  
 		End Function
 	#tag EndMethod
@@ -470,22 +445,6 @@ Implements WebDataSource
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function UnsortedPrimaryKeys() As Integer()
-		  // Part of the WebDataSource interface.
-		  
-		  'Primary Key is "id": 0-x
-		  Var keys() As Integer
-		  
-		  For i As Integer = 0 To Me.TableRows.LastIndex
-		    keys.Add(Me.TableRows(i).Lookup("id", -1).IntegerValue)
-		  Next
-		  
-		  Return keys
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
 		Private Sub WebTimer_RowDataLoaded(obj As WebTimer)
 		  obj.RunMode = WebTimer.RunModes.Off
 		  obj.Enabled = False
@@ -498,6 +457,10 @@ Implements WebDataSource
 
 	#tag Property, Flags = &h1
 		Protected Columns() As DatasourceColumn
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private ebNeedsLoadDatasource As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h1
@@ -534,6 +497,14 @@ Implements WebDataSource
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="PanelIndex"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Area"
 			Visible=false
