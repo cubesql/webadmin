@@ -214,7 +214,8 @@ Protected Module modCubeSQLAdmin
 		  EnginePreferences = 24
 		  Commands = 31
 		  Clients = 32
-		Log = 33
+		  Log = 33
+		Preferences=4
 	#tag EndEnum
 
 
