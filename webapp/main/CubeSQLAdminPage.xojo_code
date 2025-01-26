@@ -290,9 +290,9 @@ End
 		  btn.Style = WebToolbarButton.ButtonStyles.Menu
 		  btn.Caption = "Server"
 		  btn.Menu.AddMenuItem(New WebMenuItem("Registration", ContainerKey.Registration))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Preferences", ContainerKey.Preferences))
 		  btn.Menu.AddMenuItem(New WebMenuItem("Plugins", ContainerKey.Plugins))
 		  btn.Menu.AddMenuItem(New WebMenuItem("Console", ContainerKey.Console))
-		  btn.Menu.AddMenuItem(New WebMenuItem("Preferences", ContainerKey.Preferences))
 		  Me.AddItem(btn)
 		  
 		  btn = New WebToolbarButton
