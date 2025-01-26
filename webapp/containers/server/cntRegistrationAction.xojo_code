@@ -3,6 +3,7 @@ Begin WebContainer cntRegistrationAction
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   True
    Height          =   78
    Indicator       =   0
@@ -15,6 +16,7 @@ Begin WebContainer cntRegistrationAction
    LockRight       =   False
    LockTop         =   True
    LockVertical    =   False
+   PanelIndex      =   0
    ScrollDirection =   0
    TabIndex        =   0
    Top             =   0
@@ -28,6 +30,7 @@ Begin WebContainer cntRegistrationAction
       Cancel          =   False
       Caption         =   "Get a Server Key"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
@@ -41,7 +44,8 @@ Begin WebContainer cntRegistrationAction
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
@@ -56,6 +60,7 @@ Begin WebContainer cntRegistrationAction
       Cancel          =   False
       Caption         =   "Register Server"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
@@ -69,7 +74,8 @@ Begin WebContainer cntRegistrationAction
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   2
       TabStop         =   True
@@ -84,6 +90,7 @@ Begin WebContainer cntRegistrationAction
       Cancel          =   False
       Caption         =   "Server Name"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
@@ -97,7 +104,8 @@ Begin WebContainer cntRegistrationAction
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
@@ -109,6 +117,7 @@ Begin WebContainer cntRegistrationAction
    End
    Begin WebMessageDialog dlgMessage
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
@@ -121,6 +130,7 @@ Begin WebContainer cntRegistrationAction
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
+      PanelIndex      =   0
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
@@ -243,7 +253,7 @@ End
 		    Session.DB.ExecuteSQL("SET PREFERENCE 'SERVER_NAME' TO '" + Name.EscapeSqlQuotes + "'")
 		    
 		  Catch err As DatabaseException
-		    ShowErrorDialog(dlgMessage, "Set Server Name", "Could not ser server name.", err)
+		    ShowErrorDialog(dlgMessage, "Set Server Name", "Could not set server name.", err)
 		    NeedsRefresh
 		    Return False
 		    
@@ -286,6 +296,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="_mPanelIndex"
 		Visible=false
