@@ -24,7 +24,6 @@ Begin WebContainer cntPreferencesDebugFormat
    Width           =   500
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebButton btnFile
       AllowAutoDisable=   False
@@ -36,7 +35,7 @@ Begin WebContainer cntPreferencesDebugFormat
       Enabled         =   True
       Height          =   38
       Index           =   -2147483648
-      Indicator       =   5
+      Indicator       =   6
       Left            =   20
       LockBottom      =   False
       LockedInPosition=   True
@@ -166,7 +165,7 @@ Begin WebContainer cntPreferencesDebugFormat
       Enabled         =   True
       Height          =   38
       Index           =   -2147483648
-      Indicator       =   5
+      Indicator       =   6
       Left            =   20
       LockBottom      =   False
       LockedInPosition=   True
@@ -196,7 +195,7 @@ Begin WebContainer cntPreferencesDebugFormat
       Enabled         =   True
       Height          =   38
       Index           =   -2147483648
-      Indicator       =   5
+      Indicator       =   6
       Left            =   20
       LockBottom      =   False
       LockedInPosition=   True

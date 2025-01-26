@@ -24,7 +24,6 @@ Begin WebContainer cntPreferencesLogVerbosity
    Width           =   200
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebButton btnSqlCommands
       AllowAutoDisable=   False
@@ -36,7 +35,7 @@ Begin WebContainer cntPreferencesLogVerbosity
       Enabled         =   True
       Height          =   38
       Index           =   -2147483648
-      Indicator       =   5
+      Indicator       =   6
       Left            =   20
       LockBottom      =   False
       LockedInPosition=   True

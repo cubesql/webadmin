@@ -35,7 +35,7 @@ Begin WebContainer cntPreferencesLogFormat
       Enabled         =   True
       Height          =   38
       Index           =   -2147483648
-      Indicator       =   5
+      Indicator       =   6
       Left            =   20
       LockBottom      =   False
       LockedInPosition=   True
