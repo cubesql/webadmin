@@ -202,8 +202,9 @@ Protected Module modCubeSQLAdmin
 		None = -1
 		  Status = 0
 		  Registration = 1
-		  Plugins = 2
-		  Console = 3
+		  Preferences=2
+		  Plugins = 3
+		  Console = 4
 		  Databases = 11
 		  TablesAndIndexes = 12
 		  Schedules = 14

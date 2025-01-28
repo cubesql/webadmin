@@ -1,11 +1,11 @@
 #tag WebContainerControl
-Begin WebContainer cntRegistrationAction
+Begin WebContainer cntPreferencesDebugFormat
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
    CSSClasses      =   ""
    Enabled         =   True
-   Height          =   78
+   Height          =   262
    Indicator       =   0
    LayoutDirection =   0
    LayoutType      =   0
@@ -21,28 +21,58 @@ Begin WebContainer cntRegistrationAction
    TabIndex        =   0
    Top             =   0
    Visible         =   True
-   Width           =   750
+   Width           =   500
    _mDesignHeight  =   0
    _mDesignWidth   =   0
    _mPanelIndex    =   -1
-   Begin WebButton btnGetServerKey
+   Begin WebButton btnFile
       AllowAutoDisable=   False
       Cancel          =   False
-      Caption         =   "Get a Server Key"
+      Caption         =   "File"
       ControlID       =   ""
       CSSClasses      =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
       Index           =   -2147483648
-      Indicator       =   0
+      Indicator       =   6
       Left            =   20
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   False
-      LockTop         =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
+      Scope           =   2
+      TabIndex        =   2
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   112
+      Visible         =   True
+      Width           =   160
+      _mPanelIndex    =   -1
+   End
+   Begin WebButton btnNone
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Disable Debug"
+      ControlID       =   ""
+      CSSClasses      =   ""
+      Default         =   False
+      Enabled         =   True
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   3
+      Left            =   20
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
       LockVertical    =   False
       Outlined        =   False
       PanelIndex      =   0
@@ -52,76 +82,21 @@ Begin WebContainer cntRegistrationAction
       Tooltip         =   ""
       Top             =   20
       Visible         =   True
-      Width           =   200
+      Width           =   160
       _mPanelIndex    =   -1
    End
-   Begin WebButton btnRegisterServer
-      AllowAutoDisable=   False
-      Cancel          =   False
-      Caption         =   "Register Server"
-      ControlID       =   ""
-      CSSClasses      =   ""
-      Default         =   False
-      Enabled         =   True
-      Height          =   38
-      Index           =   -2147483648
-      Indicator       =   3
-      Left            =   530
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   True
-      LockTop         =   False
-      LockVertical    =   False
-      Outlined        =   False
-      PanelIndex      =   0
-      Scope           =   2
-      TabIndex        =   2
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   20
-      Visible         =   True
-      Width           =   200
-      _mPanelIndex    =   -1
-   End
-   Begin WebButton btnServerName
-      AllowAutoDisable=   False
-      Cancel          =   False
-      Caption         =   "Server Name"
-      ControlID       =   ""
-      CSSClasses      =   ""
-      Default         =   False
-      Enabled         =   True
-      Height          =   38
-      Index           =   -2147483648
-      Indicator       =   5
-      Left            =   322
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   True
-      LockTop         =   False
-      LockVertical    =   False
-      Outlined        =   False
-      PanelIndex      =   0
-      Scope           =   2
-      TabIndex        =   1
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   20
-      Visible         =   True
-      Width           =   200
-      _mPanelIndex    =   -1
-   End
-   Begin WebMessageDialog dlgMessage
+   Begin WebLabel labWarning
+      Bold            =   False
       ControlID       =   ""
       CSSClasses      =   ""
       Enabled         =   True
-      Explanation     =   ""
+      FontName        =   ""
+      FontSize        =   0.0
+      Height          =   130
       Index           =   -2147483648
       Indicator       =   ""
+      Italic          =   False
+      Left            =   200
       LockBottom      =   False
       LockedInPosition=   True
       LockHorizontal  =   False
@@ -129,169 +104,173 @@ Begin WebContainer cntRegistrationAction
       LockRight       =   False
       LockTop         =   True
       LockVertical    =   False
-      Message         =   ""
+      Multiline       =   True
       PanelIndex      =   0
       Scope           =   2
-      Title           =   ""
+      TabIndex        =   3
+      TabStop         =   True
+      Text            =   "Enabling Debug Mode will slow down the Server.\n\nUse this feature only if you have a compelling reason to use it."
+      TextAlignment   =   0
+      TextColor       =   &c000000FF
       Tooltip         =   ""
+      Top             =   112
+      Underline       =   False
+      Visible         =   True
+      Width           =   280
+      _mPanelIndex    =   -1
+   End
+   Begin WebLabel labSeparator
+      Bold            =   False
+      ControlID       =   ""
+      CSSClasses      =   ""
+      Enabled         =   True
+      FontName        =   ""
+      FontSize        =   0.0
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   0
+      Italic          =   False
+      Left            =   0
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   True
+      LockVertical    =   False
+      Multiline       =   False
+      PanelIndex      =   0
+      Parent          =   "rctFormContent"
+      Scope           =   2
+      TabIndex        =   1
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   "..."
+      TextAlignment   =   2
+      TextColor       =   &c000000FF
+      Tooltip         =   ""
+      Top             =   66
+      Underline       =   False
+      Visible         =   True
+      Width           =   500
+      _mPanelIndex    =   -1
+   End
+   Begin WebButton btnSystem
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "System"
+      ControlID       =   ""
+      CSSClasses      =   ""
+      Default         =   False
+      Enabled         =   True
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   6
+      Left            =   20
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
+      Scope           =   2
+      TabIndex        =   4
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   158
+      Visible         =   True
+      Width           =   160
+      _mPanelIndex    =   -1
+   End
+   Begin WebButton btnConsole
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "Console"
+      ControlID       =   ""
+      CSSClasses      =   ""
+      Default         =   False
+      Enabled         =   True
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   6
+      Left            =   20
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
+      Scope           =   2
+      TabIndex        =   5
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   204
+      Visible         =   True
+      Width           =   160
       _mPanelIndex    =   -1
    End
 End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Method, Flags = &h21
-		Private Sub ActionGetServerKey()
-		  Var dlgGetServerKeyInfo As New dlgGetServerKey
-		  dlgGetServerKeyInfo.Show()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ActionRegistration()
-		  Var Name, Key As String
-		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW PREFERENCES")
-		    If (rs <> Nil) Then
-		      Var infos As New Dictionary
-		      For Each row As DatabaseRow In rs
-		        infos.Value(row.ColumnAt(0).StringValue) = row.ColumnAt(1).StringValue
-		      Next
-		      
-		      rs.Close
-		      
-		      Name = infos.Lookup("KEY_NAME", "").StringValue
-		      Key = infos.Lookup("KEY_VALUE", "").StringValue
-		      
-		      If (Name = "0") Then Name = ""
-		      If (Key = "0") Then Key = ""
-		    End If
-		    
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    Var dlgRegistration As New dlgRegisterServer
-		    AddHandler dlgRegistration.RegistrationAction, WeakAddressOf ActionRegistrationButtonPressed
-		    dlgRegistration.Show(Name, Key)
-		    
-		  End Try
-		  
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function ActionRegistrationButtonPressed(obj As dlgRegisterServer, Name As String, Key As String) As Boolean
-		  #Pragma unused obj
-		  
-		  If (Name = "") Or (Key = "") Then Return False
-		  
-		  Try
-		    If Name.Contains("'", ComparisonOptions.CaseInsensitive) Then
-		      Session.DB.ExecuteSQL("SET BASE64 REGISTRATION TO '" + EncodeBase64(Name).EscapeSqlQuotes + "' WITH KEY '" + Key.EscapeSqlQuotes + "'")
-		    Else
-		      Session.DB.ExecuteSQL("SET REGISTRATION TO '" + Name.EscapeSqlQuotes + "' WITH KEY '" + Key.EscapeSqlQuotes + "'")
-		    End If
-		    
-		  Catch err As DatabaseException
-		    ShowErrorDialog(dlgMessage, "Registration", "Could not register cubeSQL Server.", err)
-		    NeedsRefresh
-		    Return False
-		    
-		  End Try
-		  
-		  ShowSuccessDialog(dlgMessage, "Registration", "Thanks for registering cubeSQL Server!", "")
-		  NeedsRefresh
-		  
-		  Return True
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ActionServerName()
-		  Var ServerName As String
-		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW PREFERENCES")
-		    If (rs <> Nil) Then
-		      Var infos As New Dictionary
-		      For Each row As DatabaseRow In rs
-		        infos.Value(row.ColumnAt(0).StringValue) = row.ColumnAt(1).StringValue
-		      Next
-		      
-		      rs.Close
-		      
-		      ServerName = infos.Lookup("SERVER_NAME", "").StringValue
-		    End If
-		    
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    Var dlgServerName As New dlgCommonName
-		    AddHandler dlgServerName.NameAction, WeakAddressOf ActionServerNameButtonPressed
-		    dlgServerName.Show("Server Name", "Name", "Set", Indicators.Primary, ServerName)
-		    
-		  End Try
-		  
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function ActionServerNameButtonPressed(obj As dlgCommonName, Name As String) As Boolean
-		  #Pragma unused obj
-		  
-		  If (Name = "") Then Return False
-		  
-		  Try
-		    
-		    Session.DB.ExecuteSQL("SET PREFERENCE 'SERVER_NAME' TO '" + Name.EscapeSqlQuotes + "'")
-		    
-		  Catch err As DatabaseException
-		    ShowErrorDialog(dlgMessage, "Set Server Name", "Could not set server name.", err)
-		    NeedsRefresh
-		    Return False
-		    
-		  End Try
-		  
-		  NeedsRefresh
-		  Return True
-		  
-		End Function
-	#tag EndMethod
-
+	#tag Hook, Flags = &h0
+		Event ActionConsole()
+	#tag EndHook
 
 	#tag Hook, Flags = &h0
-		Event NeedsRefresh()
+		Event ActionFile()
+	#tag EndHook
+
+	#tag Hook, Flags = &h0
+		Event ActionNone()
+	#tag EndHook
+
+	#tag Hook, Flags = &h0
+		Event ActionSystem()
 	#tag EndHook
 
 
 #tag EndWindowCode
 
-#tag Events btnGetServerKey
+#tag Events btnFile
 	#tag Event
 		Sub Pressed()
-		  Self.ActionGetServerKey()
+		  ActionFile
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events btnRegisterServer
+#tag Events btnNone
 	#tag Event
 		Sub Pressed()
-		  Self.ActionRegistration()
+		  ActionNone
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events btnServerName
+#tag Events labSeparator
 	#tag Event
-		Sub Pressed()
-		  Self.ActionServerName()
+		Sub Opening()
+		  Me.Text = "<raw><hr /></raw>"
 		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events btnSystem
+	#tag Event
+		Sub Pressed()
+		  ActionSystem
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events btnConsole
+	#tag Event
+		Sub Pressed()
+		  ActionConsole
 		End Sub
 	#tag EndEvent
 #tag EndEvents

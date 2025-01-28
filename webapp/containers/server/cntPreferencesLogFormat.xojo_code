@@ -1,11 +1,11 @@
 #tag WebContainerControl
-Begin WebContainer cntRegistrationAction
+Begin WebContainer cntPreferencesLogFormat
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
    CSSClasses      =   ""
    Enabled         =   True
-   Height          =   78
+   Height          =   124
    Indicator       =   0
    LayoutDirection =   0
    LayoutType      =   0
@@ -21,28 +21,58 @@ Begin WebContainer cntRegistrationAction
    TabIndex        =   0
    Top             =   0
    Visible         =   True
-   Width           =   750
+   Width           =   180
    _mDesignHeight  =   0
    _mDesignWidth   =   0
    _mPanelIndex    =   -1
-   Begin WebButton btnGetServerKey
+   Begin WebButton btnText
       AllowAutoDisable=   False
       Cancel          =   False
-      Caption         =   "Get a Server Key"
+      Caption         =   "Text"
       ControlID       =   ""
       CSSClasses      =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
       Index           =   -2147483648
-      Indicator       =   0
+      Indicator       =   6
       Left            =   20
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   True
       LockHorizontal  =   False
       LockLeft        =   True
       LockRight       =   False
-      LockTop         =   False
+      LockTop         =   True
+      LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
+      Scope           =   2
+      TabIndex        =   1
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   66
+      Visible         =   True
+      Width           =   140
+      _mPanelIndex    =   -1
+   End
+   Begin WebButton btnSqlite
+      AllowAutoDisable=   False
+      Cancel          =   False
+      Caption         =   "SQLite"
+      ControlID       =   ""
+      CSSClasses      =   ""
+      Default         =   False
+      Enabled         =   True
+      Height          =   38
+      Index           =   -2147483648
+      Indicator       =   3
+      Left            =   20
+      LockBottom      =   False
+      LockedInPosition=   True
+      LockHorizontal  =   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
       LockVertical    =   False
       Outlined        =   False
       PanelIndex      =   0
@@ -52,245 +82,36 @@ Begin WebContainer cntRegistrationAction
       Tooltip         =   ""
       Top             =   20
       Visible         =   True
-      Width           =   200
-      _mPanelIndex    =   -1
-   End
-   Begin WebButton btnRegisterServer
-      AllowAutoDisable=   False
-      Cancel          =   False
-      Caption         =   "Register Server"
-      ControlID       =   ""
-      CSSClasses      =   ""
-      Default         =   False
-      Enabled         =   True
-      Height          =   38
-      Index           =   -2147483648
-      Indicator       =   3
-      Left            =   530
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   True
-      LockTop         =   False
-      LockVertical    =   False
-      Outlined        =   False
-      PanelIndex      =   0
-      Scope           =   2
-      TabIndex        =   2
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   20
-      Visible         =   True
-      Width           =   200
-      _mPanelIndex    =   -1
-   End
-   Begin WebButton btnServerName
-      AllowAutoDisable=   False
-      Cancel          =   False
-      Caption         =   "Server Name"
-      ControlID       =   ""
-      CSSClasses      =   ""
-      Default         =   False
-      Enabled         =   True
-      Height          =   38
-      Index           =   -2147483648
-      Indicator       =   5
-      Left            =   322
-      LockBottom      =   True
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   False
-      LockRight       =   True
-      LockTop         =   False
-      LockVertical    =   False
-      Outlined        =   False
-      PanelIndex      =   0
-      Scope           =   2
-      TabIndex        =   1
-      TabStop         =   True
-      Tooltip         =   ""
-      Top             =   20
-      Visible         =   True
-      Width           =   200
-      _mPanelIndex    =   -1
-   End
-   Begin WebMessageDialog dlgMessage
-      ControlID       =   ""
-      CSSClasses      =   ""
-      Enabled         =   True
-      Explanation     =   ""
-      Index           =   -2147483648
-      Indicator       =   ""
-      LockBottom      =   False
-      LockedInPosition=   True
-      LockHorizontal  =   False
-      LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   True
-      LockVertical    =   False
-      Message         =   ""
-      PanelIndex      =   0
-      Scope           =   2
-      Title           =   ""
-      Tooltip         =   ""
+      Width           =   140
       _mPanelIndex    =   -1
    End
 End
 #tag EndWebContainerControl
 
 #tag WindowCode
-	#tag Method, Flags = &h21
-		Private Sub ActionGetServerKey()
-		  Var dlgGetServerKeyInfo As New dlgGetServerKey
-		  dlgGetServerKeyInfo.Show()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ActionRegistration()
-		  Var Name, Key As String
-		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW PREFERENCES")
-		    If (rs <> Nil) Then
-		      Var infos As New Dictionary
-		      For Each row As DatabaseRow In rs
-		        infos.Value(row.ColumnAt(0).StringValue) = row.ColumnAt(1).StringValue
-		      Next
-		      
-		      rs.Close
-		      
-		      Name = infos.Lookup("KEY_NAME", "").StringValue
-		      Key = infos.Lookup("KEY_VALUE", "").StringValue
-		      
-		      If (Name = "0") Then Name = ""
-		      If (Key = "0") Then Key = ""
-		    End If
-		    
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    Var dlgRegistration As New dlgRegisterServer
-		    AddHandler dlgRegistration.RegistrationAction, WeakAddressOf ActionRegistrationButtonPressed
-		    dlgRegistration.Show(Name, Key)
-		    
-		  End Try
-		  
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function ActionRegistrationButtonPressed(obj As dlgRegisterServer, Name As String, Key As String) As Boolean
-		  #Pragma unused obj
-		  
-		  If (Name = "") Or (Key = "") Then Return False
-		  
-		  Try
-		    If Name.Contains("'", ComparisonOptions.CaseInsensitive) Then
-		      Session.DB.ExecuteSQL("SET BASE64 REGISTRATION TO '" + EncodeBase64(Name).EscapeSqlQuotes + "' WITH KEY '" + Key.EscapeSqlQuotes + "'")
-		    Else
-		      Session.DB.ExecuteSQL("SET REGISTRATION TO '" + Name.EscapeSqlQuotes + "' WITH KEY '" + Key.EscapeSqlQuotes + "'")
-		    End If
-		    
-		  Catch err As DatabaseException
-		    ShowErrorDialog(dlgMessage, "Registration", "Could not register cubeSQL Server.", err)
-		    NeedsRefresh
-		    Return False
-		    
-		  End Try
-		  
-		  ShowSuccessDialog(dlgMessage, "Registration", "Thanks for registering cubeSQL Server!", "")
-		  NeedsRefresh
-		  
-		  Return True
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub ActionServerName()
-		  Var ServerName As String
-		  
-		  Try
-		    Var rs As RowSet = Session.DB.SelectSQL("SHOW PREFERENCES")
-		    If (rs <> Nil) Then
-		      Var infos As New Dictionary
-		      For Each row As DatabaseRow In rs
-		        infos.Value(row.ColumnAt(0).StringValue) = row.ColumnAt(1).StringValue
-		      Next
-		      
-		      rs.Close
-		      
-		      ServerName = infos.Lookup("SERVER_NAME", "").StringValue
-		    End If
-		    
-		    
-		  Catch DatabaseException
-		    
-		  Finally
-		    Var dlgServerName As New dlgCommonName
-		    AddHandler dlgServerName.NameAction, WeakAddressOf ActionServerNameButtonPressed
-		    dlgServerName.Show("Server Name", "Name", "Set", Indicators.Primary, ServerName)
-		    
-		  End Try
-		  
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function ActionServerNameButtonPressed(obj As dlgCommonName, Name As String) As Boolean
-		  #Pragma unused obj
-		  
-		  If (Name = "") Then Return False
-		  
-		  Try
-		    
-		    Session.DB.ExecuteSQL("SET PREFERENCE 'SERVER_NAME' TO '" + Name.EscapeSqlQuotes + "'")
-		    
-		  Catch err As DatabaseException
-		    ShowErrorDialog(dlgMessage, "Set Server Name", "Could not set server name.", err)
-		    NeedsRefresh
-		    Return False
-		    
-		  End Try
-		  
-		  NeedsRefresh
-		  Return True
-		  
-		End Function
-	#tag EndMethod
-
+	#tag Hook, Flags = &h0
+		Event ActionSqlite()
+	#tag EndHook
 
 	#tag Hook, Flags = &h0
-		Event NeedsRefresh()
+		Event ActionText()
 	#tag EndHook
 
 
 #tag EndWindowCode
 
-#tag Events btnGetServerKey
+#tag Events btnText
 	#tag Event
 		Sub Pressed()
-		  Self.ActionGetServerKey()
+		  ActionText
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events btnRegisterServer
+#tag Events btnSqlite
 	#tag Event
 		Sub Pressed()
-		  Self.ActionRegistration()
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events btnServerName
-	#tag Event
-		Sub Pressed()
-		  Self.ActionServerName()
+		  ActionSqlite
 		  
 		End Sub
 	#tag EndEvent

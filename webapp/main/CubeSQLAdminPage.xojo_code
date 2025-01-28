@@ -4,6 +4,7 @@ Begin WebPage CubeSQLAdminPage
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   False
    Height          =   500
    ImplicitInstance=   False
@@ -21,6 +22,8 @@ Begin WebPage CubeSQLAdminPage
    LockVertical    =   False
    MinimumHeight   =   500
    MinimumWidth    =   750
+   PanelIndex      =   0
+   ScaleFactor     =   0.0
    TabIndex        =   0
    Title           =   "cubeSQL Admin"
    Top             =   0
@@ -29,9 +32,11 @@ Begin WebPage CubeSQLAdminPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebToolbar tbrCubeSQLAdmin
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       FullWidth       =   False
       Height          =   56
@@ -45,6 +50,7 @@ Begin WebPage CubeSQLAdminPage
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
+      PanelIndex      =   0
       Position        =   0
       Scope           =   2
       TabIndex        =   0
@@ -59,6 +65,7 @@ Begin WebPage CubeSQLAdminPage
    Begin WebLabel labContainerTitle
       Bold            =   False
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       FontName        =   ""
       FontSize        =   16.0
@@ -76,6 +83,7 @@ Begin WebPage CubeSQLAdminPage
       LockTop         =   True
       LockVertical    =   False
       Multiline       =   False
+      PanelIndex      =   0
       Parent          =   "nil"
       Scope           =   2
       TabIndex        =   1
@@ -92,6 +100,7 @@ Begin WebPage CubeSQLAdminPage
    End
    Begin WebSearchField edtSearch
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Height          =   38
       Hint            =   "Search"
@@ -105,6 +114,7 @@ Begin WebPage CubeSQLAdminPage
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   2
       TabStop         =   True
@@ -121,6 +131,7 @@ Begin WebPage CubeSQLAdminPage
       Index           =   -2147483648
       Location        =   0
       LockedInPosition=   True
+      PanelIndex      =   0
       Period          =   1
       RunMode         =   0
       Scope           =   2
@@ -196,6 +207,9 @@ End
 		    
 		  Case ContainerKey.Console
 		    showContainer = New cntConsole
+		    
+		  Case ContainerKey.Preferences
+		    showContainer = New cntPreferences
 		    
 		  Case ContainerKey.Groups
 		    showContainer = New cntGroups
@@ -276,6 +290,7 @@ End
 		  btn.Style = WebToolbarButton.ButtonStyles.Menu
 		  btn.Caption = "Server"
 		  btn.Menu.AddMenuItem(New WebMenuItem("Registration", ContainerKey.Registration))
+		  btn.Menu.AddMenuItem(New WebMenuItem("Preferences", ContainerKey.Preferences))
 		  btn.Menu.AddMenuItem(New WebMenuItem("Plugins", ContainerKey.Plugins))
 		  btn.Menu.AddMenuItem(New WebMenuItem("Console", ContainerKey.Console))
 		  Me.AddItem(btn)
@@ -383,6 +398,22 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="ScaleFactor"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Double"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="ControlCount"
 		Visible=false
