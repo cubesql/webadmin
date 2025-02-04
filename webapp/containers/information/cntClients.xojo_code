@@ -3,6 +3,7 @@ Begin cntDatasourceBase cntClients
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   True
    Height          =   500
    Indicator       =   0
@@ -15,6 +16,7 @@ Begin cntDatasourceBase cntClients
    LockRight       =   False
    LockTop         =   True
    LockVertical    =   False
+   PanelIndex      =   0
    ScrollDirection =   0
    TabIndex        =   0
    Top             =   0
@@ -27,8 +29,13 @@ Begin cntDatasourceBase cntClients
       ColumnCount     =   1
       ColumnWidths    =   ""
       ControlID       =   ""
+      CSSClasses      =   "lstClients"
+      DefaultRowHeight=   49
       Enabled         =   True
+      GridLineStyle   =   3
+      HasBorder       =   True
       HasHeader       =   True
+      HeaderHeight    =   0
       Height          =   422
       HighlightSortedColumn=   True
       Index           =   -2147483648
@@ -46,6 +53,7 @@ Begin cntDatasourceBase cntClients
       LockTop         =   True
       LockVertical    =   False
       NoRowsMessage   =   "No Clients"
+      PanelIndex      =   0
       ProcessingMessage=   ""
       RowCount        =   0
       RowSelectionType=   1
@@ -66,6 +74,7 @@ Begin cntDatasourceBase cntClients
       Cancel          =   False
       Caption         =   "Refresh"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   False
       Height          =   38
@@ -79,6 +88,8 @@ Begin cntDatasourceBase cntClients
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
@@ -93,6 +104,7 @@ Begin cntDatasourceBase cntClients
       Cancel          =   False
       Caption         =   "Disconnect"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   False
       Height          =   38
@@ -106,7 +118,8 @@ Begin cntDatasourceBase cntClients
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   2
       TabStop         =   True
@@ -118,6 +131,7 @@ Begin cntDatasourceBase cntClients
    End
    Begin WebMessageDialog dlgDisconnect
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
@@ -130,7 +144,7 @@ Begin cntDatasourceBase cntClients
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
-      PanelIndex      =   "0"
+      PanelIndex      =   0
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
@@ -138,6 +152,7 @@ Begin cntDatasourceBase cntClients
    End
    Begin WebMessageDialog dlgMessage
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
@@ -150,6 +165,7 @@ Begin cntDatasourceBase cntClients
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
+      PanelIndex      =   0
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
@@ -411,12 +427,6 @@ End
 
 #tag Events lstInfos
 	#tag Event
-		Sub Opening()
-		  Me.ExecuteJavaScript("$('#" + Me.ControlID + "').addClass('listboxClientsHeaderAlignment')")
-		  
-		End Sub
-	#tag EndEvent
-	#tag Event
 		Sub SelectionChanged(rows() As Integer)
 		  #Pragma unused rows
 		  
@@ -450,6 +460,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="Area"
 		Visible=false

@@ -3,6 +3,7 @@ Begin cntDatasourceBase cntDatabases
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   True
    Height          =   500
    Indicator       =   0
@@ -15,6 +16,7 @@ Begin cntDatasourceBase cntDatabases
    LockRight       =   False
    LockTop         =   True
    LockVertical    =   False
+   PanelIndex      =   0
    ScrollDirection =   0
    TabIndex        =   0
    Top             =   0
@@ -22,13 +24,19 @@ Begin cntDatasourceBase cntDatabases
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
       ColumnCount     =   1
       ColumnWidths    =   ""
       ControlID       =   ""
+      CSSClasses      =   "lstDatabases"
+      DefaultRowHeight=   49
       Enabled         =   True
+      GridLineStyle   =   3
+      HasBorder       =   True
       HasHeader       =   True
+      HeaderHeight    =   0
       Height          =   380
       HighlightSortedColumn=   True
       Index           =   -2147483648
@@ -46,6 +54,7 @@ Begin cntDatasourceBase cntDatabases
       LockTop         =   True
       LockVertical    =   False
       NoRowsMessage   =   "No Databases"
+      PanelIndex      =   0
       ProcessingMessage=   ""
       RowCount        =   0
       RowSelectionType=   1
@@ -66,6 +75,7 @@ Begin cntDatasourceBase cntDatabases
       Cancel          =   False
       Caption         =   "Drop"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   False
       Height          =   38
@@ -79,6 +89,8 @@ Begin cntDatasourceBase cntDatabases
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   4
       TabStop         =   True
@@ -93,6 +105,7 @@ Begin cntDatasourceBase cntDatabases
       Cancel          =   False
       Caption         =   "Stop"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   False
       Height          =   38
@@ -106,7 +119,8 @@ Begin cntDatasourceBase cntDatabases
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   3
       TabStop         =   True
@@ -121,6 +135,7 @@ Begin cntDatasourceBase cntDatabases
       Cancel          =   False
       Caption         =   "Create"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
@@ -134,7 +149,8 @@ Begin cntDatasourceBase cntDatabases
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
@@ -149,6 +165,7 @@ Begin cntDatasourceBase cntDatabases
       Cancel          =   False
       Caption         =   "Start"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   False
       Height          =   38
@@ -162,7 +179,8 @@ Begin cntDatasourceBase cntDatabases
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   2
       TabStop         =   True
@@ -177,6 +195,7 @@ Begin cntDatasourceBase cntDatabases
       Cancel          =   False
       Caption         =   "Rename"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   False
       Height          =   38
@@ -190,7 +209,8 @@ Begin cntDatasourceBase cntDatabases
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   9
       TabStop         =   True
@@ -202,6 +222,7 @@ Begin cntDatasourceBase cntDatabases
    End
    Begin WebMessageDialog dlgDrop
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
@@ -214,6 +235,7 @@ Begin cntDatasourceBase cntDatabases
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
+      PanelIndex      =   0
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
@@ -224,6 +246,7 @@ Begin cntDatasourceBase cntDatabases
       Cancel          =   False
       Caption         =   "Download"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   False
       Height          =   38
@@ -237,7 +260,8 @@ Begin cntDatasourceBase cntDatabases
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   6
       TabStop         =   True
@@ -249,6 +273,7 @@ Begin cntDatasourceBase cntDatabases
    End
    Begin WebThread thrUpload
       DebugIdentifier =   ""
+      Enabled         =   True
       Index           =   -2147483648
       LockedInPosition=   True
       Priority        =   5
@@ -256,10 +281,12 @@ Begin cntDatasourceBase cntDatabases
       StackSize       =   0
       ThreadID        =   0
       ThreadState     =   ""
+      Type            =   ""
    End
    Begin WebProgressWheel pgrWheel
       Colorize        =   False
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Height          =   32
       Index           =   -2147483648
@@ -272,7 +299,7 @@ Begin cntDatasourceBase cntDatabases
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      PanelIndex      =   0
       Parent          =   "rctFilter"
       Scope           =   2
       SVGColor        =   &c00000000
@@ -292,6 +319,7 @@ Begin cntDatasourceBase cntDatabases
       Index           =   -2147483648
       Location        =   0
       LockedInPosition=   True
+      PanelIndex      =   0
       Period          =   500
       RunMode         =   0
       Scope           =   2
@@ -303,6 +331,7 @@ Begin cntDatasourceBase cntDatabases
       Index           =   -2147483648
       Location        =   0
       LockedInPosition=   True
+      PanelIndex      =   0
       Period          =   500
       RunMode         =   0
       Scope           =   2
@@ -313,6 +342,7 @@ Begin cntDatasourceBase cntDatabases
       Cancel          =   False
       Caption         =   "Upload"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
@@ -326,7 +356,8 @@ Begin cntDatasourceBase cntDatabases
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   5
       TabStop         =   True
@@ -342,6 +373,7 @@ Begin cntDatasourceBase cntDatabases
       Index           =   -2147483648
       Location        =   0
       LockedInPosition=   True
+      PanelIndex      =   0
       Period          =   500
       RunMode         =   0
       Scope           =   2
@@ -349,6 +381,7 @@ Begin cntDatasourceBase cntDatabases
    End
    Begin WebThread thrDownload
       DebugIdentifier =   ""
+      Enabled         =   True
       Index           =   -2147483648
       LockedInPosition=   True
       Priority        =   5
@@ -356,12 +389,14 @@ Begin cntDatasourceBase cntDatabases
       StackSize       =   0
       ThreadID        =   0
       ThreadState     =   ""
+      Type            =   ""
    End
    Begin WebButton btnEncryption
       AllowAutoDisable=   False
       Cancel          =   False
       Caption         =   "Encryption"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   False
       Height          =   38
@@ -375,7 +410,8 @@ Begin cntDatasourceBase cntDatabases
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   8
       TabStop         =   True
@@ -387,6 +423,7 @@ Begin cntDatasourceBase cntDatabases
    End
    Begin WebMessageDialog dlgDecrypt
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
@@ -399,7 +436,7 @@ Begin cntDatasourceBase cntDatabases
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
-      PanelIndex      =   "0"
+      PanelIndex      =   0
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
@@ -410,6 +447,7 @@ Begin cntDatasourceBase cntDatabases
       Cancel          =   False
       Caption         =   "Schedules"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   False
       Height          =   38
@@ -423,7 +461,8 @@ Begin cntDatasourceBase cntDatabases
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   7
       TabStop         =   True
@@ -435,6 +474,7 @@ Begin cntDatasourceBase cntDatabases
    End
    Begin WebMessageDialog dlgMessage
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
@@ -447,6 +487,7 @@ Begin cntDatasourceBase cntDatabases
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
+      PanelIndex      =   0
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
@@ -1187,12 +1228,6 @@ End
 
 #tag Events lstInfos
 	#tag Event
-		Sub Opening()
-		  Me.ExecuteJavaScript("$('#" + Me.ControlID + "').addClass('listboxDbHeaderAlignment')")
-		  
-		End Sub
-	#tag EndEvent
-	#tag Event
 		Sub SelectionChanged(rows() As Integer)
 		  #Pragma unused rows
 		  
@@ -1512,6 +1547,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="Area"
 		Visible=false
