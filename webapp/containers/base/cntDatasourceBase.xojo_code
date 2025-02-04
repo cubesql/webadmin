@@ -160,6 +160,7 @@ Implements WebDataSource
 		  Finally
 		    ebNeedsLoadDatasource = False
 		    
+		    me.TableDatasourceLoaded()
 		    
 		  End Try
 		End Sub
@@ -331,6 +332,12 @@ Implements WebDataSource
 		  Return String.FromArray(sRows, EndOfLine.LF)
 		  
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub TableDatasourceLoaded()
+		  
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h1

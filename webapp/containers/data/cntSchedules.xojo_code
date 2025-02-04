@@ -842,6 +842,21 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Sub TableDatasourceLoaded()
+		  Super.TableDatasourceLoaded()
+		  
+		  If ebShowDetails Then
+		    Try
+		      thrDetails.Start
+		    Catch err As RuntimeException
+		      
+		    End Try
+		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Sub TableInitColumns()
 		  Super.TableInitColumns()
 		  
@@ -882,21 +897,6 @@ End
 		    col.IsSearchable = False
 		    col.SortDirection = WebListBox.SortDirections.None
 		    Me.Columns.Add(col)
-		  End If
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub TableLoad()
-		  Super.TableLoad()
-		  
-		  If ebShowDetails Then
-		    Try
-		      thrDetails.Start
-		    Catch err As RuntimeException
-		      
-		    End Try
 		  End If
 		  
 		End Sub
