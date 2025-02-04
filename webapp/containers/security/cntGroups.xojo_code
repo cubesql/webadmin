@@ -159,18 +159,6 @@ Begin cntDatasourceBase cntGroups
       Width           =   100
       _mPanelIndex    =   -1
    End
-   Begin WebThread thrDetails
-      DebugIdentifier =   ""
-      Enabled         =   True
-      Index           =   -2147483648
-      LockedInPosition=   True
-      Priority        =   5
-      Scope           =   2
-      StackSize       =   0
-      ThreadID        =   0
-      ThreadState     =   0
-      Type            =   ""
-   End
    Begin WebMessageDialog dlgDrop
       ControlID       =   ""
       CSSClasses      =   ""
@@ -330,19 +318,6 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Close()
-		  Try
-		    thrDetails.Stop
-		  Catch err As RuntimeException
-		    
-		  End Try
-		  
-		  Super.Close()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Constructor()
 		  Super.Constructor
 		  
@@ -451,13 +426,7 @@ End
 		Protected Sub TableDatasourceLoaded()
 		  Super.TableDatasourceLoaded()
 		  
-		  If ebShowDetails Then
-		    Try
-		      thrDetails.Start
-		    Catch err As RuntimeException
-		      
-		    End Try
-		  End If
+		  If ebShowDetails Then Me.ShowDetails()
 		  
 		End Sub
 	#tag EndMethod
@@ -616,20 +585,6 @@ End
 	#tag Event
 		Sub Pressed()
 		  Self.ActionCreate()
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events thrDetails
-	#tag Event
-		Sub Run()
-		  Try
-		    If (Not ebShowDetails) Then Return
-		    
-		    Self.ShowDetails()
-		    
-		  Catch err As RuntimeException
-		  End Try
 		  
 		End Sub
 	#tag EndEvent

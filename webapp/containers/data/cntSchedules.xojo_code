@@ -413,18 +413,6 @@ Begin cntDatasourceBase cntSchedules
       Width           =   240
       _mPanelIndex    =   -1
    End
-   Begin WebThread thrDetails
-      DebugIdentifier =   ""
-      Enabled         =   True
-      Index           =   -2147483648
-      LockedInPosition=   True
-      Priority        =   5
-      Scope           =   2
-      StackSize       =   0
-      ThreadID        =   0
-      ThreadState     =   0
-      Type            =   ""
-   End
    Begin WebMessageDialog dlgMessage
       ControlID       =   ""
       CSSClasses      =   ""
@@ -845,13 +833,7 @@ End
 		Protected Sub TableDatasourceLoaded()
 		  Super.TableDatasourceLoaded()
 		  
-		  If ebShowDetails Then
-		    Try
-		      thrDetails.Start
-		    Catch err As RuntimeException
-		      
-		    End Try
-		  End If
+		  If ebShowDetails Then Me.ShowDetails()
 		  
 		End Sub
 	#tag EndMethod
@@ -1070,20 +1052,6 @@ End
 	#tag Event
 		Sub Pressed()
 		  Self.ActionScheduleDatabases()
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events thrDetails
-	#tag Event
-		Sub Run()
-		  Try
-		    If (Not ebShowDetails) Then Return
-		    
-		    Self.ShowDetails()
-		    
-		  Catch err As RuntimeException
-		  End Try
 		  
 		End Sub
 	#tag EndEvent
