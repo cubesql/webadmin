@@ -3,6 +3,7 @@ Begin cntDatasourceBase cntGroups
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   True
    Height          =   500
    Indicator       =   0
@@ -15,6 +16,7 @@ Begin cntDatasourceBase cntGroups
    LockRight       =   False
    LockTop         =   True
    LockVertical    =   False
+   PanelIndex      =   0
    ScrollDirection =   0
    TabIndex        =   0
    Top             =   0
@@ -27,8 +29,13 @@ Begin cntDatasourceBase cntGroups
       ColumnCount     =   1
       ColumnWidths    =   ""
       ControlID       =   ""
+      CSSClasses      =   "lstGroups"
+      DefaultRowHeight=   49
       Enabled         =   True
+      GridLineStyle   =   3
+      HasBorder       =   True
       HasHeader       =   True
+      HeaderHeight    =   0
       Height          =   422
       HighlightSortedColumn=   True
       Index           =   -2147483648
@@ -46,6 +53,7 @@ Begin cntDatasourceBase cntGroups
       LockTop         =   True
       LockVertical    =   False
       NoRowsMessage   =   "No Groups"
+      PanelIndex      =   0
       ProcessingMessage=   ""
       RowCount        =   0
       RowSelectionType=   1
@@ -66,6 +74,7 @@ Begin cntDatasourceBase cntGroups
       Cancel          =   False
       Caption         =   "Drop"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   False
       Height          =   38
@@ -79,6 +88,8 @@ Begin cntDatasourceBase cntGroups
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   3
       TabStop         =   True
@@ -93,6 +104,7 @@ Begin cntDatasourceBase cntGroups
       Cancel          =   False
       Caption         =   "Rename"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   False
       Height          =   38
@@ -106,7 +118,8 @@ Begin cntDatasourceBase cntGroups
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   2
       TabStop         =   True
@@ -121,6 +134,7 @@ Begin cntDatasourceBase cntGroups
       Cancel          =   False
       Caption         =   "Create"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
@@ -134,7 +148,8 @@ Begin cntDatasourceBase cntGroups
       LockRight       =   False
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
@@ -144,18 +159,9 @@ Begin cntDatasourceBase cntGroups
       Width           =   100
       _mPanelIndex    =   -1
    End
-   Begin WebThread thrDetails
-      DebugIdentifier =   ""
-      Index           =   -2147483648
-      LockedInPosition=   True
-      Priority        =   5
-      Scope           =   2
-      StackSize       =   0
-      ThreadID        =   0
-      ThreadState     =   0
-   End
    Begin WebMessageDialog dlgDrop
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
@@ -168,6 +174,7 @@ Begin cntDatasourceBase cntGroups
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
+      PanelIndex      =   0
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
@@ -175,6 +182,7 @@ Begin cntDatasourceBase cntGroups
    End
    Begin WebMessageDialog dlgMessage
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
@@ -187,6 +195,7 @@ Begin cntDatasourceBase cntGroups
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
+      PanelIndex      =   0
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
@@ -309,19 +318,6 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Close()
-		  Try
-		    thrDetails.Stop
-		  Catch err As RuntimeException
-		    
-		  End Try
-		  
-		  Super.Close()
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Constructor()
 		  Super.Constructor
 		  
@@ -427,6 +423,15 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Sub TableDatasourceLoaded()
+		  Super.TableDatasourceLoaded()
+		  
+		  If ebShowDetails Then Me.ShowDetails()
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Sub TableInitColumns()
 		  Super.TableInitColumns()
 		  
@@ -466,21 +471,6 @@ End
 		    col.Sortable = False
 		    col.SortDirection = WebListBox.SortDirections.None
 		    Me.Columns.Add(col)
-		  End If
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub TableLoad()
-		  Super.TableLoad()
-		  
-		  If ebShowDetails Then
-		    Try
-		      thrDetails.Start
-		    Catch err As RuntimeException
-		      
-		    End Try
 		  End If
 		  
 		End Sub
@@ -565,12 +555,6 @@ End
 
 #tag Events lstInfos
 	#tag Event
-		Sub Opening()
-		  Me.ExecuteJavaScript("$('#" + Me.ControlID + "').addClass('listboxGroupsHeaderAlignment')")
-		  
-		End Sub
-	#tag EndEvent
-	#tag Event
 		Sub SelectionChanged(rows() As Integer)
 		  #Pragma unused rows
 		  
@@ -605,20 +589,6 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events thrDetails
-	#tag Event
-		Sub Run()
-		  Try
-		    If (Not ebShowDetails) Then Return
-		    
-		    Self.ShowDetails()
-		    
-		  Catch err As RuntimeException
-		  End Try
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
 #tag Events dlgDrop
 	#tag Event
 		Sub ButtonPressed(button As WebMessageDialogButton)
@@ -628,6 +598,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="Area"
 		Visible=false
