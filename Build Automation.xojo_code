@@ -129,6 +129,13 @@
 					'Download, install and run Docker.app:
 					'https://docs.docker.com/docker-for-mac/install/
 					'**************************************************
+					'Note: Error creating MultiArch Images
+					'https://github.com/docker/for-win/issues/14011
+					'Try re-setting qemu. Execute this in Terminal:
+					'docker run --rm --privileged multiarch/qemu-user-Static --reset -p yes -c yes
+					'This should effectively pull multiarch/qemu-user-Static, re-setup qemu-user-Static With :latest
+					'to be properly installed and configured
+					'**************************************************
 					
 					'Configuration
 					'-------------
