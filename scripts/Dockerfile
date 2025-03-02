@@ -1,8 +1,8 @@
 #DOCKER BUILD ARGUMENTS
-ARG ARCH=
+ARG ARCH
 
 #BASE IMAGE
-FROM ${ARCH}/ubuntu:22.04
+FROM ${ARCH:-amd64}/ubuntu:24.04
 
 #ARGUMENTS IN BUILD STAGE
 ARG ARCH
@@ -21,7 +21,7 @@ ENV CUBESQL_PASSWORD=
 ARG DEBIAN_FRONTEND=noninteractive
 
 # WORKAROUND TO BUILD ON INTEL MAC FOR TARGET ARM64V8 
-RUN if [ "${BUILDPLATFORM}" = "linux/amd64" ] && [ "${ARCH}" = "arm64v8" ]; then \
+RUN if [ "${BUILDPLATFORM}" = "linux/amd64" ] && [ "${ARCH:-amd64}" = "arm64v8" ]; then \
         rm /var/lib/dpkg/info/libc-bin.* && \
         apt-get clean && \
         apt-get update && \
@@ -40,4 +40,4 @@ ADD / /app/
 #EXPOSE PORT AND RUN APPLICATION
 EXPOSE $CUBESQL_WEBADMIN_PORT
 WORKDIR /app
-CMD /app/cubeSQLWebAdmin --Port=$CUBESQL_WEBADMIN_PORT
+CMD ["sh", "-c", "/app/cubeSQLWebAdmin --Port=$CUBESQL_WEBADMIN_PORT"]
