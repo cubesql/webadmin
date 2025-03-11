@@ -68,7 +68,7 @@
 					Var sPROJECT_PATH As String = DoShellCommand("echo $PROJECT_PATH", 0).Trim
 					If sPROJECT_PATH.Right(1) = "/" Then
 					'no trailing /
-					sPROJECT_PATH = sPROJECT_PATH.Middle(1, sPROJECT_PATH.Length - 1)
+					sPROJECT_PATH = sPROJECT_PATH.Left(sPROJECT_PATH.Length - 1)
 					End If
 					Var sBUILD_LOCATION As String = CurrentBuildLocation.ReplaceAll("\", "") 'don't escape Path
 					Var sBUILD_APPNAME As String = CurrentBuildAppName
@@ -185,7 +185,7 @@
 					Var sPROJECT_PATH As String = DoShellCommand("echo $PROJECT_PATH", 0).Trim
 					If sPROJECT_PATH.Right(1) = "/" Then
 					'no trailing /
-					sPROJECT_PATH = sPROJECT_PATH.Middle(1, sPROJECT_PATH.Length - 1)
+					sPROJECT_PATH = sPROJECT_PATH.Left(sPROJECT_PATH.Length - 1)
 					End If
 					Var sBUILD_LOCATION As String = CurrentBuildLocation.ReplaceAll("\", "") 'don't escape Path
 					Var sBUILD_APPNAME As String = CurrentBuildAppName
@@ -329,11 +329,11 @@
 					Var sPROJECT_PATH As String = DoShellCommand("echo $PROJECT_PATH", 0).Trim
 					If sPROJECT_PATH.Right(1) = "/" Then
 					'No trailing /
-					sPROJECT_PATH = sPROJECT_PATH.Middle(1, sPROJECT_PATH.Length-1)
+					sPROJECT_PATH = sPROJECT_PATH.Left(sPROJECT_PATH.Length - 1)
 					End If
 					Var sBUILD_LOCATION As String = CurrentBuildLocation.ReplaceAll("\", "") 'don't escape Path
 					Var sBUILD_APPNAME As String = CurrentBuildAppName 'Xojo 2022r1 adds .app
-					If (sBUILD_APPNAME.Right(4) = ".app") Then sBUILD_APPNAME = sBUILD_APPNAME.Left(sBUILD_APPNAME.Length-4)
+					If (sBUILD_APPNAME.Right(4) = ".app") Then sBUILD_APPNAME = sBUILD_APPNAME.Left(sBUILD_APPNAME.Length - 4)
 					
 					If (sBUILD_LOCATION.Right(9) = "Universal") Then
 					'Xojo does not add the folder of the Console/Web App in Universal Builds to the Constant :(
@@ -489,7 +489,7 @@
 					Var sPROJECT_PATH As String = DoShellCommand("echo $PROJECT_PATH", 0).Trim
 					If sPROJECT_PATH.Right(1) = "/" Then
 					'no trailing /
-					sPROJECT_PATH = sPROJECT_PATH.Middle(1, sPROJECT_PATH.Length - 1)
+					sPROJECT_PATH = sPROJECT_PATH.Left(sPROJECT_PATH.Length - 1)
 					End If
 					Var sBUILD_LOCATION As String = CurrentBuildLocation.ReplaceAll("\", "") 'don't escape Path
 					Var sBUILD_APPNAME As String = CurrentBuildAppName
