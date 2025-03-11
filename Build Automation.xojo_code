@@ -359,11 +359,11 @@
 					Var sPKG_FILENAME As String
 					Select Case CurrentBuildTarget
 					Case 16 'macOS: Intel 64Bit
-					sPKG_FILENAME = "cubeSQLWebAdmin" + sStageCodeInfo + "_macOS_Intel_64Bit.pkg"
+					sPKG_FILENAME = sBUILD_APPNAME + sStageCodeInfo + "_macOS_Intel_64Bit.pkg"
 					Case 24 'macOS: ARM 64Bit
-					sPKG_FILENAME = "cubeSQLWebAdmin" + sStageCodeInfo + "_macOS_ARM_64Bit.pkg"
+					sPKG_FILENAME = sBUILD_APPNAME + sStageCodeInfo + "_macOS_ARM_64Bit.pkg"
 					Case 9 'macOS: Universal (Intel 64Bit, ARM 64Bit)
-					sPKG_FILENAME = "cubeSQLWebAdmin" + sStageCodeInfo + "_macOS_Universal.pkg"
+					sPKG_FILENAME = sBUILD_APPNAME + sStageCodeInfo + "_macOS_Universal.pkg"
 					Else
 					Return
 					End Select
