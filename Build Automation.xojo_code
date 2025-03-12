@@ -408,6 +408,11 @@
 					Var sCODESIGN_IDENT_INSTALLER As String = ""
 					Var sCODESIGN_ENTITLEMENTS As String = sPROJECT_PATH + sFolderScripts + "/entitlements.plist"
 					
+					If (sCODESIGN_IDENT_APPLICATION = "") Or (sCODESIGN_IDENT_INSTALLER = "") Then
+					Print "Xojo2PKG requires the DeveloperID information for CodeSign and Notarization"
+					Return
+					End If
+					
 					
 					'*********************
 					'Notarization by Apple
