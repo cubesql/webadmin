@@ -117,54 +117,11 @@
 					
 				End
 				Begin IDEScriptBuildStep Xojo2Docker , AppliesTo = 3, Architecture = 0, Target = 0
-					'*************************************************************
-					'Xojo Web App 2 Docker - How to use with your Xojo-built .app?
-					'*************************************************************
-					'1. copy the folder 'scripts' to your project folder.
-					'2. Edit the file 'Dockerfile' in your favourite Text Editor.
-					'   1. Look for the last line: CMD /app/CRCCalculatorWeb
-					'      Make sure the App Name is the same as in your Xojo
-					'      project in Build Settings -> Linux
-					'   2. Look for the line: EXPOSE 80
-					'      Make sure the App Name is the same as in your Xojo
-					'      project in Build Settings -> Shared: Build (Port)
-					'3. Create a PostBuild Copy File Step 'CopyDockerfile'
-					'   Copy the file 'resources/Dockerfile' to 'App Parent Folder'
-					'4. create a PostBuild Script, place it after the
-					'   build step and copy-and-paste this one.
-					'5. Add/Modify the Constant App.constDockerTag to fit your
-					'   Company/App
-					'6. Read the Comments in the PostBuild Script,
-					'   modify according to your needs.
-					'**************************************************
-					
-					'**************************************************
-					'Setup Xojo Web App 2 Docker - Post Build Script
-					'**************************************************
-					'1. Read the comments in this PostBuild Script
-					'2. Edit the values according to your needs
-					'**************************************************
-					'3. If it's working for you: Do you like it? Does it help you? Has it saved you time and money?
-					'   You're welcome - it's free...
-					'   If you want to say thanks I appreciate a message or a small donation.
-					'   Contact: xojo@jo-tools.ch
-					'   PayPal:  https://paypal.me/jotools
-					'**************************************************
-					
-					
-					'**************************************************
-					'Requires Docker Installation
-					'**************************************************
-					'Download, install and run Docker.app:
-					'https://docs.docker.com/docker-for-mac/install/
-					'**************************************************
-					'Note: Error creating MultiArch Images
-					'https://github.com/docker/for-win/issues/14011
-					'Try re-setting qemu. Execute this in Terminal:
-					'docker run --rm --privileged multiarch/qemu-user-Static --reset -p yes -c yes
-					'This should effectively pull multiarch/qemu-user-Static, re-setup qemu-user-Static With :latest
-					'to be properly installed and configured
-					'**************************************************
+					'******************************************
+					'Xojo Web App 2 Docker
+					'******************************************
+					'https://github.com/jo-tools/crccalculator
+					'******************************************
 					
 					'Configuration
 					'-------------
@@ -341,15 +298,7 @@
 					'**************************************************
 					'Setup Xojo2DMG - Post Build Script
 					'**************************************************
-					'1. Read the comments in this PostBuild Script
-					'2. Edit the values according to your needs
-					'**************************************************
-					'3. If it's working for you:
-					'   Do you like it? Does it help you? Has it saved you time and money?
-					'   You're welcome - it's free...
-					'   If you want to say thanks I appreciate a message or a small donation.
-					'   Contact: xojo@jo-tools.ch
-					'   PayPal:  https://paypal.me/jotools
+					'https://github.com/jo-tools/xojo2dmg
 					'**************************************************
 					
 					'*******************************
@@ -479,11 +428,11 @@
 					FolderItem = Li4vc2NyaXB0cy9MYXVuY2guYmF0
 				End
 				Begin IDEScriptBuildStep CodeSign , AppliesTo = 2, Architecture = 0, Target = 0
-					'*********************************************************************************************
+					'****************************************************
 					' CodeSign | Azure Trusted Signing | PFX | Docker
-					'*********************************************************************************************
+					'****************************************************
 					' https://github.com/jo-tools/ats-codesign-innosetup
-					'*********************************************************************************************
+					'****************************************************
 					
 					If DebugBuild Then Return 'don't CodeSign DebugRun's
 					
