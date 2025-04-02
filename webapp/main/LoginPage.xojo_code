@@ -4,6 +4,7 @@ Begin WebPage LoginPage
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   False
    Height          =   518
    ImplicitInstance=   False
@@ -21,6 +22,8 @@ Begin WebPage LoginPage
    LockVertical    =   False
    MinimumHeight   =   518
    MinimumWidth    =   600
+   PanelIndex      =   0
+   ScaleFactor     =   0.0
    TabIndex        =   0
    Title           =   "cubeSQL Admin - Login"
    Top             =   0
@@ -29,11 +32,16 @@ Begin WebPage LoginPage
    _ImplicitInstance=   False
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebRectangle rectLogin
       BackgroundColor =   &cFFFFFF
+      BorderColor     =   &c000000FF
+      BorderThickness =   1
       ControlCount    =   0
       ControlID       =   ""
+      CornerSize      =   -1
+      CSSClasses      =   ""
       Enabled         =   True
       HasBackgroundColor=   False
       Height          =   478
@@ -49,6 +57,7 @@ Begin WebPage LoginPage
       LockRight       =   False
       LockTop         =   True
       LockVertical    =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
@@ -62,6 +71,7 @@ Begin WebPage LoginPage
       Begin WebLabel labHostname
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -79,6 +89,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          Scope           =   2
          TabIndex        =   4
@@ -97,6 +108,7 @@ Begin WebPage LoginPage
       Begin WebLabel labUsername
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -114,7 +126,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          Scope           =   2
          TabIndex        =   6
@@ -133,6 +145,7 @@ Begin WebPage LoginPage
       Begin WebLabel labPassword
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -150,7 +163,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          Scope           =   2
          TabIndex        =   8
@@ -169,6 +182,7 @@ Begin WebPage LoginPage
       Begin WebLabel labPort
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -186,7 +200,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          Scope           =   2
          TabIndex        =   10
@@ -205,6 +219,7 @@ Begin WebPage LoginPage
       Begin WebLabel labEncryption
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -222,7 +237,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          Scope           =   2
          TabIndex        =   12
@@ -243,6 +258,7 @@ Begin WebPage LoginPage
          AllowSpellChecking=   False
          Caption         =   ""
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FieldType       =   0
          Height          =   38
@@ -259,6 +275,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
@@ -278,6 +295,7 @@ Begin WebPage LoginPage
          AllowSpellChecking=   False
          Caption         =   ""
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FieldType       =   0
          Height          =   38
@@ -294,7 +312,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
@@ -314,6 +332,7 @@ Begin WebPage LoginPage
          AllowSpellChecking=   False
          Caption         =   ""
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FieldType       =   1
          Height          =   38
@@ -330,6 +349,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
@@ -349,6 +369,7 @@ Begin WebPage LoginPage
          AllowSpellChecking=   False
          Caption         =   ""
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FieldType       =   3
          Height          =   38
@@ -365,7 +386,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
@@ -382,6 +403,7 @@ Begin WebPage LoginPage
       End
       Begin WebPopupMenu lstEncryption
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          Height          =   38
          Index           =   -2147483648
@@ -398,6 +420,7 @@ Begin WebPage LoginPage
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          RowCount        =   0
          Scope           =   2
@@ -414,6 +437,7 @@ Begin WebPage LoginPage
       End
       Begin WebImageViewer imgCubeSQL
          ControlID       =   ""
+         CSSClasses      =   ""
          DisplayMode     =   0
          Enabled         =   True
          Height          =   128
@@ -429,6 +453,7 @@ Begin WebPage LoginPage
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          Scope           =   2
          SVGData         =   ""
@@ -446,6 +471,7 @@ Begin WebPage LoginPage
       Begin WebLabel labCubeSQL
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   32.0
@@ -463,6 +489,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          Scope           =   2
          TabIndex        =   2
@@ -483,6 +510,7 @@ Begin WebPage LoginPage
          Cancel          =   False
          Caption         =   "Connect"
          ControlID       =   ""
+         CSSClasses      =   ""
          Default         =   True
          Enabled         =   True
          Height          =   38
@@ -497,6 +525,8 @@ Begin WebPage LoginPage
          LockRight       =   True
          LockTop         =   False
          LockVertical    =   False
+         Outlined        =   False
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          Scope           =   2
          TabIndex        =   16
@@ -513,6 +543,7 @@ Begin WebPage LoginPage
          AllowSpellChecking=   False
          Caption         =   ""
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FieldType       =   1
          Height          =   38
@@ -528,7 +559,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          ReadOnly        =   False
          Scope           =   2
@@ -546,6 +577,7 @@ Begin WebPage LoginPage
       Begin WebLabel labVersion
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   8.0
@@ -562,7 +594,7 @@ Begin WebPage LoginPage
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          Scope           =   2
          TabIndex        =   1
@@ -581,6 +613,7 @@ Begin WebPage LoginPage
       Begin WebProgressWheel pgrConnect
          Colorize        =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          Height          =   32
          Index           =   -2147483648
@@ -593,6 +626,7 @@ Begin WebPage LoginPage
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          Scope           =   2
          SVGColor        =   &c00000000
@@ -608,6 +642,7 @@ Begin WebPage LoginPage
       End
       Begin WebPopupMenu lstChoice
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          Height          =   38
          Index           =   -2147483648
@@ -623,7 +658,7 @@ Begin WebPage LoginPage
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rectLogin"
          RowCount        =   0
          Scope           =   2
@@ -641,6 +676,7 @@ Begin WebPage LoginPage
    End
    Begin WebMessageDialog dlgMessage
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
@@ -653,6 +689,7 @@ Begin WebPage LoginPage
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
+      PanelIndex      =   0
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
@@ -664,6 +701,7 @@ Begin WebPage LoginPage
       Index           =   -2147483648
       Location        =   0
       LockedInPosition=   True
+      PanelIndex      =   0
       Period          =   50
       RunMode         =   0
       Scope           =   2
@@ -866,7 +904,7 @@ End
 		    Me.Prefill_Apply(selectedConnectionItem)
 		  End If
 		  
-		  lstChoice.Visible = (lstChoice.Count > 1)
+		  lstChoice.Visible = (lstChoice.RowCount > 1)
 		  
 		End Sub
 	#tag EndMethod
@@ -1162,6 +1200,22 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="ScaleFactor"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Double"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="ControlCount"
 		Visible=false
