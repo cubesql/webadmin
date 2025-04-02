@@ -3,6 +3,7 @@ Begin dlgBase dlgEnginePreferenceSet
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   True
    Height          =   412
    Index           =   -2147483648
@@ -16,16 +17,20 @@ Begin dlgBase dlgEnginePreferenceSet
    LockRight       =   False
    LockTop         =   False
    LockVertical    =   False
+   PanelIndex      =   0
+   Position        =   0
    TabIndex        =   0
    Top             =   0
    Visible         =   True
    Width           =   600
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       FontName        =   ""
       FontSize        =   24.0
@@ -42,6 +47,7 @@ Begin dlgBase dlgEnginePreferenceSet
       LockTop         =   True
       LockVertical    =   False
       Multiline       =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
@@ -57,8 +63,12 @@ Begin dlgBase dlgEnginePreferenceSet
    End
    Begin WebRectangle rctFormContent
       BackgroundColor =   &cFFFFFF
+      BorderColor     =   &c000000FF
+      BorderThickness =   1
       ControlCount    =   0
       ControlID       =   ""
+      CornerSize      =   -1
+      CSSClasses      =   ""
       Enabled         =   True
       HasBackgroundColor=   False
       Height          =   267
@@ -74,6 +84,7 @@ Begin dlgBase dlgEnginePreferenceSet
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
@@ -87,6 +98,7 @@ Begin dlgBase dlgEnginePreferenceSet
       Begin WebLabel labEngine
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -104,7 +116,7 @@ Begin dlgBase dlgEnginePreferenceSet
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   0
@@ -123,6 +135,7 @@ Begin dlgBase dlgEnginePreferenceSet
       Begin WebLabel labDatabase
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -140,7 +153,7 @@ Begin dlgBase dlgEnginePreferenceSet
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   4
@@ -159,6 +172,7 @@ Begin dlgBase dlgEnginePreferenceSet
       Begin WebLabel labGroup
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -175,7 +189,7 @@ Begin dlgBase dlgEnginePreferenceSet
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   2
@@ -193,6 +207,7 @@ Begin dlgBase dlgEnginePreferenceSet
       End
       Begin WebPopupMenu lstGroup
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          Height          =   38
          Index           =   -2147483648
@@ -208,7 +223,7 @@ Begin dlgBase dlgEnginePreferenceSet
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          RowCount        =   0
          Scope           =   2
@@ -225,7 +240,9 @@ Begin dlgBase dlgEnginePreferenceSet
       End
       Begin WebCombobox edtEngine
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
+         FilteringMode   =   1
          Height          =   38
          Hint            =   ""
          Index           =   -2147483648
@@ -241,6 +258,7 @@ Begin dlgBase dlgEnginePreferenceSet
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          RowCount        =   0
          Scope           =   2
@@ -258,7 +276,9 @@ Begin dlgBase dlgEnginePreferenceSet
       End
       Begin WebCombobox edtDatabase
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
+         FilteringMode   =   1
          Height          =   38
          Hint            =   ""
          Index           =   -2147483648
@@ -274,7 +294,7 @@ Begin dlgBase dlgEnginePreferenceSet
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          RowCount        =   0
          Scope           =   2
@@ -293,6 +313,7 @@ Begin dlgBase dlgEnginePreferenceSet
       Begin WebLabel labKey
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -309,7 +330,7 @@ Begin dlgBase dlgEnginePreferenceSet
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   6
@@ -328,6 +349,7 @@ Begin dlgBase dlgEnginePreferenceSet
       Begin WebLabel labValue
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -344,7 +366,7 @@ Begin dlgBase dlgEnginePreferenceSet
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   8
@@ -365,6 +387,7 @@ Begin dlgBase dlgEnginePreferenceSet
          AllowSpellChecking=   False
          Caption         =   ""
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FieldType       =   0
          Height          =   38
@@ -380,7 +403,7 @@ Begin dlgBase dlgEnginePreferenceSet
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          ReadOnly        =   False
          Scope           =   2
@@ -397,7 +420,9 @@ Begin dlgBase dlgEnginePreferenceSet
       End
       Begin WebCombobox edtKey
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
+         FilteringMode   =   1
          Height          =   38
          Hint            =   ""
          Index           =   -2147483648
@@ -413,7 +438,7 @@ Begin dlgBase dlgEnginePreferenceSet
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          RowCount        =   0
          Scope           =   2
@@ -435,6 +460,7 @@ Begin dlgBase dlgEnginePreferenceSet
       Cancel          =   False
       Caption         =   "Set"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   True
       Enabled         =   False
       Height          =   38
@@ -448,6 +474,8 @@ Begin dlgBase dlgEnginePreferenceSet
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   3
       TabStop         =   True
@@ -462,6 +490,7 @@ Begin dlgBase dlgEnginePreferenceSet
       Cancel          =   True
       Caption         =   "Cancel"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
@@ -475,6 +504,8 @@ Begin dlgBase dlgEnginePreferenceSet
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   2
       TabStop         =   True
@@ -568,9 +599,15 @@ End
 		    existingDatabases.Sort()
 		    existingKeys.Sort()
 		    
-		    edtEngine.AddAllRows(existingEngines)
-		    edtDatabase.AddAllRows(existingDatabases)
-		    edtKey.AddAllRows(existingKeys)
+		    #If (XojoVersion >= 2025.00) Then
+		      edtEngine.AddRows(existingEngines)
+		      edtDatabase.AddRows(existingDatabases)
+		      edtKey.AddRows(existingKeys)
+		    #Else
+		      edtEngine.AddAllRows(existingEngines)
+		      edtDatabase.AddAllRows(existingDatabases)
+		      edtKey.AddAllRows(existingKeys)
+		    #EndIf
 		    
 		    If (existingDatabases.IndexOf(esPreSelectDatabase) >= 0) Then
 		      edtDatabase.SelectedRowIndex = existingDatabases.IndexOf(esPreSelectDatabase)
@@ -791,6 +828,26 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Position"
+		Visible=true
+		Group="Position"
+		InitialValue="0"
+		Type="WebDialog.Positions"
+		EditorType="Enum"
+		#tag EnumValues
+			"0 - Top"
+			"1 - Center"
+		#tag EndEnumValues
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="ControlCount"
 		Visible=false

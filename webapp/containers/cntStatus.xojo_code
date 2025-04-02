@@ -3,6 +3,7 @@ Begin cntBase cntStatus
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   True
    Height          =   500
    Indicator       =   0
@@ -15,6 +16,7 @@ Begin cntBase cntStatus
    LockRight       =   False
    LockTop         =   True
    LockVertical    =   False
+   PanelIndex      =   0
    ScrollDirection =   0
    TabIndex        =   0
    Top             =   0
@@ -22,13 +24,19 @@ Begin cntBase cntStatus
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
       ColumnCount     =   2
       ColumnWidths    =   "50%,50%"
       ControlID       =   ""
+      CSSClasses      =   ""
+      DefaultRowHeight=   49
       Enabled         =   True
+      GridLineStyle   =   3
+      HasBorder       =   True
       HasHeader       =   False
+      HeaderHeight    =   0
       Height          =   500
       HighlightSortedColumn=   False
       Index           =   -2147483648
@@ -46,6 +54,7 @@ Begin cntBase cntStatus
       LockTop         =   True
       LockVertical    =   False
       NoRowsMessage   =   "No Status Information"
+      PanelIndex      =   0
       ProcessingMessage=   ""
       RowCount        =   0
       RowSelectionType=   0
@@ -67,6 +76,7 @@ Begin cntBase cntStatus
       Index           =   -2147483648
       Location        =   1
       LockedInPosition=   True
+      PanelIndex      =   0
       Period          =   5000
       RunMode         =   2
       Scope           =   2
@@ -75,6 +85,7 @@ Begin cntBase cntStatus
    Begin cntRegistrationAction cntServerRegistration
       ControlCount    =   0
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Height          =   78
       Index           =   -2147483648
@@ -89,7 +100,7 @@ Begin cntBase cntStatus
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
-      PanelIndex      =   "0"
+      PanelIndex      =   0
       Scope           =   2
       ScrollDirection =   0
       TabIndex        =   1
@@ -150,7 +161,7 @@ End
 		  Var styleKeyColumn As WebStyle = StyleListboxKeyColumn
 		  
 		  For i As Integer = 0 To Me.Table.LastRowIndex
-		    Me.Table.CellTextAt(i, 0) = New WebListBoxStyleRenderer(styleKeyColumn, Me.Table.CellTextAt(i, 0))
+		    Me.Table.CellCustomContentAt(i, 0) = New WebListBoxStyleRenderer(styleKeyColumn, Me.Table.CellTextAt(i, 0))
 		  Next
 		  
 		End Sub
@@ -239,6 +250,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="Area"
 		Visible=false
