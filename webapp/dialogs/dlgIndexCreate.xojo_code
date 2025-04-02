@@ -3,6 +3,7 @@ Begin dlgBase dlgIndexCreate
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   True
    Height          =   600
    Index           =   -2147483648
@@ -16,16 +17,20 @@ Begin dlgBase dlgIndexCreate
    LockRight       =   False
    LockTop         =   False
    LockVertical    =   False
+   PanelIndex      =   0
+   Position        =   0
    TabIndex        =   0
    Top             =   0
    Visible         =   True
    Width           =   600
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       FontName        =   ""
       FontSize        =   24.0
@@ -42,6 +47,7 @@ Begin dlgBase dlgIndexCreate
       LockTop         =   True
       LockVertical    =   False
       Multiline       =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
@@ -57,8 +63,12 @@ Begin dlgBase dlgIndexCreate
    End
    Begin WebRectangle rctFormContent
       BackgroundColor =   &cFFFFFF
+      BorderColor     =   &c000000FF
+      BorderThickness =   1
       ControlCount    =   0
       ControlID       =   ""
+      CornerSize      =   -1
+      CSSClasses      =   ""
       Enabled         =   True
       HasBackgroundColor=   False
       Height          =   457
@@ -74,6 +84,7 @@ Begin dlgBase dlgIndexCreate
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
@@ -87,6 +98,7 @@ Begin dlgBase dlgIndexCreate
       Begin WebLabel labName
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -104,7 +116,7 @@ Begin dlgBase dlgIndexCreate
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   0
@@ -125,6 +137,7 @@ Begin dlgBase dlgIndexCreate
          AllowSpellChecking=   False
          Caption         =   ""
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FieldType       =   0
          Height          =   38
@@ -141,7 +154,7 @@ Begin dlgBase dlgIndexCreate
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          ReadOnly        =   False
          Scope           =   2
@@ -159,6 +172,7 @@ Begin dlgBase dlgIndexCreate
       Begin WebLabel labTable
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -176,7 +190,7 @@ Begin dlgBase dlgIndexCreate
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   2
@@ -194,6 +208,7 @@ Begin dlgBase dlgIndexCreate
       End
       Begin WebPopupMenu lstTable
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          Height          =   38
          Index           =   -2147483648
@@ -210,6 +225,7 @@ Begin dlgBase dlgIndexCreate
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          RowCount        =   0
          Scope           =   2
@@ -228,8 +244,13 @@ Begin dlgBase dlgIndexCreate
          ColumnCount     =   2
          ColumnWidths    =   "25, *"
          ControlID       =   ""
+         CSSClasses      =   ""
+         DefaultRowHeight=   49
          Enabled         =   True
+         GridLineStyle   =   3
+         HasBorder       =   True
          HasHeader       =   False
+         HeaderHeight    =   0
          Height          =   325
          HighlightSortedColumn=   True
          Index           =   -2147483648
@@ -247,6 +268,7 @@ Begin dlgBase dlgIndexCreate
          LockTop         =   True
          LockVertical    =   False
          NoRowsMessage   =   "No Fields"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          ProcessingMessage=   ""
          RowCount        =   0
@@ -267,6 +289,7 @@ Begin dlgBase dlgIndexCreate
       Begin WebLabel labFields
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -283,7 +306,7 @@ Begin dlgBase dlgIndexCreate
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   4
@@ -305,6 +328,7 @@ Begin dlgBase dlgIndexCreate
       Cancel          =   False
       Caption         =   "Create"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   True
       Enabled         =   False
       Height          =   38
@@ -318,6 +342,8 @@ Begin dlgBase dlgIndexCreate
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   3
       TabStop         =   True
@@ -332,6 +358,7 @@ Begin dlgBase dlgIndexCreate
       Cancel          =   True
       Caption         =   "Cancel"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
@@ -345,6 +372,8 @@ Begin dlgBase dlgIndexCreate
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   2
       TabStop         =   True
@@ -429,7 +458,7 @@ End
 		        rs.MoveToFirstRow
 		        While (Not rs.AfterLastRow)
 		          lstFields.AddRow("", rs.Column("name").StringValue, rs.Column("name").StringValue)
-		          lstFields.CellTextAt(lstFields.LastAddedRowIndex, 0) = New CheckboxCellRenderer(False)
+		          lstFields.CellCustomContentAt(lstFields.LastAddedRowIndex, 0) = New CheckboxCellRenderer(False)
 		          
 		          Var rowTag As Dictionary = New Dictionary
 		          rowTag.Value("name") = rs.Column("name").StringValue
@@ -579,6 +608,26 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Position"
+		Visible=true
+		Group="Position"
+		InitialValue="0"
+		Type="WebDialog.Positions"
+		EditorType="Enum"
+		#tag EnumValues
+			"0 - Top"
+			"1 - Center"
+		#tag EndEnumValues
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="ControlCount"
 		Visible=false

@@ -24,6 +24,7 @@ Begin cntBase cntPreferences
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
       ColumnCount     =   2
@@ -105,7 +106,7 @@ Begin cntBase cntPreferences
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
-      indicator       =   0
+      Indicator       =   0
       LockBottom      =   False
       LockedInPosition=   True
       LockHorizontal  =   False
@@ -116,8 +117,6 @@ Begin cntBase cntPreferences
       Message         =   ""
       PanelIndex      =   0
       Scope           =   2
-      TabIndex        =   2
-      TabStop         =   True
       Title           =   ""
       Tooltip         =   ""
       _mPanelIndex    =   -1
@@ -496,7 +495,7 @@ End
 		  
 		  Var styleKeyColumn As WebStyle = StyleListboxKeyColumn
 		  For i As Integer = 0 To Me.Table.LastRowIndex
-		    Me.Table.CellTextAt(i, 0) = New WebListBoxStyleRenderer(styleKeyColumn, Me.Table.CellTextAt(i, 0))
+		    Me.Table.CellCustomContentAt(i, 0) = New WebListBoxStyleRenderer(styleKeyColumn, Me.Table.CellTextAt(i, 0))
 		  Next
 		  
 		End Sub

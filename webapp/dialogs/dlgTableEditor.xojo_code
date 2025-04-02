@@ -3,6 +3,7 @@ Begin dlgBase dlgTableEditor
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   True
    Height          =   700
    Index           =   -2147483648
@@ -16,16 +17,20 @@ Begin dlgBase dlgTableEditor
    LockRight       =   False
    LockTop         =   False
    LockVertical    =   False
+   PanelIndex      =   0
+   Position        =   0
    TabIndex        =   0
    Top             =   0
    Visible         =   True
    Width           =   800
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebLabel labTitle
       Bold            =   True
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       FontName        =   ""
       FontSize        =   24.0
@@ -42,6 +47,7 @@ Begin dlgBase dlgTableEditor
       LockTop         =   True
       LockVertical    =   False
       Multiline       =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
@@ -57,8 +63,12 @@ Begin dlgBase dlgTableEditor
    End
    Begin WebRectangle rctFormContent
       BackgroundColor =   &cFFFFFF
+      BorderColor     =   &c000000FF
+      BorderThickness =   1
       ControlCount    =   0
       ControlID       =   ""
+      CornerSize      =   -1
+      CSSClasses      =   ""
       Enabled         =   True
       HasBackgroundColor=   False
       Height          =   557
@@ -74,6 +84,7 @@ Begin dlgBase dlgTableEditor
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
@@ -87,6 +98,7 @@ Begin dlgBase dlgTableEditor
       Begin WebLabel labTablename
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -104,7 +116,7 @@ Begin dlgBase dlgTableEditor
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   0
@@ -125,6 +137,7 @@ Begin dlgBase dlgTableEditor
          AllowSpellChecking=   False
          Caption         =   ""
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FieldType       =   0
          Height          =   38
@@ -141,7 +154,7 @@ Begin dlgBase dlgTableEditor
          LockTop         =   True
          LockVertical    =   False
          MaximumCharactersAllowed=   0
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          ReadOnly        =   False
          Scope           =   2
@@ -160,8 +173,13 @@ Begin dlgBase dlgTableEditor
          ColumnCount     =   5
          ColumnWidths    =   "40, *, 20%, 20%, 25%"
          ControlID       =   ""
+         CSSClasses      =   ""
+         DefaultRowHeight=   49
          Enabled         =   True
+         GridLineStyle   =   3
+         HasBorder       =   True
          HasHeader       =   True
+         HeaderHeight    =   0
          Height          =   418
          HighlightSortedColumn=   False
          Index           =   -2147483648
@@ -179,6 +197,7 @@ Begin dlgBase dlgTableEditor
          LockTop         =   True
          LockVertical    =   False
          NoRowsMessage   =   "No Fields"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          ProcessingMessage=   ""
          RowCount        =   0
@@ -201,6 +220,7 @@ Begin dlgBase dlgTableEditor
          Cancel          =   False
          Caption         =   "Add"
          ControlID       =   ""
+         CSSClasses      =   ""
          Default         =   False
          Enabled         =   True
          Height          =   38
@@ -214,7 +234,8 @@ Begin dlgBase dlgTableEditor
          LockRight       =   True
          LockTop         =   False
          LockVertical    =   False
-         PanelIndex      =   "0"
+         Outlined        =   False
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   6
@@ -229,6 +250,7 @@ Begin dlgBase dlgTableEditor
       Begin WebLabel labField
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -245,7 +267,7 @@ Begin dlgBase dlgTableEditor
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   3
@@ -266,6 +288,7 @@ Begin dlgBase dlgTableEditor
          Cancel          =   False
          Caption         =   "Edit"
          ControlID       =   ""
+         CSSClasses      =   ""
          Default         =   False
          Enabled         =   True
          Height          =   38
@@ -279,7 +302,8 @@ Begin dlgBase dlgTableEditor
          LockRight       =   True
          LockTop         =   False
          LockVertical    =   False
-         PanelIndex      =   "0"
+         Outlined        =   False
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   5
@@ -296,6 +320,7 @@ Begin dlgBase dlgTableEditor
          Cancel          =   False
          Caption         =   "Delete"
          ControlID       =   ""
+         CSSClasses      =   ""
          Default         =   False
          Enabled         =   True
          Height          =   38
@@ -309,7 +334,8 @@ Begin dlgBase dlgTableEditor
          LockRight       =   True
          LockTop         =   False
          LockVertical    =   False
-         PanelIndex      =   "0"
+         Outlined        =   False
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   4
@@ -327,6 +353,7 @@ Begin dlgBase dlgTableEditor
       Cancel          =   False
       Caption         =   "Create"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   True
       Enabled         =   False
       Height          =   38
@@ -340,6 +367,8 @@ Begin dlgBase dlgTableEditor
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   3
       TabStop         =   True
@@ -354,6 +383,7 @@ Begin dlgBase dlgTableEditor
       Cancel          =   True
       Caption         =   "Cancel"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   False
       Enabled         =   True
       Height          =   38
@@ -367,6 +397,8 @@ Begin dlgBase dlgTableEditor
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   2
       TabStop         =   True
@@ -378,6 +410,7 @@ Begin dlgBase dlgTableEditor
    End
    Begin WebMessageDialog dlgMessage
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Explanation     =   ""
       Index           =   -2147483648
@@ -390,6 +423,7 @@ Begin dlgBase dlgTableEditor
       LockTop         =   True
       LockVertical    =   False
       Message         =   ""
+      PanelIndex      =   0
       Scope           =   2
       Title           =   ""
       Tooltip         =   ""
@@ -461,7 +495,7 @@ End
 		    'Drop existing Column
 		    If (lstFields.SelectedRowIndex >= 0) And (selectedField = lstFields.RowTagAt(lstFields.SelectedRowIndex)) Then
 		      selectedField.Value("isDropped") = (Not selectedField.Lookup("isDropped", False).BooleanValue)
-		      lstFields.CellTextAt(lstFields.SelectedRowIndex, 0) = Me.GetFieldIcon(selectedField)
+		      lstFields.CellCustomContentAt(lstFields.SelectedRowIndex, 0) = Me.GetFieldIcon(selectedField)
 		      lstFields.RowTagAt(lstFields.SelectedRowIndex) = selectedField
 		    End If
 		    
@@ -535,7 +569,7 @@ End
 		    Return False
 		  End If
 		  
-		  lstFields.CellTextAt(lstFields.SelectedRowIndex, 0) = Me.GetFieldIcon(modifiedField)
+		  lstFields.CellCustomContentAt(lstFields.SelectedRowIndex, 0) = Me.GetFieldIcon(modifiedField)
 		  lstFields.CellTextAt(lstFields.SelectedRowIndex, 1) = modifiedField.Lookup("fieldname", "").StringValue
 		  lstFields.CellTextAt(lstFields.SelectedRowIndex, 2) = modifiedField.Lookup("fieldtype", "").StringValue
 		  lstFields.CellTextAt(lstFields.SelectedRowIndex, 3) = modifiedField.Lookup("defaultvalue", "").StringValue
@@ -553,7 +587,7 @@ End
 		  If (dictField = Nil) Then Return
 		  
 		  lstFields.AddRow("")
-		  lstFields.CellTextAt(lstFields.LastAddedRowIndex, 0) = Me.GetFieldIcon(dictField)
+		  lstFields.CellCustomContentAt(lstFields.LastAddedRowIndex, 0) = Me.GetFieldIcon(dictField)
 		  lstFields.CellTextAt(lstFields.LastAddedRowIndex, 1) = dictField.Lookup("fieldname", "").StringValue
 		  lstFields.CellTextAt(lstFields.LastAddedRowIndex, 2) = dictField.Lookup("fieldtype", "").StringValue
 		  lstFields.CellTextAt(lstFields.LastAddedRowIndex, 3) = dictField.Lookup("defaultvalue", "").StringValue
@@ -1087,6 +1121,26 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Position"
+		Visible=true
+		Group="Position"
+		InitialValue="0"
+		Type="WebDialog.Positions"
+		EditorType="Enum"
+		#tag EnumValues
+			"0 - Top"
+			"1 - Center"
+		#tag EndEnumValues
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="ControlCount"
 		Visible=false

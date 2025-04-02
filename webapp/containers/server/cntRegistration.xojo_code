@@ -3,6 +3,7 @@ Begin cntBase cntRegistration
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   True
    Height          =   500
    Indicator       =   0
@@ -15,6 +16,7 @@ Begin cntBase cntRegistration
    LockRight       =   False
    LockTop         =   True
    LockVertical    =   False
+   PanelIndex      =   0
    ScrollDirection =   0
    TabIndex        =   0
    Top             =   0
@@ -22,13 +24,19 @@ Begin cntBase cntRegistration
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
+   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
       ColumnCount     =   2
       ColumnWidths    =   "50%,50%"
       ControlID       =   ""
+      CSSClasses      =   ""
+      DefaultRowHeight=   49
       Enabled         =   True
+      GridLineStyle   =   3
+      HasBorder       =   True
       HasHeader       =   False
+      HeaderHeight    =   0
       Height          =   422
       HighlightSortedColumn=   False
       Index           =   -2147483648
@@ -46,6 +54,7 @@ Begin cntBase cntRegistration
       LockTop         =   True
       LockVertical    =   False
       NoRowsMessage   =   "No Registration Information"
+      PanelIndex      =   0
       ProcessingMessage=   ""
       RowCount        =   0
       RowSelectionType=   0
@@ -64,6 +73,7 @@ Begin cntBase cntRegistration
    Begin cntRegistrationAction cntServerRegistration
       ControlCount    =   0
       ControlID       =   ""
+      CSSClasses      =   ""
       Enabled         =   True
       Height          =   78
       Index           =   -2147483648
@@ -78,6 +88,7 @@ Begin cntBase cntRegistration
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
+      PanelIndex      =   0
       Scope           =   2
       ScrollDirection =   0
       TabIndex        =   1
@@ -118,7 +129,7 @@ End
 		  
 		  Var styleKeyColumn As WebStyle = StyleListboxKeyColumn
 		  For i As Integer = 0 To Me.Table.LastRowIndex
-		    Me.Table.CellTextAt(i, 0) = New WebListBoxStyleRenderer(styleKeyColumn, Me.Table.CellTextAt(i, 0))
+		    Me.Table.CellCustomContentAt(i, 0) = New WebListBoxStyleRenderer(styleKeyColumn, Me.Table.CellTextAt(i, 0))
 		  Next
 		  
 		End Sub
@@ -161,10 +172,10 @@ End
 		    
 		    Var styleKeyColumn As WebStyle = StyleListboxKeyColumn
 		    If (infos.Lookup("KEY_EXPIRATION", "") <> "") Then
-		      Me.Table.CellTextAt(4, 0) = New WebListBoxStyleRenderer(styleKeyColumn, "Key expiration")
+		      Me.Table.CellCustomContentAt(4, 0) = New WebListBoxStyleRenderer(styleKeyColumn, "Key expiration")
 		      Me.Table.CellTextAt(4, 1) = infos.Lookup("server_license", "").StringValue
 		    Else
-		      Me.Table.CellTextAt(4, 0) = New WebListBoxStyleRenderer(styleKeyColumn, "Upgrade plan expiration date")
+		      Me.Table.CellCustomContentAt(4, 0) = New WebListBoxStyleRenderer(styleKeyColumn, "Upgrade plan expiration date")
 		      Me.Table.CellTextAt(4, 1) = infos.Lookup("KEY_EXPIRATION_PLAN", "").StringValue
 		    End If
 		    
@@ -190,6 +201,14 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="Area"
 		Visible=false

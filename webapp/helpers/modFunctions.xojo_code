@@ -1,5 +1,16 @@
 #tag Module
 Protected Module modFunctions
+	#tag Method, Flags = &h0
+		Sub CellCustomContentAt(Extends w As WebListBox, row As Integer, column As Integer, Assigns value As WebListBoxCellRenderer)
+		  #If (XojoVersion >= 2025.00) Then
+		    w.CellRendererAt(row, column) = value
+		  #Else
+		    w.CellTextAt(row, column) = value
+		  #EndIf
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0, CompatibilityFlags = API2Only and ( (TargetWeb and (Target32Bit or Target64Bit)) )
 		Sub SleepAndYieldToNext(Extends ThreadInstance As Thread, Milliseconds As Integer)
 		  Var SleepInterval As Integer = Milliseconds / 10
