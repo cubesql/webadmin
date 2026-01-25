@@ -1,5 +1,5 @@
 Type=Web2
-RBProjectVersion=2024.042
+RBProjectVersion=2025.031
 MinIDEVersion=20200200
 OrigIDEVersion=20240100
 Folder=resources;resources;&h0000000035B107FF;&h0000000000000000;false
@@ -107,6 +107,7 @@ DarkMode=True
 CopyRedistNextToWindowsEXE=False
 IncludePDB=False
 WinUIFramework=False
+NativeWinUISizes=False
 IsWebProject=True
 WebDebugPort=8080
 WebLaunchBrowser=True
