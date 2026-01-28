@@ -3,6 +3,7 @@ Begin dlgBase dlgAbout
    Compatibility   =   ""
    ControlCount    =   0
    ControlID       =   ""
+   CSSClasses      =   ""
    Enabled         =   True
    Height          =   600
    Index           =   -2147483648
@@ -16,20 +17,25 @@ Begin dlgBase dlgAbout
    LockRight       =   False
    LockTop         =   False
    LockVertical    =   False
+   PanelIndex      =   0
+   Position        =   0
    TabIndex        =   0
    Top             =   0
    Visible         =   True
    Width           =   520
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebRectangle rctFormContent
-      BackgroundColor =   &cFFFFFF
+      BorderColor     =   &c000000FF
+      BorderThickness =   1
       ControlCount    =   0
       ControlID       =   ""
+      CornerSize      =   -1
+      CSSClasses      =   ""
       Enabled         =   True
-      HasBackgroundColor=   False
+      FillColor       =   &cFFFFFF
+      HasFillColor    =   False
       Height          =   494
       Index           =   -2147483648
       Indicator       =   0
@@ -43,6 +49,7 @@ Begin dlgBase dlgAbout
       LockRight       =   True
       LockTop         =   True
       LockVertical    =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   0
       TabStop         =   True
@@ -55,6 +62,7 @@ Begin dlgBase dlgAbout
       _mPanelIndex    =   -1
       Begin WebImageViewer imgCubeSQL
          ControlID       =   ""
+         CSSClasses      =   ""
          DisplayMode     =   0
          Enabled         =   True
          Height          =   128
@@ -69,7 +77,7 @@ Begin dlgBase dlgAbout
          LockRight       =   False
          LockTop         =   True
          LockVertical    =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          SVGData         =   ""
@@ -87,6 +95,7 @@ Begin dlgBase dlgAbout
       Begin WebLabel labCubeSQL
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   32.0
@@ -103,7 +112,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   1
@@ -122,6 +131,7 @@ Begin dlgBase dlgAbout
       Begin WebLabel labVersionTitle
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -138,6 +148,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   5
@@ -157,6 +168,7 @@ Begin dlgBase dlgAbout
          Appearance      =   0
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -173,7 +185,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   6
@@ -194,6 +206,7 @@ Begin dlgBase dlgAbout
       Begin WebLabel labPluginTitle
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -210,7 +223,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   7
@@ -229,6 +242,7 @@ Begin dlgBase dlgAbout
       Begin WebLabel labXojoTitle
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -245,7 +259,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   9
@@ -261,10 +275,11 @@ Begin dlgBase dlgAbout
          Width           =   140
          _mPanelIndex    =   -1
       End
-      Begin WebLink labPlugin
+      Begin WebLabel labPlugin
          Appearance      =   0
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -281,7 +296,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   8
@@ -303,6 +318,7 @@ Begin dlgBase dlgAbout
          Appearance      =   0
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -319,7 +335,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   10
@@ -340,6 +356,7 @@ Begin dlgBase dlgAbout
       Begin WebLabel labWebAdmin
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -356,6 +373,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   2
@@ -374,6 +392,7 @@ Begin dlgBase dlgAbout
       Begin WebLabel labCubeSQLServer
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -390,7 +409,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   3
@@ -409,6 +428,7 @@ Begin dlgBase dlgAbout
       Begin WebLabel labSeparatorTop
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -425,7 +445,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   4
@@ -444,6 +464,7 @@ Begin dlgBase dlgAbout
       Begin WebLabel labSeparatorBottom
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -460,7 +481,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   11
@@ -479,6 +500,7 @@ Begin dlgBase dlgAbout
       Begin WebLabel labCopyrightTitle
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -495,7 +517,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   12
@@ -514,6 +536,7 @@ Begin dlgBase dlgAbout
       Begin WebLabel labCopyright
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -530,7 +553,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   13
@@ -549,6 +572,7 @@ Begin dlgBase dlgAbout
       Begin WebLabel labWrittenByTitle
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -565,7 +589,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   14
@@ -585,6 +609,7 @@ Begin dlgBase dlgAbout
          Appearance      =   0
          Bold            =   False
          ControlID       =   ""
+         CSSClasses      =   ""
          Enabled         =   True
          FontName        =   ""
          FontSize        =   0.0
@@ -601,7 +626,7 @@ Begin dlgBase dlgAbout
          LockTop         =   True
          LockVertical    =   False
          Multiline       =   False
-         PanelIndex      =   "0"
+         PanelIndex      =   0
          Parent          =   "rctFormContent"
          Scope           =   2
          TabIndex        =   15
@@ -625,6 +650,7 @@ Begin dlgBase dlgAbout
       Cancel          =   False
       Caption         =   "Ok"
       ControlID       =   ""
+      CSSClasses      =   ""
       Default         =   True
       Enabled         =   True
       Height          =   38
@@ -638,6 +664,8 @@ Begin dlgBase dlgAbout
       LockRight       =   True
       LockTop         =   False
       LockVertical    =   False
+      Outlined        =   False
+      PanelIndex      =   0
       Scope           =   2
       TabIndex        =   1
       TabStop         =   True
@@ -678,7 +706,7 @@ End
 #tag Events labPlugin
 	#tag Event
 		Sub Opening()
-		  Me.Text = CubeSQLPlugin.Version
+		  Me.Text = "<raw><a href=""" + constUrl_CubeSQLPlugin + """ target=""_blank"">" + CubeSQLPlugin.Version + "</a>&nbsp;&nbsp;&nbsp;<i>(" + CubeSQLPlugin.OpenSSLVersion + ")</i></raw>"
 		  
 		End Sub
 	#tag EndEvent
@@ -732,6 +760,26 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Position"
+		Visible=true
+		Group="Position"
+		InitialValue="0"
+		Type="WebDialog.Positions"
+		EditorType="Enum"
+		#tag EnumValues
+			"0 - Top"
+			"1 - Center"
+		#tag EndEnumValues
+	#tag EndViewProperty
 	#tag ViewProperty
 		Name="ControlCount"
 		Visible=false
