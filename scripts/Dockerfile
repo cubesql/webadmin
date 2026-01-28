@@ -20,13 +20,6 @@ ENV CUBESQL_USERNAME=admin
 #INSTALL REQUIRED LIBRARIES
 ARG DEBIAN_FRONTEND=noninteractive
 
-# WORKAROUND TO BUILD ON INTEL MAC FOR TARGET ARM64V8 
-RUN if [ "${BUILDPLATFORM}" = "linux/amd64" ] && [ "${ARCH:-amd64}" = "arm64v8" ]; then \
-        rm /var/lib/dpkg/info/libc-bin.* && \
-        apt-get clean && \
-        apt-get update && \
-        apt-get install -y libc-bin \
-    ; fi
 RUN apt-get update
 RUN apt-get install -y \
 		tzdata \
