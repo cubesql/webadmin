@@ -508,13 +508,14 @@ End
 		  dlgDrop.Title = "Drop " + item.Lookup("type", "").StringValue.Titlecase
 		  dlgDrop.Indicator = Indicators.Danger
 		  dlgDrop.ActionButton.Caption = "Drop"
+		  dlgDrop.ActionButton.Indicator = Indicators.Danger
 		  dlgDrop.CancelButton.Visible = True
 		  dlgDrop.Message = "Are you sure you want to drop " + item.Lookup("type", "").StringValue + " '" + item.Lookup("name", "").StringValue + "'?"
 		  dlgDrop.Explanation = "This action cannot be undone."
 		  
 		  edictActionItem = item
 		  
-		  dlgDrop.ShowWithActionDanger()
+		  dlgDrop.Show
 		  
 		End Sub
 	#tag EndMethod

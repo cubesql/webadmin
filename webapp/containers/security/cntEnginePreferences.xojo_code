@@ -407,13 +407,14 @@ End
 		  dlgDrop.Title = "Drop Engine Preference"
 		  dlgDrop.Indicator = Indicators.Danger
 		  dlgDrop.ActionButton.Caption = "Drop"
+		  dlgDrop.ActionButton.Indicator = Indicators.Danger
 		  dlgDrop.CancelButton.Visible = True
 		  dlgDrop.Message = "Are you sure you want to drop the Engine Preference '" + String.FromArray(enginePreferenceParts, ", ")+ "'?"
 		  dlgDrop.Explanation = "This action cannot be undone."
 		  
 		  edictActionEnginePreference = enginePreference
 		  
-		  dlgDrop.ShowWithActionDanger()
+		  dlgDrop.Show
 		  
 		End Sub
 	#tag EndMethod

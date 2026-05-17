@@ -442,13 +442,14 @@ End
 		  dlgRevoke.Title = "Revoke Privilege"
 		  dlgRevoke.Indicator = Indicators.Danger
 		  dlgRevoke.ActionButton.Caption = "Revoke"
+		  dlgRevoke.ActionButton.Indicator = Indicators.Danger
 		  dlgRevoke.CancelButton.Visible = True
 		  dlgRevoke.Message = "Are you sure you want to revoke the " +  privilegeCaption + " for group " + privGroup + "?"
 		  dlgRevoke.Explanation = "This action cannot be undone."
 		  
 		  edictActionPrivilege = privilege
 		  
-		  dlgRevoke.ShowWithActionDanger()
+		  dlgRevoke.Show
 		  
 		End Sub
 	#tag EndMethod

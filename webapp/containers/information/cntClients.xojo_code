@@ -185,13 +185,14 @@ End
 		  dlgDisconnect.Title = "Disconnect Client"
 		  dlgDisconnect.Indicator = Indicators.Danger
 		  dlgDisconnect.ActionButton.Caption = "Disconnect"
+		  dlgDisconnect.ActionButton.Indicator = Indicators.Danger
 		  dlgDisconnect.CancelButton.Visible = True
 		  dlgDisconnect.Message = "Are you sure you want to disconnect client with ID " + clientId.ToString + " and username '" + clientUsername + "'?"
 		  dlgDisconnect.Explanation = "This action cannot be undone."
 		  
 		  eiActionClientId = clientId
 		  
-		  dlgDisconnect.ShowWithActionDanger()
+		  dlgDisconnect.Show
 		  
 		End Sub
 	#tag EndMethod

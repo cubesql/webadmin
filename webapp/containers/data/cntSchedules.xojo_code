@@ -510,13 +510,14 @@ End
 		  dlgDrop.Title = "Drop Schedule"
 		  dlgDrop.Indicator = Indicators.Danger
 		  dlgDrop.ActionButton.Caption = "Drop"
+		  dlgDrop.ActionButton.Indicator = Indicators.Danger
 		  dlgDrop.CancelButton.Visible = True
 		  dlgDrop.Message = "Are you sure you want to drop schedule '" + schedule + "'?"
 		  dlgDrop.Explanation = "This action cannot be undone."
 		  
 		  esActionschedule = schedule
 		  
-		  dlgDrop.ShowWithActionDanger()
+		  dlgDrop.Show
 		  
 		End Sub
 	#tag EndMethod

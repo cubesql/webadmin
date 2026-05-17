@@ -488,6 +488,7 @@ End
 		  dlgDelete.Title = "Delete Backup"
 		  dlgDelete.Indicator = Indicators.Danger
 		  dlgDelete.ActionButton.Caption = "Delete"
+		  dlgDelete.ActionButton.Indicator = Indicators.Danger
 		  dlgDelete.CancelButton.Visible = True
 		  dlgDelete.Message = "Are you sure you want to delete Backup '" + backupDate.SQLDateTime + "' of Database " + databasename + "?"
 		  dlgDelete.Explanation = "This action cannot be undone."
@@ -495,7 +496,7 @@ End
 		  esActionDatabasename = databasename
 		  esActionTimestamp = timestamp
 		  
-		  dlgDelete.ShowWithActionDanger()
+		  dlgDelete.Show
 		  
 		End Sub
 	#tag EndMethod
@@ -553,8 +554,9 @@ End
 		  Var backupDate As DateTime = Me.GetDateTimeFromTimestamp(timestamp)
 		  
 		  dlgRestore.Title = "Restore Backup"
-		  dlgRestore.Indicator = Indicators.Danger
+		  dlgRestore.Indicator = Indicators.Warning
 		  dlgRestore.ActionButton.Caption = "Restore"
+		  dlgRestore.ActionButton.Indicator = Indicators.Warning
 		  dlgRestore.CancelButton.Visible = True
 		  dlgRestore.Message = "Are you sure you want to restore database " + databasename + " from Backup '" + backupDate.SQLDateTime + "' ?"
 		  dlgRestore.Explanation = "This action cannot be undone."
@@ -562,7 +564,7 @@ End
 		  esActionDatabasename = databasename
 		  esActionTimestamp = timestamp
 		  
-		  dlgRestore.ShowWithActionWarning()
+		  dlgRestore.Show
 		  
 		End Sub
 	#tag EndMethod
