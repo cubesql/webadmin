@@ -364,7 +364,7 @@ Implements WebDataSource
 		  If (Me.Table.DataSource = Nil) Then
 		    Me.Table.DataSource = Self
 		  Else
-		    Me.Table.ReloadData()
+		    Me.Table.ReloadFromDataSource()
 		  End If
 		  
 		End Sub
