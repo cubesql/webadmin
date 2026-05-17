@@ -310,7 +310,7 @@
 					sPROJECT_PATH = sPROJECT_PATH.Left(sPROJECT_PATH.Length - 1)
 					End If
 					Var sBUILD_LOCATION As String = CurrentBuildLocation.ReplaceAll("\", "") 'don't escape Path
-					Var sBUILD_APPNAME As String = CurrentBuildAppName 'Xojo 2022r1 adds .app
+					Var sBUILD_APPNAME As String = CurrentBuildAppName 'includes .app suffix since Xojo 2022r1
 					If (sBUILD_APPNAME.Right(4) = ".app") Then sBUILD_APPNAME = sBUILD_APPNAME.Left(sBUILD_APPNAME.Length - 4)
 					
 					If (sBUILD_LOCATION.Right(9) = "Universal") Then
