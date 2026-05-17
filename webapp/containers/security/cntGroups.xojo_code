@@ -245,13 +245,14 @@ End
 		  dlgDrop.Title = "Drop Group"
 		  dlgDrop.Indicator = Indicators.Danger
 		  dlgDrop.ActionButton.Caption = "Drop"
+		  dlgDrop.ActionButton.Indicator = Indicators.Danger
 		  dlgDrop.CancelButton.Visible = True
 		  dlgDrop.Message = "Are you sure you want to drop group '" + groupname + "'?"
 		  dlgDrop.Explanation = "This action cannot be undone."
 		  
 		  esActionGroupname = groupname
 		  
-		  dlgDrop.ShowWithActionDanger()
+		  dlgDrop.Show
 		  
 		End Sub
 	#tag EndMethod

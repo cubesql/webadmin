@@ -465,13 +465,14 @@ End
 		  dlgDrop.Title = "Drop User"
 		  dlgDrop.Indicator = Indicators.Danger
 		  dlgDrop.ActionButton.Caption = "Drop"
+		  dlgDrop.ActionButton.Indicator = Indicators.Danger
 		  dlgDrop.CancelButton.Visible = True
 		  dlgDrop.Message = "Are you sure you want to drop user '" + username + "'?"
 		  dlgDrop.Explanation = "This action cannot be undone."
 		  
 		  esActionUsername = username
 		  
-		  dlgDrop.ShowWithActionDanger()
+		  dlgDrop.Show
 		  
 		End Sub
 	#tag EndMethod

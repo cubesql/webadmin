@@ -24,9 +24,9 @@ Begin cntDatasourceBase cntDatabases
    Width           =   750
    _mDesignHeight  =   0
    _mDesignWidth   =   0
-   _mName          =   ""
    _mPanelIndex    =   -1
    Begin WebListBox lstInfos
+      AllowRowReordering=   False
       ColumnCount     =   1
       ColumnWidths    =   ""
       ControlID       =   ""
@@ -585,13 +585,14 @@ End
 		  dlgDecrypt.Title = "Decypt Database"
 		  dlgDecrypt.Indicator = Indicators.Danger
 		  dlgDecrypt.ActionButton.Caption = "Decrypt"
+		  dlgDecrypt.ActionButton.Indicator = Indicators.Danger
 		  dlgDecrypt.CancelButton.Visible = True
 		  dlgDecrypt.Message = "Are you sure you want to decrypt database '" + databasename + "'?"
 		  dlgDecrypt.Explanation = "Database file will be saved unencrypted on cubeSQL Server."
 		  
 		  esActionDatabasename = databasename
 		  
-		  dlgDecrypt.ShowWithActionDanger()
+		  dlgDecrypt.Show
 		  
 		End Sub
 	#tag EndMethod
@@ -654,13 +655,14 @@ End
 		  dlgDrop.Title = "Drop Database"
 		  dlgDrop.Indicator = Indicators.Danger
 		  dlgDrop.ActionButton.Caption = "Drop"
+		  dlgDrop.ActionButton.Indicator = Indicators.Danger
 		  dlgDrop.CancelButton.Visible = True
 		  dlgDrop.Message = "Are you sure you want to drop database '" + databasename + "'?"
 		  dlgDrop.Explanation = "This action cannot be undone."
 		  
 		  esActionDatabasename = databasename
 		  
-		  dlgDrop.ShowWithActionDanger()
+		  dlgDrop.Show
 		  
 		End Sub
 	#tag EndMethod
